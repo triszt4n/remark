@@ -1,5 +1,6 @@
 {
   "name": "remark-client",
+  "description": "Remark: public forum site",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -8,6 +9,7 @@
     "@chakra-ui/theme-tools": "1.3.4",
     "@emotion/react": "11.7.1",
     "@emotion/styled": "11.6.0",
+    "@fontsource/inter": "4.5.4",
     "framer-motion": "6.2.6",
     "react": "17.0.2",
     "react-dom": "17.0.2",
@@ -16,6 +18,9 @@
     "react-router-dom": "6.2.1",
     "react-scripts": "5.0.0",
     "web-vitals": "2.1.4"
+  },
+  "resolutions": {
+    "mini-css-extract-plugin": "2.4.5"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "5.16.2",
@@ -29,7 +34,9 @@
     "@typescript-eslint/eslint-plugin": "5.12.0",
     "@typescript-eslint/parser": "5.12.0",
     "eslint": "8.9.0",
+    "eslint-config-blvd": "1.2.1",
     "eslint-config-prettier": "8.3.0",
+    "eslint-import-resolver-typescript": "2.5.0",
     "eslint-plugin-prettier": "4.0.0",
     "npm-run-all": "4.1.5",
     "prettier": "2.5.1",
@@ -39,7 +46,14 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "fix": "run-s \"fix:*\"",
+    "fix:eslint": "npm run lint:eslint -- --fix",
+    "fix:prettier": "npm run lint:prettier -- --write",
+    "lint": "run-p \"lint:*\"",
+    "lint:eslint": "eslint --ext .ts,.tsx,.js,.jsx --ignore-path .gitignore .",
+    "lint:prettier": "prettier --check --ignore-path .gitignore .",
+    "lint:typescript": "tsc"
   },
   "eslintConfig": {
     "extends": "react-app"
