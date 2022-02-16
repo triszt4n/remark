@@ -1,8 +1,7 @@
 {
   "root": true,
   "parser": "@typescript-eslint/parser",
-  "plugins": ["@typescript-eslint"],
-  "extends": ["eslint-config-blvd/react", "prettier", "plugin:prettier/recommended"],
+  "extends": ["prettier", "plugin:prettier/recommended"],
   "parserOptions": {
     "ecmaVersion": 2018,
     "sourceType": "module",
