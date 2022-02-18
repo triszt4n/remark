@@ -34,7 +34,7 @@ jobs:
           eslint: true
           eslint_args: "--ignore-path .gitignore ."
           eslint_extensions: ts,tsx,js,jsx
-          eslint_dir: src/main/client/
+          eslint_dir: client/
 
           auto_fix: true
           commit_message: "[lint] Fix code ${linter}"
