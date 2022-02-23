@@ -23,7 +23,7 @@
     "mini-css-extract-plugin": "2.4.5"
   },
   "devDependencies": {
-    "@types/jest": "27.4.0",
+    "@types/jest": "27.4.1",
     "@types/node": "17.0.18",
     "@types/react": "17.0.39",
     "@types/react-dom": "17.0.11",
