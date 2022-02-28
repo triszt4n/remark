@@ -1,0 +1,65 @@
+@startuml microservice realization
+
+skinparam actorStyle awesome
+
+folder "Frontend services" as front {
+  [**Azure App Service** (React frontend)] as frontend
+}
+
+folder "**API management** (gateway)" as apiman {
+  [**Azure Function** (authentication)] as auth
+}
+
+folder "Realtime services" as websocket {
+  [**Azure SignalR Service** (notif sender)] as signalr
+}
+
+folder "Data source services" as blob {
+  database "**Blog Storage** (images)" as image
+  database "**CosmosDB NoSQL**" as db
+}
+
+folder "Resources" as resources {
+  [**Azure Functions** (user CRUD)] as userman
+  [**Azure Functions** (thread CRUD)] as threadman
+  [**Azure Functions** (channel CRUD)] as channelman
+  [**Azure Functions** (post CRUD)] as postman
+  [**Azure Function** (notif read)] as notifman
+}
+
+folder "Notification services" as messaging {
+  [**Azure Function** (notif producer)] as notifprod
+  [**Azure Service Bus** (message queue)] as queue
+  [**Azure Function** (notif consumer)] as notifcons
+}
+
+'frontend things
+frontend .down...> apiman : use
+frontend .....> resources : use
+frontend ---> signalr : connect
+signalr ---> frontend : send notif
+
+'api management things
+auth --> userman : check in
+
+'dependencies things
+resources .up...> apiman : depend on
+messaging .up...> apiman : depend on
+resources ..> db : CRUD
+notifman --> db : read notif(s)
+
+'image bucket
+postman --> image : attach post image
+userman --> image : attach profile image
+
+'notification system
+threadman --> notifprod : publish msg
+channelman --> notifprod : publish msg
+postman --> notifprod : publish msg
+
+notifcons --> signalr : send notif
+notifprod --> queue : produce msg
+notifcons --> queue : consume msg
+notifprod --> db : create notif
+
+@enduml

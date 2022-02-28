@@ -1,0 +1,55 @@
+@startuml microservice architecture
+
+skinparam actorStyle awesome
+
+:Client: as client
+database Database as db
+
+folder "User services" as user {
+  [Authentication] as auth
+  [User manager] as userman
+}
+
+client --> auth : use
+client --> userman : use
+auth --> userman : check in
+
+folder "Content services" as content {
+  [Thread manager] as threadman
+  [Channel manager] as channelman
+  [Post manager] as postman
+}
+
+client --> threadman : use
+client --> channelman : use
+client --> postman : use
+
+threadman --> db : CRUD
+channelman --> db : CRUD
+postman --> db : CRUD
+userman --> db : CRUD
+
+folder "Blob services" as blob {
+  [Image bucket] as image
+}
+
+postman --> image : attach post image
+userman --> image : attach profile image
+
+folder "Notification services" as notification {
+  [Notification consumer] as notisubman
+  [Notification producer] as notipubman
+  [Message queue] as queue
+}
+
+threadman --> notipubman : notify
+channelman --> notipubman : notify
+postman --> notipubman : notify
+
+client --> notisubman : connect
+notipubman --> queue : produce notif
+notipubman --> db : create notif
+notisubman --> client : send notif
+notisubman --> queue : consume notif
+
+@enduml
