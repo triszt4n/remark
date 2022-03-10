@@ -1,4 +1,4 @@
-name: Prettier - Lint
+name: Prettier - All
 
 on:
   push:
@@ -12,9 +12,6 @@ jobs:
   run-linters:
     name: Run linters
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: client
 
     steps:
       - name: Check out Git repository

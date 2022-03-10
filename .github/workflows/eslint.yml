@@ -1,4 +1,4 @@
-name: ESLint - Lint
+name: ESLint - Client
 
 on:
   push:
@@ -32,9 +32,9 @@ jobs:
         uses: wearerequired/lint-action@v1
         with:
           eslint: true
-          eslint_args: "--ignore-path .gitignore ."
+          eslint_args: '--ignore-path .gitignore .'
           eslint_extensions: ts,tsx,js,jsx
           eslint_dir: client/
 
           auto_fix: true
-          commit_message: "[lint] Fix code ${linter}"
+          commit_message: '[lint] Fix code ${linter}'
