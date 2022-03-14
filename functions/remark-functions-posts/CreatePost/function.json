@@ -5,7 +5,7 @@
       "type": "httpTrigger",
       "direction": "in",
       "name": "req",
-      "methods": ["get"],
+      "methods": ["post"],
       "route": "posts"
     },
     {
@@ -14,5 +14,5 @@
       "name": "res"
     }
   ],
-  "scriptFile": "../dist/GetPosts/index.js"
+  "scriptFile": "../dist/CreatePost/index.js"
 }
