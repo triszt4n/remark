@@ -5,6 +5,8 @@ on:
     branches:
       - master
       - '!renovate/**'
+    paths:
+      - 'client/**'
 
 jobs:
   build_and_deploy_job:
