@@ -14,7 +14,7 @@ import { generateName } from './util/name-generator'
 export const App = () => {
   const [message, setMessage] = useState<string>('')
   useEffect(() => {
-    axios.get<string>(`${API_HOST}/posts/GetPosts?name=${generateName()}`).then((response) => {
+    axios.get<string>(`${API_HOST}/posts?name=${generateName()}`).then((response) => {
       setMessage(response.data)
     })
   }, [])
@@ -29,7 +29,7 @@ export const App = () => {
             <Text>
               Edit <Code fontSize="xl">src/App.tsx</Code> and save to reload.
             </Text>
-            <Text>{message}</Text>
+            <Text>From API: {message}</Text>
             <Button colorScheme="theme">Learn Chakra</Button>
           </VStack>
         </Grid>
