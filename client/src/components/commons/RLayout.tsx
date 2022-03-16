@@ -1,0 +1,20 @@
+import { Box, Flex } from '@chakra-ui/react'
+import { Navbar } from '../navbar'
+import { Footer } from './Footer'
+import { RContainer } from './RContainer'
+
+type Props = {
+  background?: string
+}
+
+export const RLayout: React.FC<Props> = ({ background, children }) => {
+  return (
+    <Flex direction="column" minHeight="100vh">
+      <Navbar />
+      <Box background={background} flex={1} pb={24}>
+        <RContainer>{children}</RContainer>
+      </Box>
+      <Footer />
+    </Flex>
+  )
+}
