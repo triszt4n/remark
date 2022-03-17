@@ -2,10 +2,13 @@ import { ChakraProvider, ColorModeScript } from '@chakra-ui/react'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { QueryClientProvider } from 'react-query'
+import { ReactQueryDevtools } from 'react-query/devtools'
 import { BrowserRouter } from 'react-router-dom'
 import { App } from './App'
-import { queryClient } from './util/query-client'
+import { initAxios, queryClient } from './util/query-client'
 import customTheme from './util/theme'
+
+initAxios()
 
 ReactDOM.render(
   <React.StrictMode>
@@ -14,6 +17,7 @@ ReactDOM.render(
       <QueryClientProvider client={queryClient}>
         <BrowserRouter>
           <App />
+          <ReactQueryDevtools />
         </BrowserRouter>
       </QueryClientProvider>
     </ChakraProvider>
