@@ -1,30 +1,33 @@
-import { FaCompass, FaHome, FaKey } from 'react-icons/fa'
+import { FaCompass, FaHome, FaKey, FaUserCircle } from 'react-icons/fa'
 import { IconType } from 'react-icons/lib'
 
 export type NavItem = {
   icon: IconType
   label: string
   path: string
-  showInFooter: boolean
+  loginRequired?: boolean
 }
 
 export const NAV_ITEMS: NavItem[] = [
   {
     icon: FaHome,
-    label: 'Feed',
-    path: '/',
-    showInFooter: true
+    label: 'Home',
+    path: '/'
   },
   {
     icon: FaCompass,
     label: 'Explore',
-    path: '/explore',
-    showInFooter: true
+    path: '/explore'
   },
   {
-    icon: FaKey,
-    label: 'Log in',
-    path: '/login',
-    showInFooter: true
+    icon: FaUserCircle,
+    label: 'Profile',
+    path: '/profile'
   }
 ]
+
+export const LOGIN_NAV_ITEM: NavItem = {
+  icon: FaKey,
+  label: 'Log in',
+  path: '/login'
+}

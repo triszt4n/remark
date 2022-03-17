@@ -1,10 +1,9 @@
-import { Box, Container, Flex, Link as ChakraLink, Stack, Text } from '@chakra-ui/react'
-import React from 'react'
-import { Link } from 'react-router-dom'
+import { Box, Container, Flex, Text } from '@chakra-ui/react'
+import React, { FC } from 'react'
 import { RLogoSimple } from '../../assets/RLogoSimple'
-import { NAV_ITEMS } from '../../util/nav-items'
+import { RLink } from './RLink'
 
-export const Footer: React.FC = () => (
+export const Footer: FC = () => (
   <Box as="footer">
     <Container py={8} as={Flex} justifyContent="space-between" direction={{ base: 'column', sm: 'row' }} maxW="6xl">
       <Flex mb={{ base: 4, sm: 0 }} justifyContent={{ base: 'center', sm: 'flex-start' }}>
@@ -13,13 +12,12 @@ export const Footer: React.FC = () => (
         </Box>
         <Flex direction="column">
           <Text fontWeight={700}>This is re:mark.</Text>
-          <Stack direction="row" spacing={{ base: 2, sm: 3, md: 4 }}>
-            {NAV_ITEMS.filter((item) => item.showInFooter).map((item) => (
-              <ChakraLink key={item.path} as={Link} to={item.path}>
-                {item.label}
-              </ChakraLink>
-            ))}
-          </Stack>
+          <Text>
+            Browse the source code{' '}
+            <RLink isExternal to="https://github.com/triszt4n/remark">
+              here
+            </RLink>
+          </Text>
         </Flex>
       </Flex>
       <Flex direction="column" justifyContent={{ base: 'center', sm: 'flex-end' }}>

@@ -1,6 +1,6 @@
 import { Box, Flex, HStack, Text } from '@chakra-ui/react'
 import { motion } from 'framer-motion'
-import React from 'react'
+import React, { FC } from 'react'
 import { FaExclamationTriangle } from 'react-icons/fa'
 import { PuzzleIcon1, PuzzleIcon2, PuzzleIcon3, PuzzleIcon4 } from '../../assets/svg-components/PuzzleIcons'
 
@@ -8,7 +8,7 @@ type Props = {
   text?: string
 }
 
-export const PuzzleAnimated: React.FC<Props> = ({ text }) => {
+export const PuzzleAnimated: FC<Props> = ({ text }) => {
   const transition = {
     ease: 'easeInOut',
     repeat: Infinity,
