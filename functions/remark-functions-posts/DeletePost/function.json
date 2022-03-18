@@ -6,7 +6,7 @@
       "direction": "in",
       "name": "req",
       "methods": ["delete"],
-      "route": "/{id}"
+      "route": "posts/{id}"
     },
     {
       "type": "http",

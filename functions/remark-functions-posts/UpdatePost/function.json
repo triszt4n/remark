@@ -6,7 +6,7 @@
       "direction": "in",
       "name": "req",
       "methods": ["patch"],
-      "route": "/{id}"
+      "route": "posts/{id}"
     },
     {
       "type": "http",

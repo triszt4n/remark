@@ -6,7 +6,7 @@ import { ReactQueryDevtools } from 'react-query/devtools'
 import { BrowserRouter } from 'react-router-dom'
 import { App } from './App'
 import { initAxios, queryClient } from './util/query-client'
-import customTheme from './util/theme'
+import customTheme from './assets/theme'
 
 initAxios()
 
