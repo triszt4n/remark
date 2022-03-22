@@ -1,4 +1,4 @@
-import { Box, Button, Heading, HStack, VStack } from '@chakra-ui/react'
+import { Box, Button, Heading, HStack, Image, VStack } from '@chakra-ui/react'
 import { FC } from 'react'
 import { FaSignOutAlt } from 'react-icons/fa'
 import { Navigate } from 'react-router-dom'
@@ -13,6 +13,7 @@ export const ProfilePage: FC = () => {
   return (
     <RLayout>
       <VStack alignItems="flex-start">
+        {user.imageUrl && <Image boxSize="150px" objectFit="cover" src={user.imageUrl} alt={user.username} />}
         <Heading>{user.username}</Heading>
         <Button onClick={onLogout} disabled={!user} leftIcon={<FaSignOutAlt />} colorScheme="themeHelper">
           Log out

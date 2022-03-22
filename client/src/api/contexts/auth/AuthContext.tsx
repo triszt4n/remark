@@ -87,7 +87,8 @@ export const AuthProvider: FC = ({ children }) => {
   }
 
   const updateUser = () => {
-    if (!isLoggedIn) return
+    // todo: idk of this function anymore
+    if (!isLoggedIn) onLogout()
 
     axios
       .get<User>('/users/users/profile')
