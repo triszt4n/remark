@@ -10,7 +10,7 @@ import { GOOGLE_AUTH_CLIENT_ID } from '../../util/environment'
 export const LoginPage: FC = () => {
   const { isLoggedIn, onSuccess, onFailure } = useAuthContext()
 
-  if (isLoggedIn) return <Navigate replace to="/" />
+  if (!isLoggedIn) return <Navigate replace to="/error?messages='Not logged in yet'" />
 
   return (
     <RLayout>

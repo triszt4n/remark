@@ -8,16 +8,17 @@ type RLinkProps = {
 } & LinkProps
 
 export const RLink: FC<RLinkProps> = ({ isExternal, to, children, ...props }) => {
-  const ButtonComponent = (
-    <ChakraLink color={useColorModeValue('themeHelper.500', 'themeHelper.300')} {...props}>
+  const Component = (
+    <ChakraLink as="span" color={useColorModeValue('themeHelper.500', 'themeHelper.300')} {...props}>
       {children}
     </ChakraLink>
   )
+
   return isExternal ? (
     <a href={to} target="_blank" rel="noreferrer">
-      {ButtonComponent}
+      {Component}
     </a>
   ) : (
-    <RouterLink to={to}>{ButtonComponent}</RouterLink>
+    <RouterLink to={to}>{Component}</RouterLink>
   )
 }

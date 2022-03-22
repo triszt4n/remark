@@ -1,33 +1,60 @@
 import { FaCompass, FaHome, FaKey, FaUserCircle } from 'react-icons/fa'
 import { IconType } from 'react-icons/lib'
 
-export type NavItem = {
+export interface INavItem {
   icon: IconType
   label: string
   path: string
-  loginRequired?: boolean
+  shouldBeShown: (isLoggedIn: boolean) => boolean
 }
 
-export const NAV_ITEMS: NavItem[] = [
-  {
-    icon: FaHome,
-    label: 'Home',
-    path: '/'
-  },
-  {
-    icon: FaCompass,
-    label: 'Explore',
-    path: '/explore'
-  },
-  {
-    icon: FaUserCircle,
-    label: 'Profile',
-    path: '/profile'
-  }
-]
+export class NavItem implements INavItem {
+  public icon: IconType
+  public label: string
+  public path: string
 
-export const LOGIN_NAV_ITEM: NavItem = {
+  public shouldBeShown = (isLoggedIn: boolean) => true
+
+  constructor({ icon, label, path }: { icon: IconType; label: string; path: string }) {
+    this.icon = icon
+    this.label = label
+    this.path = path
+  }
+}
+
+const ProfileItem = new NavItem({
+  icon: FaUserCircle,
+  label: 'Profile',
+  path: '/profile'
+})
+ProfileItem.shouldBeShown = (isLoggedIn: boolean) => isLoggedIn
+
+const LoginItem = new NavItem({
   icon: FaKey,
   label: 'Log in',
   path: '/login'
-}
+})
+LoginItem.shouldBeShown = (isLoggedIn: boolean) => !isLoggedIn
+
+const LogoutItem = new NavItem({
+  icon: FaKey,
+  label: 'Log in',
+  path: '/login'
+})
+LoginItem.shouldBeShown = (isLoggedIn: boolean) => isLoggedIn
+
+export const NAV_ITEMS: INavItem[] = [
+  new NavItem({
+    icon: FaHome,
+    label: 'Home',
+    path: '/'
+  }),
+  new NavItem({
+    icon: FaCompass,
+    label: 'Explore',
+    path: '/explore'
+  }),
+  ProfileItem,
+  LoginItem,
+  LogoutItem
+]

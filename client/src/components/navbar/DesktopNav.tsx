@@ -1,17 +1,21 @@
-import { Box, Button, Flex, Stack, useColorModeValue } from '@chakra-ui/react'
-import React, { FC } from 'react'
-import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { Box, Button, Flex, Stack } from '@chakra-ui/react'
+import { FC, useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
+import { useAuthContext } from '../../api/contexts/auth/useAuthContext'
 import { NAV_ITEMS } from '../../util/nav-items'
 
 const DesktopNav: FC = () => {
-  const linkColor = useColorModeValue('black', 'white')
-  const currentLinkColor = useColorModeValue('theme.500', 'theme.300')
-  const navigate = useNavigate()
-  const { pathname } = useLocation()
+  const { isLoggedIn } = useAuthContext()
+  const [navItems, setNavItems] = useState(NAV_ITEMS)
+
+  useEffect(() => {
+    console.log('isLoggedIn changed:', isLoggedIn)
+    setNavItems(NAV_ITEMS.filter((item) => item.shouldBeShown(isLoggedIn)))
+  }, [isLoggedIn])
 
   return (
     <Stack direction="row" spacing={4}>
-      {NAV_ITEMS.map((item) => (
+      {navItems.map((item) => (
         <Button flexDir="column" alignItems="center" key={item.label} as={Link} to={item.path} px={1} py={6} variant="ghost">
           <Flex fontSize="sm" justifyContent="center">
             <item.icon size="1.5rem" />

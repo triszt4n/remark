@@ -4,9 +4,10 @@ import ReactDOM from 'react-dom'
 import { QueryClientProvider } from 'react-query'
 import { ReactQueryDevtools } from 'react-query/devtools'
 import { BrowserRouter } from 'react-router-dom'
+import { AuthProvider } from './api/contexts/auth/AuthContext'
 import { App } from './App'
-import { initAxios, queryClient } from './util/query-client'
 import customTheme from './assets/theme'
+import { initAxios, queryClient } from './util/query-client'
 
 initAxios()
 
@@ -16,8 +17,10 @@ ReactDOM.render(
     <ChakraProvider theme={customTheme}>
       <QueryClientProvider client={queryClient}>
         <BrowserRouter>
-          <App />
-          <ReactQueryDevtools />
+          <AuthProvider>
+            <App />
+            <ReactQueryDevtools />
+          </AuthProvider>
         </BrowserRouter>
       </QueryClientProvider>
     </ChakraProvider>

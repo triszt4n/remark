@@ -3499,6 +3499,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/js-cookie@npm:3.0.1":
+  version: 3.0.1
+  resolution: "@types/js-cookie@npm:3.0.1"
+  checksum: 134abb4a3f139ae791bdef3735ab14c4c098cb564b34363cc8f0aa6210a715e5e4f25b53717b32acb18099d53221e4f13776917e65ac54b3a60ee676a943abdc
+  languageName: node
+  linkType: hard
+
 "@types/json-schema@npm:*, @types/json-schema@npm:^7.0.4, @types/json-schema@npm:^7.0.5, @types/json-schema@npm:^7.0.8, @types/json-schema@npm:^7.0.9":
   version: 7.0.9
   resolution: "@types/json-schema@npm:7.0.9"
@@ -8885,6 +8892,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"js-cookie@npm:3.0.1":
+  version: 3.0.1
+  resolution: "js-cookie@npm:3.0.1"
+  checksum: bb48de67e2a6bd1ae3dfd6b2d5a167c33dd0c5a37e909206161eb0358c98f17cb55acd55827a58e9eea3630d89444e7479f7938ef4420dda443218b8c434a4c3
+  languageName: node
+  linkType: hard
+
 "js-sha3@npm:0.8.0":
   version: 0.8.0
   resolution: "js-sha3@npm:0.8.0"
@@ -11892,6 +11906,7 @@ __metadata:
     "@emotion/styled": 11.8.1
     "@fontsource/inter": 4.5.5
     "@types/jest": 27.4.1
+    "@types/js-cookie": 3.0.1
     "@types/node": 16.11.26
     "@types/react": 17.0.40
     "@types/react-dom": 17.0.13
@@ -11903,6 +11918,7 @@ __metadata:
     eslint-config-prettier: 8.5.0
     eslint-plugin-prettier: 4.0.0
     framer-motion: 6.2.8
+    js-cookie: 3.0.1
     npm-run-all: 4.1.5
     prettier: 2.5.1
     react: 17.0.2
