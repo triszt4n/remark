@@ -6,9 +6,8 @@ import { GoogleLoginResponse, GoogleLoginResponseOffline } from 'react-google-lo
 import { useNavigate } from 'react-router-dom'
 import { User } from '../../models/user.model'
 
-const CookieKeys = {
-  ACCESS_TOKEN: 'gaccesstoken',
-  REFRESH_TOKEN: 'grefreshtoken'
+enum CookieKeys {
+  REMARK_JWT_TOKEN = 'REMARK_JWT_TOKEN'
 }
 
 export type AuthContextType = {
@@ -17,47 +16,55 @@ export type AuthContextType = {
   user: User | undefined
   onLoginSuccess: (response: GoogleLoginResponseOffline | GoogleLoginResponse) => void
   onLoginFailure: (response: GoogleLoginResponseOffline | GoogleLoginResponse) => void
-  onLogoutSuccess: () => void
+  onLogout: () => void
   updateUser: () => void
 }
 
 export const AuthContext = createContext<AuthContextType>({
-  isLoggedIn: typeof Cookies.get(CookieKeys.ACCESS_TOKEN) !== 'undefined',
-  userToken: Cookies.get(CookieKeys.ACCESS_TOKEN),
+  isLoggedIn: typeof Cookies.get(CookieKeys.REMARK_JWT_TOKEN) !== 'undefined',
+  userToken: Cookies.get(CookieKeys.REMARK_JWT_TOKEN),
   user: undefined,
   onLoginSuccess: () => {},
   onLoginFailure: () => {},
-  onLogoutSuccess: () => {},
+  onLogout: () => {},
   updateUser: () => {}
 })
-
-const mockUser: User = {
-  firstName: 'Jacob',
-  lastName: 'Example',
-  username: 'jacob_example',
-  id: 0,
-  token: 'randomjwttoken'
-}
 
 export const AuthProvider: FC = ({ children }) => {
   const toast = useToast()
   const navigate = useNavigate()
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(typeof Cookies.get(CookieKeys.ACCESS_TOKEN) !== 'undefined')
-  const [userToken, setUserToken] = useState<string | undefined>(Cookies.get(CookieKeys.ACCESS_TOKEN))
+
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(typeof Cookies.get(CookieKeys.REMARK_JWT_TOKEN) !== 'undefined')
+  const [userToken, setUserToken] = useState<string | undefined>(Cookies.get(CookieKeys.REMARK_JWT_TOKEN))
   const [user, setUser] = useState<User>()
 
   const onLoginSuccess = (response: GoogleLoginResponseOffline | GoogleLoginResponse) => {
-    const authRes = (response as GoogleLoginResponse).getAuthResponse()
-    console.log('onLoginSuccess:', response)
+    const authRes = response as GoogleLoginResponse
+    const basicProfile = authRes.getBasicProfile()
+    const { accessToken } = authRes
+
+    console.log('onLoginSuccess:', authRes)
+
+    // todo: post this up the backend with accessToken
+    const user = {
+      firstName: basicProfile.getGivenName(),
+      lastName: basicProfile.getFamilyName(),
+      email: basicProfile.getEmail()
+      // username will be an SHA-1 hash of email while the user does not modify
+    }
 
     // todo: get user with JWT from backend
-    const user = mockUser
-    user.token = authRes.access_token
+    const jwtToken = 'something'
+    const resultUser = {
+      ...user,
+      username: user.email,
+      id: user.email
+    }
 
-    Cookies.set(CookieKeys.ACCESS_TOKEN, authRes.access_token)
-    setUserToken(authRes.access_token) // todo: change for JWT token (user.token)
+    Cookies.set(CookieKeys.REMARK_JWT_TOKEN, jwtToken, { expires: 7 })
+    setUserToken(jwtToken)
     setIsLoggedIn(true)
-    setUser(user) // todo: change for received user
+    setUser(resultUser)
     navigate('/profile')
   }
 
@@ -71,8 +78,8 @@ export const AuthProvider: FC = ({ children }) => {
     })
   }
 
-  const logout = () => {
-    Cookies.remove(CookieKeys.ACCESS_TOKEN)
+  const onLogout = () => {
+    Cookies.remove(CookieKeys.REMARK_JWT_TOKEN)
     setUserToken(undefined)
     setIsLoggedIn(false)
     setUser(undefined)
@@ -93,7 +100,7 @@ export const AuthProvider: FC = ({ children }) => {
         //     duration: 5000,
         //     isClosable: true
         //   })
-        //   logout()
+        //   onLogout()
         // }
         // setUser(res.data)
       })
@@ -105,7 +112,7 @@ export const AuthProvider: FC = ({ children }) => {
           duration: 5000,
           isClosable: true
         })
-        logout()
+        onLogout()
       })
   }
 
@@ -114,7 +121,7 @@ export const AuthProvider: FC = ({ children }) => {
   }, [isLoggedIn])
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn, userToken, user, onLoginSuccess, onLoginFailure, onLogoutSuccess: logout, updateUser }}>
+    <AuthContext.Provider value={{ isLoggedIn, userToken, user, onLoginSuccess, onLoginFailure, onLogout, updateUser }}>
       {children}
     </AuthContext.Provider>
   )

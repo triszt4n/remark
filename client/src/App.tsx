@@ -7,6 +7,7 @@ import { ErrorPage } from './pages/error/ErrorPage'
 import { ExplorePage } from './pages/explore/ExplorePage'
 import { IndexPage } from './pages/index/IndexPage'
 import { LoginPage } from './pages/login/LoginPage'
+import { LogoutPage } from './pages/logout/LogoutPage'
 import { ProfilePage } from './pages/profile/ProfilePage'
 
 export const App = () => (
@@ -14,6 +15,7 @@ export const App = () => (
     <Route path="/" element={<IndexPage />} />
     <Route path="/explore" element={<ExplorePage />} />
     <Route path="/login" element={<LoginPage />} />
+    <Route path="/logout" element={<LogoutPage />} />
     <Route path="/profile" element={<ProfilePage />} />
     <Route path="/error" element={<ErrorPage />} />
   </Routes>
