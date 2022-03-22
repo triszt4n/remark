@@ -1,4 +1,4 @@
-import { FaCompass, FaHome, FaKey, FaUserCircle } from 'react-icons/fa'
+import { FaCompass, FaHome, FaSignInAlt, FaUserCircle } from 'react-icons/fa'
 import { IconType } from 'react-icons/lib'
 
 export interface INavItem {
@@ -30,18 +30,11 @@ const ProfileItem = new NavItem({
 ProfileItem.shouldBeShown = (isLoggedIn: boolean) => isLoggedIn
 
 const LoginItem = new NavItem({
-  icon: FaKey,
+  icon: FaSignInAlt,
   label: 'Log in',
   path: '/login'
 })
 LoginItem.shouldBeShown = (isLoggedIn: boolean) => !isLoggedIn
-
-const LogoutItem = new NavItem({
-  icon: FaKey,
-  label: 'Log in',
-  path: '/login'
-})
-LoginItem.shouldBeShown = (isLoggedIn: boolean) => isLoggedIn
 
 export const NAV_ITEMS: INavItem[] = [
   new NavItem({
@@ -55,6 +48,5 @@ export const NAV_ITEMS: INavItem[] = [
     path: '/explore'
   }),
   ProfileItem,
-  LoginItem,
-  LogoutItem
+  LoginItem
 ]

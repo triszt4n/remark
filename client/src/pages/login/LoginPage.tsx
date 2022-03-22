@@ -8,7 +8,7 @@ import { RLayout } from '../../components/commons/RLayout'
 import { GOOGLE_AUTH_CLIENT_ID } from '../../util/environment'
 
 export const LoginPage: FC = () => {
-  const { isLoggedIn, onSuccess, onFailure } = useAuthContext()
+  const { isLoggedIn, onLoginSuccess, onLoginFailure } = useAuthContext()
 
   if (isLoggedIn) return <Navigate replace to="/" />
 
@@ -29,8 +29,8 @@ export const LoginPage: FC = () => {
               </HStack>
             </Button>
           )}
-          onSuccess={onSuccess}
-          onFailure={onFailure}
+          onSuccess={onLoginSuccess}
+          onFailure={onLoginFailure}
           cookiePolicy={'single_host_origin'}
         />
       </VStack>
