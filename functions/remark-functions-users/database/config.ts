@@ -1,0 +1,17 @@
+import { CosmosClient } from '@azure/cosmos'
+
+const COSMOS_DB_CONFIG_OBJ = {
+  endpoint: 'AccountEndpoint=https://remark-cosmos-db.documents.azure.com:443/',
+  key: process.env.COSMOS_DB_KEY,
+  databaseId: 'RemarkDatabase',
+  partitionKey: { kind: 'Hash', paths: ['/id'] }
+}
+
+type RemarkDatabaseContainerId = 'Users' | 'Posts' | 'Channels' | 'Remarks'
+
+export const fetchCosmosContainer = (containerId: RemarkDatabaseContainerId) => {
+  const { endpoint, key, databaseId } = COSMOS_DB_CONFIG_OBJ
+  const client = new CosmosClient({ endpoint, key })
+  const database = client.database(databaseId)
+  return database.container(containerId)
+}
