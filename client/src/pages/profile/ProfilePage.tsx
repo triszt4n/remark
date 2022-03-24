@@ -8,7 +8,8 @@ import { RLayout } from '../../components/commons/RLayout'
 export const ProfilePage: FC = () => {
   const { isLoggedIn, user, onLogout } = useAuthContext()
 
-  if (!isLoggedIn || !user) return <Navigate replace to="/error?messages=You are not logged in yet!" />
+  if (!isLoggedIn) return <Navigate replace to="/error?messages=You are not logged in yet!" />
+  if (!user) return <Navigate replace to="/error?messages=Couldn't retrieve user data from database!" />
 
   return (
     <RLayout>
