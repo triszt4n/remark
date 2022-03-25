@@ -5,10 +5,7 @@ import { createContext, FC, useEffect, useState } from 'react'
 import { GoogleLoginResponse, GoogleLoginResponseOffline } from 'react-google-login'
 import { useNavigate } from 'react-router-dom'
 import { User } from '../../models/user.model'
-
-enum CookieKeys {
-  REMARK_JWT_TOKEN = 'REMARK_JWT_TOKEN'
-}
+import { CookieKeys } from '../CookieKeys'
 
 export type AuthContextType = {
   isLoggedIn: boolean
