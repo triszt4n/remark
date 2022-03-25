@@ -1,9 +1,9 @@
 import { CosmosClient } from '@azure/cosmos'
 
 const COSMOS_DB_CONFIG_OBJ = {
-  endpoint: 'AccountEndpoint=https://remark-cosmos-db.documents.azure.com:443/',
+  endpoint: 'https://remark-cosmos-db.documents.azure.com:443/',
   key: process.env.COSMOS_DB_KEY,
-  databaseId: 'RemarkDatabase',
+  databaseId: process.env.COSMOS_DB_DATABASE_ID,
   partitionKey: { kind: 'Hash', paths: ['/id'] }
 }
 

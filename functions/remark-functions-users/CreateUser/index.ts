@@ -1,23 +1,40 @@
 import { AzureFunction, Context, HttpRequest } from '@azure/functions'
 import { fetchCosmosContainer } from '../database/config'
-import { CreateUser } from '../database/model'
+import { User } from '../database/model'
 
 const httpTrigger: AzureFunction = async function (context: Context, req: HttpRequest): Promise<void> {
   const usersContainer = fetchCosmosContainer('Users')
-
-  const creatableUser: CreateUser = {
-    firstName: '',
-    lastName: '',
-    username: '',
-    email: ''
+  const { firstName, lastName, username, email } = req.body
+  if (!firstName || !lastName || !username || !email) {
+    context.res = {
+      status: 400,
+      body: 'Could not create user: empty field in request body!'
+    }
+    return
   }
 
-  const createdUser = await usersContainer.items.create({})
-
-  context.res = {
-    status: 200,
-    body: createdUser
+  const creatableUser: User = {
+    firstName,
+    lastName,
+    username,
+    email
   }
+
+  usersContainer.items
+    .create(creatableUser)
+    .then((response) => {
+      const createdUser = response.resource
+      context.res = {
+        body: createdUser
+      }
+    })
+    .catch((error) => {
+      context.log('[ERROR] at CreateUser', error)
+      context.res = {
+        status: 500,
+        body: { message: `Error in database: Could not create user!` }
+      }
+    })
 }
 
 export default httpTrigger
