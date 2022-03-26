@@ -1,7 +1,7 @@
 import { AzureFunction, Context, HttpRequest } from '@azure/functions'
 import { JwtPayload } from 'jsonwebtoken'
 import { fetchCosmosContainer } from '../database/config'
-import { User } from '../database/model'
+import { UserResource } from '../database/model'
 import { readJWT } from './lib/jwt'
 
 const httpTrigger: AzureFunction = async function (context: Context, req: HttpRequest): Promise<void> {
@@ -29,8 +29,8 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
   }
 
   await usersContainer
-    .item(jwtUser.id)
-    .read<User>()
+    .item(jwtUser.id, jwtUser.id)
+    .read<UserResource>()
     .then((response) => {
       const user = response.resource
 

@@ -3,34 +3,23 @@ import { fetchCosmosContainer } from '../database/config'
 import { UserResource } from '../database/model'
 
 const httpTrigger: AzureFunction = async function (context: Context, req: HttpRequest): Promise<void> {
-  const id = context.bindingData.id as string
   const usersContainer = fetchCosmosContainer('Users')
 
-  await usersContainer
-    .item(id, id)
-    .read<UserResource>()
+  await usersContainer.items
+    .readAll<UserResource>()
+    .fetchAll()
     .then((response) => {
-      context.log('[DEBUG] at GetUser', response)
-
-      const user = response.resource
-
-      if (user == null) {
-        context.res = {
-          status: 404,
-          body: { message: `User with id ${id} not found` }
-        }
-        return
-      }
+      const users = response.resources
 
       context.res = {
-        body: user
+        body: users
       }
     })
     .catch((error) => {
-      context.log('[ERROR] at GetUser', error)
+      context.log('[ERROR] at GetUsers', error)
       context.res = {
         status: 500,
-        body: { message: `Error in database: Could not read user!` }
+        body: { message: `Error in database: Could not read all users!` }
       }
     })
 }
