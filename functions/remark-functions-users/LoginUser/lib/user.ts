@@ -1,5 +1,4 @@
 import { Container, SqlQuerySpec } from '@azure/cosmos'
-import axios from 'axios'
 import * as md5 from 'md5'
 import { GoogleUser, User, UserResource } from '../../database/model'
 
@@ -32,10 +31,4 @@ export const getOrCreateUserByEmail = async (usersContainer: Container, googleUs
   } else {
     return resources[0]
   }
-}
-
-export const getGoogleUser = async (accessToken: string): Promise<GoogleUser> => {
-  return axios.post('https://www.googleapis.com/oauth2/v4/token', {
-    Headers: { Authorization: `Bearer ${accessToken}` }
-  })
 }
