@@ -15,7 +15,6 @@ initAxios()
 ReactDOM.render(
   <React.StrictMode>
     <ColorModeScript />
-
     <ChakraProvider theme={customTheme}>
       <CookieConsentProvider>
         <QueryClientProvider client={queryClient}>

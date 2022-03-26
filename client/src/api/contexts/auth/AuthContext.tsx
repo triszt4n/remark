@@ -39,12 +39,12 @@ export const AuthProvider: FC = ({ children }) => {
     updateUser()
   }, [isLoggedIn])
 
-  const onLoginSuccess = (response: GoogleLoginResponseOffline | GoogleLoginResponse) => {
-    const authRes = response as GoogleLoginResponse
-    const { accessToken } = authRes
+  const onLoginSuccess = async (response: GoogleLoginResponseOffline | GoogleLoginResponse) => {
+    const { accessToken } = response as GoogleLoginResponse
+    console.log(`[DEBUG] response`, response)
 
-    axios
-      .post(`/users/jwt`, { accessToken })
+    await axios
+      .post(`/users/login`, { accessToken })
       .then((response) => {
         const user = response.data.user as User
         const jwtToken = response.data.jwt as string
@@ -57,7 +57,7 @@ export const AuthProvider: FC = ({ children }) => {
         navigate('/profile')
       })
       .catch((error) => {
-        console.error(error)
+        console.error(`[ERROR] at onLoginSuccess`, error)
         navigate("/error?messages=Couldn't create token for user logged in!,Please try again or report it!")
       })
   }
@@ -86,31 +86,22 @@ export const AuthProvider: FC = ({ children }) => {
     axios
       .get<User>('/users/users/profile')
       .then((res) => {
-        // todo: return to this user update
-
-        // if (typeof res.data !== 'object') {
-        //   toast({
-        //     title: 'Authentication error',
-        //     description: 'Authentication server is not functioning well.',
-        //     status: 'error',
-        //     duration: 5000,
-        //     isClosable: true
-        //   })
-        //   onLogout()
-        // }
-        // setUser(res.data)
-        setUser({
-          firstName: 'Random',
-          lastName: 'User',
-          email: 'random@random.com',
-          username: 'random@random.com',
-          id: 'random_id'
-        })
+        if (typeof res.data !== 'object') {
+          toast({
+            title: 'Authentication error',
+            description: 'Authentication failed. You need to log in again.',
+            status: 'error',
+            duration: 5000,
+            isClosable: true
+          })
+          onLogout()
+        }
+        setUser(res.data)
       })
       .catch(() => {
         toast({
           title: 'Authentication error',
-          description: 'You need to log in again.',
+          description: 'Authenticator is not available!',
           status: 'error',
           duration: 5000,
           isClosable: true
