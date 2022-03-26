@@ -1,13 +1,35 @@
 import { AzureFunction, Context, HttpRequest } from '@azure/functions'
+import { JwtPayload } from 'jsonwebtoken'
 import { fetchCosmosContainer } from '../database/config'
 import { User } from '../database/model'
+import { readJWT } from './lib/jwt'
 
 const httpTrigger: AzureFunction = async function (context: Context, req: HttpRequest): Promise<void> {
-  const id = context.bindingData.id as string
   const usersContainer = fetchCosmosContainer('Users')
 
+  const authorizationHeader = req.headers['authorization']
+
+  if (!authorizationHeader) {
+    context.res = {
+      status: 400,
+      body: { message: `No Authorization header attached!` }
+    }
+    return
+  }
+
+  const jwtToken = authorizationHeader.replace('Bearer', '').trim()
+
+  const jwtUser = readJWT(jwtToken) as JwtPayload
+  if (!jwtUser || typeof jwtUser.id === 'undefined') {
+    context.res = {
+      status: 400,
+      body: { message: `No id found on jwt object!` }
+    }
+    return
+  }
+
   usersContainer
-    .item(id)
+    .item(jwtUser.id)
     .read<User>()
     .then((response) => {
       const user = response.resource
@@ -15,7 +37,7 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
       if (user == null) {
         context.res = {
           status: 404,
-          body: { message: `User with id ${id} not found` }
+          body: { message: `User with id ${jwtUser.id} not found` }
         }
         return
       }

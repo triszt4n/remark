@@ -5,8 +5,8 @@
       "type": "httpTrigger",
       "direction": "in",
       "name": "req",
-      "methods": ["post"],
-      "route": "jwt"
+      "methods": ["get"],
+      "route": "profile"
     },
     {
       "type": "http",
@@ -14,5 +14,5 @@
       "name": "res"
     }
   ],
-  "scriptFile": "../dist/CreateJWT/index.js"
+  "scriptFile": "../dist/GetProfile/index.js"
 }
