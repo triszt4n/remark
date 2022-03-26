@@ -6872,9 +6872,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint@npm:8.11.0":
-  version: 8.11.0
-  resolution: "eslint@npm:8.11.0"
+"eslint@npm:8.12.0":
+  version: 8.12.0
+  resolution: "eslint@npm:8.12.0"
   dependencies:
     "@eslint/eslintrc": ^1.2.1
     "@humanwhocodes/config-array": ^0.9.2
@@ -6913,7 +6913,7 @@ __metadata:
     v8-compile-cache: ^2.0.3
   bin:
     eslint: bin/eslint.js
-  checksum: a06a2ea37002d6c0a4f462fe31b4411185dc3da7857fafb896eb392ba95a1289cc3538056474b2f44f08012f265bede01a39d46df4ac39ebc6d7be90e2c8f9fa
+  checksum: 111bf9046b7a463049788dd00d7f4cd91e024029982352dff4811ce5dfa8cb1136aa127cd8a7a91508234d3e1b4fb6f638a1f5ef9ea08b1af93a18703a4a8dc1
   languageName: node
   linkType: hard
 
@@ -12324,9 +12324,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-query@npm:3.34.17":
-  version: 3.34.17
-  resolution: "react-query@npm:3.34.17"
+"react-query@npm:3.34.18":
+  version: 3.34.18
+  resolution: "react-query@npm:3.34.18"
   dependencies:
     "@babel/runtime": ^7.5.5
     broadcast-channel: ^3.4.1
@@ -12338,7 +12338,7 @@ __metadata:
       optional: true
     react-native:
       optional: true
-  checksum: 61567edb6f77e5105a48f7bf08a8a3961a59f57ef5d7ce1adba7d5ce4508bc0260ad7c2495b5e96e6ec0ca6758c8897ce77714c58a877deffc8f7d231f380e9c
+  checksum: 9d8315cfa8d7af8072201ce7638ab3904df820aa0d004ab54fa9bef8d5705ba0a182afcad2e209678fac2b06f8df228b0a1c37a418ef9bfbe206f83c942a0709
   languageName: node
   linkType: hard
 
@@ -12681,7 +12681,7 @@ __metadata:
     "@typescript-eslint/parser": 5.16.0
     axios: 0.26.1
     easymde: 2.16.1
-    eslint: 8.11.0
+    eslint: 8.12.0
     eslint-config-prettier: 8.5.0
     eslint-plugin-prettier: 4.0.0
     framer-motion: 6.2.8
@@ -12694,7 +12694,7 @@ __metadata:
     react-helmet: 6.1.0
     react-icons: 4.3.1
     react-markdown: 8.0.1
-    react-query: 3.34.17
+    react-query: 3.34.18
     react-router-dom: 6.2.2
     react-scripts: 5.0.0
     remark-gfm: 3.0.1

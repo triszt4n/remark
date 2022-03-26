@@ -1,15 +1,33 @@
 import { Box, Button, Heading, HStack, Image, VStack } from '@chakra-ui/react'
 import { FC } from 'react'
 import { FaSignOutAlt } from 'react-icons/fa'
+import { useQuery } from 'react-query'
 import { Navigate } from 'react-router-dom'
 import { useAuthContext } from '../../api/contexts/auth/useAuthContext'
+import { userModule } from '../../api/modules/user.module'
+import { PuzzleAnimated } from '../../components/commons/PuzzleAnimated'
 import { RLayout } from '../../components/commons/RLayout'
 
 export const ProfilePage: FC = () => {
-  const { isLoggedIn, user, onLogout } = useAuthContext()
+  const { isLoggedIn, onLogout } = useAuthContext()
+  const { isLoading, data: user, error } = useQuery('currentUser', userModule.fetchCurrentUser)
 
-  if (!isLoggedIn) return <Navigate replace to="/error?messages=You are not logged in yet!" />
-  if (!user) return <Navigate replace to="/error?messages=Couldn't retrieve user data from database!" />
+  if (!isLoggedIn) {
+    return <Navigate replace to="/error?messages=You are not logged in yet!" />
+  }
+
+  if (isLoading || !user) {
+    return (
+      <RLayout>
+        <PuzzleAnimated text="Loading user" />
+      </RLayout>
+    )
+  }
+
+  if (error) {
+    console.log('[DEBUG] at ProfilePage: fetchCurrentUser', error)
+    return <Navigate replace to="/error?messages=Error when fetching current user's profile!" />
+  }
 
   return (
     <RLayout>
