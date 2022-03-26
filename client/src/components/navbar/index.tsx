@@ -1,6 +1,6 @@
 import { Box, Collapse, Flex, IconButton, useBreakpointValue, useDisclosure } from '@chakra-ui/react'
-import React, { FC } from 'react'
-import { FaHamburger, FaTimes } from 'react-icons/fa'
+import { FC } from 'react'
+import { FaBars, FaTimes } from 'react-icons/fa'
 import { RLogo } from '../../assets/RLogo'
 import { ColorModeSwitcher } from './ColorModeSwitcher'
 import DesktopNav from './DesktopNav'
@@ -15,7 +15,7 @@ export const Navbar: FC = () => {
         <Flex display={{ base: 'flex', md: 'none' }}>
           <IconButton
             onClick={onToggle}
-            icon={isOpen ? <FaTimes size="1.5rem" /> : <FaHamburger size="1.5rem" />}
+            icon={isOpen ? <FaTimes size="1.5rem" /> : <FaBars size="1.5rem" />}
             variant="ghost"
             aria-label="Open navigation"
           />
