@@ -4,7 +4,7 @@ import { UserResource } from '../../database/model'
 export const createJWT = (user: UserResource) => {
   return jwt.sign(
     {
-      id: user._rid,
+      id: user.id,
       username: user.username,
       email: user.email
     },

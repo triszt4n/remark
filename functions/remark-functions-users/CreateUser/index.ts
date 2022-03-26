@@ -20,7 +20,7 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
     email
   }
 
-  usersContainer.items
+  await usersContainer.items
     .create(creatableUser)
     .then((response) => {
       const createdUser = response.resource

@@ -17,8 +17,8 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
   const usersContainer = fetchCosmosContainer('Users')
 
   await axios
-    .post('https://www.googleapis.com/oauth2/v3/userinfo', {
-      Headers: { Authorization: `Bearer ${accessToken}` }
+    .get('https://www.googleapis.com/oauth2/v3/userinfo', {
+      headers: { Authorization: `Bearer ${accessToken}` }
     })
     .then(async (response) => {
       const googleUser = response.data

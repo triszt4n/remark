@@ -28,7 +28,7 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
     return
   }
 
-  usersContainer
+  await usersContainer
     .item(jwtUser.id)
     .read<User>()
     .then((response) => {

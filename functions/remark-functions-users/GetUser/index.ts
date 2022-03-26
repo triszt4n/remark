@@ -6,7 +6,7 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
   const id = context.bindingData.id as string
   const usersContainer = fetchCosmosContainer('Users')
 
-  usersContainer
+  await usersContainer
     .item(id)
     .read<User>()
     .then((response) => {
