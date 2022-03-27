@@ -27,7 +27,7 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
     return
   }
 
-  // Set new username
+  // Get user of id
   const { resource: user } = await usersContainer.item(id, id).read<UserResource>()
   if (user == null) {
     context.res = {
@@ -36,6 +36,8 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
     }
     return
   }
+
+  // todo: Check if the requester in authorization header is the same as the user just fetched above!
 
   user.username = newUsername
   const { resource: updatedUser } = await usersContainer.item(id, id).replace<UserResource>(user)

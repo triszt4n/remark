@@ -6,3 +6,7 @@ export interface User {
   id: string
   imageUrl?: string
 }
+
+export interface UpdateUser {
+  username: string
+}
