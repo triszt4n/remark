@@ -43,7 +43,7 @@ type Props = {
 export const RemarkEditor: FC<Props> = ({ startingRawMarkdown, onSend }) => {
   const toast = useToast()
   const [rawMarkdown, setRawMarkdown] = useState<string>(startingRawMarkdown || '')
-  const [status, setStatus] = useState<TextAreaStatus>(getCurrentStatus(0))
+  const [status, setStatus] = useState<TextAreaStatus>(getCurrentStatus(startingRawMarkdown ? startingRawMarkdown.length : 0))
 
   const onTrySend = () => {
     if (status.isError || rawMarkdown.trim().length === 0) {
