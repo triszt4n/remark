@@ -11,6 +11,7 @@ import { LoginPage } from './pages/login/LoginPage'
 import { LogoutPage } from './pages/logout/LogoutPage'
 import { ProfilePage } from './pages/user/ProfilePage'
 import { UserPage } from './pages/user/UserPage'
+import { UsersPage } from './pages/user/UsersPage'
 
 export const App = () => (
   <Routes>
@@ -25,6 +26,10 @@ export const App = () => (
       </Route>
       <Route path="ch">
         <Route path=":uriName" element={<UserPage />} />
+      </Route>
+      {/** This route and children should be removed when project finishes */}
+      <Route path="hidden">
+        <Route path="users" element={<UsersPage />} />
       </Route>
       <Route path="error" element={<ErrorPage />} />
     </Route>
