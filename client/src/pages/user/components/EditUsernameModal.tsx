@@ -11,7 +11,8 @@ import {
   ModalContent,
   ModalFooter,
   ModalHeader,
-  ModalOverlay
+  ModalOverlay,
+  Spacer
 } from '@chakra-ui/react'
 import { ChangeEventHandler, FC, useState } from 'react'
 import { FaCheck } from 'react-icons/fa'
@@ -42,7 +43,7 @@ export const EditUsernameModal: FC<Props> = ({ currentUsername, isOpen, onClose,
     setNewUsername(e.target.value)
     if (currentUsername === e.target.value) {
       setIsError(true)
-      setErrorText('New username cannot be old one')
+      setErrorText('New username cannot be the same as before!')
     } else {
       setIsError(false)
     }
@@ -52,7 +53,7 @@ export const EditUsernameModal: FC<Props> = ({ currentUsername, isOpen, onClose,
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>Modal Title</ModalHeader>
+        <ModalHeader>Changing your username</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
           <FormControl isRequired isInvalid={isError}>
@@ -67,10 +68,11 @@ export const EditUsernameModal: FC<Props> = ({ currentUsername, isOpen, onClose,
         </ModalBody>
 
         <ModalFooter>
-          <Button colorScheme="blue" mr={3} onClick={onClose}>
+          <Button variant="outline" colorScheme="theme" mr={3} onClick={onClose}>
             Cancel
           </Button>
-          <Button rightIcon={<FaCheck />} variant="ghost" onClick={onPressedSave}>
+          <Spacer />
+          <Button rightIcon={<FaCheck />} colorScheme="theme" onClick={onPressedSave}>
             Save
           </Button>
         </ModalFooter>

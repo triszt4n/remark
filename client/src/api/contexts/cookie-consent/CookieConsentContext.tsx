@@ -1,6 +1,7 @@
-import { Alert, AlertDescription, AlertIcon, AlertTitle, Box, Button, ToastId, useToast, UseToastOptions } from '@chakra-ui/react'
+import { ToastId, useToast, UseToastOptions } from '@chakra-ui/react'
 import Cookies from 'js-cookie'
 import { createContext, FC, useEffect, useRef, useState } from 'react'
+import { CookieConsentPopup } from '../../../components/commons/CookieConsentPopup'
 import { CookieKeys } from '../CookieKeys'
 
 export type CookieConsentContextType = {
@@ -21,22 +22,7 @@ export const CookieConsentProvider: FC = ({ children }) => {
       width: '100%',
       maxWidth: '100%'
     },
-    render: () => (
-      <Box maxWidth="80rem" mx="auto" p={2}>
-        <Alert colorScheme="themeHelper" variant="solid" borderRadius={6} width="full">
-          <AlertIcon />
-          <Box flex="1">
-            <AlertTitle>Please accept our cookies</AlertTitle>
-            <AlertDescription display="block">
-              We're using cookies on this site for your comfort. By using the site, you consent to us using cookies.
-            </AlertDescription>
-          </Box>
-          <Button variant="outline" onClick={() => setIsAccepted(true)} ml={2}>
-            I understand
-          </Button>
-        </Alert>
-      </Box>
-    ),
+    render: () => <CookieConsentPopup onClick={() => setIsAccepted(true)} />,
     duration: null,
     isClosable: true
   }
