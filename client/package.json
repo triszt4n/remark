@@ -11,6 +11,7 @@
     "@emotion/styled": "11.8.1",
     "@fontsource/inter": "4.5.7",
     "axios": "0.26.1",
+    "chakra-ui-markdown-renderer": "4.0.0",
     "easymde": "2.16.1",
     "framer-motion": "6.2.8",
     "js-cookie": "3.0.1",

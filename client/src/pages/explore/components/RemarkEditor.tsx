@@ -1,37 +1,119 @@
-import { FC } from 'react'
-import ReactMarkdown, { Components } from 'react-markdown'
+import {
+  Box,
+  Button,
+  Flex,
+  FormControl,
+  FormErrorMessage,
+  FormHelperText,
+  FormLabel,
+  Tab,
+  TabList,
+  TabPanel,
+  TabPanels,
+  Tabs,
+  Textarea,
+  useToast
+} from '@chakra-ui/react'
+import ChakraUIRenderer from 'chakra-ui-markdown-renderer'
+import { ChangeEventHandler, FC, useState } from 'react'
+import { FaPaperPlane } from 'react-icons/fa'
+import ReactMarkdown from 'react-markdown'
+import { RLink } from '../../../components/commons/RLink'
 
-export const RemarkEditor: FC = () => {
-  const componentOptions: Components = {
-    // Map `h1` (`# heading`) to use `h2`s.
-    h1: 'h1'
+type TextAreaStatus = {
+  isError: boolean
+  message: string
+}
+
+const MAX_CHARACTER_IN_TEXTAREA = 500
+
+const getCurrentStatus = (currentTextLength: number): TextAreaStatus => {
+  if (currentTextLength > MAX_CHARACTER_IN_TEXTAREA) {
+    return { isError: true, message: `Your comment cannot be longer than ${MAX_CHARACTER_IN_TEXTAREA} characters!` }
+  } else {
+    return { isError: false, message: `${currentTextLength} / ${MAX_CHARACTER_IN_TEXTAREA}` }
+  }
+}
+
+type Props = {
+  startingRawMarkdown?: string
+  onSend: (rawMarkdown: string) => void
+}
+
+export const RemarkEditor: FC<Props> = ({ startingRawMarkdown, onSend }) => {
+  const toast = useToast()
+  const [rawMarkdown, setRawMarkdown] = useState<string>(startingRawMarkdown || '')
+  const [status, setStatus] = useState<TextAreaStatus>(getCurrentStatus(0))
+
+  const onTrySend = () => {
+    if (status.isError || rawMarkdown.trim().length === 0) {
+      toast({
+        title: 'Invalid message body',
+        description: 'You cannot send an invalid comment! See error messages.',
+        status: 'error',
+        duration: 5000,
+        isClosable: true
+      })
+    } else {
+      onSend(rawMarkdown)
+    }
   }
 
-  const markdown = `
-## Overview
+  const handleInputChange: ChangeEventHandler<HTMLTextAreaElement> = (e) => {
+    let { value } = e.target
+    setStatus(getCurrentStatus(value.length))
 
-* **Follows** [CommonMark](https://commonmark.org)
-* Renders *actual* React elements instead of using \`dangerouslySetInnerHTML\`
-* Lets you define your own components (to render \`MyHeading\` instead of \`h1\`)
-* Has a lot of plugins
+    if (!status.isError) {
+      setRawMarkdown(value)
+    }
+  }
 
-## Syntax highlighting
-
-Here is an example of a plugin to highlight code:
-[\`rehype-highlight\`](https://github.com/rehypejs/rehype-highlight).
-
-\`\`\`js
-import React from 'react'
-import ReactDOM from 'react-dom'
-import ReactMarkdown from 'react-markdown'
-import rehypeHighlight from 'rehype-highlight'
-
-ReactDOM.render(
-  <ReactMarkdown rehypePlugins={[rehypeHighlight]}>{'# Your markdown here'}</ReactMarkdown>,
-  document.querySelector('#content')
-)
-\`\`\`
-  `
-
-  return <ReactMarkdown components={componentOptions} children={markdown} />
+  return (
+    <Box width="full">
+      <Tabs variant="enclosed">
+        <TabList>
+          <Tab>Edit</Tab>
+          <Tab>Preview</Tab>
+        </TabList>
+        <TabPanels>
+          <TabPanel>
+            <FormControl isInvalid={status.isError}>
+              <FormLabel fontWeight={700} fontSize="lg" htmlFor="rawMarkdown">
+                Leave a comment in markdown format!{' '}
+                <RLink to="https://www.markdownguide.org/cheat-sheet/" isExternal>
+                  See guide here.
+                </RLink>
+              </FormLabel>
+              <Textarea
+                id="rawMarkdown"
+                isInvalid={status.isError}
+                value={rawMarkdown}
+                onChange={handleInputChange}
+                placeholder="Leave a comment here"
+                height="22rem"
+              />
+              <Flex justifyContent="flex-end">
+                {status.isError ? <FormErrorMessage>{status.message}</FormErrorMessage> : <FormHelperText>{status.message}</FormHelperText>}
+              </Flex>
+            </FormControl>
+          </TabPanel>
+          <TabPanel>
+            <Box maxHeight="26rem" overflowY="scroll">
+              <ReactMarkdown components={ChakraUIRenderer()} children={rawMarkdown} skipHtml />
+            </Box>
+          </TabPanel>
+        </TabPanels>
+      </Tabs>
+      <Flex justifyContent="flex-end">
+        <Button
+          disabled={status.isError || rawMarkdown.trim().length === 0}
+          rightIcon={<FaPaperPlane />}
+          colorScheme="theme"
+          onClick={onTrySend}
+        >
+          Send comment
+        </Button>
+      </Flex>
+    </Box>
+  )
 }

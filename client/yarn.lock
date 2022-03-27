@@ -5186,6 +5186,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"chakra-ui-markdown-renderer@npm:4.0.0":
+  version: 4.0.0
+  resolution: "chakra-ui-markdown-renderer@npm:4.0.0"
+  dependencies:
+    deepmerge: ^4.2.2
+  peerDependencies:
+    "@chakra-ui/react": ^1.6.1
+    react-markdown: ^7
+  checksum: 268b72efceaa5a5d40ed18e4590cc50786f7b3928358fa5c2dbc76a25c4564c0e00a502fbaee67deff7f287974d737150fdbb4b0ba412eefadd2d3880ad51cd8
+  languageName: node
+  linkType: hard
+
 "chalk@npm:^2.0.0, chalk@npm:^2.4.1, chalk@npm:^2.4.2":
   version: 2.4.2
   resolution: "chalk@npm:2.4.2"
@@ -12687,6 +12699,7 @@ __metadata:
     "@typescript-eslint/eslint-plugin": 5.16.0
     "@typescript-eslint/parser": 5.16.0
     axios: 0.26.1
+    chakra-ui-markdown-renderer: 4.0.0
     easymde: 2.16.1
     eslint: 8.12.0
     eslint-config-prettier: 8.5.0
