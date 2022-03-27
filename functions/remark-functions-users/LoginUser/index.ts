@@ -1,8 +1,8 @@
 import { AzureFunction, Context, HttpRequest } from '@azure/functions'
 import axios from 'axios'
-import { fetchCosmosContainer } from '../database/config'
-import { createJWT } from './lib/jwt'
-import { getOrCreateUserByEmail } from './lib/user'
+import { fetchCosmosContainer } from '../lib/config'
+import { createJWT } from '../lib/jwt'
+import { getOrCreateUserByEmail } from '../lib/query'
 
 const httpTrigger: AzureFunction = async function (context: Context, req: HttpRequest): Promise<void> {
   if (!req.body || !req.body.accessToken) {

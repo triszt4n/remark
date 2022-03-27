@@ -1,8 +1,18 @@
 import { Container, SqlQuerySpec } from '@azure/cosmos'
 import * as md5 from 'md5'
-import { GoogleUser, User, UserResource } from '../../database/model'
+import { GoogleUser, User, UserResource } from './model'
 
-const createQueryByEmail = (email: string): SqlQuerySpec => ({
+export const createQueryByUsername = (username: string) => ({
+  query: 'SELECT * FROM Users u WHERE u.username = @username',
+  parameters: [
+    {
+      name: '@username',
+      value: username
+    }
+  ]
+})
+
+export const createQueryByEmail = (email: string): SqlQuerySpec => ({
   query: 'SELECT * FROM Users u WHERE u.email = @email',
   parameters: [
     {

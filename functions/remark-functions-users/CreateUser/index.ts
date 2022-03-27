@@ -1,6 +1,6 @@
 import { AzureFunction, Context, HttpRequest } from '@azure/functions'
-import { fetchCosmosContainer } from '../database/config'
-import { User } from '../database/model'
+import { fetchCosmosContainer } from '../lib/config'
+import { User } from '../lib/model'
 
 const httpTrigger: AzureFunction = async function (context: Context, req: HttpRequest): Promise<void> {
   const usersContainer = fetchCosmosContainer('Users')

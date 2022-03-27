@@ -1,25 +1,34 @@
 import { AzureFunction, Context, HttpRequest } from '@azure/functions'
 import { fetchCosmosContainer } from '../lib/config'
 import { UserResource } from '../lib/model'
+import { createQueryByUsername } from '../lib/query'
 
 const httpTrigger: AzureFunction = async function (context: Context, req: HttpRequest): Promise<void> {
+  const username = context.bindingData.username as string
   const usersContainer = fetchCosmosContainer('Users')
 
   await usersContainer.items
-    .readAll<UserResource>()
+    .query<UserResource>(createQueryByUsername(username))
     .fetchAll()
     .then((response) => {
-      const users = response.resources
+      if (response.resources.length == 0) {
+        context.res = {
+          status: 404,
+          body: { message: `User with username ${username} not found` }
+        }
+        return
+      }
 
+      const user = response.resources[0]
       context.res = {
-        body: users
+        body: user
       }
     })
     .catch((error) => {
-      context.log('[ERROR] at GetUsers', error)
+      context.log('[ERROR] at GetUser', error)
       context.res = {
         status: 500,
-        body: { message: `Error in database: Could not read all users!` }
+        body: { message: `Error in database: Could not read user!` }
       }
     })
 }

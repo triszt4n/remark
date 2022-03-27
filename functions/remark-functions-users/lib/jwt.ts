@@ -1,5 +1,5 @@
 import * as jwt from 'jsonwebtoken'
-import { UserResource } from '../../database/model'
+import { UserResource } from './model'
 
 export const createJWT = (user: UserResource) => {
   return jwt.sign(
@@ -14,4 +14,8 @@ export const createJWT = (user: UserResource) => {
       expiresIn: 2 * 24 * 60 * 60 // two days
     }
   )
+}
+
+export const readJWT = (jwtToken: string) => {
+  return jwt.verify(jwtToken, process.env.JWT_PRIVATE_KEY)
 }

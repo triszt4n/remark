@@ -1,8 +1,8 @@
 import { AzureFunction, Context, HttpRequest } from '@azure/functions'
 import { JwtPayload } from 'jsonwebtoken'
-import { fetchCosmosContainer } from '../database/config'
-import { UserResource } from '../database/model'
-import { readJWT } from './lib/jwt'
+import { fetchCosmosContainer } from '../lib/config'
+import { readJWT } from '../lib/jwt'
+import { UserResource } from '../lib/model'
 
 const httpTrigger: AzureFunction = async function (context: Context, req: HttpRequest): Promise<void> {
   const usersContainer = fetchCosmosContainer('Users')
