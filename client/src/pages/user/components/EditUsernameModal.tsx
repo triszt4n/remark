@@ -40,7 +40,12 @@ export const EditUsernameModal: FC<Props> = ({ currentUsername, isOpen, onClose,
 
   const handleInputChange: ChangeEventHandler<HTMLInputElement> = (e) => {
     setNewUsername(e.target.value)
-    setIsError(e.target.value === currentUsername)
+    if (currentUsername === e.target.value) {
+      setIsError(true)
+      setErrorText('New username cannot be old one')
+    } else {
+      setIsError(false)
+    }
   }
 
   return (
