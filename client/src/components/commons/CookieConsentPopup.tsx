@@ -18,7 +18,7 @@ export const CookieConsentPopup: FC<Props> = ({ onClick }) => (
         </Box>
       </Flex>
       <Flex justifyContent="flex-end">
-        <Button variant="outline" onClick={onClick} ml={2} mt={{ base: 2, md: 0 }}>
+        <Button colorScheme="blackAlpha" onClick={onClick} ml={2} mt={{ base: 2, md: 0 }}>
           I understand
         </Button>
       </Flex>

@@ -62,10 +62,7 @@ export const RemarkEditor: FC<Props> = ({ startingRawMarkdown, onSend }) => {
   const handleInputChange: ChangeEventHandler<HTMLTextAreaElement> = (e) => {
     let { value } = e.target
     setStatus(getCurrentStatus(value.length))
-
-    if (!status.isError) {
-      setRawMarkdown(value)
-    }
+    setRawMarkdown(value)
   }
 
   return (
@@ -87,10 +84,10 @@ export const RemarkEditor: FC<Props> = ({ startingRawMarkdown, onSend }) => {
               <Textarea
                 id="rawMarkdown"
                 isInvalid={status.isError}
-                value={rawMarkdown}
                 onChange={handleInputChange}
                 placeholder="Leave a comment here"
                 height="22rem"
+                defaultValue={startingRawMarkdown}
               />
               <Flex justifyContent="flex-end">
                 {status.isError ? <FormErrorMessage>{status.message}</FormErrorMessage> : <FormHelperText>{status.message}</FormHelperText>}
