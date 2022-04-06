@@ -3,7 +3,7 @@ import * as md5 from 'md5'
 import { GoogleUser, User, UserResource } from './model'
 
 export const createQueryByUsername = (username: string) => ({
-  query: 'SELECT * FROM Users u WHERE u.username = @username',
+  query: 'SELECT * FROM Users u WHERE UPPER(u.username) = UPPER(@username)',
   parameters: [
     {
       name: '@username',
@@ -13,7 +13,7 @@ export const createQueryByUsername = (username: string) => ({
 })
 
 export const createQueryByEmail = (email: string): SqlQuerySpec => ({
-  query: 'SELECT * FROM Users u WHERE u.email = @email',
+  query: 'SELECT * FROM Users u WHERE UPPER(u.email) = UPPER(@email)',
   parameters: [
     {
       name: '@email',

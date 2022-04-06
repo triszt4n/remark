@@ -7,7 +7,7 @@ const COSMOS_DB_CONFIG_OBJ = {
   partitionKey: { kind: 'Hash', paths: ['/id'] }
 }
 
-type RemarkDatabaseContainerId = 'Users' | 'Posts' | 'Channels' | 'Remarks'
+type RemarkDatabaseContainerId = 'Users' | 'Posts' | 'Channels' | 'Comments'
 
 export const fetchCosmosContainer = (containerId: RemarkDatabaseContainerId) => {
   const { endpoint, key, databaseId } = COSMOS_DB_CONFIG_OBJ
