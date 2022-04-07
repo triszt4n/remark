@@ -6,7 +6,7 @@
       "direction": "in",
       "name": "req",
       "methods": ["post"],
-      "route": "channels"
+      "route": "channels/{id}/join"
     },
     {
       "type": "http",
@@ -14,5 +14,5 @@
       "name": "res"
     }
   ],
-  "scriptFile": "../dist/CreateChannel/index.js"
+  "scriptFile": "../dist/JoinChannel/index.js"
 }

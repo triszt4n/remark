@@ -5,8 +5,8 @@
       "type": "httpTrigger",
       "direction": "in",
       "name": "req",
-      "methods": ["post"],
-      "route": "channels"
+      "methods": ["patch"],
+      "route": "channels/{id}"
     },
     {
       "type": "http",
@@ -14,5 +14,5 @@
       "name": "res"
     }
   ],
-  "scriptFile": "../dist/CreateChannel/index.js"
+  "scriptFile": "../dist/UpdateChannel/index.js"
 }

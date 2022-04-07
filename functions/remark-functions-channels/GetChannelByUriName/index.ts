@@ -1,37 +1,37 @@
 import { AzureFunction, Context, HttpRequest } from '@azure/functions'
 import { fetchCosmosContainer } from '../lib/dbConfig'
-import { createQueryByUsername } from '../lib/dbQueries'
-import { UserResource } from '../lib/model'
+import { createQueryByUriName } from '../lib/dbQueries'
+import { ChannelResource } from '../lib/model'
 
 const httpTrigger: AzureFunction = async function (context: Context, req: HttpRequest): Promise<void> {
-  const username = context.bindingData.username as string
-  const usersContainer = fetchCosmosContainer('Users')
+  const uriName = context.bindingData.uriName as string
+  const channelsContainer = fetchCosmosContainer('Channels')
 
   // No Authorization needed
 
   // Query from DB
-  await usersContainer.items
-    .query<UserResource>(createQueryByUsername(username))
+  await channelsContainer.items
+    .query<ChannelResource>(createQueryByUriName(uriName))
     .fetchAll()
     .then((response) => {
       if (response.resources.length == 0) {
         context.res = {
           status: 404,
-          body: { message: `User with username ${username} not found` }
+          body: { message: `Channel with uriName ${uriName} not found` }
         }
         return
       }
 
-      const user = response.resources[0]
+      const channel = response.resources[0]
       context.res = {
-        body: user
+        body: channel
       }
     })
     .catch((error) => {
-      context.log('[ERROR] at GetUserByUsername', error)
+      context.log('[ERROR] at GetChannelByUriName', error)
       context.res = {
         status: 500,
-        body: { message: `Error in database: Could not read user!` }
+        body: { message: `Error in database: Could not read channel!` }
       }
     })
 }

@@ -42,7 +42,7 @@ export const AuthProvider: FC = ({ children }) => {
     const { accessToken } = response as GoogleLoginResponse
 
     const res = await axios.post<{ user: User; jwt: string }>(`/users/login`, { accessToken })
-    const { jwt, user } = res.data
+    const { jwt } = res.data
 
     Cookies.set(CookieKeys.REMARK_JWT_TOKEN, jwt, { expires: 2 })
     setIsLoggedIn(true)
