@@ -1,30 +1,28 @@
-import { HttpRequest } from '@azure/functions'
 import * as jwt from 'jsonwebtoken'
-import { UserResource } from './model'
 
-export const createJWT = (user: UserResource) => {
+export const createJWT = (user: { id: string; username: string; email: string }, jwtPrivateKey: string, expiresIn: number) => {
   return jwt.sign(
     {
       id: user.id,
       username: user.username,
       email: user.email
     },
-    process.env.JWT_PRIVATE_KEY,
+    jwtPrivateKey,
     {
       algorithm: 'HS256',
-      expiresIn: 2 * 24 * 60 * 60 // two days
+      expiresIn: expiresIn
     }
   )
 }
 
-// These should be freely used in other function groups
 export interface AuthorizationResponse {
   isError: boolean
   userFromJwt?: jwt.JwtPayload
   status?: number
   message?: string
 }
-export const readUserFromAuthHeader = (req: HttpRequest): AuthorizationResponse => {
+
+export const readUserFromAuthHeader = (req: any, jwtPrivateKey: string): AuthorizationResponse => {
   const authHeader = req.headers['authorization']
 
   if (!authHeader) {
@@ -37,7 +35,7 @@ export const readUserFromAuthHeader = (req: HttpRequest): AuthorizationResponse 
   const jwtToken = authHeader.replace('Bearer', '').trim()
 
   try {
-    const userFromJwt = jwt.verify(jwtToken, process.env.JWT_PRIVATE_KEY) as jwt.JwtPayload
+    const userFromJwt = jwt.verify(jwtToken, jwtPrivateKey) as jwt.JwtPayload
 
     const hasAllTheRequiredProperties = 'id' in userFromJwt && 'username' in userFromJwt && 'email' in userFromJwt
     if (!userFromJwt || !hasAllTheRequiredProperties) {

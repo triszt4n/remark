@@ -1,13 +1,13 @@
 import { AzureFunction, Context, HttpRequest } from '@azure/functions'
+import { readUserFromAuthHeader } from '@triszt4n/remark-auth'
 import { fetchCosmosContainer } from '../lib/dbConfig'
-import { readUserFromAuthHeader } from '../lib/jwtFunctions'
 import { UserResource } from '../lib/model'
 
 const httpTrigger: AzureFunction = async function (context: Context, req: HttpRequest): Promise<void> {
   const usersContainer = fetchCosmosContainer('Users')
 
   // Authorization
-  const result = readUserFromAuthHeader(req)
+  const result = readUserFromAuthHeader(req, process.env.JWT_PRIVATE_KEY)
   if (result.isError) {
     context.res = {
       status: result.status,

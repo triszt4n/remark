@@ -1,8 +1,8 @@
 import { AzureFunction, Context, HttpRequest } from '@azure/functions'
+import { createJWT } from '@triszt4n/remark-auth'
 import axios from 'axios'
 import { fetchCosmosContainer } from '../lib/dbConfig'
 import { getOrCreateUserByEmail } from '../lib/dbQueries'
-import { createJWT } from '../lib/jwtFunctions'
 
 const httpTrigger: AzureFunction = async function (context: Context, req: HttpRequest): Promise<void> {
   // Request body verification
@@ -26,7 +26,7 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
       const googleUser = response.data
 
       const dbUser = await getOrCreateUserByEmail(usersContainer, googleUser)
-      const jwtToken = createJWT(dbUser)
+      const jwtToken = createJWT(dbUser, process.env.JWT_PRIVATE_KEY, 60 * 60 * 24 * 2) // two days
 
       context.res = {
         body: {
