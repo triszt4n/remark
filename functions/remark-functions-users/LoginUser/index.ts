@@ -1,10 +1,11 @@
 import { AzureFunction, Context, HttpRequest } from '@azure/functions'
 import axios from 'axios'
-import { fetchCosmosContainer } from '../lib/config'
-import { createJWT } from '../lib/jwt'
-import { getOrCreateUserByEmail } from '../lib/query'
+import { fetchCosmosContainer } from '../lib/dbConfig'
+import { getOrCreateUserByEmail } from '../lib/dbQueries'
+import { createJWT } from '../lib/jwtFunctions'
 
 const httpTrigger: AzureFunction = async function (context: Context, req: HttpRequest): Promise<void> {
+  // Request body verification
   if (!req.body || !req.body.accessToken) {
     context.res = {
       status: 400,
@@ -16,6 +17,7 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
   const { accessToken } = req.body
   const usersContainer = fetchCosmosContainer('Users')
 
+  // Query from Google Resource server
   await axios
     .get('https://www.googleapis.com/oauth2/v3/userinfo', {
       headers: { Authorization: `Bearer ${accessToken}` }

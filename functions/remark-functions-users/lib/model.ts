@@ -6,6 +6,7 @@ export interface User {
   username: string
   email: string
   imageUrl?: string
+  isTheLoggedInUser?: boolean
 }
 
 export interface GoogleUser {

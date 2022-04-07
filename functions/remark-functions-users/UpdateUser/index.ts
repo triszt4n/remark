@@ -1,10 +1,11 @@
 import { AzureFunction, Context, HttpRequest } from '@azure/functions'
-import { fetchCosmosContainer } from '../lib/config'
+import { fetchCosmosContainer } from '../lib/dbConfig'
+import { createQueryByUsername } from '../lib/dbQueries'
+import { readUserFromAuthHeader } from '../lib/jwtFunctions'
 import { UserResource } from '../lib/model'
-import { createQueryByUsername } from '../lib/query'
 
 const httpTrigger: AzureFunction = async function (context: Context, req: HttpRequest): Promise<void> {
-  // Validate req body
+  // Request body verification
   if (!req.body || !req.body.username) {
     context.res = {
       status: 400,
@@ -12,6 +13,17 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
     }
     return
   }
+
+  // Authorization
+  const result = readUserFromAuthHeader(req)
+  if (result.isError) {
+    context.res = {
+      status: result.status,
+      body: { message: result.message }
+    }
+    return
+  }
+  const { userFromJwt } = result
 
   const id = context.bindingData.id as string
   const newUsername = req.body.username as string
@@ -37,8 +49,16 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
     return
   }
 
-  // todo: Check if the requester in authorization header is the same as the user just fetched above!
+  // Check if the requester in authorization header is the same as the user just fetched above!
+  if (userFromJwt.id !== user.id) {
+    context.res = {
+      status: 401,
+      body: { message: `Unauthorized action: Requester is not the same as the updatable user!` }
+    }
+    return
+  }
 
+  // Actual username update
   user.username = newUsername
   const { resource: updatedUser } = await usersContainer.item(id, id).replace<UserResource>(user)
 

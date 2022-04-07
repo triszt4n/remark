@@ -10,15 +10,23 @@ import { ProfileDetails } from './components/ProfileDetails'
 
 export const UserPage: FC = () => {
   const { username } = useParams()
-  const { isLoggedIn, onLogout } = useAuthContext()
-  const { isLoading, data: user, error } = useQuery(['user', username], () => userModule.fetchUserByUsername(username!!))
+  const { loggedInUser } = useAuthContext()
+  const { isLoading, data: fetchedUser, error } = useQuery(['user', username], () => userModule.fetchUserByUsername(username!!))
 
-  if (isLoading || !user) {
+  if (username?.toLowerCase() === loggedInUser?.username.toLowerCase()) {
+    return <Navigate to="/profile" replace />
+  }
+
+  if (isLoading) {
     return (
       <RLayout>
         <PuzzleAnimated text="Loading user" />
       </RLayout>
     )
+  }
+
+  if (!fetchedUser) {
+    return <Navigate replace to="/error?messages=No user found under this username!" />
   }
 
   if (error) {
@@ -29,7 +37,7 @@ export const UserPage: FC = () => {
   return (
     <RLayout>
       <VStack alignItems="flex-start">
-        <ProfileDetails user={user} />
+        <ProfileDetails user={fetchedUser} />
       </VStack>
     </RLayout>
   )

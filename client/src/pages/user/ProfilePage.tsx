@@ -1,31 +1,28 @@
 import { Button, IconButton, Tooltip, useDisclosure, VStack } from '@chakra-ui/react'
 import { FC } from 'react'
 import { FaEdit, FaSignOutAlt } from 'react-icons/fa'
-import { useQuery } from 'react-query'
 import { Navigate } from 'react-router-dom'
 import { useAuthContext } from '../../api/contexts/auth/useAuthContext'
 import { userModule } from '../../api/modules/user.module'
 import { PuzzleAnimated } from '../../components/commons/PuzzleAnimated'
 import { RLayout } from '../../components/commons/RLayout'
-import { queryClient } from '../../util/query-client'
 import { EditUsernameModal } from './components/EditUsernameModal'
 import { ProfileDetails } from './components/ProfileDetails'
 
 export const ProfilePage: FC = () => {
-  const { isLoggedIn, onLogout } = useAuthContext()
-  const { isLoading, data: user, error } = useQuery('currentUser', userModule.fetchCurrentUser)
+  const { isLoggedIn, loggedInUser, loggedInUserError, loggedInUserLoading, onLogout, refetchUser } = useAuthContext()
   const { isOpen, onOpen: onUsernameEditPressed, onClose } = useDisclosure()
 
-  const onSuccessfulSave = () => {
-    queryClient.invalidateQueries('currentUser')
+  const onSuccessfulSave = async () => {
+    refetchUser()
     onClose()
   }
 
   const onTryUsernameChange = async (newUsername: string): Promise<string> => {
-    if (!user) return 'There is no user set in!'
+    if (!loggedInUser) return 'There is no user set in!'
     let answer: string = ''
     await userModule
-      .updateUser(user.id, { username: newUsername })
+      .updateUser(loggedInUser.id, { username: newUsername })
       .then(() => {
         answer = ''
       })
@@ -40,7 +37,7 @@ export const ProfilePage: FC = () => {
     return <Navigate replace to="/error?messages=You are not logged in yet!" />
   }
 
-  if (isLoading || !user) {
+  if (loggedInUserLoading || !loggedInUser) {
     return (
       <RLayout>
         <PuzzleAnimated text="Loading user" />
@@ -48,18 +45,18 @@ export const ProfilePage: FC = () => {
     )
   }
 
-  if (error) {
-    console.log('[DEBUG] at ProfilePage: fetchCurrentUser', error)
+  if (loggedInUserError) {
+    console.log('[DEBUG] at ProfilePage: fetchCurrentUser', loggedInUserError)
     return <Navigate replace to="/error?messages=Error when fetching current user's profile!" />
   }
 
   return (
     <RLayout>
       <VStack alignItems="flex-start" spacing={6}>
-        <Button alignSelf="flex-end" onClick={onLogout} disabled={!user} leftIcon={<FaSignOutAlt />} colorScheme="themeHelper">
+        <Button alignSelf="flex-end" onClick={onLogout} disabled={!loggedInUser} leftIcon={<FaSignOutAlt />} colorScheme="themeHelper">
           Log out
         </Button>
-        <ProfileDetails user={user}>
+        <ProfileDetails user={loggedInUser}>
           <Tooltip label="Change username">
             <IconButton
               size="xs"
@@ -72,7 +69,7 @@ export const ProfilePage: FC = () => {
           </Tooltip>
         </ProfileDetails>
       </VStack>
-      <EditUsernameModal isOpen={isOpen} onClose={onSuccessfulSave} onSave={onTryUsernameChange} currentUsername={user.username} />
+      <EditUsernameModal isOpen={isOpen} onClose={onSuccessfulSave} onSave={onTryUsernameChange} currentUsername={loggedInUser.username} />
     </RLayout>
   )
 }

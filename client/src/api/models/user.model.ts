@@ -5,6 +5,7 @@ export interface User {
   email: string
   id: string
   imageUrl?: string
+  isTheLoggedInUser?: boolean
 }
 
 export interface UpdateUser {

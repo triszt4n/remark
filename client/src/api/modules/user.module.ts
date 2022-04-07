@@ -15,11 +15,6 @@ class UserModule {
   async updateUser(id: string, newData: UpdateUser) {
     return axios.patch<User>(`/users/users/${id}`, newData)
   }
-
-  async fetchUsers() {
-    const response = await axios.get<User[]>(`/users/users`)
-    return response.data
-  }
 }
 
 export const userModule = new UserModule()

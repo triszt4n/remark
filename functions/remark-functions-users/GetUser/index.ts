@@ -1,11 +1,14 @@
 import { AzureFunction, Context, HttpRequest } from '@azure/functions'
-import { fetchCosmosContainer } from '../lib/config'
+import { fetchCosmosContainer } from '../lib/dbConfig'
 import { UserResource } from '../lib/model'
 
 const httpTrigger: AzureFunction = async function (context: Context, req: HttpRequest): Promise<void> {
   const id = context.bindingData.id as string
   const usersContainer = fetchCosmosContainer('Users')
 
+  // No Authorization needed
+
+  // Query from DB
   await usersContainer
     .item(id, id)
     .read<UserResource>()
