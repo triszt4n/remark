@@ -12363,21 +12363,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-query@npm:3.34.19":
-  version: 3.34.19
-  resolution: "react-query@npm:3.34.19"
+"react-query@npm:3.35.0":
+  version: 3.35.0
+  resolution: "react-query@npm:3.35.0"
   dependencies:
     "@babel/runtime": ^7.5.5
     broadcast-channel: ^3.4.1
     match-sorter: ^6.0.2
   peerDependencies:
-    react: ^16.8.0 || ^17.0.0
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0
   peerDependenciesMeta:
     react-dom:
       optional: true
     react-native:
       optional: true
-  checksum: 765bec81e521a78ef04a8feb6710041ce838ef82bf6e1d35c7e9327cc242b232b242fd89f3604adf6747dce2df055d12b15e8e4208687cc5eb493c1c0bf71d34
+  checksum: 07f5986a85c78274f25d5f725eb11b7abe9248d771b5c72397cd9fbc183acafbb5d1db5d426e833aeb28aeb42934035370e7b1cdc52c185733ea3035dced40a5
   languageName: node
   linkType: hard
 
@@ -12734,7 +12734,7 @@ __metadata:
     react-helmet: 6.1.0
     react-icons: 4.3.1
     react-markdown: 8.0.2
-    react-query: 3.34.19
+    react-query: 3.35.0
     react-router-dom: 6.3.0
     react-scripts: 5.0.0
     remark-gfm: 3.0.1
