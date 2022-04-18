@@ -32,7 +32,7 @@ jobs:
           output_location: "build" # Built app content directory - optional
           ###### End of Repository/Build Configurations ######
         env: # Add environment variables here
-          REACT_APP_API_HOST: https://remark-api-management.azure-api.net
+          REACT_APP_API_HOST: https://remark-apim.azure-api.net
           REACT_APP_GOOGLE_AUTH_CLIENT_ID: ${{ secrets.GOOGLE_AUTH_CLIENT_ID }}
 
   close_pull_request_job:
