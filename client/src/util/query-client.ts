@@ -15,4 +15,11 @@ export const initAxios = () => {
     return config
   })
 }
-export const queryClient = new QueryClient({})
+
+export const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false
+    }
+  }
+})

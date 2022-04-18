@@ -1,6 +1,5 @@
-import { Button, IconButton, Tooltip, useDisclosure, VStack } from '@chakra-ui/react'
+import { useDisclosure } from '@chakra-ui/react'
 import { FC } from 'react'
-import { FaEdit, FaSignOutAlt } from 'react-icons/fa'
 import { Navigate } from 'react-router-dom'
 import { useAuthContext } from '../../api/contexts/auth/useAuthContext'
 import { userModule } from '../../api/modules/user.module'
@@ -52,23 +51,7 @@ export const ProfilePage: FC = () => {
 
   return (
     <RLayout>
-      <VStack alignItems="flex-start" spacing={6}>
-        <Button alignSelf="flex-end" onClick={onLogout} disabled={!loggedInUser} leftIcon={<FaSignOutAlt />} colorScheme="themeHelper">
-          Log out
-        </Button>
-        <ProfileDetails user={loggedInUser}>
-          <Tooltip label="Change username">
-            <IconButton
-              size="xs"
-              alignSelf="flex-start"
-              aria-label="Change username"
-              onClick={onUsernameEditPressed}
-              icon={<FaEdit />}
-              colorScheme="themeHelper"
-            />
-          </Tooltip>
-        </ProfileDetails>
-      </VStack>
+      <ProfileDetails user={loggedInUser} profileOptions={{ onLogoutPressed: onLogout, onUsernameEditPressed: onUsernameEditPressed }} />
       <EditUsernameModal isOpen={isOpen} onClose={onSuccessfulSave} onSave={onTryUsernameChange} currentUsername={loggedInUser.username} />
     </RLayout>
   )

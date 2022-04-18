@@ -18,31 +18,30 @@ import ChakraUIRenderer from 'chakra-ui-markdown-renderer'
 import { ChangeEventHandler, FC, useState } from 'react'
 import { FaPaperPlane } from 'react-icons/fa'
 import ReactMarkdown from 'react-markdown'
-import { RLink } from '../../../components/commons/RLink'
-
-type TextAreaStatus = {
-  isError: boolean
-  message: string
-}
-
-const MAX_CHARACTER_IN_TEXTAREA = 500
-
-const getCurrentStatus = (currentTextLength: number): TextAreaStatus => {
-  if (currentTextLength > MAX_CHARACTER_IN_TEXTAREA) {
-    return { isError: true, message: `Your comment cannot be longer than ${MAX_CHARACTER_IN_TEXTAREA} characters!` }
-  } else {
-    return { isError: false, message: `${currentTextLength} / ${MAX_CHARACTER_IN_TEXTAREA}` }
-  }
-}
+import { RLink } from '../commons/RLink'
+import { getCurrentStatus, TextAreaStatus } from './editorUtils'
 
 type Props = {
-  startingRawMarkdown?: string
+  promptText: string
+  submitButtonText: string
   onSend: (rawMarkdown: string) => void
+  startingRawMarkdown?: string
+  submitButtonIcon?: JSX.Element
+  textAreaHeight?: string | number
+  previewHeight?: string | number
 }
 
-export const RemarkEditor: FC<Props> = ({ startingRawMarkdown, onSend }) => {
+export const RemarkEditor: FC<Props> = ({
+  promptText,
+  submitButtonText,
+  onSend,
+  startingRawMarkdown = '',
+  submitButtonIcon = <FaPaperPlane />,
+  textAreaHeight = '22rem',
+  previewHeight = '26rem'
+}) => {
   const toast = useToast()
-  const [rawMarkdown, setRawMarkdown] = useState<string>(startingRawMarkdown || '')
+  const [rawMarkdown, setRawMarkdown] = useState<string>(startingRawMarkdown)
   const [status, setStatus] = useState<TextAreaStatus>(getCurrentStatus(startingRawMarkdown ? startingRawMarkdown.length : 0))
 
   const onTrySend = () => {
@@ -76,7 +75,7 @@ export const RemarkEditor: FC<Props> = ({ startingRawMarkdown, onSend }) => {
           <TabPanel>
             <FormControl isInvalid={status.isError}>
               <FormLabel fontWeight={700} fontSize="lg" htmlFor="rawMarkdown">
-                Leave a comment in markdown format!{' '}
+                {`${promptText} `}
                 <RLink to="https://www.markdownguide.org/cheat-sheet/" isExternal>
                   See guide here.
                 </RLink>
@@ -85,8 +84,8 @@ export const RemarkEditor: FC<Props> = ({ startingRawMarkdown, onSend }) => {
                 id="rawMarkdown"
                 isInvalid={status.isError}
                 onChange={handleInputChange}
-                placeholder="Leave a comment here"
-                height="22rem"
+                placeholder="Enter your markdown formatted text here..."
+                height={textAreaHeight}
                 defaultValue={startingRawMarkdown}
               />
               <Flex justifyContent="flex-end">
@@ -95,7 +94,7 @@ export const RemarkEditor: FC<Props> = ({ startingRawMarkdown, onSend }) => {
             </FormControl>
           </TabPanel>
           <TabPanel>
-            <Box maxHeight="26rem" overflowY="scroll">
+            <Box maxHeight={previewHeight} overflowY="scroll">
               <ReactMarkdown components={ChakraUIRenderer()} children={rawMarkdown} skipHtml />
             </Box>
           </TabPanel>
@@ -104,11 +103,11 @@ export const RemarkEditor: FC<Props> = ({ startingRawMarkdown, onSend }) => {
       <Flex justifyContent="flex-end">
         <Button
           disabled={status.isError || rawMarkdown.trim().length === 0}
-          rightIcon={<FaPaperPlane />}
+          rightIcon={submitButtonIcon}
           colorScheme="theme"
           onClick={onTrySend}
         >
-          Send comment
+          {submitButtonText}
         </Button>
       </Flex>
     </Box>
