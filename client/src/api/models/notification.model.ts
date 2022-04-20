@@ -1,4 +1,6 @@
 export interface Notification {
+  id: string
   createdAt: number
-  message: string
+  messageTitle: string
+  messageBody: string
 }

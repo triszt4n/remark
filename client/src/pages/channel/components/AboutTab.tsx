@@ -8,7 +8,7 @@ import { toDateString, toReadableNumber } from '../../../util/core-util-function
 type Props = {
   uriName: string
   isLoading: boolean
-  channel: Channel
+  channel: Channel | undefined
 }
 
 export const AboutTab: FC<Props> = ({ uriName, isLoading, channel }) => {
@@ -41,21 +41,21 @@ export const AboutTab: FC<Props> = ({ uriName, isLoading, channel }) => {
 
   return (
     <>
-      <Flex flexDir={{ base: 'column', md: 'row' }} mb={2}>
-        <Stat borderWidth="1px" borderRadius="lg" p={4} flex={1}>
+      <Flex flexDir={{ base: 'column', md: 'row' }} mb={6}>
+        <Stat p={4} flex={1}>
           <StatLabel>Channel</StatLabel>
-          <StatNumber>{channel.title}</StatNumber>
-          <StatHelpText>channel founded {toDateString(channel.createdAt)}</StatHelpText>
+          <StatNumber>{channel!!.title}</StatNumber>
+          <StatHelpText>channel founded {toDateString(channel!!.createdAt)}</StatHelpText>
         </Stat>
-        <Stat borderWidth="1px" borderRadius="lg" p={4} flex={1} mt={{ base: 2, md: 0 }} ml={{ base: 0, md: 2 }}>
+        <Stat p={4} flex={1} mt={{ base: 2, md: 0 }} ml={{ base: 0, md: 2 }}>
           <StatLabel>Statistics</StatLabel>
-          <StatNumber>{toReadableNumber(channel.postsCount)} posts in channel</StatNumber>
-          <StatHelpText>{toReadableNumber(channel.joinedUserCount)} users joined</StatHelpText>
+          <StatNumber>{toReadableNumber(channel!!.postsCount)} posts in channel</StatNumber>
+          <StatHelpText>{toReadableNumber(channel!!.joinCount)} users joined</StatHelpText>
         </Stat>
       </Flex>
-      <Box borderWidth="1px" borderRadius="lg" p={4}>
+      <Box p={4}>
         <Text fontSize="sm">Description</Text>
-        <ReactMarkdown components={ChakraUIRenderer()} children={channel.descRawMarkdown} skipHtml />
+        <ReactMarkdown components={ChakraUIRenderer()} children={channel!!.descRawMarkdown} skipHtml />
       </Box>
     </>
   )

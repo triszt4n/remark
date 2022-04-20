@@ -14,3 +14,6 @@ export const LONGER_DATE_OPTIONS = { weekday: 'long', year: 'numeric', month: 'l
 
 export const toDateString = (timestamp: number, options: object = DEFAULT_DATE_OPTIONS): string =>
   new Date(timestamp * 1000).toLocaleDateString('en-US', options)
+
+export const ellipsifyLongText = (text: string, maxLength: number = 100): string =>
+  text.substring(0, maxLength - 3) + (text.length > maxLength ? '...' : '')

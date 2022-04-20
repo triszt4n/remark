@@ -1,32 +1,35 @@
-import { Box, Heading, LinkBox, LinkOverlay } from '@chakra-ui/react'
+import { Box, useBreakpointValue } from '@chakra-ui/react'
 import { FC } from 'react'
-import ReactMarkdown from 'react-markdown'
 import { Post } from '../../../../api/models/post.model'
-import { RLink } from '../../../../components/commons/RLink'
-import { toRelativeDateString } from '../../../../util/core-util-functions'
+import { PostPreviewDesktop } from './PostPreviewDesktop'
+import { PostPreviewMobile } from './PostPreviewMobile'
 
-type Props = {
+export type PostPreviewProps = {
   post: Post
+  onUpvotePressed?: () => void
+  onDownvotePressed?: () => void
 }
 
-export const PostPreview: FC<Props> = ({ post }) => {
+export const PostPreview: FC<PostPreviewProps> = ({ post, onUpvotePressed = () => {}, onDownvotePressed = () => {} }) => {
+  const targetPath = `/channels/${post.parentChannelUriName}/posts/${post.id}`
+
   return (
-    <LinkBox as="article" p={4} borderWidth="1px" borderRadius="lg">
-      <Box>upvote buttons</Box>
-      <Box>
-        <Box>
-          created by <RLink to={`/users/${post.publisherUsername}`}>{post.publisherUsername}</RLink>
-        </Box>
-        <Box as="time" dateTime={new Date(post.createdAt * 1000).toISOString()}>
-          {toRelativeDateString(post.createdAt)}
-        </Box>
-        <Heading size="md" my={2}>
-          <LinkOverlay href="#">{post.title}</LinkOverlay>
-        </Heading>
-        <Box mb={3}>
-          <ReactMarkdown allowedElements={[]} unwrapDisallowed children={post.rawMarkdown} skipHtml />
-        </Box>
-      </Box>
-    </LinkBox>
+    <Box
+      as="article"
+      p={4}
+      borderRadius="md"
+      borderWidth="1px"
+      transition="all .25s ease-in-out"
+      _hover={{ transform: 'translateY(-0.25rem)' }}
+    >
+      {useBreakpointValue({
+        base: (
+          <PostPreviewMobile post={post} onUpvotePressed={onUpvotePressed} onDownvotePressed={onDownvotePressed} targetPath={targetPath} />
+        ),
+        md: (
+          <PostPreviewDesktop post={post} onUpvotePressed={onUpvotePressed} onDownvotePressed={onDownvotePressed} targetPath={targetPath} />
+        )
+      })}
+    </Box>
   )
 }

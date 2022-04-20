@@ -1,20 +1,13 @@
-import { User } from './user.model'
-
 export interface Post {
+  id: string
   createdAt: number
   publisherUsername: string
   rawMarkdown: string
   parentChannelUriName: string
   title: string
-  votes: number
-}
-
-export interface PostPreview {
-  createdAt: number
-  publisher: User
-  rawMarkdown: string
-  title: string
-  votes: number
+  voteCount: number
+  myVote: 'up' | 'down' | 'none'
+  imageUrl?: string
 }
 
 export interface UpdatePost {}
