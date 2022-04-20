@@ -12,7 +12,7 @@
     "@fontsource/inter": "4.5.7",
     "axios": "0.26.1",
     "chakra-ui-markdown-renderer": "4.0.0",
-    "date-fns": "^2.28.0",
+    "date-fns": "2.28.0",
     "easymde": "2.16.1",
     "framer-motion": "6.3.0",
     "js-cookie": "3.0.1",

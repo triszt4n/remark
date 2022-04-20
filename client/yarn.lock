@@ -5997,7 +5997,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"date-fns@npm:^2.28.0":
+"date-fns@npm:2.28.0":
   version: 2.28.0
   resolution: "date-fns@npm:2.28.0"
   checksum: a0516b2e4f99b8bffc6cc5193349f185f195398385bdcaf07f17c2c4a24473c99d933eb0018be4142a86a6d46cb0b06be6440ad874f15e795acbedd6fd727a1f
@@ -12727,7 +12727,7 @@ __metadata:
     "@typescript-eslint/parser": 5.20.0
     axios: 0.26.1
     chakra-ui-markdown-renderer: 4.0.0
-    date-fns: ^2.28.0
+    date-fns: 2.28.0
     easymde: 2.16.1
     eslint: 8.13.0
     eslint-config-prettier: 8.5.0
