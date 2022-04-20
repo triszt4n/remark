@@ -12344,9 +12344,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-markdown@npm:8.0.2":
-  version: 8.0.2
-  resolution: "react-markdown@npm:8.0.2"
+"react-markdown@npm:8.0.3":
+  version: 8.0.3
+  resolution: "react-markdown@npm:8.0.3"
   dependencies:
     "@types/hast": ^2.0.0
     "@types/prop-types": ^15.0.0
@@ -12366,7 +12366,7 @@ __metadata:
   peerDependencies:
     "@types/react": ">=16"
     react: ">=16"
-  checksum: 9c7f4751bca31e1d2f5aa3dc2d1b564152999a8442857f1e9191b4d6fbbff9bee761511f05d52c30cf7dfbbb9fde51e8d9de9034cc3ca3929bc619ac4a825261
+  checksum: 66c0b45889d0262168547d9356145ced276993dac1d441c5c1cf2371fe71f347419696f9040c084c7d77c1caced21d358677c38f66edae736f942ac5964c032f
   languageName: node
   linkType: hard
 
@@ -12741,7 +12741,7 @@ __metadata:
     react-google-login: 5.2.2
     react-helmet: 6.1.0
     react-icons: 4.3.1
-    react-markdown: 8.0.2
+    react-markdown: 8.0.3
     react-query: 3.35.0
     react-router-dom: 6.3.0
     react-scripts: 5.0.1
