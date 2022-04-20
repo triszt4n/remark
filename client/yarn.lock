@@ -3620,10 +3620,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:17.0.23":
-  version: 17.0.23
-  resolution: "@types/node@npm:17.0.23"
-  checksum: a3517554737cbb042e76c30d0e5482192ac4d9bea0eeb086e2622d9cabf460a0eb52a696b99fcd18e7fcc93c96db6cc7ae507f6608f256ef0b5c1d8c87a5a470
+"@types/node@npm:17.0.25":
+  version: 17.0.25
+  resolution: "@types/node@npm:17.0.25"
+  checksum: 6a820bd624e69ea772f52a6cdb326484eff5829443dc981939373929ade109f58c21698b9f0a831bd6ceea799e722a75dc49c5fa7a6bc32a81e1cbdfc6507b64
   languageName: node
   linkType: hard
 
@@ -5994,6 +5994,13 @@ __metadata:
     whatwg-mimetype: ^2.3.0
     whatwg-url: ^8.0.0
   checksum: 97caf828aac25e25e04ba6869db0f99c75e6859bb5b424ada28d3e7841941ebf08ddff3c1b1bb4585986bd507a5d54c2a716853ea6cb98af877400e637393e71
+  languageName: node
+  linkType: hard
+
+"date-fns@npm:^2.28.0":
+  version: 2.28.0
+  resolution: "date-fns@npm:2.28.0"
+  checksum: a0516b2e4f99b8bffc6cc5193349f185f195398385bdcaf07f17c2c4a24473c99d933eb0018be4142a86a6d46cb0b06be6440ad874f15e795acbedd6fd727a1f
   languageName: node
   linkType: hard
 
@@ -12712,7 +12719,7 @@ __metadata:
     "@fontsource/inter": 4.5.7
     "@types/jest": 27.4.1
     "@types/js-cookie": 3.0.1
-    "@types/node": 17.0.23
+    "@types/node": 17.0.25
     "@types/react": 17.0.44
     "@types/react-dom": 17.0.15
     "@types/react-helmet": 6.1.5
@@ -12720,6 +12727,7 @@ __metadata:
     "@typescript-eslint/parser": 5.20.0
     axios: 0.26.1
     chakra-ui-markdown-renderer: 4.0.0
+    date-fns: ^2.28.0
     easymde: 2.16.1
     eslint: 8.13.0
     eslint-config-prettier: 8.5.0

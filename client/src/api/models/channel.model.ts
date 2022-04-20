@@ -3,10 +3,9 @@ export interface Channel {
   uriName: string
   title: string
   descRawMarkdown: string
-  joinedUserCount: number // no trigger, only COUNT sql statement in ChannelJoin container!
-  owner: string // id
-  moderators: string[] // ids
-  posts: string[] // ids
+  joinedUserCount: number
+  postsCount: number
+  ownerUsername: string
   bannerUrl?: string
 }
 

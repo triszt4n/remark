@@ -1,11 +1,10 @@
-import { Channel } from './channel.model'
 import { User } from './user.model'
 
 export interface Post {
   createdAt: number
-  publisher: User
+  publisherUsername: string
   rawMarkdown: string
-  parentChannel: Channel
+  parentChannelUriName: string
   title: string
   votes: number
 }

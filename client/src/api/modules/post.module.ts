@@ -1,9 +1,8 @@
 import axios from 'axios'
-import { generateName } from '../../util/name-generator'
 
 class PostModule {
   async fetchPosts() {
-    const response = await axios.get<string>(`/posts/posts?name=${generateName()}`)
+    const response = await axios.get<string>(`/posts/posts`)
     return response.data
   }
 }
