@@ -1,4 +1,4 @@
-import { Avatar, Box, Button, Heading, HStack, Image, Link, Spacer, Tooltip, VStack } from '@chakra-ui/react'
+import { Avatar, Box, Button, Heading, HStack, Image, Link, Tooltip, useBreakpointValue, VStack } from '@chakra-ui/react'
 import ChakraUIRenderer from 'chakra-ui-markdown-renderer'
 import { FC } from 'react'
 import { FaExpand } from 'react-icons/fa'
@@ -19,33 +19,33 @@ export const PostDetailsMobile: FC<Props> = ({ post, onUpvotePressed, onDownvote
 
   return (
     <>
-      <HStack alignItems="start" spacing={6}>
-        <VStack spacing={2}>
-          <Avatar m={1} mb={3} name={`${user.firstName} ${user.lastName}`} src={user.imageUrl} />
-          <VoteButtons voteCount={voteCount} onUpvotePressed={onUpvotePressed} onDownvotePressed={onDownvotePressed} myVote={myVote} />
-        </VStack>
-        <Box>
-          <Box fontSize={{ base: 'sm', md: 'md' }}>
+      <VStack align="stretch" spacing={4}>
+        <HStack>
+          <Avatar size="sm" name={`${user.firstName} ${user.lastName}`} src={user.imageUrl} />
+          <Box fontSize="sm">
             posted in <RLink to={`/channels/${uriName}`}>{uriName}</RLink> by <RLink to={`/users/${user.username}`}>{user.username}</RLink>
             <Tooltip hasArrow placement="top" label={toDateTimeString(createdAt)}>
               <time dateTime={new Date(createdAt * 1000).toISOString()}> {toRelativeDateString(createdAt)}</time>
             </Tooltip>
           </Box>
-          <Heading size="4xl">{title}</Heading>
-        </Box>
-        <Spacer />
-        {imageUrl && (
-          <Link href={imageUrl} isExternal>
-            <Box position="relative">
-              <Image borderRadius="md" maxHeight="12rem" maxWidth="20rem" src={imageUrl} alt="Dan Abramov" />
-              <Button size="xs" colorScheme="themeHelper" position="absolute" top="-0.15rem" right="-0.15rem">
-                <FaExpand />
-              </Button>
-            </Box>
-          </Link>
-        )}
-      </HStack>
-      <Box px={6}>
+        </HStack>
+        <Heading size={useBreakpointValue({ base: '2xl', sm: '3xl' })}>{title}</Heading>
+        <HStack spacing={2}>
+          <VoteButtons voteCount={voteCount} onUpvotePressed={onUpvotePressed} onDownvotePressed={onDownvotePressed} myVote={myVote} />
+        </HStack>
+      </VStack>
+
+      {imageUrl && (
+        <Link href={imageUrl} isExternal>
+          <Box position="relative">
+            <Image borderRadius="md" src={imageUrl} alt="Dan Abramov" />
+            <Button size="xs" colorScheme="themeHelper" position="absolute" top="-0.15rem" right="-0.15rem">
+              <FaExpand />
+            </Button>
+          </Box>
+        </Link>
+      )}
+      <Box>
         <ReactMarkdown components={ChakraUIRenderer()} children={rawMarkdown} skipHtml />
       </Box>
     </>

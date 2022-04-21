@@ -26,10 +26,10 @@ export const ActionsSection: FC<Props> = ({ post }) => {
           </MenuButton>
           <MenuList>
             <MenuItem icon={<FaEdit />} onClick={onEditPressed}>
-              Edit
+              Edit post
             </MenuItem>
             <MenuItem icon={<FaTrashAlt />} onClick={onDeletePressed}>
-              Delete
+              Delete post
             </MenuItem>
           </MenuList>
         </Menu>
