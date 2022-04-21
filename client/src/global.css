@@ -1,5 +1,6 @@
 *::-webkit-scrollbar {
   width: 0.75rem;
+  height: 0.75rem;
 }
 *::-webkit-scrollbar-track {
   background: transparent;

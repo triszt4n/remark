@@ -14,4 +14,14 @@ export interface Post {
   imageUrl?: string
 }
 
+export interface PostPartial {
+  id: string
+  createdAt: number
+  rawMarkdown: string
+  parentChannelUriName: string
+  title: string
+  voteCount: number
+  imageUrl?: string
+}
+
 export interface UpdatePost {}

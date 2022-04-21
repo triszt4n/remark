@@ -12,4 +12,12 @@ export interface Channel {
   amIModerator: boolean
 }
 
+export interface ChannelPartial {
+  id: string
+  uriName: string
+  title: string
+  joinCount: number
+  amIJoined: boolean
+}
+
 export interface UpdateChannel {}

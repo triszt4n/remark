@@ -16,8 +16,8 @@ export const ModeratorsSection: FC<{ uriName: string }> = ({ uriName }) => {
           <Text fontSize="sm">Moderators</Text>
           <Skeleton width="1.25rem" height="0.8rem"></Skeleton>
         </HStack>
-        {[...Array(3)].map(() => (
-          <ModeratorItemLoading />
+        {[...Array(3)].map((_, index) => (
+          <ModeratorItemLoading key={index} />
         ))}
       </>
     )
@@ -41,7 +41,7 @@ export const ModeratorsSection: FC<{ uriName: string }> = ({ uriName }) => {
       </Text>
       <ModeratorItem user={owner} subtitle="founder" />
       {moderators.map((mod) => (
-        <ModeratorItem user={mod} />
+        <ModeratorItem key={mod.username} user={mod} />
       ))}
     </>
   )

@@ -16,8 +16,8 @@ export const CommentSection: FC<Props> = ({ postId }) => {
     return (
       <>
         <VStack align="stretch" spacing={6} id="comments">
-          {[...Array(5)].map(() => (
-            <CommentItemLoading />
+          {[...Array(5)].map((_, index) => (
+            <CommentItemLoading key={index} />
           ))}
         </VStack>
       </>
@@ -28,7 +28,7 @@ export const CommentSection: FC<Props> = ({ postId }) => {
     <>
       <VStack align="stretch" spacing={6} id="comments">
         {comments?.map((comment) => (
-          <CommentItem comment={comment} />
+          <CommentItem key={comment.id} comment={comment} />
         ))}
       </VStack>
     </>

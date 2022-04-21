@@ -4,7 +4,7 @@ import { FaChevronDown, FaComments, FaEdit, FaTrashAlt } from 'react-icons/fa'
 import { Post } from '../../../api/models/post.model'
 
 type Props = {
-  post: Post | undefined
+  post: Post
 }
 
 export const ActionsSection: FC<Props> = ({ post }) => {
@@ -19,7 +19,7 @@ export const ActionsSection: FC<Props> = ({ post }) => {
         </Button>
       </ChakraLink>
       <Flex flex={1} borderTopWidth="2px" />
-      {post?.amIPublisher && (
+      {post.amIPublisher && (
         <Menu>
           <MenuButton as={Button} rightIcon={<FaChevronDown />} variant="ghost" colorScheme="theme">
             Actions

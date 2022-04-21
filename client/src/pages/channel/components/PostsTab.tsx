@@ -42,7 +42,7 @@ export const PostsTab: FC<{ uriName: string }> = ({ uriName }) => {
       )}
       <VStack spacing={6} align="stretch">
         {posts?.map((post) => (
-          <PostPreview post={post} />
+          <PostPreview key={post.id} post={post} />
         ))}
       </VStack>
     </>
