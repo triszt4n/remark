@@ -1,4 +1,4 @@
-import { Box, Heading } from '@chakra-ui/react'
+import { Box, Center, Heading, Skeleton } from '@chakra-ui/react'
 import { FC } from 'react'
 import { ChannelPartial } from '../../../../api/models/channel.model'
 import { JoinedChannel } from './JoinedChannel'
@@ -11,12 +11,29 @@ type Props = {
 
 export const JoinedChannelsSection: FC<Props> = ({ channels, isLoading, error }) => {
   if (isLoading) {
-    return <></>
+    return (
+      <>
+        <Box py={10}>
+          <Skeleton width="16rem" height="2.5rem" />
+        </Box>
+        <Box maxWidth="100%">
+          <Box py={3} overflowX="auto" whiteSpace="nowrap">
+            {[...Array(2)].map((_, index) => (
+              <Skeleton key={index} display="inline-block" mx={1} w="14rem" height="10rem" />
+            ))}
+          </Box>
+        </Box>
+      </>
+    )
   }
 
   if (error) {
     console.log('[DEBUG] Error at ProfileDetails: JoinedChannelsSection', error)
-    return <></>
+    return (
+      <Box width="full">
+        <Center fontSize="lg">Error when fetching joined channels! {error.response.statusText}</Center>
+      </Box>
+    )
   }
 
   return (

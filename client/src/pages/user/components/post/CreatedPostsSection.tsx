@@ -1,4 +1,4 @@
-import { Box, Heading } from '@chakra-ui/react'
+import { Box, Center, Heading, Skeleton } from '@chakra-ui/react'
 import { FC } from 'react'
 import { PostPartial } from '../../../../api/models/post.model'
 import { CreatedPost } from './CreatedPost'
@@ -11,12 +11,29 @@ type Props = {
 
 export const CreatedPostsSection: FC<Props> = ({ posts, isLoading, error }) => {
   if (isLoading) {
-    return <></>
+    return (
+      <>
+        <Box py={10}>
+          <Skeleton width="14rem" height="2.5rem" />
+        </Box>
+        <Box maxWidth="100%">
+          <Box py={3} overflowX="auto" whiteSpace="nowrap">
+            {[...Array(2)].map((_, index) => (
+              <Skeleton key={index} display="inline-block" mx={1} width="20rem" height="18rem" />
+            ))}
+          </Box>
+        </Box>
+      </>
+    )
   }
 
   if (error) {
     console.log('[DEBUG] Error at ProfileDetails: CreatedPostsSection', error)
-    return <></>
+    return (
+      <Box width="full">
+        <Center fontSize="lg">Error when fetching created posts! {error.response.statusText}</Center>
+      </Box>
+    )
   }
 
   return (
