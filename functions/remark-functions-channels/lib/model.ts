@@ -1,24 +1,4 @@
 import { Resource } from '@azure/cosmos'
+import { ChannelModel } from '@triszt4n/remark-types'
 
-export interface Channel {
-  uriName: string
-  title: string
-  descRawMarkdown: string
-  owner: string ///< id
-  moderators: string[] ///< ids
-  bannerUrl?: string
-}
-
-export interface ChannelJoin {
-  user: string ///< id
-  channel: string ///< id
-}
-
-export interface UpdateChannel {
-  uriName: string
-  title: string
-  descRawMarkdown: string
-  moderators: string[]
-}
-
-export type ChannelResource = Channel & Resource
+export type ChannelResource = ChannelModel & Resource

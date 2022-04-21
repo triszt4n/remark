@@ -1,13 +1,5 @@
 import { Resource } from '@azure/cosmos'
-
-export interface User {
-  firstName: string
-  lastName: string
-  username: string
-  email: string
-  imageUrl?: string
-  isTheLoggedInUser?: boolean
-}
+import { UserModel } from '@triszt4n/remark-types'
 
 export interface GoogleUser {
   given_name: string
@@ -15,8 +7,4 @@ export interface GoogleUser {
   email: string
 }
 
-export interface UpdateUser {
-  username: string
-}
-
-export type UserResource = User & Resource
+export type UserResource = UserModel & Resource
