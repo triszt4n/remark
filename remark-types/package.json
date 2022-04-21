@@ -1,0 +1,17 @@
+{
+  "name": "@triszt4n/remark-types",
+  "version": "1.0.1",
+  "description": "Database and frontend view types for the Remark project by triszt4n",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "prepublish": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "triszt4n",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "typescript": "4.6.3"
+  }
+}
