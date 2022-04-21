@@ -1,11 +1,11 @@
 import { Box, useBreakpointValue } from '@chakra-ui/react'
+import { PostView } from '@triszt4n/remark-types'
 import { FC } from 'react'
-import { Post } from '../../../../api/models/post.model'
 import { PostPreviewDesktop } from './PostPreviewDesktop'
 import { PostPreviewMobile } from './PostPreviewMobile'
 
 export type PostPreviewProps = {
-  post: Post
+  post: PostView
   onUpvotePressed?: () => void
   onDownvotePressed?: () => void
 }

@@ -11,17 +11,17 @@ import {
   Tooltip,
   useBreakpointValue
 } from '@chakra-ui/react'
+import { CommentView } from '@triszt4n/remark-types'
 import ChakraUIRenderer from 'chakra-ui-markdown-renderer'
 import { FC } from 'react'
 import { FaEdit, FaEllipsisV, FaTrashAlt } from 'react-icons/fa'
 import ReactMarkdown from 'react-markdown'
-import { Comment } from '../../../../api/models/comment.model'
 import { RLink } from '../../../../components/commons/RLink'
 import { VoteButtons } from '../../../../components/voting/VoteButtons'
 import { ellipsifyLongText, toDateTimeString, toRelativeDateString } from '../../../../util/core-util-functions'
 
 type Props = {
-  comment: Comment
+  comment: CommentView
 }
 
 export const CommentItem: FC<Props> = ({ comment }) => {

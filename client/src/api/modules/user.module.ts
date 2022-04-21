@@ -1,31 +1,29 @@
+import { ChannelPartialView, PostPartialView, UpdateUserView, UserView } from '@triszt4n/remark-types'
 import axios from 'axios'
-import { ChannelPartial } from '../models/channel.model'
-import { PostPartial } from '../models/post.model'
-import { UpdateUser, User } from '../models/user.model'
 
 class UserModule {
   async fetchCurrentUser() {
-    const response = await axios.get<User>('/users/profile')
+    const response = await axios.get<UserView>('/users/profile')
     return response.data
   }
 
   async fetchUserByUsername(username: string) {
-    const response = await axios.get<User>(`/users/users/username/${username}`)
+    const response = await axios.get<UserView>(`/users/users/username/${username}`)
     return response.data
   }
 
-  async updateUser(id: string, newData: UpdateUser) {
-    return axios.patch<User>(`/users/users/${id}`, newData)
+  async updateUser(id: string, newData: UpdateUserView) {
+    return axios.patch<UserView>(`/users/users/${id}`, newData)
   }
 
-  async fetchJoinedChannelsOfUser(username: string): Promise<ChannelPartial[]> {
+  async fetchJoinedChannelsOfUser(username: string): Promise<ChannelPartialView[]> {
     return [
       { uriName: 'asd', amIJoined: true, id: '123', joinCount: 456, title: 'Cute Kitties' },
       { uriName: 'fgh', amIJoined: false, id: '234', joinCount: 4415123, title: 'Adorable Doggos' }
     ]
   }
 
-  async fetchCreatedPostsOfUser(username: string): Promise<PostPartial[]> {
+  async fetchCreatedPostsOfUser(username: string): Promise<PostPartialView[]> {
     return [
       {
         createdAt: 1680460000,

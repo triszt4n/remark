@@ -1,10 +1,10 @@
 import { Button, Flex, HStack, Link as ChakraLink, Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/react'
+import { PostView } from '@triszt4n/remark-types'
 import { FC } from 'react'
 import { FaChevronDown, FaComments, FaEdit, FaTrashAlt } from 'react-icons/fa'
-import { Post } from '../../../api/models/post.model'
 
 type Props = {
-  post: Post
+  post: PostView
 }
 
 export const ActionsSection: FC<Props> = ({ post }) => {

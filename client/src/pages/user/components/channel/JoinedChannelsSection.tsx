@@ -1,10 +1,10 @@
 import { Box, Center, Heading, Skeleton } from '@chakra-ui/react'
+import { ChannelPartialView } from '@triszt4n/remark-types'
 import { FC } from 'react'
-import { ChannelPartial } from '../../../../api/models/channel.model'
 import { JoinedChannel } from './JoinedChannel'
 
 type Props = {
-  channels: ChannelPartial[] | undefined
+  channels: ChannelPartialView[] | undefined
   isLoading: boolean
   error: any
 }

@@ -1,12 +1,12 @@
 import { Badge, Box, Button, Code, Heading, LinkBox, LinkOverlay, VStack } from '@chakra-ui/react'
+import { ChannelPartialView } from '@triszt4n/remark-types'
 import { FC } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuthContext } from '../../../../api/contexts/auth/useAuthContext'
-import { ChannelPartial } from '../../../../api/models/channel.model'
 import { ellipsifyLongText, toReadableNumber } from '../../../../util/core-util-functions'
 
 type Props = {
-  channel: ChannelPartial
+  channel: ChannelPartialView
 }
 
 export const JoinedChannel: FC<Props> = ({ channel }) => {

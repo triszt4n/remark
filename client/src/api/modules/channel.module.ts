@@ -1,9 +1,7 @@
-import { Channel } from '../models/channel.model'
-import { Post } from '../models/post.model'
-import { User } from '../models/user.model'
+import { ChannelView, PostView, UserView } from '@triszt4n/remark-types'
 import { TRISZT4N } from './post.module'
 
-type ModeratorInfo = { owner: User; moderators: User[] }
+type ModeratorInfo = { owner: UserView; moderators: UserView[] }
 
 class ChannelModule {
   async fetchModeratorInfoOfChannel(uriName: string): Promise<ModeratorInfo> {
@@ -30,7 +28,7 @@ class ChannelModule {
     }
   }
 
-  async fetchPostsOfChannel(uriName: string): Promise<Post[]> {
+  async fetchPostsOfChannel(uriName: string): Promise<PostView[]> {
     return [
       {
         id: '1',
@@ -60,7 +58,7 @@ class ChannelModule {
     ]
   }
 
-  async fetchChannel(uriName: string): Promise<Channel> {
+  async fetchChannel(uriName: string): Promise<ChannelView> {
     return {
       id: '1',
       createdAt: 1650463827,

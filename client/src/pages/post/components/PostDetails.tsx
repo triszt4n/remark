@@ -1,11 +1,11 @@
 import { useBreakpointValue, VStack } from '@chakra-ui/react'
+import { PostView } from '@triszt4n/remark-types'
 import { FC } from 'react'
-import { Post } from '../../../api/models/post.model'
 import { PostDetailsDesktop } from './PostDetailsDesktop'
 import { PostDetailsMobile } from './PostDetailsMobile'
 
 type Props = {
-  post: Post
+  post: PostView
 }
 
 export const PostDetails: FC<Props> = ({ post }) => {

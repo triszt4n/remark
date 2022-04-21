@@ -1,4 +1,5 @@
 import { useToast } from '@chakra-ui/react'
+import { UserView } from '@triszt4n/remark-types'
 import axios from 'axios'
 import Cookies from 'js-cookie'
 import { createContext, FC, useState } from 'react'
@@ -6,13 +7,12 @@ import { GoogleLoginResponse, GoogleLoginResponseOffline } from 'react-google-lo
 import { useQuery } from 'react-query'
 import { useNavigate } from 'react-router-dom'
 import { queryClient } from '../../../util/query-client'
-import { User } from '../../models/user.model'
 import { userModule } from '../../modules/user.module'
 import { CookieKeys } from '../CookieKeys'
 
 export type AuthContextType = {
   isLoggedIn: boolean
-  loggedInUser: User | undefined
+  loggedInUser: UserView | undefined
   loggedInUserLoading: boolean
   loggedInUserError: unknown
   onLoginSuccess: (response: GoogleLoginResponseOffline | GoogleLoginResponse) => void
@@ -41,7 +41,7 @@ export const AuthProvider: FC = ({ children }) => {
   const onLoginSuccess = async (response: GoogleLoginResponseOffline | GoogleLoginResponse) => {
     const { accessToken } = response as GoogleLoginResponse
 
-    const res = await axios.post<{ user: User; jwt: string }>(`/users/login`, { accessToken })
+    const res = await axios.post<{ user: UserView; jwt: string }>(`/users/login`, { accessToken })
     const { jwt } = res.data
 
     Cookies.set(CookieKeys.REMARK_JWT_TOKEN, jwt, { expires: 2 })

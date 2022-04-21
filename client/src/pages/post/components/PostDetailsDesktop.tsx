@@ -1,15 +1,15 @@
 import { Avatar, Box, Button, Heading, HStack, Image, Link, Spacer, Tooltip, VStack } from '@chakra-ui/react'
+import { PostView } from '@triszt4n/remark-types'
 import ChakraUIRenderer from 'chakra-ui-markdown-renderer'
 import { FC } from 'react'
 import { FaExpand } from 'react-icons/fa'
 import ReactMarkdown from 'react-markdown'
-import { Post } from '../../../api/models/post.model'
 import { RLink } from '../../../components/commons/RLink'
 import { VoteButtons } from '../../../components/voting/VoteButtons'
 import { toDateTimeString, toRelativeDateString } from '../../../util/core-util-functions'
 
 type Props = {
-  post: Post
+  post: PostView
   onUpvotePressed: () => void
   onDownvotePressed: () => void
 }

@@ -1,15 +1,15 @@
 import { Box, Flex, Skeleton, Stat, StatHelpText, StatLabel, StatNumber, Text, VStack } from '@chakra-ui/react'
+import { ChannelView } from '@triszt4n/remark-types'
 import ChakraUIRenderer from 'chakra-ui-markdown-renderer'
 import { FC } from 'react'
 import ReactMarkdown from 'react-markdown'
-import { Channel } from '../../../api/models/channel.model'
 import { toDateString, toReadableNumber } from '../../../util/core-util-functions'
 import { ModeratorsSection } from './moderator/ModeratorsSection'
 
 type Props = {
   uriName: string
   isLoading: boolean
-  channel: Channel | undefined
+  channel: ChannelView | undefined
 }
 
 export const AboutTab: FC<Props> = ({ uriName, isLoading, channel }) => {

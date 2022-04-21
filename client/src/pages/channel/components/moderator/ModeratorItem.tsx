@@ -1,10 +1,10 @@
 import { Avatar, Box, HStack, useBreakpointValue } from '@chakra-ui/react'
+import { UserView } from '@triszt4n/remark-types'
 import { FC } from 'react'
-import { User } from '../../../../api/models/user.model'
 import { RLink } from '../../../../components/commons/RLink'
 
 type Props = {
-  user: User
+  user: UserView
   subtitle?: string
 }
 

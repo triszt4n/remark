@@ -1,10 +1,10 @@
 import { Box, Center, Heading, Skeleton } from '@chakra-ui/react'
+import { PostPartialView } from '@triszt4n/remark-types'
 import { FC } from 'react'
-import { PostPartial } from '../../../../api/models/post.model'
 import { CreatedPost } from './CreatedPost'
 
 type Props = {
-  posts: PostPartial[] | undefined
+  posts: PostPartialView[] | undefined
   isLoading: boolean
   error: any
 }

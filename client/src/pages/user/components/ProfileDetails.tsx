@@ -15,16 +15,16 @@ import {
   useBreakpointValue,
   VStack
 } from '@chakra-ui/react'
+import { UserView } from '@triszt4n/remark-types'
 import React, { FC } from 'react'
 import { FaAddressCard, FaAt, FaChevronDown, FaEdit, FaRegUserCircle, FaSignOutAlt } from 'react-icons/fa'
 import { useQuery } from 'react-query'
-import { User } from '../../../api/models/user.model'
 import { userModule } from '../../../api/modules/user.module'
 import { JoinedChannelsSection } from './channel/JoinedChannelsSection'
 import { CreatedPostsSection } from './post/CreatedPostsSection'
 
 type Props = {
-  user: User | undefined
+  user: UserView | undefined
   isLoading: boolean
   error: any
   profileOptions?: {

@@ -1,9 +1,7 @@
-import { Comment } from '../models/comment.model'
-import { Post } from '../models/post.model'
-import { User } from '../models/user.model'
+import { CommentView, PostView, UserView } from '@triszt4n/remark-types'
 
 // todo: remove
-export const TRISZT4N: User = {
+export const TRISZT4N: UserView = {
   id: '123',
   firstName: 'Trisztán',
   lastName: 'Piller',
@@ -13,7 +11,7 @@ export const TRISZT4N: User = {
 }
 
 class PostModule {
-  async fetchPost(id: string): Promise<Post> {
+  async fetchPost(id: string): Promise<PostView> {
     return {
       id: '2',
       createdAt: 1680460000,
@@ -28,7 +26,7 @@ class PostModule {
     }
   }
 
-  async fetchCommentsOfPost(id: string): Promise<Comment[]> {
+  async fetchCommentsOfPost(id: string): Promise<CommentView[]> {
     return [
       {
         id: '123',

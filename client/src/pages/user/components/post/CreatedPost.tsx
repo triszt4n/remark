@@ -1,13 +1,13 @@
 import { Badge, Box, Heading, HStack, Image, LinkBox, LinkOverlay, useBreakpointValue, VStack } from '@chakra-ui/react'
+import { PostPartialView } from '@triszt4n/remark-types'
 import { FC } from 'react'
 import { FaRegThumbsDown, FaRegThumbsUp } from 'react-icons/fa'
 import ReactMarkdown from 'react-markdown'
 import { Link } from 'react-router-dom'
-import { PostPartial } from '../../../../api/models/post.model'
 import { ellipsifyLongText, toRelativeDateString } from '../../../../util/core-util-functions'
 
 type Props = {
-  post: PostPartial
+  post: PostPartialView
 }
 
 export const CreatedPost: FC<Props> = ({ post }) => {

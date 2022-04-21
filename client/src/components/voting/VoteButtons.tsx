@@ -1,7 +1,7 @@
 import { Box, IconButton, Skeleton } from '@chakra-ui/react'
+import { MyVoteType } from '@triszt4n/remark-types'
 import { FC } from 'react'
 import { FaRegThumbsDown, FaRegThumbsUp } from 'react-icons/fa'
-import { MyVoteType } from '../../api/models/_commons.model'
 import { toReadableNumber } from '../../util/core-util-functions'
 
 type Props = {

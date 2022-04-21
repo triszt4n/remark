@@ -1,6 +1,6 @@
 import { Box, Heading, HStack, Image, Link, LinkBox, LinkOverlay, Spacer } from '@chakra-ui/react'
+import { PostView } from '@triszt4n/remark-types'
 import { FC } from 'react'
-import { Post } from '../../../../api/models/post.model'
 import { RLink } from '../../../../components/commons/RLink'
 import { VoteButtons } from '../../../../components/voting/VoteButtons'
 import { ellipsifyLongText, toRelativeDateString } from '../../../../util/core-util-functions'
@@ -8,7 +8,7 @@ import { PostPreviewDescription } from './parts/PostPreviewDescription'
 
 type Props = {
   targetPath: string
-  post: Post
+  post: PostView
   onUpvotePressed: () => void
   onDownvotePressed: () => void
 }
