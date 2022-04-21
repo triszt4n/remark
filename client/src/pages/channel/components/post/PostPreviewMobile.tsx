@@ -2,9 +2,9 @@ import { Box, Heading, HStack, Image, Link, LinkBox, LinkOverlay, Spacer } from 
 import { FC } from 'react'
 import { Post } from '../../../../api/models/post.model'
 import { RLink } from '../../../../components/commons/RLink'
+import { VoteButtons } from '../../../../components/voting/VoteButtons'
 import { ellipsifyLongText, toRelativeDateString } from '../../../../util/core-util-functions'
 import { PostPreviewDescription } from './parts/PostPreviewDescription'
-import { PostPreviewVoteButtons } from './parts/PostPreviewVoteButtons'
 
 type Props = {
   targetPath: string
@@ -37,7 +37,7 @@ export const PostPreviewMobile: FC<Props> = ({ post, onUpvotePressed, onDownvote
         )}
       </LinkBox>
       <HStack spacing={2}>
-        <PostPreviewVoteButtons
+        <VoteButtons
           voteCount={post.voteCount}
           onUpvotePressed={onUpvotePressed}
           onDownvotePressed={onDownvotePressed}
@@ -46,7 +46,7 @@ export const PostPreviewMobile: FC<Props> = ({ post, onUpvotePressed, onDownvote
         <Spacer />
         <Box fontSize="xs" textAlign="end">
           <Box>
-            Posted by <RLink to={`/users/${post.publisherUsername}`}>{ellipsifyLongText(post.publisherUsername, 24)}</RLink>
+            Posted by <RLink to={`/users/${post.publisher.username}`}>{ellipsifyLongText(post.publisher.username, 24)}</RLink>
           </Box>
           <Box>
             <time dateTime={new Date(post.createdAt * 1000).toISOString()}>{toRelativeDateString(post.createdAt)}</time>

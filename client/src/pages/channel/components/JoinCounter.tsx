@@ -22,7 +22,7 @@ export const JoinCounter: FC<Props> = ({ isJoined, joinCount }) => {
     <HStack ml="auto">
       <Box>{toReadableNumber(joinCount)} joined</Box>
       {isLoggedIn && (
-        <Button size="md" colorScheme="theme" variant={isJoined ? 'outline' : 'solid'} onClick={onJoinPressed}>
+        <Button colorScheme="theme" variant={isJoined ? 'outline' : 'solid'} onClick={onJoinPressed}>
           {isJoined ? 'Leave' : 'Join'}
         </Button>
       )}

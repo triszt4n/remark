@@ -1,6 +1,7 @@
 import { Channel } from '../models/channel.model'
 import { Post } from '../models/post.model'
 import { User } from '../models/user.model'
+import { TRISZT4N } from './post.module'
 
 type ModeratorInfo = { owner: User; moderators: User[] }
 
@@ -38,9 +39,10 @@ class ChannelModule {
         rawMarkdown:
           '### Never say never\n\nSaid someone very wise.wwww' +
           'wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww\n',
-        publisherUsername: 'triszt4n',
+        publisher: TRISZT4N,
         parentChannelUriName: 'asd',
         voteCount: 2455,
+        amIPublisher: true,
         myVote: 'none'
       },
       {
@@ -48,10 +50,11 @@ class ChannelModule {
         createdAt: 1680460000,
         title: "It is what it's supposed to be",
         rawMarkdown: '# HIHIHI\n\n* hahaha\n* hohoho\n\nnyeh.\n',
-        publisherUsername: 'triszt4n',
+        publisher: TRISZT4N,
         parentChannelUriName: 'asd',
         voteCount: -3200032,
         myVote: 'up',
+        amIPublisher: true,
         imageUrl: 'https://cdn.pixabay.com/photo/2017/01/08/13/58/cube-1963036_960_720.jpg'
       }
     ]

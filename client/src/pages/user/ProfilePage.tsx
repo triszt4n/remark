@@ -3,7 +3,6 @@ import { FC } from 'react'
 import { Navigate } from 'react-router-dom'
 import { useAuthContext } from '../../api/contexts/auth/useAuthContext'
 import { userModule } from '../../api/modules/user.module'
-import { PuzzleAnimated } from '../../components/commons/PuzzleAnimated'
 import { RLayout } from '../../components/commons/RLayout'
 import { EditUsernameModal } from './components/EditUsernameModal'
 import { ProfileDetails } from './components/ProfileDetails'
@@ -36,23 +35,22 @@ export const ProfilePage: FC = () => {
     return <Navigate replace to="/error?messages=You are not logged in yet!" />
   }
 
-  if (loggedInUserLoading || !loggedInUser) {
-    return (
-      <RLayout>
-        <PuzzleAnimated text="Loading user" />
-      </RLayout>
-    )
-  }
-
-  if (loggedInUserError) {
-    console.log('[DEBUG] at ProfilePage: fetchCurrentUser', loggedInUserError)
-    return <Navigate replace to="/error?messages=Error when fetching current user's profile!" />
-  }
-
   return (
     <RLayout>
-      <ProfileDetails user={loggedInUser} profileOptions={{ onLogoutPressed: onLogout, onUsernameEditPressed: onUsernameEditPressed }} />
-      <EditUsernameModal isOpen={isOpen} onClose={onSuccessfulSave} onSave={onTryUsernameChange} currentUsername={loggedInUser.username} />
+      <ProfileDetails
+        user={loggedInUser}
+        isLoading={loggedInUserLoading}
+        error={loggedInUserError}
+        profileOptions={{ onLogoutPressed: onLogout, onUsernameEditPressed: onUsernameEditPressed }}
+      />
+      {loggedInUser && (
+        <EditUsernameModal
+          isOpen={isOpen}
+          onClose={onSuccessfulSave}
+          onSave={onTryUsernameChange}
+          currentUsername={loggedInUser.username}
+        />
+      )}
     </RLayout>
   )
 }

@@ -1,11 +1,11 @@
-import { Box, Heading, HStack, Image, LinkBox, LinkOverlay, VStack } from '@chakra-ui/react'
+import { Box, Heading, HStack, Image, LinkBox, LinkOverlay, Tooltip, VStack } from '@chakra-ui/react'
 import { FC } from 'react'
 import { Link } from 'react-router-dom'
 import { Post } from '../../../../api/models/post.model'
 import { RLink } from '../../../../components/commons/RLink'
-import { ellipsifyLongText, toRelativeDateString } from '../../../../util/core-util-functions'
+import { VoteButtons } from '../../../../components/voting/VoteButtons'
+import { ellipsifyLongText, toDateTimeString, toRelativeDateString } from '../../../../util/core-util-functions'
 import { PostPreviewDescription } from './parts/PostPreviewDescription'
-import { PostPreviewVoteButtons } from './parts/PostPreviewVoteButtons'
 
 type Props = {
   targetPath: string
@@ -18,7 +18,7 @@ export const PostPreviewDesktop: FC<Props> = ({ post, onUpvotePressed, onDownvot
   return (
     <HStack spacing={6} alignItems="start">
       <VStack spacing={2}>
-        <PostPreviewVoteButtons
+        <VoteButtons
           voteCount={post.voteCount}
           myVote={post.myVote}
           onUpvotePressed={onUpvotePressed}
@@ -28,8 +28,15 @@ export const PostPreviewDesktop: FC<Props> = ({ post, onUpvotePressed, onDownvot
       <LinkBox as={HStack} flex={1} spacing={3} alignItems="start">
         <Box flex={1}>
           <Box fontSize="sm" fontWeight={300}>
-            Posted by <RLink to={`/users/${post.publisherUsername}`}>{post.publisherUsername}</RLink>{' '}
-            <time dateTime={new Date(post.createdAt * 1000).toISOString()}>{toRelativeDateString(post.createdAt)}</time>
+            posted by <RLink to={`/users/${post.publisher.username}`}>{post.publisher.username}</RLink>{' '}
+            <Tooltip hasArrow placement="top" label={toDateTimeString(post.createdAt)}>
+              <time
+                style={{ position: 'absolute', zIndex: 2, marginLeft: '0.25rem' }}
+                dateTime={new Date(post.createdAt * 1000).toISOString()}
+              >
+                {toRelativeDateString(post.createdAt)}
+              </time>
+            </Tooltip>
           </Box>
           <Heading size="lg" mb={4}>
             <LinkOverlay as={Link} to={targetPath} href={targetPath}>

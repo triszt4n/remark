@@ -6,7 +6,6 @@ import { channelModule } from '../../api/modules/channel.module'
 import { RLayout } from '../../components/commons/RLayout'
 import { AboutTab } from './components/AboutTab'
 import { JoinCounter } from './components/JoinCounter'
-import { ModeratorsTab } from './components/ModeratorsTab'
 import { PostsTab } from './components/PostsTab'
 
 export const ChannelPage: FC = () => {
@@ -41,7 +40,6 @@ export const ChannelPage: FC = () => {
           <TabList>
             <Tab>Posts</Tab>
             <Tab>About</Tab>
-            <Tab>Moderators</Tab>
           </TabList>
           <TabPanels>
             <TabPanel px={{ base: 0, md: 2 }}>
@@ -49,9 +47,6 @@ export const ChannelPage: FC = () => {
             </TabPanel>
             <TabPanel>
               <AboutTab uriName={uriName!!} isLoading={isLoading} channel={channel} />
-            </TabPanel>
-            <TabPanel>
-              <ModeratorsTab uriName={uriName!!} />
             </TabPanel>
           </TabPanels>
         </Tabs>

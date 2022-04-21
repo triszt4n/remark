@@ -14,14 +14,7 @@ export const PostPreview: FC<PostPreviewProps> = ({ post, onUpvotePressed = () =
   const targetPath = `/channels/${post.parentChannelUriName}/posts/${post.id}`
 
   return (
-    <Box
-      as="article"
-      p={4}
-      borderRadius="md"
-      borderWidth="1px"
-      transition="all .25s ease-in-out"
-      _hover={{ transform: 'translateY(-0.25rem)' }}
-    >
+    <Box as="article" p={4} borderRadius="md" borderWidth="1px">
       {useBreakpointValue({
         base: (
           <PostPreviewMobile post={post} onUpvotePressed={onUpvotePressed} onDownvotePressed={onDownvotePressed} targetPath={targetPath} />

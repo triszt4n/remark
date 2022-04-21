@@ -11,3 +11,6 @@
 *::-webkit-scrollbar-thumb:hover {
   background: var(--chakra-colors-theme-200);
 }
+html {
+  scroll-behavior: smooth;
+}
