@@ -9,8 +9,8 @@ import { JoinCounter } from './components/JoinCounter'
 import { PostsTab } from './components/PostsTab'
 
 export const ChannelPage: FC = () => {
-  const { uriName } = useParams()
-  const { isLoading, data: channel, error } = useQuery(['channelInfo', uriName], () => channelModule.fetchChannel(uriName!!))
+  const { id } = useParams()
+  const { isLoading, data: channel, error } = useQuery(['channelInfo', id], () => channelModule.fetchChannel(id!!))
 
   if (error) {
     console.log('[DEBUG] at ChannelPage: AboutTab', error)
@@ -29,11 +29,11 @@ export const ChannelPage: FC = () => {
           <Flex justifyContent="space-between" flexWrap="wrap" alignItems="center" mb={5}>
             <Box wordBreak="break-all">
               <Text fontSize="4xl" fontWeight={700}>
-                {uriName}
+                {channel?.uriName}
               </Text>
-              <Text fontSize={{ base: 'sm', md: 'md' }}>{channel!!.title}</Text>
+              <Text fontSize={{ base: 'sm', md: 'md' }}>{channel?.title}</Text>
             </Box>
-            <JoinCounter isJoined={channel!!.amIJoined} joinCount={channel!!.joinCount} />
+            <JoinCounter isJoined={channel?.amIJoined || false} joinCount={channel?.joinCount || 0} />
           </Flex>
         )}
         <Tabs isFitted>
@@ -43,10 +43,10 @@ export const ChannelPage: FC = () => {
           </TabList>
           <TabPanels>
             <TabPanel px={{ base: 0, md: 2 }}>
-              <PostsTab uriName={uriName!!} />
+              <PostsTab channelId={id!!} />
             </TabPanel>
             <TabPanel>
-              <AboutTab uriName={uriName!!} isLoading={isLoading} channel={channel} />
+              <AboutTab channelId={id!!} isLoading={isLoading} channel={channel} />
             </TabPanel>
           </TabPanels>
         </Tabs>

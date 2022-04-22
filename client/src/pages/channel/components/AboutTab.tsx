@@ -7,12 +7,12 @@ import { toDateString, toReadableNumber } from '../../../util/core-util-function
 import { ModeratorsSection } from './moderator/ModeratorsSection'
 
 type Props = {
-  uriName: string
+  channelId: string
   isLoading: boolean
   channel: ChannelView | undefined
 }
 
-export const AboutTab: FC<Props> = ({ uriName, isLoading, channel }) => {
+export const AboutTab: FC<Props> = ({ channelId, isLoading, channel }) => {
   if (isLoading) {
     return (
       <>
@@ -59,7 +59,7 @@ export const AboutTab: FC<Props> = ({ uriName, isLoading, channel }) => {
         <ReactMarkdown components={ChakraUIRenderer()} children={channel!!.descRawMarkdown} skipHtml />
       </Box>
       <Box>
-        <ModeratorsSection uriName={uriName} />
+        <ModeratorsSection channelId={channelId} />
       </Box>
     </VStack>
   )
