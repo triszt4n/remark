@@ -16,34 +16,14 @@ class UserModule {
     return axios.patch<UserView>(`/users/users/${id}`, newData)
   }
 
-  async fetchJoinedChannelsOfUser(username: string): Promise<ChannelPartialView[]> {
-    return [
-      { uriName: 'asd', amIJoined: true, id: '123', joinCount: 456, title: 'Cute Kitties' },
-      { uriName: 'fgh', amIJoined: false, id: '234', joinCount: 4415123, title: 'Adorable Doggos' }
-    ]
+  async fetchJoinedChannelsOfUser(id: string): Promise<ChannelPartialView[]> {
+    const response = await axios.get<ChannelPartialView[]>(`/channels/user/${id}/joins`)
+    return response.data
   }
 
-  async fetchCreatedPostsOfUser(username: string): Promise<PostPartialView[]> {
-    return [
-      {
-        createdAt: 1680460000,
-        title: "It is what it's supposed to beasdasd",
-        parentChannelUriName: 'asd',
-        id: '123',
-        voteCount: 456,
-        rawMarkdown: '# HIHIHI\n\n* hahaha\n* hohoho\n\nnyeh.\n'
-      },
-      {
-        createdAt: 1680460000,
-        title: "It is what it's supposed to beasdasds",
-        parentChannelUriName: 'asd',
-        id: '123',
-        voteCount: -41156,
-        rawMarkdown: '# HIHIHI\n\n* hahaha\n* hohoho\n\nnyeh.\n',
-        imageUrl:
-          'https://images.unsplash.com/photo-1549877452-9c387954fbc2?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80'
-      }
-    ]
+  async fetchCreatedPostsOfUser(id: string): Promise<PostPartialView[]> {
+    const response = await axios.get<PostPartialView[]>(`/posts/user/${id}/posts`)
+    return response.data
   }
 }
 

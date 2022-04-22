@@ -6,8 +6,8 @@ import { toReadableNumber } from '../../../../util/core-util-functions'
 import { ModeratorItem } from './ModeratorItem'
 import { ModeratorItemLoading } from './ModeratorItemLoading'
 
-export const ModeratorsSection: FC<{ uriName: string }> = ({ uriName }) => {
-  const { isLoading, data, error } = useQuery(['channelModerators', uriName], () => channelModule.fetchModeratorInfoOfChannel(uriName))
+export const ModeratorsSection: FC<{ channelId: string }> = ({ channelId }) => {
+  const { isLoading, data, error } = useQuery(['channelModerators', channelId], () => channelModule.fetchModeratorInfoOfChannel(channelId))
 
   if (isLoading) {
     return (

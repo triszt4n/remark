@@ -7,8 +7,8 @@ import { channelModule } from '../../../api/modules/channel.module'
 import { PostPreview } from './post/PostPreview'
 import { PostPreviewLoading } from './post/PostPreviewLoading'
 
-export const PostsTab: FC<{ uriName: string }> = ({ uriName }) => {
-  const { isLoading, data: posts, error } = useQuery(['channelPosts', uriName], () => channelModule.fetchPostsOfChannel(uriName))
+export const PostsTab: FC<{ channelId: string }> = ({ channelId }) => {
+  const { isLoading, data: posts, error } = useQuery(['channelPosts', channelId], () => channelModule.fetchPostsOfChannel(channelId))
   const { isLoggedIn } = useAuthContext()
   const onCreatePostPressed = () => {}
 

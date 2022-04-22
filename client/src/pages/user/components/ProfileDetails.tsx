@@ -36,13 +36,13 @@ export const ProfileDetails: FC<Props> = ({ user, profileOptions }) => {
     isLoading: isLoadingChannels,
     data: channels,
     error: errorInChannels
-  } = useQuery(['userChannels', user.username], () => userModule.fetchJoinedChannelsOfUser(user.username))
+  } = useQuery(['userChannels', user.id], () => userModule.fetchJoinedChannelsOfUser(user.id))
 
   const {
     isLoading: isLoadingPosts,
     data: posts,
     error: errorInPosts
-  } = useQuery(['userPosts', user.username], () => userModule.fetchCreatedPostsOfUser(user.username))
+  } = useQuery(['userPosts', user.id], () => userModule.fetchCreatedPostsOfUser(user.id))
 
   return (
     <Box>

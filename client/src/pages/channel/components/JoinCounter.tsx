@@ -1,5 +1,5 @@
 import { Box, Button, HStack } from '@chakra-ui/react'
-import React, { FC } from 'react'
+import { FC } from 'react'
 import { useAuthContext } from '../../../api/contexts/auth/useAuthContext'
 import { toReadableNumber } from '../../../util/core-util-functions'
 
