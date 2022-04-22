@@ -2,15 +2,12 @@ import {
   Avatar,
   Box,
   Button,
-  Center,
   HStack,
   IconButton,
   Menu,
   MenuButton,
   MenuItem,
   MenuList,
-  Skeleton,
-  SkeletonCircle,
   Tooltip,
   useBreakpointValue,
   VStack
@@ -24,49 +21,16 @@ import { JoinedChannelsSection } from './channel/JoinedChannelsSection'
 import { CreatedPostsSection } from './post/CreatedPostsSection'
 
 type Props = {
-  user: UserView | undefined
-  isLoading: boolean
-  error: any
+  user: UserView
   profileOptions?: {
     onLogoutPressed: () => void
     onUsernameEditPressed: () => void
   }
 }
 
-export const ProfileDetails: FC<Props> = ({ user, profileOptions, isLoading, error }) => {
+export const ProfileDetails: FC<Props> = ({ user, profileOptions }) => {
   const { onLogoutPressed, onUsernameEditPressed } = profileOptions || {}
   const onChangeProfileImagePressed = () => {}
-
-  if (isLoading) {
-    return (
-      <>
-        <HStack width="100%" mb={5}>
-          <SkeletonCircle size="24" />
-          <Skeleton height="2.25rem" width={{ base: '100%', md: '50%' }} />
-        </HStack>
-        <Skeleton height="1.25rem" width={{ base: '100%', md: '50%' }} mb={2} />
-        <Skeleton height="1.25rem" width={{ base: '100%', md: '50%' }} />
-      </>
-    )
-  }
-
-  if (error) {
-    console.log('[DEBUG] at ProfilePage: ProfileDetails', error)
-    return (
-      <Box width="full">
-        <Center fontSize="lg">Error fetching user's details! {error.response.statusText}</Center>
-      </Box>
-    )
-  }
-
-  if (!user) {
-    console.log('[ERROR] Major error at ProfilePage: no user!')
-    return (
-      <Box width="full">
-        <Center fontSize="lg">Error fetching user's details! Major error. {error.response.statusText}</Center>
-      </Box>
-    )
-  }
 
   const {
     isLoading: isLoadingChannels,

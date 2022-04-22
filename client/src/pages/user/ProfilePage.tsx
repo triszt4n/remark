@@ -6,6 +6,7 @@ import { userModule } from '../../api/modules/user.module'
 import { RLayout } from '../../components/commons/RLayout'
 import { EditUsernameModal } from './components/EditUsernameModal'
 import { ProfileDetails } from './components/ProfileDetails'
+import { ProfileDetailsLoading } from './components/ProfileDetailsLoading'
 
 export const ProfilePage: FC = () => {
   const { isLoggedIn, loggedInUser, loggedInUserError, loggedInUserLoading, onLogout, refetchUser } = useAuthContext()
@@ -31,18 +32,25 @@ export const ProfilePage: FC = () => {
     return answer
   }
 
+  if (loggedInUserError) {
+    console.log('[DEBUG] Error at ProfilePage', loggedInUserError)
+    return <Navigate to="/error" state={{ title: 'You are not logged in yet!', messages: [(loggedInUserError as any).toString()] }} />
+  }
+
   if (!isLoggedIn) {
-    return <Navigate replace to="/error?messages=You are not logged in yet!" />
+    return <Navigate to="/error" state={{ title: 'You are not logged in yet!', messages: [] }} />
   }
 
   return (
     <RLayout>
-      <ProfileDetails
-        user={loggedInUser}
-        isLoading={loggedInUserLoading}
-        error={loggedInUserError}
-        profileOptions={{ onLogoutPressed: onLogout, onUsernameEditPressed: onUsernameEditPressed }}
-      />
+      {loggedInUserLoading ? (
+        <ProfileDetailsLoading />
+      ) : (
+        <ProfileDetails
+          user={loggedInUser!!}
+          profileOptions={{ onLogoutPressed: onLogout, onUsernameEditPressed: onUsernameEditPressed }}
+        />
+      )}
       {loggedInUser && (
         <EditUsernameModal
           isOpen={isOpen}

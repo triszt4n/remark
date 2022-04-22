@@ -1,25 +1,18 @@
 import { VStack } from '@chakra-ui/react'
+import { UserModel } from '@triszt4n/remark-types'
 import { FC } from 'react'
-import { useQuery } from 'react-query'
-import { Navigate, useParams } from 'react-router-dom'
-import { useAuthContext } from '../../api/contexts/auth/useAuthContext'
-import { userModule } from '../../api/modules/user.module'
+import { useLocation } from 'react-router-dom'
 import { RLayout } from '../../components/commons/RLayout'
 import { ProfileDetails } from './components/ProfileDetails'
 
 export const UserPage: FC = () => {
-  const { username } = useParams()
-  const { loggedInUser } = useAuthContext()
-  const { isLoading, data: fetchedUser, error } = useQuery(['user', username], () => userModule.fetchUserByUsername(username!!))
-
-  if (username?.toLowerCase() === loggedInUser?.username.toLowerCase()) {
-    return <Navigate to="/profile" replace />
-  }
+  const { state } = useLocation()
+  const { user } = state as { user: UserModel }
 
   return (
     <RLayout>
       <VStack alignItems="flex-start">
-        <ProfileDetails user={fetchedUser} isLoading={isLoading} error={error} />
+        <ProfileDetails user={user} />
       </VStack>
     </RLayout>
   )

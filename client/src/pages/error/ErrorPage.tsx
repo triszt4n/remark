@@ -5,22 +5,18 @@ import { useLocation } from 'react-router-dom'
 import { RLayout } from '../../components/commons/RLayout'
 
 export const ErrorPage: FC = () => {
-  const { search } = useLocation()
-  const queryParams = new URLSearchParams(search)
-  const errorMsgs = queryParams
-    .get('messages')
-    ?.split(',')
-    .map((msg) => msg.trim())
+  const { state } = useLocation()
+  const { title, messages } = state as { title?: string; messages?: string[] }
 
   return (
     <RLayout>
       <HStack justifyContent="center">
         <FaBolt size={64} />
-        <Heading mb={10}>Error occured!</Heading>
+        <Heading mb={10}>{title || 'Error occured'}</Heading>
         <FaBolt size={64} />
       </HStack>
       <VStack justifyContent="center">
-        {errorMsgs?.map((errorMsg) => (
+        {messages?.map((errorMsg) => (
           <Text key={errorMsg} fontSize="lg">
             {errorMsg}
           </Text>
