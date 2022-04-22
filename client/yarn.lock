@@ -3546,10 +3546,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/js-cookie@npm:3.0.1":
-  version: 3.0.1
-  resolution: "@types/js-cookie@npm:3.0.1"
-  checksum: 134abb4a3f139ae791bdef3735ab14c4c098cb564b34363cc8f0aa6210a715e5e4f25b53717b32acb18099d53221e4f13776917e65ac54b3a60ee676a943abdc
+"@types/js-cookie@npm:3.0.2":
+  version: 3.0.2
+  resolution: "@types/js-cookie@npm:3.0.2"
+  checksum: 7ab964288dd26373e134ed0bcde4a7dbea7e6f5de1805e2d1e48eac847e89a0e7f5fdc9164c37931680ec97c6e6e5a73e3e4039e0d08527c2e21badd7bee62d1
   languageName: node
   linkType: hard
 
@@ -12726,7 +12726,7 @@ __metadata:
     "@fontsource/inter": 4.5.7
     "@triszt4n/remark-types": 1.0.2
     "@types/jest": 27.4.1
-    "@types/js-cookie": 3.0.1
+    "@types/js-cookie": 3.0.2
     "@types/node": 17.0.25
     "@types/react": 17.0.44
     "@types/react-dom": 17.0.15
