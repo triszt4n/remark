@@ -19,4 +19,10 @@ export interface ChannelPartialView {
   amIJoined: boolean
 }
 
-export interface UpdateChannelView {}
+export interface CreateChannelView {
+  uriName: string
+  title: string
+  descRawMarkdown: string
+}
+
+export interface UpdateChannelView extends CreateChannelView {}

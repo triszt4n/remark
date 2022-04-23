@@ -24,4 +24,12 @@ export interface PostPartialView {
   imageUrl?: string
 }
 
-export interface UpdatePostView {}
+export interface UpdatePostView {
+  rawMarkdown: string
+  title: string
+  imageUrl?: string
+}
+
+export interface CreatePostView extends UpdatePostView {
+  parentChannelId: string
+}

@@ -10,3 +10,9 @@ export interface CommentView {
   amIPublisher: boolean
   myVote: MyVoteType
 }
+
+export interface CreateCommentView {
+  rawMarkdown: string
+}
+
+export interface UpdateCommentView extends CreateCommentView {}
