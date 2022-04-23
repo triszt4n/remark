@@ -5,6 +5,8 @@ on:
       - master
     paths:
       - 'remark-types/lib/**'
+      - 'remark-types/package.json'
+      - 'remark-types/package-lock.json'
   workflow_dispatch:
 jobs:
   build:
