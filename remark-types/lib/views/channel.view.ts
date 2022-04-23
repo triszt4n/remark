@@ -17,6 +17,7 @@ export interface ChannelPartialView {
   title: string
   joinCount: number
   amIJoined: boolean
+  joinedAt: number
 }
 
 export interface CreateChannelView {
