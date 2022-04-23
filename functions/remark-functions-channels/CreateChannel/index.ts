@@ -2,6 +2,8 @@ import { AzureFunction, Context, HttpRequest } from '@azure/functions'
 import { readUserFromAuthHeader } from '@triszt4n/remark-auth'
 import { ChannelModel, CreateChannelView } from '@triszt4n/remark-types'
 import { fetchCosmosContainer, fetchCosmosDatabase } from '../lib/dbConfig'
+import { createQueryByUriName } from '../lib/dbQueries'
+import { ChannelResource } from '../lib/model'
 
 const httpTrigger: AzureFunction = async function (context: Context, req: HttpRequest): Promise<void> {
   if (!req.body) {
@@ -25,6 +27,19 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
 
   const { uriName, title, descRawMarkdown } = req.body as CreateChannelView
   // todo: Insert validation of request body here
+
+  // Check for duplicates with uriName
+  const database = fetchCosmosDatabase()
+  const channelsContainer = fetchCosmosContainer(database, 'Channels')
+  const { resources } = await channelsContainer.items.query<ChannelResource>(createQueryByUriName(uriName)).fetchAll()
+  if (resources.length != 0) {
+    context.res = {
+      status: 400,
+      body: { message: `Channel with uriName ${uriName} already exists!` }
+    }
+    return
+  }
+
   const creatableChannel: ChannelModel = {
     uriName,
     createdAt: +new Date(),
@@ -34,8 +49,6 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
     moderatorIds: []
   }
 
-  const database = fetchCosmosDatabase()
-  const channelsContainer = fetchCosmosContainer(database, 'Channels')
   const { resource: channel } = await channelsContainer.items.create(creatableChannel)
 
   context.res = {

@@ -16,7 +16,8 @@ import { UserView } from '@triszt4n/remark-types'
 import React, { FC } from 'react'
 import { FaAddressCard, FaAt, FaChevronDown, FaEdit, FaRegUserCircle, FaSignOutAlt } from 'react-icons/fa'
 import { useQuery } from 'react-query'
-import { userModule } from '../../../api/modules/user.module'
+import { channelModule } from '../../../api/modules/channel.module'
+import { postModule } from '../../../api/modules/post.module'
 import { JoinedChannelsSection } from './channel/JoinedChannelsSection'
 import { CreatedPostsSection } from './post/CreatedPostsSection'
 
@@ -36,13 +37,13 @@ export const ProfileDetails: FC<Props> = ({ user, profileOptions }) => {
     isLoading: isLoadingChannels,
     data: channels,
     error: errorInChannels
-  } = useQuery(['userChannels', user.id], () => userModule.fetchJoinedChannelsOfUser(user.id))
+  } = useQuery(['userChannels', user.id], () => channelModule.fetchJoinedChannelsOfUser(user.id))
 
   const {
     isLoading: isLoadingPosts,
     data: posts,
     error: errorInPosts
-  } = useQuery(['userPosts', user.id], () => userModule.fetchCreatedPostsOfUser(user.id))
+  } = useQuery(['userPosts', user.id], () => postModule.fetchCreatedPostsOfUser(user.id))
 
   return (
     <Box>

@@ -1,7 +1,8 @@
 import { AzureFunction, Context, HttpRequest } from '@azure/functions'
 import { readUserFromAuthHeader } from '@triszt4n/remark-auth'
-import { ChannelModel, UpdateChannelView } from '@triszt4n/remark-types'
+import { UpdateChannelView } from '@triszt4n/remark-types'
 import { fetchCosmosContainer, fetchCosmosDatabase } from '../lib/dbConfig'
+import { ChannelResource } from '../lib/model'
 
 const httpTrigger: AzureFunction = async function (context: Context, req: HttpRequest): Promise<void> {
   const id = context.bindingData.id as string
@@ -23,7 +24,14 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
   const database = fetchCosmosDatabase()
   const channelsContainer = fetchCosmosContainer(database, 'Channels')
   const channelItem = channelsContainer.item(id, id)
-  let { resource: channel } = await channelItem.read<ChannelModel>()
+  let { resource: channel } = await channelItem.read<ChannelResource>()
+  if (!channel) {
+    context.res = {
+      status: 404,
+      body: { message: `Channel with id ${id} not found.` }
+    }
+    return
+  }
 
   // Check permissions
   if (channel.ownerId != user.id && channel.moderatorIds.every((id) => user.id != id)) {
@@ -41,7 +49,7 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
     uriName,
     title
   }
-  const { resource: updatedChannel } = await channelItem.replace<ChannelModel>(channel)
+  const { resource: updatedChannel } = await channelItem.replace<ChannelResource>(channel)
 
   context.res = {
     body: updatedChannel

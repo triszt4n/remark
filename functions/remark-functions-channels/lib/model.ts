@@ -1,4 +1,6 @@
 import { Resource } from '@azure/cosmos'
-import { ChannelModel } from '@triszt4n/remark-types'
+import { ChannelJoinModel, ChannelModel, UserModel } from '@triszt4n/remark-types'
 
 export type ChannelResource = ChannelModel & Resource
+export type ChannelJoinResource = ChannelJoinModel & Resource
+export type UserResource = UserModel & Resource

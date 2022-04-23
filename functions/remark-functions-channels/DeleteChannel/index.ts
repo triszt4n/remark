@@ -1,7 +1,7 @@
 import { AzureFunction, Context, HttpRequest } from '@azure/functions'
 import { readUserFromAuthHeader } from '@triszt4n/remark-auth'
-import { ChannelModel } from '@triszt4n/remark-types'
 import { fetchCosmosContainer, fetchCosmosDatabase } from '../lib/dbConfig'
+import { ChannelResource } from '../lib/model'
 
 const httpTrigger: AzureFunction = async function (context: Context, req: HttpRequest): Promise<void> {
   const id = context.bindingData.id as string
@@ -20,7 +20,16 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
   const database = fetchCosmosDatabase()
   const channelsContainer = fetchCosmosContainer(database, 'Channels')
   const channelItem = channelsContainer.item(id, id)
-  const { resource: channel } = await channelItem.read<ChannelModel>()
+  const { resource: channel } = await channelItem.read<ChannelResource>()
+
+  if (!channel) {
+    context.res = {
+      status: 404,
+      body: { message: `Channel with id ${id} not found.` }
+    }
+    return
+  }
+
   if (channel.ownerId != user.id) {
     context.res = {
       status: 403,
@@ -28,7 +37,7 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
     }
     return
   }
-  const { resource: deletedChannel } = await channelItem.delete<ChannelModel>()
+  const { resource: deletedChannel } = await channelItem.delete<ChannelResource>()
 
   context.res = {
     body: deletedChannel

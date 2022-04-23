@@ -1,5 +1,5 @@
 export const createQueryForPostCountOfChannel = (id: string) => ({
-  query: 'SELECT COUNT(*) FROM Posts p WHERE p.parentChannelId = @id',
+  query: 'SELECT COUNT(p.id) AS postsCount FROM Posts p WHERE p.parentChannelId = @id',
   parameters: [
     {
       name: '@id',
@@ -9,7 +9,7 @@ export const createQueryForPostCountOfChannel = (id: string) => ({
 })
 
 export const createQueryForJoinCountOfChannel = (id: string) => ({
-  query: 'SELECT COUNT(*) FROM ChannelJoins cj WHERE cj.channelId = @id',
+  query: 'SELECT COUNT(cj.id) AS joinCount FROM ChannelJoins cj WHERE cj.channelId = @id',
   parameters: [
     {
       name: '@id',
@@ -18,8 +18,8 @@ export const createQueryForJoinCountOfChannel = (id: string) => ({
   ]
 })
 
-export const createQueryChannelJoinOfUserIdAndChannelId = (userId: string, channelId: string) => ({
-  query: 'SELECT cj.id FROM ChannelJoins cj WHERE cj.userId = @userId AND cj.channelId = @channelId',
+export const createQueryExistsJoinOfUserIdAndChannelId = (userId: string, channelId: string) => ({
+  query: 'SELECT COUNT(cj.id) as joinCount FROM ChannelJoins cj WHERE cj.userId = @userId AND cj.channelId = @channelId',
   parameters: [
     {
       name: '@userId',

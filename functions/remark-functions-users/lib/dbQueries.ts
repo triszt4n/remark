@@ -1,6 +1,7 @@
 import { Container, SqlQuerySpec } from '@azure/cosmos'
+import { UserModel } from '@triszt4n/remark-types'
 import * as md5 from 'md5'
-import { GoogleUser, User, UserResource } from './model'
+import { GoogleUser, UserResource } from './model'
 
 export const createQueryByUsername = (username: string) => ({
   query: 'SELECT * FROM Users u WHERE UPPER(u.username) = UPPER(@username)',
@@ -23,7 +24,7 @@ export const createQueryByEmail = (email: string): SqlQuerySpec => ({
 })
 
 const createUser = async (usersContainer: Container, googleUser: GoogleUser): Promise<UserResource> => {
-  const creatableUser: User = {
+  const creatableUser: UserModel = {
     firstName: googleUser.given_name,
     lastName: googleUser.family_name,
     username: md5(googleUser.email),

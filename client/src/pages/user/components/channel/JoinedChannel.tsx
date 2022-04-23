@@ -1,9 +1,9 @@
-import { Badge, Box, Button, Code, Heading, LinkBox, LinkOverlay, VStack } from '@chakra-ui/react'
+import { Badge, Box, Button, Code, Heading, LinkBox, LinkOverlay, Text, VStack } from '@chakra-ui/react'
 import { ChannelPartialView } from '@triszt4n/remark-types'
 import { FC } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuthContext } from '../../../../api/contexts/auth/useAuthContext'
-import { ellipsifyLongText, toReadableNumber } from '../../../../util/core-util-functions'
+import { ellipsifyLongText, toReadableNumber, toRelativeDateString } from '../../../../util/core-util-functions'
 
 type Props = {
   channel: ChannelPartialView
@@ -30,14 +30,17 @@ export const JoinedChannel: FC<Props> = ({ channel }) => {
         </Box>
         <Box>
           {isLoggedIn && (
-            <Button
-              size="sm"
-              colorScheme="themeHelper"
-              variant={channel.amIJoined ? 'outline' : 'solid'}
-              onClick={() => navigate(targetPath)}
-            >
-              {channel.amIJoined ? 'Leave' : 'Join'}
-            </Button>
+            <>
+              <Button
+                size="sm"
+                colorScheme="themeHelper"
+                variant={channel.amIJoined ? 'outline' : 'solid'}
+                onClick={() => navigate(targetPath)}
+              >
+                {channel.amIJoined ? 'Leave' : 'Join'}
+              </Button>
+              {channel.amIJoined && <Text fontSize="xs">joined {toRelativeDateString(channel.joinedAt)}</Text>}
+            </>
           )}
         </Box>
       </VStack>

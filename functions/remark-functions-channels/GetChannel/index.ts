@@ -3,7 +3,7 @@ import { readUserFromAuthHeader } from '@triszt4n/remark-auth'
 import { ChannelView } from '@triszt4n/remark-types'
 import { fetchCosmosContainer, fetchCosmosDatabase } from '../lib/dbConfig'
 import {
-  createQueryChannelJoinOfUserIdAndChannelId,
+  createQueryExistsJoinOfUserIdAndChannelId,
   createQueryForJoinCountOfChannel,
   createQueryForPostCountOfChannel
 } from '../lib/dbQueries'
@@ -21,19 +21,26 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
   const channelJoinsContainer = fetchCosmosContainer(database, 'ChannelJoins')
   const postsContainer = fetchCosmosContainer(database, 'Posts')
 
-  const responses = await Promise.all([
-    channelsContainer.item(id, id).read<ChannelResource>(),
-    channelJoinsContainer.items.query<number>(createQueryForJoinCountOfChannel(id)).fetchAll(),
+  const { resource: channel } = await channelsContainer.item(id, id).read<ChannelResource>()
+  if (!channel) {
+    context.res = {
+      status: 404,
+      body: { message: `Channel with id ${id} not found.` }
+    }
+    return
+  }
+
+  const [res1, res2, res3] = await Promise.all([
+    channelJoinsContainer.items.query<{ joinCount: number }>(createQueryForJoinCountOfChannel(id)).fetchAll(),
+    postsContainer.items.query<{ postsCount: number }>(createQueryForPostCountOfChannel(id)).fetchAll(),
     user
-      ? channelJoinsContainer.items.query<string>(createQueryChannelJoinOfUserIdAndChannelId(user.id, id)).fetchAll()
-      : { resources: [false] },
-    postsContainer.items.query<number>(createQueryForPostCountOfChannel(id)).fetchAll()
+      ? channelJoinsContainer.items.query<{ joinCount: number }>(createQueryExistsJoinOfUserIdAndChannelId(user.id, id)).fetchAll()
+      : null
   ])
 
-  const channel = responses[0].resource
-  const joinCount = responses[1].resources[0]
-  const amIJoined = !!responses[2].resources[0]
-  const postsCount = responses[3].resources[0]
+  const { joinCount } = res1.resources[0]
+  const { postsCount } = res2.resources[0]
+  const amIJoined = res3 ? res3.resources[0].joinCount > 0 : false
 
   const amIOwner = user ? user.id === channel.ownerId : false
   const amIModerator = user ? channel.moderatorIds.some((e) => e === user.id) : false

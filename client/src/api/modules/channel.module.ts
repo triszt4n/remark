@@ -1,4 +1,4 @@
-import { ChannelView, PostView, UserView } from '@triszt4n/remark-types'
+import { ChannelPartialView, ChannelView, CreateChannelView, PostView, UpdateChannelView, UserView } from '@triszt4n/remark-types'
 import axios from 'axios'
 
 type ModeratorInfo = { owner: UserView; moderators: UserView[] }
@@ -19,9 +19,24 @@ class ChannelModule {
     return response.data
   }
 
+  async fetchJoinedChannelsOfUser(id: string): Promise<ChannelPartialView[]> {
+    const response = await axios.get<ChannelPartialView[]>(`/channels/channels/user/${id}/joins`)
+    return response.data
+  }
+
   async fetchChannel(id: string): Promise<ChannelView> {
     const response = await axios.get<ChannelView>(`/channels/channels/${id}`)
     return response.data
+  }
+
+  async createChannel(channelData: CreateChannelView) {
+    const response = await axios.post<CreateChannelView>(`/channels/channels`, channelData)
+    return response
+  }
+
+  async updateChannel(id: string, channelData: UpdateChannelView) {
+    const response = await axios.patch<UpdateChannelView>(`/channels/channels/${id}`, channelData)
+    return response
   }
 }
 
