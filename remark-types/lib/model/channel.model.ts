@@ -1,5 +1,4 @@
 export interface ChannelModel {
-  id: string
   uriName: string
 
   createdAt: number // unix

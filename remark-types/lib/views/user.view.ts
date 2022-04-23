@@ -7,6 +7,13 @@ export interface UserView {
   imageUrl?: string
 }
 
+export interface CreateUserView {
+  firstName: string
+  lastName: string
+  username: string
+  email: string
+}
+
 export interface UpdateUserView {
   username: string
 }
