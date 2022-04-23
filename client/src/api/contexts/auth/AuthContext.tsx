@@ -36,7 +36,9 @@ export const AuthProvider: FC = ({ children }) => {
   const toast = useToast()
   const navigate = useNavigate()
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(typeof Cookies.get(CookieKeys.REMARK_JWT_TOKEN) !== 'undefined')
-  const { isLoading, data: user, error } = useQuery('currentUser', userModule.fetchCurrentUser)
+
+  const queryOptions = { enabled: isLoggedIn }
+  const { isLoading, data: user, error } = useQuery('currentUser', userModule.fetchCurrentUser, queryOptions)
 
   const onLoginSuccess = async (response: GoogleLoginResponseOffline | GoogleLoginResponse) => {
     const { accessToken } = response as GoogleLoginResponse
