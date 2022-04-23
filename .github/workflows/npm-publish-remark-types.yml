@@ -5,6 +5,7 @@ on:
       - master
     paths:
       - 'remark-types/lib/**'
+  workflow_dispatch:
 jobs:
   build:
     runs-on: ubuntu-latest
