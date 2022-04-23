@@ -32,12 +32,53 @@ export const createQueryChannelJoinOfUserIdAndChannelId = (userId: string, chann
   ]
 })
 
+export const createQueryChannelJoinsOfUserId = (userId: string) => ({
+  query: 'SELECT * FROM ChannelJoins cj WHERE cj.userId = @userId',
+  parameters: [
+    {
+      name: '@userId',
+      value: userId
+    }
+  ]
+})
+
 export const createModInfoQueryByUriName = (uriName: string) => ({
   query: 'SELECT c.ownerId, c.moderatorIds FROM Channels c WHERE UPPER(c.uriName) = UPPER(@uriName)',
   parameters: [
     {
       name: '@uriName',
       value: uriName
+    }
+  ]
+})
+
+export const createQueryByUriName = (uriName: string) => ({
+  query: 'SELECT c.id FROM Channels c WHERE UPPER(c.uriName) = UPPER(@uriName)',
+  parameters: [
+    {
+      name: '@uriName',
+      value: uriName
+    }
+  ]
+})
+
+export const createQueryByModeratorIds = (moderatorIds: string[]) => ({
+  query: 'SELECT * FROM Users u WHERE ARRAY_CONTAINS(@moderatorIds, u.id)',
+  parameters: [
+    {
+      name: '@moderatorIds',
+      value: moderatorIds
+    }
+  ]
+})
+
+// select for ChannelPartial
+export const createQueryByChannelIds = (channelIds: string[]) => ({
+  query: 'SELECT c.id, c.uriName, c.title FROM Channels c WHERE ARRAY_CONTAINS(@channelIds, c.id)',
+  parameters: [
+    {
+      name: '@channelIds',
+      value: channelIds
     }
   ]
 })

@@ -1,9 +1,11 @@
-import { CosmosClient } from '@azure/cosmos'
+import { CosmosClient, Database } from '@azure/cosmos'
 import { RemarkDatabaseContainerId } from '@triszt4n/remark-types'
 
-const client = new CosmosClient({ endpoint: process.env.COSMOS_DB_ENDPOINT, key: process.env.COSMOS_DB_KEY })
-const database = client.database(process.env.COSMOS_DB_DATABASE_ID)
+export const fetchCosmosDatabase = () => {
+  const client = new CosmosClient({ endpoint: process.env.COSMOS_DB_ENDPOINT, key: process.env.COSMOS_DB_KEY })
+  return client.database(process.env.COSMOS_DB_DATABASE_ID)
+}
 
-export const fetchCosmosContainer = (containerId: RemarkDatabaseContainerId) => {
+export const fetchCosmosContainer = (database: Database, containerId: RemarkDatabaseContainerId) => {
   return database.container(containerId)
 }

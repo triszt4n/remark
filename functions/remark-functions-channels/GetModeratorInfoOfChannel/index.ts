@@ -1,39 +1,28 @@
 import { AzureFunction, Context, HttpRequest } from '@azure/functions'
-import { fetchCosmosContainer } from '../lib/dbConfig'
-import { createModInfoQueryByUriName } from '../lib/dbQueries'
-import { ChannelResource } from '../lib/model'
+import { ChannelModel, UserModel } from '@triszt4n/remark-types'
+import { fetchCosmosContainer, fetchCosmosDatabase } from '../lib/dbConfig'
+import { createQueryByModeratorIds } from '../lib/dbQueries'
 
 const httpTrigger: AzureFunction = async function (context: Context, req: HttpRequest): Promise<void> {
-  const uriName = context.bindingData.uriName as string
-  const channelsContainer = fetchCosmosContainer('Channels')
+  const id = context.bindingData.id as string
 
-  // No Authorization needed
+  const database = fetchCosmosDatabase()
+  const channelsContainer = fetchCosmosContainer(database, 'Channels')
+  const channelItem = channelsContainer.item(id, id)
+  const { resource: channel } = await channelItem.read<ChannelModel>()
+  const { moderatorIds, ownerId } = channel
 
-  // Query from DB
-  await channelsContainer.items
-    .query<ChannelResource>(createModInfoQueryByUriName(uriName))
-    .fetchAll()
-    .then((response) => {
-      if (response.resources.length == 0) {
-        context.res = {
-          status: 404,
-          body: { message: `Channel with uriName ${uriName} not found` }
-        }
-        return
-      }
+  const usersContainer = fetchCosmosContainer(database, 'Users')
+  // todo: parallelize these below
+  const { resource: owner } = await usersContainer.item(ownerId, ownerId).read<UserModel>()
+  const { resources: moderators } = await usersContainer.items.query<UserModel>(createQueryByModeratorIds(moderatorIds)).fetchAll()
 
-      const channel = response.resources[0]
-      context.res = {
-        body: channel
-      }
-    })
-    .catch((error) => {
-      context.log('[ERROR] at GetChannelByUriName', error)
-      context.res = {
-        status: 500,
-        body: { message: `Error in database: Could not read channel!` }
-      }
-    })
+  context.res = {
+    body: {
+      owner,
+      moderators
+    }
+  }
 }
 
 export default httpTrigger
