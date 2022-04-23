@@ -34,7 +34,7 @@ export const ProfilePage: FC = () => {
 
   if (loggedInUserError) {
     console.log('[DEBUG] Error at ProfilePage', loggedInUserError)
-    return <Navigate to="/error" state={{ title: 'You are not logged in yet!', messages: [(loggedInUserError as any).toString()] }} />
+    return <Navigate to="/error" state={{ title: 'You are not logged in yet!', messages: [(loggedInUserError as any)?.message] }} />
   }
 
   if (!isLoggedIn) {

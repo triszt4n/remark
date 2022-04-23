@@ -20,7 +20,7 @@ export const PostPage: FC = () => {
 
   if (error) {
     console.log('[DEBUG] at PostPage: ???', error)
-    return <Navigate replace to="/error?messages=Error when fetching post's details!" />
+    return <Navigate replace to="/error" state={{ title: "Error when fetching post's details!", messages: [(error as any)?.message] }} />
   }
 
   return (

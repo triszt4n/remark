@@ -31,7 +31,7 @@ export const CreatedPostsSection: FC<Props> = ({ posts, isLoading, error }) => {
     console.log('[DEBUG] Error at ProfileDetails: CreatedPostsSection', error)
     return (
       <Box width="full">
-        <Center fontSize="lg">Error when fetching created posts! {error.response.statusText}</Center>
+        <Center fontSize="lg">Error when fetching created posts! {error?.response?.statusText}</Center>
       </Box>
     )
   }

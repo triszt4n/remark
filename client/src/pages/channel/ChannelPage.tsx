@@ -14,7 +14,7 @@ export const ChannelPage: FC = () => {
 
   if (error) {
     console.log('[DEBUG] at ChannelPage: AboutTab', error)
-    return <Navigate replace to="/error?messages=Error when fetching channel's details!" />
+    return <Navigate replace to="/error" state={{ title: "Error when fetching channel's details!", messages: [(error as any)?.message] }} />
   }
 
   return (

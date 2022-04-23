@@ -1,27 +1,33 @@
-import { Heading, HStack, Text, VStack } from '@chakra-ui/react'
+import { Alert, AlertDescription, AlertIcon, AlertTitle, Text, VStack } from '@chakra-ui/react'
 import { FC } from 'react'
-import { FaBolt } from 'react-icons/fa'
 import { useLocation } from 'react-router-dom'
 import { RLayout } from '../../components/commons/RLayout'
 
+type ErrorPageState = {
+  title?: string
+  messages?: string[]
+}
+
 export const ErrorPage: FC = () => {
   const { state } = useLocation()
-  const { title, messages } = state as { title?: string; messages?: string[] }
+  const { title, messages } = (state as ErrorPageState) || {}
 
   return (
     <RLayout>
-      <HStack justifyContent="center">
-        <FaBolt size={64} />
-        <Heading mb={10}>{title || 'Error occured'}</Heading>
-        <FaBolt size={64} />
-      </HStack>
-      <VStack justifyContent="center">
-        {messages?.map((errorMsg) => (
-          <Text key={errorMsg} fontSize="lg">
-            {errorMsg}
-          </Text>
-        ))}
-      </VStack>
+      <Alert p={10} status="error" variant="subtle" flexDirection="column" alignItems="center" justifyContent="center" textAlign="center">
+        <AlertIcon boxSize="40px" mr={0} />
+        <AlertTitle mt={4} mb={3} fontSize="2xl">
+          {title || 'Error occured'}
+        </AlertTitle>
+        <AlertDescription maxWidth="sm">
+          <VStack justifyContent="center" spacing={1}>
+            {messages?.map((errorMsg) => (
+              <Text key={errorMsg}>{errorMsg}</Text>
+            ))}
+            <Text>See console for more information</Text>
+          </VStack>
+        </AlertDescription>
+      </Alert>
     </RLayout>
   )
 }

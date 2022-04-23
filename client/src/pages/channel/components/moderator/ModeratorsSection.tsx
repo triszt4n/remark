@@ -27,7 +27,7 @@ export const ModeratorsSection: FC<{ channelId: string }> = ({ channelId }) => {
     console.log('[DEBUG] at ChannelPage: ModeratorsTab', error)
     return (
       <Box width="full">
-        <Center fontSize="lg">Error when fetching channel's moderators! {(error as any).response.statusText}</Center>
+        <Center fontSize="lg">Error when fetching channel's moderators! {(error as any)?.message}</Center>
       </Box>
     )
   }

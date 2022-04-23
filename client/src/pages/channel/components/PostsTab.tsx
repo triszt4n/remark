@@ -26,7 +26,7 @@ export const PostsTab: FC<{ channelId: string }> = ({ channelId }) => {
     console.log('[DEBUG] at ChannelPage: PostsTab', error)
     return (
       <Box width="full">
-        <Center fontSize="lg">Error when fetching channel's posts! {(error as any).response.statusText}</Center>
+        <Center fontSize="lg">Error when fetching channel's posts! {(error as any)?.message}</Center>
       </Box>
     )
   }

@@ -31,7 +31,7 @@ export const JoinedChannelsSection: FC<Props> = ({ channels, isLoading, error })
     console.log('[DEBUG] Error at ProfileDetails: JoinedChannelsSection', error)
     return (
       <Box width="full">
-        <Center fontSize="lg">Error when fetching joined channels! {error.response.statusText}</Center>
+        <Center fontSize="lg">Error when fetching joined channels! {error?.response?.statusText}</Center>
       </Box>
     )
   }
