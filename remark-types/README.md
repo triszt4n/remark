@@ -6,7 +6,7 @@ The `model` folder has all the model interfaces, that define how the data is sto
 
 The `views` folder has all the interfaces used in communication with the frontend, these define the way, how the response JSON should look like and how the frontend should expect the result from the endpoints.
 
-_Note for me:_ Use `npm publish --access=public` for publishing this package.
+_Note for me:_ push to master with newer version specified in package.json to publish this package.
 
 ## Licence
 

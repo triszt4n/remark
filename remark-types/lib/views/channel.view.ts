@@ -6,7 +6,6 @@ export interface ChannelView {
   descRawMarkdown: string
   joinCount: number
   postsCount: number
-  ownerUsername: string
   amIJoined: boolean
   amIOwner: boolean
   amIModerator: boolean

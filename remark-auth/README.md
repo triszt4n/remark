@@ -4,7 +4,7 @@ Authorization functions for the [Remark project](github.com/triszt4n/remark) by 
 
 It was easier to lift out the reusable code from the backend into an NPM package, so it the functions could be versioned and easily built with the Azure Functions (and for better performance).
 
-_Note for me:_ Use `npm publish --access=public` for publishing this package.
+_Note for me:_ push to master with newer version specified in package.json to publish this package.
 
 ## Usage
 

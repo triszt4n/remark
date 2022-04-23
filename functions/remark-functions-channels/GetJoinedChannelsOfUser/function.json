@@ -6,7 +6,7 @@
       "direction": "in",
       "name": "req",
       "methods": ["get"],
-      "route": "channels/uriname/{uriName}"
+      "route": "channels/user/{id}/joins"
     },
     {
       "type": "http",
@@ -14,5 +14,5 @@
       "name": "res"
     }
   ],
-  "scriptFile": "../dist/GetChannelByUriName/index.js"
+  "scriptFile": "../dist/GetJoinedChannelsOfUser/index.js"
 }

@@ -6,7 +6,7 @@
       "direction": "in",
       "name": "req",
       "methods": ["get"],
-      "route": "channels/{uriName}/modinfo"
+      "route": "channels/{id}/modinfo"
     },
     {
       "type": "http",

@@ -7,30 +7,15 @@ import { ChannelResource } from '../lib/model'
 const httpTrigger: AzureFunction = async function (context: Context, req: HttpRequest): Promise<void> {
   const id = context.bindingData.id as string
   const channelsContainer = fetchCosmosContainer('Channels')
+  const channelJoinsContainer = fetchCosmosContainer('ChannelJoins')
+  const postsContainer = fetchCosmosContainer('Posts')
 
   // User data from Authorization
   const result = readUserFromAuthHeader(req, process.env.JWT_PRIVATE_KEY)
-  if (result.isError) {
-    context.res = {
-      status: result.status,
-      body: { message: result.message }
-    }
-    return
-  }
-  const { userFromJwt } = result
+  const user = result.isError ? null : (result.userFromJwt as { id: string; username: string; email: string })
 
   // Query from DB
-  const response = await channelsContainer.item(id, id).read<ChannelResource>()
-  if (response instanceof Error) {
-    context.log('[ERROR] at GetChannel', response as Error)
-    context.res = {
-      status: 500,
-      body: { message: `Error in database: Could not read channel!` }
-    }
-    return
-  }
-  const channel = response.resource
-
+  const { resource: channel } = await channelsContainer.item(id, id).read<ChannelResource>()
   if (channel == null) {
     context.res = {
       status: 404,
@@ -40,28 +25,16 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
   }
 
   // Query from DB: joinCount
-  const response = await channelsContainer.item(id, id).read<ChannelResource>()
-  if (response instanceof Error) {
-    context.log.error('[ERROR] at GetChannel', response as Error)
-    context.res = {
-      status: 500,
-      body: { message: `Error in database: Could not read channel!` }
-    }
-    return
-  }
-  const channel = response.resource
+  const { resource: joinCount } = await channelsContainer.item(id, id).read<ChannelResource>()
 
-  // Query from DB: joinCount
-  const response = await channelsContainer.item(id, id).read<ChannelResource>()
-  if (response instanceof Error) {
-    context.log('[ERROR] at GetChannel', response as Error)
-    context.res = {
-      status: 500,
-      body: { message: `Error in database: Could not read channel!` }
-    }
-    return
-  }
-  const channel = response.resource
+  // Query from DB: amIJoined
+  const { resource: amIJoined } = await channelsContainer.item(id, id).read<ChannelResource>()
+
+  // Query from DB: postsCount
+  const { resource: postsCount } = await channelsContainer.item(id, id).read<ChannelResource>()
+
+  // Query from DB: ownerUsername
+  const { resource: ownerUsername } = await channelsContainer.item(id, id).read<ChannelResource>()
 
   const returnable: ChannelView = {
     ...channel,
