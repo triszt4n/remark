@@ -1,11 +1,33 @@
-import { SqlQuerySpec } from '@azure/cosmos'
-
-export const createQueryByUriName = (uriName: string) => ({
-  query: 'SELECT * FROM Channels c WHERE UPPER(c.uriName) = UPPER(@uriName)',
+export const createQueryForPostCountOfChannel = (id: string) => ({
+  query: 'SELECT COUNT(*) FROM Posts p WHERE p.parentChannelId = @id',
   parameters: [
     {
-      name: '@uriName',
-      value: uriName
+      name: '@id',
+      value: id
+    }
+  ]
+})
+
+export const createQueryForJoinCountOfChannel = (id: string) => ({
+  query: 'SELECT COUNT(*) FROM ChannelJoins cj WHERE cj.channelId = @id',
+  parameters: [
+    {
+      name: '@id',
+      value: id
+    }
+  ]
+})
+
+export const createQueryChannelJoinOfUserIdAndChannelId = (userId: string, channelId: string) => ({
+  query: 'SELECT cj.id FROM ChannelJoins cj WHERE cj.userId = @userId AND cj.channelId = @channelId',
+  parameters: [
+    {
+      name: '@userId',
+      value: userId
+    },
+    {
+      name: '@channelId',
+      value: channelId
     }
   ]
 })
@@ -16,16 +38,6 @@ export const createModInfoQueryByUriName = (uriName: string) => ({
     {
       name: '@uriName',
       value: uriName
-    }
-  ]
-})
-
-export const createQueryByOwnerUsername = (username: string): SqlQuerySpec => ({
-  query: 'SELECT * FROM Channels c JOIN Users u ON c.owner = u.id WHERE UPPER(c.owner) = UPPER(@username)',
-  parameters: [
-    {
-      name: '@username',
-      value: username
     }
   ]
 })
