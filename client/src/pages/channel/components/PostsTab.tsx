@@ -42,7 +42,7 @@ export const PostsTab: FC<{ channelId: string }> = ({ channelId }) => {
       )}
       <VStack spacing={6} align="stretch">
         {posts?.map((post) => (
-          <PostPreview key={post.id} post={post} />
+          <PostPreview key={post.id} post={post} channelId={channelId} />
         ))}
       </VStack>
     </>

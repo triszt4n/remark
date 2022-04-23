@@ -44,11 +44,15 @@ export const JoinedChannelsSection: FC<Props> = ({ channels, isLoading, error })
         </Heading>
       </Box>
       <Box maxWidth="100%">
-        <Box py={3} overflowX="auto" whiteSpace="nowrap">
-          {channels?.map((channel) => (
-            <JoinedChannel key={channel.id} channel={channel} />
-          ))}
-        </Box>
+        {channels?.length == 0 ? (
+          <Box>No channels found</Box>
+        ) : (
+          <Box py={3} overflowX="auto" whiteSpace="nowrap">
+            {channels?.map((channel) => (
+              <JoinedChannel key={channel.id} channel={channel} />
+            ))}
+          </Box>
+        )}
       </Box>
     </>
   )

@@ -11,7 +11,7 @@ type Props = {
 
 export const JoinedChannel: FC<Props> = ({ channel }) => {
   const { isLoggedIn } = useAuthContext()
-  const targetPath = `/channels/${channel.uriName}`
+  const targetPath = `/channels/${channel.id}`
   const navigate = useNavigate()
 
   return (

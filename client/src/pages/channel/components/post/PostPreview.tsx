@@ -5,13 +5,14 @@ import { PostPreviewDesktop } from './PostPreviewDesktop'
 import { PostPreviewMobile } from './PostPreviewMobile'
 
 export type PostPreviewProps = {
+  channelId: string
   post: PostView
   onUpvotePressed?: () => void
   onDownvotePressed?: () => void
 }
 
-export const PostPreview: FC<PostPreviewProps> = ({ post, onUpvotePressed = () => {}, onDownvotePressed = () => {} }) => {
-  const targetPath = `/channels/${post.parentChannelUriName}/posts/${post.id}`
+export const PostPreview: FC<PostPreviewProps> = ({ channelId, post, onUpvotePressed = () => {}, onDownvotePressed = () => {} }) => {
+  const targetPath = `/channels/${channelId}/posts/${post.id}`
 
   return (
     <Box as="article" p={4} borderRadius="md" borderWidth="1px">

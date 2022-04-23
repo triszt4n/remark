@@ -28,18 +28,18 @@ export const App = () => (
         <Route path=":username" element={<UserProxyPage />} />
       </Route>
       <Route path="users">
-        <Route path=":id" element={<UserPage />} />
+        <Route path=":userId" element={<UserPage />} />
       </Route>
       <Route path="ch">
         <Route path=":uriName" element={<ChannelProxyPage />} />
       </Route>
       <Route path="channels">
-        <Route path=":id">
+        <Route path=":channelId">
           {/** Show channel */}
           <Route index element={<ChannelPage />} />
           <Route path="posts">
             {/** Show post */}
-            <Route path=":id" element={<PostPage />} />
+            <Route path=":postId" element={<PostPage />} />
             {/** Edit post */}
             <Route path="edit" element={<></>} />
             {/** Create post */}
@@ -48,6 +48,12 @@ export const App = () => (
         </Route>
       </Route>
       <Route path="error" element={<ErrorPage />} />
+      <Route
+        path="*"
+        element={
+          <ErrorPage title="Page not found" messages={['Oops, it looks like you want to visit a page that is not found anymore!']} />
+        }
+      />
     </Route>
   </Routes>
 )

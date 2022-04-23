@@ -28,7 +28,7 @@ export const PostPreviewDesktop: FC<Props> = ({ post, onUpvotePressed, onDownvot
       <LinkBox as={HStack} flex={1} spacing={3} alignItems="start">
         <Box flex={1}>
           <Box fontSize="sm" fontWeight={300}>
-            posted by <RLink to={`/users/${post.publisher.username}`}>{post.publisher.username}</RLink>{' '}
+            posted by <RLink to={`/users/${post.publisher.id}`}>{post.publisher.username}</RLink>{' '}
             <Tooltip hasArrow placement="top" label={toDateTimeString(post.createdAt)}>
               <time
                 style={{ position: 'absolute', zIndex: 2, marginLeft: '0.25rem' }}

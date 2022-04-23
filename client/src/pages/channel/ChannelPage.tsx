@@ -9,8 +9,8 @@ import { JoinCounter } from './components/JoinCounter'
 import { PostsTab } from './components/PostsTab'
 
 export const ChannelPage: FC = () => {
-  const { id } = useParams()
-  const { isLoading, data: channel, error } = useQuery(['channelInfo', id], () => channelModule.fetchChannel(id!!))
+  const { channelId } = useParams()
+  const { isLoading, data: channel, error } = useQuery(['channelInfo', channelId], () => channelModule.fetchChannel(channelId!!))
 
   if (error) {
     console.log('[DEBUG] at ChannelPage: AboutTab', error)
@@ -43,10 +43,10 @@ export const ChannelPage: FC = () => {
           </TabList>
           <TabPanels>
             <TabPanel px={{ base: 0, md: 2 }}>
-              <PostsTab channelId={id!!} />
+              <PostsTab channelId={channelId!!} />
             </TabPanel>
             <TabPanel>
-              <AboutTab channelId={id!!} isLoading={isLoading} channel={channel} />
+              <AboutTab channelId={channelId!!} isLoading={isLoading} channel={channel} />
             </TabPanel>
           </TabPanels>
         </Tabs>

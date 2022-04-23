@@ -13,13 +13,13 @@ import { PostDetails } from './components/PostDetails'
 import { PostDetailsLoading } from './components/PostDetailsLoading'
 
 export const PostPage: FC = () => {
-  const { id } = useParams()
+  const { channelId, postId } = useParams()
   const { isLoggedIn } = useAuthContext()
-  const { isLoading, data: post, error } = useQuery(['post', id], () => postModule.fetchPost(id!!))
+  const { isLoading, data: post, error } = useQuery(['post', postId], () => postModule.fetchPost(postId!!))
   const onSend = () => {}
 
   if (error) {
-    console.log('[DEBUG] at PostPage: ???', error)
+    console.log('[DEBUG] Error at PostPage', error)
     return <Navigate replace to="/error" state={{ title: "Error when fetching post's details!", messages: [(error as any)?.message] }} />
   }
 
@@ -36,7 +36,7 @@ export const PostPage: FC = () => {
           </>
         ) : (
           <>
-            <PostDetails post={post!!} />
+            <PostDetails post={post!!} channelId={channelId!!} />
             <ActionsSection post={post!!} />
           </>
         )}
@@ -44,7 +44,7 @@ export const PostPage: FC = () => {
         {isLoggedIn && !isLoading && (
           <RemarkEditor promptText="Share your thoughts in a comment!" submitButtonText="Send comment" onSend={onSend} />
         )}
-        <CommentSection postId={id!!} />
+        <CommentSection postId={postId!!} />
       </VStack>
     </RLayout>
   )

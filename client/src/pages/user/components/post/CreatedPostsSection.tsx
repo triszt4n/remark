@@ -44,11 +44,15 @@ export const CreatedPostsSection: FC<Props> = ({ posts, isLoading, error }) => {
         </Heading>
       </Box>
       <Box maxWidth="100%">
-        <Box py={3} overflowX="auto" whiteSpace="nowrap">
-          {posts?.map((post) => (
-            <CreatedPost key={post.id} post={post} />
-          ))}
-        </Box>
+        {posts?.length == 0 ? (
+          <Box>No posts found</Box>
+        ) : (
+          <Box py={3} overflowX="auto" whiteSpace="nowrap">
+            {posts?.map((post) => (
+              <CreatedPost key={post.id} post={post} />
+            ))}
+          </Box>
+        )}
       </Box>
     </>
   )
