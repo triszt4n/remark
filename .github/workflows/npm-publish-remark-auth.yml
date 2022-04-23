@@ -5,6 +5,8 @@ on:
       - master
     paths:
       - 'remark-auth/lib/**'
+      - 'remark-auth/package.json'
+      - 'remark-auth/package-lock.json'
   workflow_dispatch:
 jobs:
   build:
