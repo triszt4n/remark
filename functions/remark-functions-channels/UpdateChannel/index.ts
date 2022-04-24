@@ -2,7 +2,7 @@ import { AzureFunction, Context, HttpRequest } from '@azure/functions'
 import { readUserFromAuthHeader } from '@triszt4n/remark-auth'
 import { UpdateChannelView } from '@triszt4n/remark-types'
 import { fetchCosmosContainer, fetchCosmosDatabase } from '../lib/dbConfig'
-import { ChannelResource } from '../lib/model'
+import { ChannelResource, validateInput } from '../lib/model'
 
 const httpTrigger: AzureFunction = async function (context: Context, req: HttpRequest): Promise<void> {
   const id = context.bindingData.id as string
@@ -18,8 +18,9 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
   }
   const { userFromJwt: user } = result
 
-  const { uriName, title, descRawMarkdown } = req.body as UpdateChannelView
-  // todo: Insert validation of request body here
+  const inputChannel = req.body as UpdateChannelView
+  const { uriName, title, descRawMarkdown } = inputChannel
+  validateInput(inputChannel)
 
   const database = fetchCosmosDatabase()
   const channelsContainer = fetchCosmosContainer(database, 'Channels')

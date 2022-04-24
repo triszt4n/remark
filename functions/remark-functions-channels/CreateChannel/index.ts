@@ -3,7 +3,7 @@ import { readUserFromAuthHeader } from '@triszt4n/remark-auth'
 import { ChannelModel, CreateChannelView } from '@triszt4n/remark-types'
 import { fetchCosmosContainer, fetchCosmosDatabase } from '../lib/dbConfig'
 import { createQueryByUriName } from '../lib/dbQueries'
-import { ChannelResource } from '../lib/model'
+import { ChannelResource, validateInput } from '../lib/model'
 
 const httpTrigger: AzureFunction = async function (context: Context, req: HttpRequest): Promise<void> {
   if (!req.body) {
@@ -25,8 +25,9 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
   }
   const { userFromJwt: user } = result
 
-  const { uriName, title, descRawMarkdown } = req.body as CreateChannelView
-  // todo: Insert validation of request body here
+  const inputChannel = req.body as CreateChannelView
+  const { uriName, title, descRawMarkdown } = inputChannel
+  validateInput(inputChannel)
 
   // Check for duplicates with uriName
   const database = fetchCosmosDatabase()

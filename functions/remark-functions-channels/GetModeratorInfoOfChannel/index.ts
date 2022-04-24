@@ -21,9 +21,10 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
   const { moderatorIds, ownerId } = channel
 
   const usersContainer = fetchCosmosContainer(database, 'Users')
-  // todo: parallelize these below
-  const { resource: owner } = await usersContainer.item(ownerId, ownerId).read<UserResource>()
-  const { resources: moderators } = await usersContainer.items.query<UserResource>(createQueryByModeratorIds(moderatorIds)).fetchAll()
+  const [{ resource: owner }, { resources: moderators }] = await Promise.all([
+    usersContainer.item(ownerId, ownerId).read<UserResource>(),
+    usersContainer.items.query<UserResource>(createQueryByModeratorIds(moderatorIds)).fetchAll()
+  ])
 
   context.res = {
     body: {
