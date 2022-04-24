@@ -10,7 +10,7 @@
     "@emotion/react": "11.9.0",
     "@emotion/styled": "11.8.1",
     "@fontsource/inter": "4.5.7",
-    "@triszt4n/remark-types": "1.0.13",
+    "@triszt4n/remark-types": "1.0.14",
     "axios": "0.26.1",
     "chakra-ui-markdown-renderer": "4.0.0",
     "date-fns": "2.28.0",

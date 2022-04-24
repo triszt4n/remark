@@ -12,7 +12,7 @@
   "dependencies": {
     "@azure/cosmos": "3.15.1",
     "@triszt4n/remark-auth": "1.0.2",
-    "@triszt4n/remark-types": "1.0.13",
+    "@triszt4n/remark-types": "1.0.14",
     "validator": "13.7.0"
   },
   "devDependencies": {
