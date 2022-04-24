@@ -39,7 +39,7 @@ export const CommentItem: FC<Props> = ({ comment }) => {
           src={user.imageUrl}
           size={useBreakpointValue({ base: 'xs', sm: 'sm' })}
         />
-        <RLink to={`/users/${user.username}`} wordBreak="break-all">
+        <RLink to={`/users/${user.id}`} wordBreak="break-all">
           {ellipsifyLongText(user.username, useBreakpointValue({ base: 24, md: 40 }))}
         </RLink>
         <Box>·</Box>

@@ -10,13 +10,12 @@ import { toDateTimeString, toRelativeDateString } from '../../../util/core-util-
 
 type Props = {
   post: PostView
-  channelId: string
   onUpvotePressed: () => void
   onDownvotePressed: () => void
 }
 
-export const PostDetailsMobile: FC<Props> = ({ post, channelId, onUpvotePressed, onDownvotePressed }) => {
-  const { createdAt, publisher: user, rawMarkdown, parentChannelUriName: uriName, title, voteCount, myVote, imageUrl } = post
+export const PostDetailsMobile: FC<Props> = ({ post, onUpvotePressed, onDownvotePressed }) => {
+  const { createdAt, publisher: user, rawMarkdown, channel, title, voteCount, myVote, imageUrl } = post
 
   return (
     <>
@@ -24,7 +23,8 @@ export const PostDetailsMobile: FC<Props> = ({ post, channelId, onUpvotePressed,
         <HStack>
           <Avatar size="sm" name={`${user.firstName} ${user.lastName}`} src={user.imageUrl} />
           <Box fontSize="sm">
-            posted in <RLink to={`/channels/${channelId}`}>{uriName}</RLink> by <RLink to={`/users/${user.id}`}>{user.username}</RLink>
+            posted in <RLink to={`/channels/${channel.id}`}>{channel.uriName}</RLink> by{' '}
+            <RLink to={`/users/${user.id}`}>{user.username}</RLink>
             <Tooltip hasArrow placement="top" label={toDateTimeString(createdAt)}>
               <time dateTime={new Date(createdAt * 1000).toISOString()}> {toRelativeDateString(createdAt)}</time>
             </Tooltip>

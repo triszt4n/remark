@@ -11,26 +11,24 @@ type Props = {
 }
 
 export const CreatedPost: FC<Props> = ({ post }) => {
+  const { channel, voteCount, createdAt, id, title, imageUrl, rawMarkdown } = post
+
   return (
     <LinkBox display="inline-block" mx={1} borderWidth="1px" borderRadius="md" p={3} w="20rem">
       <VStack align="stretch">
         <Box fontSize="xs" color="gray.500" fontWeight={700} letterSpacing="wide">
-          channels/{ellipsifyLongText(post.parentChannelUriName, 16)} &bull; {toRelativeDateString(post.createdAt)}
+          ch/{ellipsifyLongText(channel.uriName, 24)} &bull; {toRelativeDateString(createdAt)}
         </Box>
         <HStack fontSize="xs">
-          <Badge colorScheme={post.voteCount > 0 ? 'secondary' : 'primary'} letterSpacing="wide">
+          <Badge colorScheme={voteCount > 0 ? 'secondary' : 'primary'} letterSpacing="wide">
             <HStack>
-              {post.voteCount >= 0 ? <FaRegThumbsUp /> : <FaRegThumbsDown />}
-              <Box>{post.voteCount}</Box>
+              {voteCount >= 0 ? <FaRegThumbsUp /> : <FaRegThumbsDown />}
+              <Box>{voteCount}</Box>
             </HStack>
           </Badge>
           <Heading size="sm">
-            <LinkOverlay
-              as={Link}
-              to={`/channels/${post.parentChannelUriName}/posts/${post.id}`}
-              href={`/channels/${post.parentChannelUriName}/posts/${post.id}`}
-            >
-              {ellipsifyLongText(post.title, 26)}
+            <LinkOverlay as={Link} to={`/channels/${channel.id}/posts/${id}`} href={`/channels/${channel.id}/posts/${id}`}>
+              {ellipsifyLongText(title, 26)}
             </LinkOverlay>
           </Heading>
         </HStack>
@@ -38,20 +36,13 @@ export const CreatedPost: FC<Props> = ({ post }) => {
           <ReactMarkdown
             allowedElements={[]}
             unwrapDisallowed
-            children={ellipsifyLongText(post.rawMarkdown, useBreakpointValue({ base: 45, md: 70, lg: 120 }))}
+            children={ellipsifyLongText(rawMarkdown, useBreakpointValue({ base: 45, md: 70, lg: 120 }))}
             skipHtml
           />
         </Box>
-        {post.imageUrl && (
+        {imageUrl && (
           <Box>
-            <Image
-              borderRadius="md"
-              objectFit="cover"
-              height={{ md: '12rem', lg: '20rem' }}
-              width="100%"
-              src={post.imageUrl}
-              alt="Post image"
-            />
+            <Image borderRadius="md" objectFit="cover" height={{ md: '12rem', lg: '20rem' }} width="100%" src={imageUrl} alt="Post image" />
           </Box>
         )}
       </VStack>

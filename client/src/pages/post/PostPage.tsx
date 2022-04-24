@@ -13,7 +13,7 @@ import { PostDetails } from './components/PostDetails'
 import { PostDetailsLoading } from './components/PostDetailsLoading'
 
 export const PostPage: FC = () => {
-  const { channelId, postId } = useParams()
+  const { postId } = useParams()
   const { isLoggedIn } = useAuthContext()
   const { isLoading, data: post, error } = useQuery(['post', postId], () => postModule.fetchPost(postId!!))
   const onSend = () => {}
@@ -36,7 +36,7 @@ export const PostPage: FC = () => {
           </>
         ) : (
           <>
-            <PostDetails post={post!!} channelId={channelId!!} />
+            <PostDetails post={post!!} />
             <ActionsSection post={post!!} />
           </>
         )}
