@@ -6,8 +6,8 @@ import { RLink } from '../../components/commons/RLink'
 export const IndexPage: FC = () => (
   <RLayout>
     <VStack>
-      <RLink to="/ch/welcome" _hover={{ textDecoration: 'none' }}>
-        <Button colorScheme="theme">Channel page: ch/welcome</Button>
+      <RLink to="/ch/welcometoremark" _hover={{ textDecoration: 'none' }}>
+        <Button colorScheme="theme">Channel page: ch/welcometoremark</Button>
       </RLink>
       <RLink to="/channels/new" _hover={{ textDecoration: 'none' }}>
         <Button colorScheme="theme">Create channel</Button>
