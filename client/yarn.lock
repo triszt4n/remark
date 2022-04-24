@@ -12321,7 +12321,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-hook-form@npm:^7.30.0":
+"react-hook-form@npm:7.30.0":
   version: 7.30.0
   resolution: "react-hook-form@npm:7.30.0"
   peerDependencies:
@@ -12757,7 +12757,7 @@ __metadata:
     react-dom: 17.0.2
     react-google-login: 5.2.2
     react-helmet: 6.1.0
-    react-hook-form: ^7.30.0
+    react-hook-form: 7.30.0
     react-icons: 4.3.1
     react-markdown: 8.0.3
     react-query: 3.38.0
