@@ -1,16 +1,23 @@
 import { Box, Button, Center, Flex, VStack } from '@chakra-ui/react'
+import { ChannelView } from '@triszt4n/remark-types'
 import { FC } from 'react'
 import { FaPlus } from 'react-icons/fa'
 import { useQuery } from 'react-query'
+import { useNavigate } from 'react-router-dom'
 import { useAuthContext } from '../../../api/contexts/auth/useAuthContext'
 import { channelModule } from '../../../api/modules/channel.module'
 import { PostPreview } from './post/PostPreview'
 import { PostPreviewLoading } from './post/PostPreviewLoading'
 
-export const PostsTab: FC<{ channelId: string }> = ({ channelId }) => {
+type Props = { channel: ChannelView | undefined; channelId: string }
+
+export const PostsTab: FC<Props> = ({ channel, channelId }) => {
   const { isLoading, data: posts, error } = useQuery(['channelPosts', channelId], () => channelModule.fetchPostsOfChannel(channelId))
   const { isLoggedIn } = useAuthContext()
-  const onCreatePostPressed = () => {}
+  const navigate = useNavigate()
+  const onCreatePostPressed = () => {
+    navigate('posts/new', { state: { channel } })
+  }
 
   if (isLoading) {
     return (
@@ -33,10 +40,10 @@ export const PostsTab: FC<{ channelId: string }> = ({ channelId }) => {
 
   return (
     <>
-      {isLoggedIn && (
+      {isLoggedIn && channel && channel.amIJoined && (
         <Flex justifyContent="end" mb={3}>
           <Button size="sm" leftIcon={<FaPlus />} colorScheme="theme" variant="outline" onClick={onCreatePostPressed}>
-            Post here
+            Add post
           </Button>
         </Flex>
       )}

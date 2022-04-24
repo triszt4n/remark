@@ -1,13 +1,15 @@
-import { UpdatePostView } from '@triszt4n/remark-types'
+import { Code, Heading, VStack } from '@chakra-ui/react'
+import { ChannelView, UpdatePostView } from '@triszt4n/remark-types'
 import { FC } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { postModule } from '../../../api/modules/post.module'
 import { RLayout } from '../../../components/commons/RLayout'
 import { PostForm } from './PostForm'
 
-export const CreateChannelPage: FC = () => {
+export const CreatePostPage: FC = () => {
   const navigate = useNavigate()
   const { channelId } = useParams()
+  const { channel } = useLocation().state as { channel: ChannelView }
 
   const onSend = async (creatable: UpdatePostView) => {
     if (!channelId) return
@@ -26,7 +28,12 @@ export const CreateChannelPage: FC = () => {
 
   return (
     <RLayout>
-      <PostForm onSend={onSend} sendButtonText="Create" />
+      <VStack spacing={6} alignItems="stretch">
+        <Heading fontSize="3xl">
+          Create post in <Code fontSize="3xl">ch/{channel.uriName}</Code>
+        </Heading>
+        <PostForm onSend={onSend} sendButtonText="Create" />
+      </VStack>
     </RLayout>
   )
 }

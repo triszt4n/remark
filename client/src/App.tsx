@@ -13,6 +13,8 @@ import { ExplorePage } from './pages/explore/ExplorePage'
 import { IndexPage } from './pages/index/IndexPage'
 import { LoginPage } from './pages/login/LoginPage'
 import { LogoutPage } from './pages/logout/LogoutPage'
+import { CreatePostPage } from './pages/post/forms/CreatePostPage'
+import { EditPostPage } from './pages/post/forms/EditPostPage'
 import { PostPage } from './pages/post/PostPage'
 import { ProfilePage } from './pages/user/ProfilePage'
 import { UserPage } from './pages/user/UserPage'
@@ -47,10 +49,10 @@ export const App = () => (
             {/** Show post */}
             <Route path=":postId" element={<PostPage />}>
               {/** Edit post */}
-              <Route path="edit" element={<EditChannelPage />} />
+              <Route path="edit" element={<EditPostPage />} />
             </Route>
             {/** Create post */}
-            <Route path="new" element={<></>} />
+            <Route path="new" element={<CreatePostPage />} />
           </Route>
         </Route>
       </Route>

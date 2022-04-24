@@ -13,7 +13,7 @@ class PostModule {
   }
 
   async fetchCreatedPostsOfUser(id: string): Promise<PostPartialView[]> {
-    const response = await axios.get<PostPartialView[]>(`/posts/posts/user/${id}/posts`)
+    const response = await axios.get<PostPartialView[]>(`/posts/posts/user/${id}`)
     return response.data
   }
 

@@ -43,7 +43,7 @@ export const ChannelPage: FC = () => {
           </TabList>
           <TabPanels>
             <TabPanel px={{ base: 0, md: 2 }}>
-              <PostsTab channelId={channelId!!} />
+              <PostsTab channelId={channelId!!} channel={channel} />
             </TabPanel>
             <TabPanel>
               <AboutTab channelId={channelId!!} isLoading={isLoading} channel={channel} />

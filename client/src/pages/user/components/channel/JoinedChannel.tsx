@@ -28,9 +28,9 @@ export const JoinedChannel: FC<Props> = ({ channel }) => {
             {toReadableNumber(channel.joinCount)} joined
           </Badge>
         </Box>
-        <Box>
-          {isLoggedIn && (
-            <>
+        {isLoggedIn && (
+          <VStack justifyContent="center">
+            <Box>
               <Button
                 size="sm"
                 colorScheme="themeHelper"
@@ -39,10 +39,14 @@ export const JoinedChannel: FC<Props> = ({ channel }) => {
               >
                 {channel.amIJoined ? 'Leave' : 'Join'}
               </Button>
-              {channel.amIJoined && <Text fontSize="xs">joined {toRelativeDateString(channel.joinedAt)}</Text>}
-            </>
-          )}
-        </Box>
+            </Box>
+            {channel.amIJoined && (
+              <Box>
+                <Text fontSize="xs">joined {toRelativeDateString(channel.joinedAt)}</Text>
+              </Box>
+            )}
+          </VStack>
+        )}
       </VStack>
     </LinkBox>
   )

@@ -1,12 +1,13 @@
-import { PostView, UpdatePostView } from '@triszt4n/remark-types'
+import { Code, Heading, VStack } from '@chakra-ui/react'
+import { ChannelView, PostView, UpdatePostView } from '@triszt4n/remark-types'
 import { FC } from 'react'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { postModule } from '../../../api/modules/post.module'
 import { RLayout } from '../../../components/commons/RLayout'
 import { PostForm } from './PostForm'
 
-export const EditChannelPage: FC = () => {
-  const state = useLocation().state as { post: PostView }
+export const EditPostPage: FC = () => {
+  const { post, channel } = useLocation().state as { post: PostView; channel: ChannelView }
   const { postId, channelId } = useParams()
   const navigate = useNavigate()
 
@@ -27,7 +28,12 @@ export const EditChannelPage: FC = () => {
 
   return (
     <RLayout>
-      <PostForm onSend={onSend} sendButtonText="Save" defaultValues={state.post} />
+      <VStack spacing={6} alignItems="stretch">
+        <Heading fontSize="3xl">
+          Edit your post in <Code fontSize="3xl">ch/{channel.uriName}</Code>
+        </Heading>
+        <PostForm onSend={onSend} sendButtonText="Save" defaultValues={post} />
+      </VStack>
     </RLayout>
   )
 }
