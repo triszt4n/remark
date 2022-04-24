@@ -9,10 +9,13 @@ export interface CommentView {
   voteCount: number
   amIPublisher: boolean
   myVote: MyVoteType
+  parentPostId: string
 }
 
-export interface CreateCommentView {
+export interface UpdateCommentView {
   rawMarkdown: string
 }
 
-export interface UpdateCommentView extends CreateCommentView {}
+export interface CreateCommentView extends UpdateCommentView {
+  parentPostId: string
+}
