@@ -1,4 +1,12 @@
-import { ChannelPartialView, ChannelView, CreateChannelView, PostView, UpdateChannelView, UserView } from '@triszt4n/remark-types'
+import {
+  ChannelModel,
+  ChannelPartialView,
+  ChannelView,
+  CreateChannelView,
+  PostView,
+  UpdateChannelView,
+  UserView
+} from '@triszt4n/remark-types'
 import axios from 'axios'
 
 type ModeratorInfo = { owner: UserView; moderators: UserView[] }
@@ -30,12 +38,12 @@ class ChannelModule {
   }
 
   async createChannel(channelData: CreateChannelView) {
-    const response = await axios.post<CreateChannelView>(`/channels/channels`, channelData)
+    const response = await axios.post<ChannelModel & { id: string }>(`/channels/channels`, channelData)
     return response
   }
 
   async updateChannel(id: string, channelData: UpdateChannelView) {
-    const response = await axios.patch<UpdateChannelView>(`/channels/channels/${id}`, channelData)
+    const response = await axios.patch<ChannelModel & { id: string }>(`/channels/channels/${id}`, channelData)
     return response
   }
 }

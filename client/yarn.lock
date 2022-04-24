@@ -12321,6 +12321,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-hook-form@npm:^7.30.0":
+  version: 7.30.0
+  resolution: "react-hook-form@npm:7.30.0"
+  peerDependencies:
+    react: ^16.8.0 || ^17 || ^18
+  checksum: 7af442c80e1d8e04b6345f4f46177974d82488e81cc12b165d6ff1c69ba0f6234bd2ef0f7b51dda34f77b36fe74464815bbb0f4c77dc2cd9793f8e89d528ae25
+  languageName: node
+  linkType: hard
+
 "react-icons@npm:4.3.1":
   version: 4.3.1
   resolution: "react-icons@npm:4.3.1"
@@ -12748,6 +12757,7 @@ __metadata:
     react-dom: 17.0.2
     react-google-login: 5.2.2
     react-helmet: 6.1.0
+    react-hook-form: ^7.30.0
     react-icons: 4.3.1
     react-markdown: 8.0.3
     react-query: 3.38.0

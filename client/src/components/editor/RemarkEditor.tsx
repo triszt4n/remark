@@ -1,6 +1,5 @@
 import {
   Box,
-  Button,
   Flex,
   FormControl,
   FormErrorMessage,
@@ -11,105 +10,75 @@ import {
   TabPanel,
   TabPanels,
   Tabs,
-  Textarea,
-  useToast
+  Textarea
 } from '@chakra-ui/react'
 import ChakraUIRenderer from 'chakra-ui-markdown-renderer'
-import { ChangeEventHandler, FC, useState } from 'react'
-import { FaPaperPlane } from 'react-icons/fa'
+import { FC } from 'react'
+import { useFormContext } from 'react-hook-form'
 import ReactMarkdown from 'react-markdown'
 import { RLink } from '../commons/RLink'
-import { getCurrentStatus, TextAreaStatus } from './editorUtils'
+import { getStatusString } from './editorUtils'
 
 type Props = {
-  promptText: string
-  submitButtonText: string
-  onSend: (rawMarkdown: string) => void
-  startingRawMarkdown?: string
-  submitButtonIcon?: JSX.Element
+  formDetails: {
+    id: string
+    promptText: string
+    maxChar: number
+  }
+  defaultValue?: string
   textAreaHeight?: string | number
   previewHeight?: string | number
 }
 
-export const RemarkEditor: FC<Props> = ({
-  promptText,
-  submitButtonText,
-  onSend,
-  startingRawMarkdown = '',
-  submitButtonIcon = <FaPaperPlane />,
-  textAreaHeight = '22rem',
-  previewHeight = '26rem'
-}) => {
-  const toast = useToast()
-  const [rawMarkdown, setRawMarkdown] = useState<string>(startingRawMarkdown)
-  const [status, setStatus] = useState<TextAreaStatus>(getCurrentStatus(startingRawMarkdown ? startingRawMarkdown.length : 0))
-
-  const onTrySend = () => {
-    if (status.isError || rawMarkdown.trim().length === 0) {
-      toast({
-        title: 'Invalid message body',
-        description: 'You cannot send an invalid comment! See error messages.',
-        status: 'error',
-        duration: 5000,
-        isClosable: true
-      })
-    } else {
-      onSend(rawMarkdown)
-    }
-  }
-
-  const handleInputChange: ChangeEventHandler<HTMLTextAreaElement> = (e) => {
-    let { value } = e.target
-    setStatus(getCurrentStatus(value.length))
-    setRawMarkdown(value)
-  }
+export const RemarkEditor: FC<Props> = ({ textAreaHeight = '22rem', previewHeight = '26rem', defaultValue, formDetails }) => {
+  const {
+    register,
+    watch,
+    formState: { errors }
+  } = useFormContext()
 
   return (
-    <Box width="full">
-      <Tabs variant="enclosed">
-        <TabList>
-          <Tab>Edit</Tab>
-          <Tab>Preview</Tab>
-        </TabList>
-        <TabPanels>
-          <TabPanel>
-            <FormControl isInvalid={status.isError}>
-              <FormLabel fontWeight={700} fontSize="lg" htmlFor="rawMarkdown">
-                {`${promptText} `}
-                <RLink to="https://www.markdownguide.org/cheat-sheet/" isExternal>
-                  See guide here.
-                </RLink>
-              </FormLabel>
-              <Textarea
-                id="rawMarkdown"
-                isInvalid={status.isError}
-                onChange={handleInputChange}
-                placeholder="Enter your markdown formatted text here..."
-                height={textAreaHeight}
-                defaultValue={startingRawMarkdown}
-              />
-              <Flex justifyContent="flex-end">
-                {status.isError ? <FormErrorMessage>{status.message}</FormErrorMessage> : <FormHelperText>{status.message}</FormHelperText>}
-              </Flex>
-            </FormControl>
-          </TabPanel>
-          <TabPanel>
-            <Box maxHeight={previewHeight} overflowY="scroll">
-              <ReactMarkdown components={ChakraUIRenderer()} children={rawMarkdown} skipHtml />
-            </Box>
-          </TabPanel>
-        </TabPanels>
-      </Tabs>
-      <Flex justifyContent="flex-end">
-        <Button
-          disabled={status.isError || rawMarkdown.trim().length === 0}
-          rightIcon={submitButtonIcon}
-          colorScheme="theme"
-          onClick={onTrySend}
-        >
-          {submitButtonText}
-        </Button>
-      </Flex>
-    </Box>
+    <Tabs variant="enclosed">
+      <TabList>
+        <Tab>Edit</Tab>
+        <Tab>Preview</Tab>
+      </TabList>
+      <TabPanels>
+        <TabPanel>
+          <FormControl isInvalid={errors[formDetails.id]}>
+            <FormLabel htmlFor={formDetails.id}>
+              {`${formDetails.promptText} `}
+              <RLink to="https://www.markdownguide.org/cheat-sheet/" isExternal>
+                See guide here.
+              </RLink>
+            </FormLabel>
+            <Textarea
+              id={formDetails.id}
+              placeholder="Enter your markdown formatted text here..."
+              height={textAreaHeight}
+              defaultValue={defaultValue}
+              {...register(formDetails.id, {
+                maxLength: { value: formDetails.maxChar, message: 'Text entered is too long!' }
+              })}
+              isInvalid={errors[formDetails.id]}
+            />
+            <Flex justifyContent="flex-end">
+              {errors[formDetails.id] ? (
+                <FormErrorMessage>
+                  {errors[formDetails.id].message} {getStatusString(watch(formDetails.id), formDetails.maxChar)}
+                </FormErrorMessage>
+              ) : (
+                <FormHelperText>{getStatusString(watch(formDetails.id), formDetails.maxChar)}</FormHelperText>
+              )}
+            </Flex>
+          </FormControl>
+        </TabPanel>
+        <TabPanel>
+          <Box maxHeight={previewHeight} overflowY="scroll">
+            <ReactMarkdown components={ChakraUIRenderer()} children={watch(formDetails.id)} skipHtml />
+          </Box>
+        </TabPanel>
+      </TabPanels>
+    </Tabs>
   )
 }

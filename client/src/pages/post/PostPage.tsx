@@ -1,5 +1,7 @@
-import { Flex, HStack, Skeleton, VStack } from '@chakra-ui/react'
+import { Button, Flex, HStack, Skeleton, VStack } from '@chakra-ui/react'
 import { FC } from 'react'
+import { FormProvider, SubmitHandler, useForm } from 'react-hook-form'
+import { FaPaperPlane } from 'react-icons/fa'
 import { useQuery } from 'react-query'
 import { Navigate, useParams } from 'react-router-dom'
 import { useAuthContext } from '../../api/contexts/auth/useAuthContext'
@@ -16,7 +18,15 @@ export const PostPage: FC = () => {
   const { postId } = useParams()
   const { isLoggedIn } = useAuthContext()
   const { isLoading, data: post, error } = useQuery(['post', postId], () => postModule.fetchPost(postId!!))
-  const onSend = () => {}
+  const methods = useForm<{ rawMarkdown: string }>({ mode: 'all' })
+  const {
+    formState: { isSubmitting },
+    handleSubmit
+  } = methods
+
+  const onSubmit: SubmitHandler<{ rawMarkdown: string }> = (values) => {
+    alert(JSON.stringify(values, null, 2))
+  }
 
   if (error) {
     console.log('[DEBUG] Error at PostPage', error)
@@ -42,7 +52,22 @@ export const PostPage: FC = () => {
         )}
         {isLoggedIn && isLoading && <RemarkEditorLoading />}
         {isLoggedIn && !isLoading && (
-          <RemarkEditor promptText="Share your thoughts in a comment!" submitButtonText="Send comment" onSend={onSend} />
+          <FormProvider {...methods}>
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <RemarkEditor
+                formDetails={{
+                  id: 'rawMarkdown',
+                  promptText: 'Share your thoughts in a markdown formatted comment!',
+                  maxChar: 500
+                }}
+              />
+              <Flex justifyContent="end">
+                <Button leftIcon={<FaPaperPlane />} colorScheme="theme" isLoading={isSubmitting} type="submit">
+                  Send comment
+                </Button>
+              </Flex>
+            </form>
+          </FormProvider>
         )}
         <CommentSection postId={postId!!} />
       </VStack>

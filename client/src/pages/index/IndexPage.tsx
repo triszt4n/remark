@@ -7,10 +7,10 @@ export const IndexPage: FC = () => (
   <RLayout>
     <VStack>
       <RLink to="/ch/welcome" _hover={{ textDecoration: 'none' }}>
-        <Button colorScheme="theme">To channel page</Button>
+        <Button colorScheme="theme">Channel page: ch/welcome</Button>
       </RLink>
-      <RLink to="/u/triszt4n" _hover={{ textDecoration: 'none' }}>
-        <Button colorScheme="theme">To user page</Button>
+      <RLink to="/channels/new" _hover={{ textDecoration: 'none' }}>
+        <Button colorScheme="theme">Create channel</Button>
       </RLink>
     </VStack>
   </RLayout>

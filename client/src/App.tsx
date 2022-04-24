@@ -6,6 +6,8 @@ import { Route, Routes } from 'react-router-dom'
 import './global.css'
 import { ChannelPage } from './pages/channel/ChannelPage'
 import { ChannelProxyPage } from './pages/channel/ChannelProxyPage'
+import { CreateChannelPage } from './pages/channel/forms/CreateChannelPage'
+import { EditChannelPage } from './pages/channel/forms/EditChannelPage'
 import { ErrorPage } from './pages/error/ErrorPage'
 import { ExplorePage } from './pages/explore/ExplorePage'
 import { IndexPage } from './pages/index/IndexPage'
@@ -34,14 +36,19 @@ export const App = () => (
         <Route path=":uriName" element={<ChannelProxyPage />} />
       </Route>
       <Route path="channels">
+        {/** Create channel */}
+        <Route path="new" element={<CreateChannelPage />} />
         <Route path=":channelId">
           {/** Show channel */}
           <Route index element={<ChannelPage />} />
+          {/** Edit channel */}
+          <Route path="edit" element={<EditChannelPage />} />
           <Route path="posts">
             {/** Show post */}
-            <Route path=":postId" element={<PostPage />} />
-            {/** Edit post */}
-            <Route path="edit" element={<></>} />
+            <Route path=":postId" element={<PostPage />}>
+              {/** Edit post */}
+              <Route path="edit" element={<EditChannelPage />} />
+            </Route>
             {/** Create post */}
             <Route path="new" element={<></>} />
           </Route>

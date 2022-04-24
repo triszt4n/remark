@@ -33,7 +33,7 @@ export const ChannelPage: FC = () => {
               </Text>
               <Text fontSize={{ base: 'sm', md: 'md' }}>{channel?.title}</Text>
             </Box>
-            <JoinCounter isJoined={channel?.amIJoined || false} joinCount={channel?.joinCount || 0} />
+            <JoinCounter channel={channel!!} joinCount={channel?.joinCount || 0} />
           </Flex>
         )}
         <Tabs isFitted>

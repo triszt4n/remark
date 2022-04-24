@@ -1,5 +1,6 @@
 import {
   Button,
+  Code,
   FormControl,
   FormErrorMessage,
   FormHelperText,
@@ -14,7 +15,8 @@ import {
   ModalOverlay,
   Spacer
 } from '@chakra-ui/react'
-import { ChangeEventHandler, FC, useState } from 'react'
+import { FC } from 'react'
+import { SubmitHandler, useForm } from 'react-hook-form'
 import { FaCheck } from 'react-icons/fa'
 
 type Props = {
@@ -25,27 +27,20 @@ type Props = {
 }
 
 export const EditUsernameModal: FC<Props> = ({ currentUsername, isOpen, onClose, onSave }) => {
-  const [isError, setIsError] = useState<boolean>(false)
-  const [errorText, setErrorText] = useState<string>('')
-  const [newUsername, setNewUsername] = useState<string>(currentUsername)
+  const {
+    handleSubmit,
+    register,
+    formState: { errors, isSubmitting, isValid },
+    watch,
+    setError
+  } = useForm<{ newUsername: string }>({ mode: 'all' })
 
-  const onPressedSave = async () => {
-    const answer = await onSave(newUsername)
+  const onSubmit: SubmitHandler<{ newUsername: string }> = async (values) => {
+    const answer = await onSave(values.newUsername)
     if (answer === '') {
       onClose()
     } else {
-      setIsError(true)
-      setErrorText(answer)
-    }
-  }
-
-  const handleInputChange: ChangeEventHandler<HTMLInputElement> = (e) => {
-    setNewUsername(e.target.value)
-    if (currentUsername === e.target.value) {
-      setIsError(true)
-      setErrorText('New username cannot be the same as before!')
-    } else {
-      setIsError(false)
+      setError('newUsername', { type: 'custom', message: answer })
     }
   }
 
@@ -53,29 +48,48 @@ export const EditUsernameModal: FC<Props> = ({ currentUsername, isOpen, onClose,
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>Changing your username</ModalHeader>
-        <ModalCloseButton />
-        <ModalBody>
-          <FormControl isRequired isInvalid={isError}>
-            <FormLabel htmlFor="username">New username</FormLabel>
-            <Input id="username" type="username" onChange={handleInputChange} />
-            {!isError ? (
-              <FormHelperText>Choose a unique new username for yourself!</FormHelperText>
-            ) : (
-              <FormErrorMessage>{errorText}</FormErrorMessage>
-            )}
-          </FormControl>
-        </ModalBody>
-
-        <ModalFooter>
-          <Button variant="outline" colorScheme="theme" mr={3} onClick={onClose}>
-            Cancel
-          </Button>
-          <Spacer />
-          <Button rightIcon={<FaCheck />} colorScheme="theme" onClick={onPressedSave}>
-            Save
-          </Button>
-        </ModalFooter>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <ModalHeader>Change your username</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <FormControl isRequired isInvalid={!!errors.newUsername}>
+              <FormLabel htmlFor="newUsername">New username</FormLabel>
+              <Input
+                id="newUsername"
+                type="username"
+                {...register('newUsername', {
+                  required: 'Required field',
+                  maxLength: { value: 32, message: 'Too long, maximum length is 32 characters' },
+                  minLength: { value: 3, message: 'Too short, minimum length is 3 characters' },
+                  pattern: { value: /^[a-z0-9_]+$/i, message: 'Field can contain only alphanumeric and underscore characters' },
+                  validate: {
+                    notSameAsOld: (v) => v !== currentUsername || 'New username cannot be the current one'
+                  },
+                  setValueAs: (value) => value?.toLowerCase()
+                })}
+              />
+              {errors?.newUsername ? (
+                <FormErrorMessage>{errors.newUsername.message}</FormErrorMessage>
+              ) : (
+                <FormHelperText>
+                  Your profile will be available at{' '}
+                  <Code>
+                    {window.location.hostname}/u/{watch('newUsername') || `<username>`}
+                  </Code>
+                </FormHelperText>
+              )}
+            </FormControl>
+          </ModalBody>
+          <ModalFooter>
+            <Button variant="outline" colorScheme="theme" mr={3} onClick={onClose}>
+              Cancel
+            </Button>
+            <Spacer />
+            <Button rightIcon={<FaCheck />} colorScheme="theme" disabled={!isValid} isLoading={isSubmitting} type="submit">
+              Save
+            </Button>
+          </ModalFooter>
+        </form>
       </ModalContent>
     </Modal>
   )
