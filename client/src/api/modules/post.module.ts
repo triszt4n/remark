@@ -1,4 +1,4 @@
-import { CommentView, CreatePostView, PostPartialView, PostView, UpdatePostView } from '@triszt4n/remark-types'
+import { CommentView, CreatePostView, PostModel, PostPartialView, PostView, UpdatePostView } from '@triszt4n/remark-types'
 import axios from 'axios'
 
 class PostModule {
@@ -18,12 +18,12 @@ class PostModule {
   }
 
   async createPost(postData: CreatePostView) {
-    const response = await axios.post<CreatePostView>(`/posts/posts`, postData)
+    const response = await axios.post<PostModel & { id: string }>(`/posts/posts`, postData)
     return response
   }
 
   async updatePost(id: string, postData: UpdatePostView) {
-    const response = await axios.patch<UpdatePostView>(`/posts/posts/${id}`, postData)
+    const response = await axios.patch<PostModel & { id: string }>(`/posts/posts/${id}`, postData)
     return response
   }
 }

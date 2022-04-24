@@ -1,6 +1,6 @@
 import { AzureFunction, Context, HttpRequest } from '@azure/functions'
 import { readUserFromAuthHeader } from '@triszt4n/remark-auth'
-import { ChannelModel, CreateChannelView } from '@triszt4n/remark-types'
+import { ChannelJoinModel, ChannelModel, CreateChannelView } from '@triszt4n/remark-types'
 import { fetchCosmosContainer, fetchCosmosDatabase } from '../lib/dbConfig'
 import { createQueryByUriName } from '../lib/dbQueries'
 import { ChannelResource, validateInput } from '../lib/model'
@@ -51,6 +51,14 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
   }
 
   const { resource: channel } = await channelsContainer.items.create(creatableChannel)
+
+  // Join owner user to channel immediately after creation
+  const channelJoinsContainer = fetchCosmosContainer(database, 'ChannelJoins')
+  await channelJoinsContainer.items.create<ChannelJoinModel>({
+    createdAt: +new Date(),
+    userId: user.id,
+    channelId: channel.id
+  })
 
   context.res = {
     body: channel

@@ -35,7 +35,7 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
   }
 
   // Check permissions
-  if (channel.ownerId != user.id && channel.moderatorIds.every((id) => user.id != id)) {
+  if (channel.ownerId != user.id && !channel.moderatorIds.includes(user.id)) {
     context.res = {
       status: 403,
       body: { message: 'You are forbidden to make changes this channel!' }

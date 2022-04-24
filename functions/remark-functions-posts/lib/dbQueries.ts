@@ -1,11 +1,93 @@
 import { SqlQuerySpec } from '@azure/cosmos'
 
-export const createQueryByOwnerUsername = (username: string): SqlQuerySpec => ({
-  query: 'SELECT * FROM Channels c JOIN Users u ON c.owner = u.id WHERE UPPER(c.owner) = UPPER(@username)',
+export const createQueryPostVotesByPostId = (postId: string): SqlQuerySpec => ({
+  query: 'SELECT COUNT(pv.id) as voteCount FROM PostVotes pv WHERE pv.postId = @postId',
   parameters: [
     {
-      name: '@username',
-      value: username
+      name: '@postId',
+      value: postId
+    }
+  ]
+})
+
+export const createQueryCommentVotesByCommentId = (commentId: string): SqlQuerySpec => ({
+  query: 'SELECT COUNT(cv.id) as voteCount FROM CommentVotes cv WHERE cv.commentId = @commentId',
+  parameters: [
+    {
+      name: '@commentId',
+      value: commentId
+    }
+  ]
+})
+
+export const createQueryPostVoteByPostIdAndUserId = (postId: string, userId: string): SqlQuerySpec => ({
+  query: 'SELECT pv.isUpvote FROM PostVotes pv WHERE pv.postId = @postId AND pv.userId = @userId',
+  parameters: [
+    {
+      name: '@postId',
+      value: postId
+    },
+    {
+      name: '@userId',
+      value: userId
+    }
+  ]
+})
+
+export const createQueryCommentVoteByCommentIdAndUserId = (commentId: string, userId: string): SqlQuerySpec => ({
+  query: 'SELECT cv.isUpvote FROM CommentVotes cv WHERE cv.commentId = @commentId AND cv.userId = @userId',
+  parameters: [
+    {
+      name: '@commentId',
+      value: commentId
+    },
+    {
+      name: '@userId',
+      value: userId
+    }
+  ]
+})
+
+export const createQueryChannelJoinByUserIdAndChannelId = (userId: string, channelId: string): SqlQuerySpec => ({
+  query: 'SELECT cj.id FROM ChannelJoins cj WHERE cj.userId = @userId AND cj.channelId = @channelId',
+  parameters: [
+    {
+      name: '@userId',
+      value: userId
+    },
+    {
+      name: '@channelId',
+      value: channelId
+    }
+  ]
+})
+
+export const createQueryPostsOfChannelId = (parentChannelId: string): SqlQuerySpec => ({
+  query: 'SELECT * FROM Posts p WHERE p.parentChannelId = @parentChannelId',
+  parameters: [
+    {
+      name: '@parentChannelId',
+      value: parentChannelId
+    }
+  ]
+})
+
+export const createQueryPostsOfUserId = (userId: string): SqlQuerySpec => ({
+  query: 'SELECT * FROM Posts p WHERE p.publisherId = @userId',
+  parameters: [
+    {
+      name: '@userId',
+      value: userId
+    }
+  ]
+})
+
+export const createQueryCommentsOfPostId = (postId: string): SqlQuerySpec => ({
+  query: 'SELECT * FROM Comments c WHERE c.parentPostId = @postId',
+  parameters: [
+    {
+      name: '@postId',
+      value: postId
     }
   ]
 })

@@ -3,7 +3,7 @@ import { FC } from 'react'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { channelModule } from '../../../api/modules/channel.module'
 import { RLayout } from '../../../components/commons/RLayout'
-import { EditChannelForm } from './EditChannelForm'
+import { ChannelForm } from './ChannelForm'
 
 export const EditChannelPage: FC = () => {
   const state = useLocation().state as { channel: ChannelView }
@@ -18,7 +18,7 @@ export const EditChannelPage: FC = () => {
     } else {
       navigate(`/error`, {
         state: {
-          title: 'Error occured when creating channel',
+          title: 'Error occured when updating channel',
           messages: [JSON.stringify(response.data, null, 2), `${response.status} ${response.statusText}`]
         }
       })
@@ -27,7 +27,7 @@ export const EditChannelPage: FC = () => {
 
   return (
     <RLayout>
-      <EditChannelForm onSend={onSend} defaultValues={state.channel} />
+      <ChannelForm onSend={onSend} sendButtonText="Save" defaultValues={state.channel} />
     </RLayout>
   )
 }

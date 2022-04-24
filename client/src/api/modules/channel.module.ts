@@ -18,7 +18,7 @@ class ChannelModule {
   }
 
   async fetchPostsOfChannel(id: string): Promise<PostView[]> {
-    const response = await axios.get<PostView[]>(`/channels/channels/${id}/posts`)
+    const response = await axios.get<PostView[]>(`/posts/posts/channel/${id}`)
     return response.data
   }
 

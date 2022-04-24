@@ -17,6 +17,7 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
   const user = result.isError ? null : (result.userFromJwt as { id: string; username: string; email: string })
 
   const database = fetchCosmosDatabase()
+  // todo: optimize, and place these connection openers where needed
   const channelsContainer = fetchCosmosContainer(database, 'Channels')
   const channelJoinsContainer = fetchCosmosContainer(database, 'ChannelJoins')
   const postsContainer = fetchCosmosContainer(database, 'Posts')

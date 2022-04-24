@@ -3,7 +3,7 @@ import { FC } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { channelModule } from '../../../api/modules/channel.module'
 import { RLayout } from '../../../components/commons/RLayout'
-import { CreateChannelForm } from './CreateChannelForm'
+import { ChannelForm } from './ChannelForm'
 
 export const CreateChannelPage: FC = () => {
   const navigate = useNavigate()
@@ -24,7 +24,7 @@ export const CreateChannelPage: FC = () => {
 
   return (
     <RLayout>
-      <CreateChannelForm onSend={onSend} />
+      <ChannelForm onSend={onSend} sendButtonText="Create" />
     </RLayout>
   )
 }
