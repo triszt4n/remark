@@ -20,6 +20,16 @@ export interface ChannelPartialView {
   joinedAt: number
 }
 
+export interface ChannelInPostView {
+  id: string
+  createdAt: number
+  uriName: string
+  title: string
+  descRawMarkdown: string
+  amIOwner: boolean
+  amIModerator: boolean
+}
+
 export interface CreateChannelView {
   uriName: string
   title: string

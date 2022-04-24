@@ -7,7 +7,7 @@ import { PostVoteModel } from './model/post-vote.model'
 import { PostModel } from './model/post.model'
 import { UserModel } from './model/user.model'
 import { RemarkDatabaseContainerId } from './model/_containerId'
-import { ChannelPartialView, ChannelView, CreateChannelView, UpdateChannelView } from './views/channel.view'
+import { ChannelInPostView, ChannelPartialView, ChannelView, CreateChannelView, UpdateChannelView } from './views/channel.view'
 import { CommentView, CreateCommentView, UpdateCommentView } from './views/comment.view'
 import { NotificationView } from './views/notification.view'
 import { CreatePostView, PostPartialView, PostView, UpdatePostView } from './views/post.view'
@@ -32,6 +32,7 @@ export {
   UserView,
   ChannelView,
   ChannelPartialView,
+  ChannelInPostView,
   CommentView,
   MyVoteType,
   UpdateUserView,

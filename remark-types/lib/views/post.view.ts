@@ -1,3 +1,4 @@
+import { ChannelInPostView } from './channel.view'
 import { UserView } from './user.view'
 import { MyVoteType } from './_commons.view'
 
@@ -6,7 +7,7 @@ export interface PostView {
   createdAt: number
   publisher: UserView
   rawMarkdown: string
-  parentChannelUriName: string
+  channel: ChannelInPostView
   title: string
   voteCount: number
   myVote: MyVoteType
@@ -18,7 +19,7 @@ export interface PostPartialView {
   id: string
   createdAt: number
   rawMarkdown: string
-  parentChannelUriName: string
+  channel: ChannelInPostView
   title: string
   voteCount: number
   imageUrl?: string
