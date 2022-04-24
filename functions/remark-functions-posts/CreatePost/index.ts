@@ -72,7 +72,8 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
   const postVotesContainer = fetchCosmosContainer(database, 'PostVotes')
   await postVotesContainer.items.create<PostVoteModel>({
     userId: user.id,
-    postId: post.id
+    postId: post.id,
+    isUpvote: true
   })
 
   context.res = {
