@@ -7464,9 +7464,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"framer-motion@npm:6.3.1":
-  version: 6.3.1
-  resolution: "framer-motion@npm:6.3.1"
+"framer-motion@npm:6.3.2":
+  version: 6.3.2
+  resolution: "framer-motion@npm:6.3.2"
   dependencies:
     "@emotion/is-prop-valid": ^0.8.2
     framesync: 6.0.1
@@ -7480,7 +7480,7 @@ __metadata:
   dependenciesMeta:
     "@emotion/is-prop-valid":
       optional: true
-  checksum: 23971369855d0d6504ad126ff33e393dc153edf470f7150e6b74667ef0104089daf28105d9841a8f0aea35e459bffabbda6b682b7722e014eef5a54214ee1680
+  checksum: 50dc1263165a70a8eec54f8b30d7e1a788d17dcf876d37a7b919e2664264d48d235286640425a485a9ab0c8829aaf1604d708cb0e9ec0b60dc7f0a9e747a9a56
   languageName: node
   linkType: hard
 
@@ -12749,7 +12749,7 @@ __metadata:
     eslint: 8.14.0
     eslint-config-prettier: 8.5.0
     eslint-plugin-prettier: 4.0.0
-    framer-motion: 6.3.1
+    framer-motion: 6.3.2
     js-cookie: 3.0.1
     npm-run-all: 4.1.5
     prettier: 2.6.2
