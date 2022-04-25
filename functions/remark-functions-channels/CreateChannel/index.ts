@@ -27,7 +27,14 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
 
   const inputChannel = req.body as CreateChannelView
   const { uriName, title, descRawMarkdown } = inputChannel
-  validateInput(inputChannel)
+  const isValid = validateInput(inputChannel)
+  if (!isValid) {
+    context.res = {
+      status: 400,
+      body: { message: `Request body field(s) failed validation.` }
+    }
+    return
+  }
 
   // Check for duplicates with uriName
   const database = fetchCosmosDatabase()

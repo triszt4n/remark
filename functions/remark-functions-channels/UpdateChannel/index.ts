@@ -20,7 +20,14 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
 
   const inputChannel = req.body as UpdateChannelView
   const { uriName, title, descRawMarkdown } = inputChannel
-  validateInput(inputChannel)
+  const isValid = validateInput(inputChannel)
+  if (!isValid) {
+    context.res = {
+      status: 400,
+      body: { message: `Request body field(s) failed validation.` }
+    }
+    return
+  }
 
   const database = fetchCosmosDatabase()
   const channelsContainer = fetchCosmosContainer(database, 'Channels')

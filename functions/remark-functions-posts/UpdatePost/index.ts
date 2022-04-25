@@ -20,7 +20,14 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
 
   const inputPost = req.body as UpdatePostView
   const { rawMarkdown, title } = inputPost
-  validateInput(inputPost)
+  const isValid = validateInput(inputPost)
+  if (!isValid) {
+    context.res = {
+      status: 400,
+      body: { message: `Request body field(s) failed validation.` }
+    }
+    return
+  }
 
   const database = fetchCosmosDatabase()
   const postsContainer = fetchCosmosContainer(database, 'Posts')

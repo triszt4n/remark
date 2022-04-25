@@ -1,9 +1,15 @@
-export const createQueryForPostCountOfChannel = (id: string) => ({
-  query: 'SELECT COUNT(p.id) AS postsCount FROM Posts p WHERE p.parentChannelId = @id',
+import { SqlQuerySpec } from '@azure/cosmos'
+
+export const createQueryChannelJoinByUserIdAndChannelId = (userId: string, channelId: string): SqlQuerySpec => ({
+  query: 'SELECT cj.id FROM ChannelJoins cj WHERE cj.userId = @userId AND cj.channelId = @channelId',
   parameters: [
     {
-      name: '@id',
-      value: id
+      name: '@userId',
+      value: userId
+    },
+    {
+      name: '@channelId',
+      value: channelId
     }
   ]
 })

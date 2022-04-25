@@ -26,7 +26,14 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
   const user = result.userFromJwt as { id: string; username: string; email: string }
   const inputPost = req.body as CreatePostView
   const { parentChannelId, title, rawMarkdown } = inputPost
-  validateInput(inputPost)
+  const isValid = validateInput(inputPost)
+  if (!isValid) {
+    context.res = {
+      status: 400,
+      body: { message: `Request body field(s) failed validation.` }
+    }
+    return
+  }
 
   // DB
   // todo: optimize container usage
