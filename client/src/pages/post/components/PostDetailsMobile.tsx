@@ -24,7 +24,7 @@ export const PostDetailsMobile: FC<Props> = ({ post, onUpvotePressed, onDownvote
           <Avatar size="sm" name={`${user.firstName} ${user.lastName}`} src={user.imageUrl} />
           <Box fontSize="sm">
             posted in <RLink to={`/channels/${channel.id}`}>{channel.uriName}</RLink> by{' '}
-            <RLink to={`/users/${user.id}`}>{user.username}</RLink>
+            <RLink to={`/u/${user.username}`}>{user.username}</RLink>
             <Tooltip hasArrow placement="top" label={toDateTimeString(createdAt)}>
               <time dateTime={new Date(createdAt * 1000).toISOString()}> {toRelativeDateString(createdAt)}</time>
             </Tooltip>

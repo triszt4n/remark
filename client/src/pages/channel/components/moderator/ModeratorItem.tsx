@@ -13,7 +13,7 @@ export const ModeratorItem: FC<Props> = ({ user, subtitle }) => {
     <HStack spacing={4} p={2}>
       <Avatar name={`${user.firstName} ${user.lastName}`} src={user.imageUrl} size={useBreakpointValue({ base: 'sm', md: 'md' })} />
       <Box fontWeight={700} fontSize="lg">
-        <RLink to={`/users/${user.id}`} wordBreak="break-all">
+        <RLink to={`/u/${user.username}`} wordBreak="break-all">
           {user.username}
         </RLink>
         {subtitle && (
