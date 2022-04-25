@@ -36,7 +36,7 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
       const { resource: publisher } = await usersContainer.item(comment.publisherId, comment.publisherId).read<UserResource>()
 
       const { resources } = await commentVotesContainer.items
-        .query<{ voteCount: number }>(createQueryCommentVotesByCommentId(id))
+        .query<{ voteCount: number }>(createQueryCommentVotesByCommentId(comment.id))
         .fetchAll()
       const { voteCount } = resources[0]
 
