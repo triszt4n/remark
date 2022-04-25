@@ -46,6 +46,11 @@ class ChannelModule {
     const response = await axios.patch<ChannelModel & { id: string }>(`/channels/channels/${id}`, channelData)
     return response
   }
+
+  async deleteChannel(id: string) {
+    const response = await axios.patch<ChannelModel & { id: string }>(`/channels/channels/${id}`)
+    return response
+  }
 }
 
 export const channelModule = new ChannelModule()

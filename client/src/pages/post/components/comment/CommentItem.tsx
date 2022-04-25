@@ -16,9 +16,12 @@ import ChakraUIRenderer from 'chakra-ui-markdown-renderer'
 import { FC } from 'react'
 import { FaEdit, FaEllipsisV, FaTrashAlt } from 'react-icons/fa'
 import ReactMarkdown from 'react-markdown'
+import { useNavigate } from 'react-router-dom'
+import { commentModule } from '../../../../api/modules/comment.module'
 import { RLink } from '../../../../components/commons/RLink'
 import { VoteButtons } from '../../../../components/voting/VoteButtons'
 import { ellipsifyLongText, toDateTimeString, toRelativeDateString } from '../../../../util/core-util-functions'
+import { queryClient } from '../../../../util/query-client'
 
 type Props = {
   comment: CommentView
@@ -26,10 +29,29 @@ type Props = {
 
 export const CommentItem: FC<Props> = ({ comment }) => {
   const { publisher: user, createdAt, rawMarkdown, voteCount, amIPublisher, myVote } = comment
+  const navigate = useNavigate()
+
   const onUpvotePressed = () => {}
+
   const onDownvotePressed = () => {}
-  const onEditPressed = () => {}
-  const onDeletePressed = () => {}
+
+  const onEditPressed = () => {
+    navigate(`comments/${comment.id}/edit`)
+  }
+
+  const onDeletePressed = async () => {
+    const response = await commentModule.deleteComment(comment.id)
+    if (response.status >= 200 && response.status < 300) {
+      queryClient.invalidateQueries(['postComments', comment.parentPostId])
+    } else {
+      navigate(`/error`, {
+        state: {
+          title: 'Error occured when deleting comment',
+          messages: [JSON.stringify(response.data, null, 2), `${response.status} ${response.statusText}`]
+        }
+      })
+    }
+  }
 
   return (
     <Box as="article">

@@ -26,6 +26,11 @@ class PostModule {
     const response = await axios.patch<PostModel & { id: string }>(`/posts/posts/${id}`, postData)
     return response
   }
+
+  async deletePost(id: string) {
+    const response = await axios.delete<PostModel & { id: string }>(`/posts/posts/${id}`)
+    return response
+  }
 }
 
 export const postModule = new PostModule()
