@@ -29,7 +29,7 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
       const { resource: channel } = await channelsContainer.item(join.channelId, join.channelId).read()
 
       const { joinCount } = (
-        await channelJoinsContainer.items.query<{ joinCount: number }>(createQueryForJoinCountOfChannel(id)).fetchAll()
+        await channelJoinsContainer.items.query<{ joinCount: number }>(createQueryForJoinCountOfChannel(join.channelId)).fetchAll()
       ).resources[0]
 
       let amIJoined: boolean
