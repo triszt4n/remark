@@ -3,7 +3,7 @@ import { readUserFromAuthHeader } from '@triszt4n/remark-auth'
 import { ChannelInPostView, MyVoteType, PostView } from '@triszt4n/remark-types'
 import { fetchCosmosContainer, fetchCosmosDatabase } from '../lib/dbConfig'
 import { createQueryPostsOfChannelId, createQueryPostVoteByPostIdAndUserId, createQueryPostVotesByPostId } from '../lib/dbQueries'
-import { ChannelResource, PostResource, UserResource } from '../lib/model'
+import { ChannelResource, PostResource, PostVoteResource, UserResource } from '../lib/model'
 
 const httpTrigger: AzureFunction = async function (context: Context, req: HttpRequest): Promise<void> {
   const id = context.bindingData.id as string
@@ -33,8 +33,10 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
       // todo: optimize with parallel
       const { resource: publisher } = await usersContainer.item(post.publisherId, post.publisherId).read<UserResource>()
 
-      const { resources } = await postVotesContainer.items.query<{ voteCount: number }>(createQueryPostVotesByPostId(post.id)).fetchAll()
-      const { voteCount } = resources[0]
+      const { resources: postVotes } = await postVotesContainer.items
+        .query<PostVoteResource>(createQueryPostVotesByPostId(post.id))
+        .fetchAll()
+      const voteCount = postVotes.reduce((total, { isUpvote }) => (isUpvote ? total + 1 : total - 1), 0)
 
       let myVote: MyVoteType = 'none'
       if (user) {

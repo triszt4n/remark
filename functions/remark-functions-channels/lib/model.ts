@@ -1,10 +1,11 @@
 import { Resource } from '@azure/cosmos'
-import { ChannelJoinModel, ChannelModel, UpdateChannelView, UserModel } from '@triszt4n/remark-types'
+import { ChannelJoinModel, ChannelModel, PostModel, UpdateChannelView, UserModel } from '@triszt4n/remark-types'
 import validator from 'validator'
 
 export type ChannelResource = ChannelModel & Resource
 export type ChannelJoinResource = ChannelJoinModel & Resource
 export type UserResource = UserModel & Resource
+export type PostResource = PostModel & Resource
 
 export const validateInput = ({ uriName, title, descRawMarkdown }: UpdateChannelView): boolean => {
   return [

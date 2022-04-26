@@ -1,7 +1,7 @@
 import { SqlQuerySpec } from '@azure/cosmos'
 
 export const createQueryPostVotesByPostId = (postId: string): SqlQuerySpec => ({
-  query: 'SELECT COUNT(pv.id) as voteCount FROM PostVotes pv WHERE pv.postId = @postId',
+  query: 'SELECT * FROM PostVotes pv WHERE pv.postId = @postId',
   parameters: [
     {
       name: '@postId',
@@ -11,7 +11,7 @@ export const createQueryPostVotesByPostId = (postId: string): SqlQuerySpec => ({
 })
 
 export const createQueryCommentVotesByCommentId = (commentId: string): SqlQuerySpec => ({
-  query: 'SELECT COUNT(cv.id) as voteCount FROM CommentVotes cv WHERE cv.commentId = @commentId',
+  query: 'SELECT * FROM CommentVotes cv WHERE cv.commentId = @commentId',
   parameters: [
     {
       name: '@commentId',

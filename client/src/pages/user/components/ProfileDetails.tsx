@@ -52,7 +52,7 @@ export const ProfileDetails: FC<Props> = ({ user, profileOptions }) => {
           <Avatar size={useBreakpointValue({ base: 'lg', md: 'xl' })} name={`${user.firstName} ${user.lastName}`} src={user.imageUrl} />
           <HStack>
             <Box fontSize="4xl" fontWeight={700} wordBreak="break-all">
-              {user.username}
+              u/{user.username}
             </Box>
             {profileOptions && (
               <Tooltip label="Change username">

@@ -31,8 +31,7 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
   }
 
   const channelsContainer = fetchCosmosContainer(database, 'Channels')
-  const channelItem = channelsContainer.item(post.parentChannelId, post.parentChannelId)
-  const { resource: parentChannel } = await channelItem.read<ChannelResource>()
+  const { resource: parentChannel } = await channelsContainer.item(post.parentChannelId, post.parentChannelId).read<ChannelResource>()
 
   // Deleting is available for: publisher, channel owner and channel moderators
   if (post.publisherId != user.id && parentChannel.ownerId != user.id && !parentChannel.moderatorIds.includes(user.id)) {
@@ -43,10 +42,11 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
     return
   }
 
-  const { resource: deletedChannel } = await channelItem.delete<ChannelResource>()
+  // Soft delete post
+  const { resource: deletedPost } = await postItem.replace<PostResource & { isDeleted: boolean }>({ ...post, isDeleted: true })
 
   context.res = {
-    body: deletedChannel
+    body: deletedPost
   }
 }
 

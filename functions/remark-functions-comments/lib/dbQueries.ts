@@ -13,3 +13,13 @@ export const createQueryChannelJoinByUserIdAndChannelId = (userId: string, chann
     }
   ]
 })
+
+export const createQueryCommentVotesByCommentId = (commentId: string): SqlQuerySpec => ({
+  query: 'SELECT * FROM CommentVotes cv WHERE cv.commentId = @commentId',
+  parameters: [
+    {
+      name: '@commentId',
+      value: commentId
+    }
+  ]
+})

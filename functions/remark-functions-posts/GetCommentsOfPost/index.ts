@@ -7,7 +7,7 @@ import {
   createQueryCommentVoteByCommentIdAndUserId,
   createQueryCommentVotesByCommentId
 } from '../lib/dbQueries'
-import { CommentResource, UserResource } from '../lib/model'
+import { CommentResource, CommentVoteResource, UserResource } from '../lib/model'
 
 const httpTrigger: AzureFunction = async function (context: Context, req: HttpRequest): Promise<void> {
   const id = context.bindingData.id as string
@@ -35,10 +35,10 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
       // todo: optimize with parallel
       const { resource: publisher } = await usersContainer.item(comment.publisherId, comment.publisherId).read<UserResource>()
 
-      const { resources } = await commentVotesContainer.items
-        .query<{ voteCount: number }>(createQueryCommentVotesByCommentId(comment.id))
+      const { resources: commentVotes } = await commentVotesContainer.items
+        .query<CommentVoteResource>(createQueryCommentVotesByCommentId(comment.id))
         .fetchAll()
-      const { voteCount } = resources[0]
+      const voteCount = commentVotes.reduce((total, { isUpvote }) => (isUpvote ? total + 1 : total - 1), 0)
 
       let myVote: MyVoteType = 'none'
       if (user) {

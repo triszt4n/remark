@@ -82,3 +82,23 @@ export const createQueryByChannelIds = (channelIds: string[]) => ({
     }
   ]
 })
+
+export const createQueryPostsOfChannel = (channelId: string) => ({
+  query: 'SELECT * FROM Posts p WHERE p.parentChannelId = @channelId',
+  parameters: [
+    {
+      name: '@channelId',
+      value: channelId
+    }
+  ]
+})
+
+export const createQueryChannelJoinsOfChannel = (channelId: string) => ({
+  query: 'SELECT * FROM ChannelJoins cj WHERE cj.channelId = @channelId',
+  parameters: [
+    {
+      name: '@channelId',
+      value: channelId
+    }
+  ]
+})
