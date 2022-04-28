@@ -1,13 +1,13 @@
 import { Alert, AlertDescription, AlertIcon, AlertTitle, Button, Text, VStack } from '@chakra-ui/react'
 import { FC } from 'react'
 import { FaChevronLeft } from 'react-icons/fa'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { To, useLocation, useNavigate } from 'react-router-dom'
 import { RLayout } from '../../components/commons/RLayout'
 
 type ErrorPageState = {
   title?: string
   messages?: string[]
-  backPath?: string
+  backPath?: To
 }
 
 export const ErrorPage: FC<ErrorPageState> = ({ title, messages, backPath }) => {

@@ -1,12 +1,14 @@
 import { CreateChannelView } from '@triszt4n/remark-types'
 import { FC } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Navigate, useNavigate } from 'react-router-dom'
+import { useAuthContext } from '../../../api/contexts/auth/useAuthContext'
 import { channelModule } from '../../../api/modules/channel.module'
 import { RLayout } from '../../../components/commons/RLayout'
 import { ChannelForm } from './ChannelForm'
 
 export const CreateChannelPage: FC = () => {
   const navigate = useNavigate()
+  const { isLoggedIn } = useAuthContext()
 
   const onSend = async (creatable: CreateChannelView) => {
     const response = await channelModule.createChannel(creatable)
@@ -20,6 +22,23 @@ export const CreateChannelPage: FC = () => {
         }
       })
     }
+  }
+
+  if (!isLoggedIn) {
+    return (
+      <Navigate
+        replace
+        to="/error"
+        state={{
+          title: 'You are not logged in',
+          messages: [
+            'The action you intended to do is restricted to authenticated users',
+            'Please log in via the Log in button in the navigation bar'
+          ],
+          backPath: -2
+        }}
+      />
+    )
   }
 
   return (
