@@ -14,4 +14,9 @@
   "devDependencies": {
     "typescript": "4.6.3"
   }
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/triszt4n/remark/tree/master/remark-types"
+  },
+  "homepage": "https://github.com/triszt4n/remark/blob/master/remark-types/README.md"
 }
