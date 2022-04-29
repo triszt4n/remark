@@ -5,15 +5,17 @@ import { FormProvider, SubmitHandler, useForm } from 'react-hook-form'
 import { FaCheck, FaChevronLeft } from 'react-icons/fa'
 import { useNavigate } from 'react-router-dom'
 import { RemarkEditor } from '../../../components/editor/RemarkEditor'
+import { ImageSection } from '../../../components/form-elements/ImageSection'
 import { TextField } from '../../../components/form-elements/TextField'
 
 type Props = {
   sendButtonText: string
   onSend: (creatable: UpdatePostView) => void
   defaultValues?: PostView
+  showImageSection?: boolean
 }
 
-export const PostForm: FC<Props> = ({ sendButtonText, onSend, defaultValues }) => {
+export const PostForm: FC<Props> = ({ sendButtonText, onSend, defaultValues, showImageSection }) => {
   const navigate = useNavigate()
   const methods = useForm<UpdatePostView>({ mode: 'all' })
   const {
@@ -27,7 +29,7 @@ export const PostForm: FC<Props> = ({ sendButtonText, onSend, defaultValues }) =
 
   return (
     <FormProvider {...methods}>
-      <VStack align="stretch" spacing={10} as="form" onSubmit={handleSubmit(onSubmit)}>
+      <VStack align="stretch" spacing={14} as="form" onSubmit={handleSubmit(onSubmit)}>
         <TextField
           defaultValue={defaultValues?.title}
           validationOptions={{
@@ -35,9 +37,11 @@ export const PostForm: FC<Props> = ({ sendButtonText, onSend, defaultValues }) =
             minLength: 3,
             required: true
           }}
-          fieldName={'title'}
+          fieldName="title"
+          fieldTitle="Title"
           helper={<>The title of your post</>}
         />
+        {showImageSection && <ImageSection />}
         <RemarkEditor
           formDetails={{
             id: 'rawMarkdown',

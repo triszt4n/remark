@@ -4,6 +4,7 @@ import { useFormContext, ValidationRule } from 'react-hook-form'
 
 type Props = {
   fieldName: string
+  fieldTitle?: string
   helper?: JSX.Element
   defaultValue?: string
   validationOptions?: {
@@ -16,6 +17,7 @@ type Props = {
 }
 
 export const TextField: FC<Props> = ({
+  fieldTitle,
   fieldName,
   helper,
   defaultValue,
@@ -27,8 +29,8 @@ export const TextField: FC<Props> = ({
   } = useFormContext()
 
   return (
-    <FormControl isRequired isInvalid={!!errors.title}>
-      <FormLabel htmlFor={fieldName}>Title</FormLabel>
+    <FormControl isRequired={required} isInvalid={!!errors.title}>
+      {fieldTitle && <FormLabel htmlFor={fieldName}>{fieldTitle}</FormLabel>}
       <Input
         id={fieldName}
         type="text"

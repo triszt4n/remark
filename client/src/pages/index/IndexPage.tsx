@@ -1,10 +1,12 @@
 import { Button, VStack } from '@chakra-ui/react'
 import { FC } from 'react'
+import { useForm } from 'react-hook-form'
 import { useAuthContext } from '../../api/contexts/auth/useAuthContext'
 import { RLink } from '../../components/commons/RLink'
 
 export const IndexPage: FC = () => {
   const { isLoggedIn } = useAuthContext()
+  const methods = useForm<{ image: string }>({ mode: 'all' })
 
   return (
     <VStack>

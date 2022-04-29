@@ -40,7 +40,8 @@ export const ChannelForm: FC<Props> = ({ sendButtonText, onSend, defaultValues }
             pattern: { value: /^[a-z0-9_]+$/i, message: 'Field can contain only alphanumeric and underscore characters' },
             setValueAs: (value) => value?.toLowerCase()
           }}
-          fieldName={'uriName'}
+          fieldName="uriName"
+          fieldTitle="URI name"
           helper={
             <>
               Your channel will be available at{' '}
@@ -51,13 +52,14 @@ export const ChannelForm: FC<Props> = ({ sendButtonText, onSend, defaultValues }
           }
         />
         <TextField
-          defaultValue={defaultValues?.uriName}
+          defaultValue={defaultValues?.title}
           validationOptions={{
             maxLength: 64,
             minLength: 3,
             required: true
           }}
-          fieldName={'title'}
+          fieldName="title"
+          fieldTitle="Title"
           helper={<>The title of the channel</>}
         />
         <RemarkEditor
