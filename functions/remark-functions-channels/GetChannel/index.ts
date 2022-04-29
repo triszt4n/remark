@@ -7,7 +7,7 @@ import {
   createQueryForJoinCountOfChannel,
   createQueryForPostCountOfChannel
 } from '../lib/dbQueries'
-import { ChannelResource } from '../lib/model'
+import { ChannelJoinResource, ChannelResource } from '../lib/model'
 
 const httpTrigger: AzureFunction = async function (context: Context, req: HttpRequest): Promise<void> {
   const id = context.bindingData.id as string
@@ -34,14 +34,12 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
   const [res1, res2, res3] = await Promise.all([
     channelJoinsContainer.items.query<{ joinCount: number }>(createQueryForJoinCountOfChannel(id)).fetchAll(),
     postsContainer.items.query<{ postsCount: number }>(createQueryForPostCountOfChannel(id)).fetchAll(),
-    user
-      ? channelJoinsContainer.items.query<{ joinCount: number }>(createQueryExistsJoinOfUserIdAndChannelId(user.id, id)).fetchAll()
-      : null
+    user ? channelJoinsContainer.items.query<ChannelJoinResource>(createQueryExistsJoinOfUserIdAndChannelId(user.id, id)).fetchAll() : null
   ])
 
   const { joinCount } = res1.resources[0]
   const { postsCount } = res2.resources[0]
-  const amIJoined = res3 ? res3.resources[0].joinCount > 0 : false
+  const amIJoined = res3 ? res3.resources.length > 0 : false
 
   const amIOwner = user ? user.id === channel.ownerId : false
   const amIModerator = user ? channel.moderatorIds.some((e) => e === user.id) : false

@@ -19,7 +19,7 @@ export const createQueryForJoinCountOfChannel = (id: string) => ({
 })
 
 export const createQueryExistsJoinOfUserIdAndChannelId = (userId: string, channelId: string) => ({
-  query: 'SELECT COUNT(cj.id) as joinCount FROM ChannelJoins cj WHERE cj.userId = @userId AND cj.channelId = @channelId',
+  query: 'SELECT * FROM ChannelJoins cj WHERE cj.userId = @userId AND cj.channelId = @channelId',
   parameters: [
     {
       name: '@userId',
@@ -99,6 +99,16 @@ export const createQueryChannelJoinsOfChannel = (channelId: string) => ({
     {
       name: '@channelId',
       value: channelId
+    }
+  ]
+})
+
+export const createQueryUserByUsername = (username: string) => ({
+  query: 'SELECT * FROM Users u WHERE u.username = @username',
+  parameters: [
+    {
+      name: '@username',
+      value: username
     }
   ]
 })

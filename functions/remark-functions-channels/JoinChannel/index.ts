@@ -1,15 +1,92 @@
+import { Container } from '@azure/cosmos'
 import { AzureFunction, Context, HttpRequest } from '@azure/functions'
+import { readUserFromAuthHeader } from '@triszt4n/remark-auth'
+import { ChannelJoinModel } from '@triszt4n/remark-types'
+import validator from 'validator'
+import { fetchCosmosContainer, fetchCosmosDatabase } from '../lib/dbConfig'
+import { createQueryExistsJoinOfUserIdAndChannelId } from '../lib/dbQueries'
+import { ChannelJoinResource } from '../lib/model'
+
+const tryDeletingJoin = async (container: Container, channelId: string, foundJoin: ChannelJoinResource | undefined): Promise<any> => {
+  if (foundJoin) {
+    const { resource: deletedJoin } = await container.item(foundJoin.id, foundJoin.id).delete<ChannelJoinResource>()
+    return {
+      body: deletedJoin
+    }
+  }
+
+  return {
+    status: 404,
+    body: { message: `Could not delete: No channel join found under channel ${channelId} by you.` }
+  }
+}
+
+const tryCreatingJoin = async (
+  container: Container,
+  channelId: string,
+  user: { id: string },
+  foundJoin: ChannelJoinResource | undefined
+): Promise<any> => {
+  if (foundJoin) {
+    return {
+      status: 304,
+      body: foundJoin
+    }
+  }
+
+  const { resource: createdJoin } = await container.items.create<ChannelJoinModel>({
+    userId: user.id,
+    channelId: user.id,
+    createdAt: +new Date()
+  })
+  return {
+    body: createdJoin
+  }
+}
 
 const httpTrigger: AzureFunction = async function (context: Context, req: HttpRequest): Promise<void> {
-  context.log('HTTP trigger function processed a request.')
-  const name = req.query.name || (req.body && req.body.name)
-  const responseMessage = name
-    ? 'Hello, ' + name + '. This HTTP triggered function executed successfully.'
-    : 'This HTTP triggered function executed successfully. Pass a name in the query string or in the request body for a personalized response.'
+  const id = context.bindingData.id as string
 
-  context.res = {
-    // status: 200, /* Defaults to 200 */
-    body: responseMessage
+  // Authorization
+  const result = readUserFromAuthHeader(req, process.env.JWT_PRIVATE_KEY)
+  if (result.isError) {
+    context.res = {
+      status: result.status,
+      body: { message: result.message }
+    }
+    return
+  }
+  const { userFromJwt: user } = result
+
+  const { intent } = req.body as { intent: 'join' | 'leave' }
+  const isValid = !validator.isEmpty(intent) && validator.isIn(intent, ['join', 'leave'])
+  if (!isValid) {
+    context.res = {
+      status: 400,
+      body: { message: `Request body field(s) failed validation.` }
+    }
+    return
+  }
+
+  const database = fetchCosmosDatabase()
+  const channelJoinsContainer = fetchCosmosContainer(database, 'ChannelJoins')
+  const { resources: channelJoins } = await channelJoinsContainer.items
+    .query<ChannelJoinResource>(createQueryExistsJoinOfUserIdAndChannelId(user.id, id))
+    .fetchAll()
+
+  // Found the one
+  let channelJoin: ChannelJoinResource | undefined = undefined
+  if (channelJoins.length > 0) {
+    channelJoin = channelJoins[0]
+  }
+
+  switch (intent) {
+    case 'leave':
+      context.res = await tryDeletingJoin(channelJoinsContainer, id, channelJoin)
+      break
+    case 'join':
+      context.res = await tryCreatingJoin(channelJoinsContainer, id, user, channelJoin)
+      break
   }
 }
 

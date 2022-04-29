@@ -23,3 +23,17 @@ export const createQueryCommentVotesByCommentId = (commentId: string): SqlQueryS
     }
   ]
 })
+
+export const createQueryCommentVotesByCommentAndUser = (commentId: string, userId: string): SqlQuerySpec => ({
+  query: 'SELECT * FROM CommentVotes cv WHERE cv.commentId = @commentId AND cv.userId = @userId',
+  parameters: [
+    {
+      name: '@commentId',
+      value: commentId
+    },
+    {
+      name: '@userId',
+      value: userId
+    }
+  ]
+})

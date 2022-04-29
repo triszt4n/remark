@@ -41,9 +41,9 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
         amIJoined =
           (
             await channelJoinsContainer.items
-              .query<{ joinCount: number }>(createQueryExistsJoinOfUserIdAndChannelId(user.id, channel.id))
+              .query<ChannelJoinResource>(createQueryExistsJoinOfUserIdAndChannelId(user.id, channel.id))
               .fetchAll()
-          ).resources[0].joinCount > 0
+          ).resources.length > 0
       }
 
       const returnable: ChannelPartialView = {
