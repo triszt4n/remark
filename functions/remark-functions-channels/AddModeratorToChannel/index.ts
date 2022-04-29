@@ -1,8 +1,8 @@
 import { AzureFunction, Context, HttpRequest } from '@azure/functions'
 import { readUserFromAuthHeader } from '@triszt4n/remark-auth'
 import { fetchCosmosContainer, fetchCosmosDatabase } from '../lib/dbConfig'
-import { createQueryUserByUsername } from '../lib/dbQueries'
-import { ChannelResource, UserResource } from '../lib/model'
+import { createQueryExistsJoinOfUserIdAndChannelId, createQueryUserByUsername } from '../lib/dbQueries'
+import { ChannelJoinResource, ChannelResource, UserResource } from '../lib/model'
 
 const httpTrigger: AzureFunction = async function (context: Context, req: HttpRequest): Promise<void> {
   const id = context.bindingData.id as string
@@ -55,6 +55,19 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
     context.res = {
       status: 403,
       body: { message: 'You are forbidden to make changes this channel!' }
+    }
+    return
+  }
+
+  // Check if joined yet
+  const channelJoinsContainer = fetchCosmosContainer(database, 'ChannelJoins')
+  const { resources: channelJoins } = await channelJoinsContainer.items
+    .query<ChannelJoinResource>(createQueryExistsJoinOfUserIdAndChannelId(moderator.id, id))
+    .fetchAll()
+  if (channelJoins.length === 0) {
+    context.res = {
+      status: 404,
+      body: { message: `The user ${moderatorUsername} has not joined to the channel yet!` }
     }
     return
   }

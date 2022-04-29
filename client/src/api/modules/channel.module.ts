@@ -11,6 +11,7 @@ import {
 import axios from 'axios'
 
 type ModeratorInfo = { owner: UserView; moderators: UserView[] }
+type JoinInfo = { channel: ChannelModel & { id: string }; join: ChannelJoinModel & { id: string } }
 
 class ChannelModule {
   async fetchModeratorInfoOfChannel(id: string): Promise<ModeratorInfo> {
@@ -54,12 +55,12 @@ class ChannelModule {
   }
 
   async joinOrLeaveChannel({ id, intent }: { id: string; intent: 'join' | 'leave' }) {
-    const response = await axios.post<ChannelJoinModel & { id: string }>(`/channels/channels/${id}/join`, { intent })
+    const response = await axios.post<JoinInfo>(`/channels/channels/${id}/join`, { intent })
     return response
   }
 
   async addModeratorToChannel({ id, moderatorUsername }: { id: string; moderatorUsername: string }) {
-    const response = await axios.post<ChannelJoinModel & { id: string }>(`/channels/channels/${id}/moderator`, {
+    const response = await axios.post<ChannelModel & { id: string }>(`/channels/channels/${id}/moderator`, {
       moderatorUsername
     })
     return response

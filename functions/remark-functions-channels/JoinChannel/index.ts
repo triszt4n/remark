@@ -5,13 +5,14 @@ import { ChannelJoinModel } from '@triszt4n/remark-types'
 import validator from 'validator'
 import { fetchCosmosContainer, fetchCosmosDatabase } from '../lib/dbConfig'
 import { createQueryExistsJoinOfUserIdAndChannelId } from '../lib/dbQueries'
-import { ChannelJoinResource } from '../lib/model'
+import { ChannelJoinResource, ChannelResource } from '../lib/model'
 
 const tryDeletingJoin = async (container: Container, channelId: string, foundJoin: ChannelJoinResource | undefined): Promise<any> => {
   if (foundJoin) {
     const { resource: deletedJoin } = await container.item(foundJoin.id, foundJoin.id).delete<ChannelJoinResource>()
+
     return {
-      body: deletedJoin
+      body: { join: deletedJoin }
     }
   }
 
@@ -30,7 +31,7 @@ const tryCreatingJoin = async (
   if (foundJoin) {
     return {
       status: 304,
-      body: foundJoin
+      body: { join: foundJoin }
     }
   }
 
@@ -40,7 +41,7 @@ const tryCreatingJoin = async (
     createdAt: +new Date()
   })
   return {
-    body: createdJoin
+    body: { join: createdJoin }
   }
 }
 
@@ -68,7 +69,27 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
     return
   }
 
+  // DB
   const database = fetchCosmosDatabase()
+
+  // Owner cannot leave
+  const channelContainer = fetchCosmosContainer(database, 'Channels')
+  const channelItem = channelContainer.item(id, id)
+  const { resource: channel } = await channelItem.read<ChannelResource>()
+  if (!channel) {
+    context.res = {
+      status: 404,
+      body: { message: `Channel with id ${id} not found!` }
+    }
+    return
+  }
+  if (channel.ownerId === user.id) {
+    context.res = {
+      status: 403,
+      body: { message: `Forbidden: Channel owner cannot leave the channel!` }
+    }
+  }
+
   const channelJoinsContainer = fetchCosmosContainer(database, 'ChannelJoins')
   const { resources: channelJoins } = await channelJoinsContainer.items
     .query<ChannelJoinResource>(createQueryExistsJoinOfUserIdAndChannelId(user.id, id))
@@ -80,6 +101,17 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
     channelJoin = channelJoins[0]
   }
 
+  // This shouldn't work like this, see issue #106
+  // Removing moderator if in the channel
+  // todo: Optimize with parallel processing
+  const indexOfModerator = channel.moderatorIds.indexOf(user.id)
+  if (indexOfModerator != -1) {
+    channel.moderatorIds.splice(indexOfModerator, 1)
+    const { resource: updatedChannel } = await channelItem.replace<ChannelResource>(channel)
+    context.res.body.channel = updatedChannel
+  }
+
+  // Apply changes
   switch (intent) {
     case 'leave':
       context.res = await tryDeletingJoin(channelJoinsContainer, id, channelJoin)
