@@ -18,15 +18,16 @@ import {
 import { FC } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { FaCheck } from 'react-icons/fa'
+import { useMutation } from 'react-query'
+import { useAuthContext } from '../../../api/contexts/auth/useAuthContext'
+import { userModule } from '../../../api/modules/user.module'
 
 type Props = {
-  currentUsername: string
   isOpen: boolean
   onClose: () => void
-  onSave: (newUsername: string) => Promise<string>
 }
 
-export const EditUsernameModal: FC<Props> = ({ currentUsername, isOpen, onClose, onSave }) => {
+export const EditUsernameModal: FC<Props> = ({ isOpen, onClose }) => {
   const {
     handleSubmit,
     register,
@@ -34,14 +35,33 @@ export const EditUsernameModal: FC<Props> = ({ currentUsername, isOpen, onClose,
     watch,
     setError
   } = useForm<{ newUsername: string }>({ mode: 'all' })
+  const { loggedInUser, refetchUser } = useAuthContext()
+  if (!loggedInUser) {
+    return (
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>You are not logged in!</ModalHeader>
+          <ModalCloseButton />
+        </ModalContent>
+      </Modal>
+    )
+  }
 
-  const onSubmit: SubmitHandler<{ newUsername: string }> = async (values) => {
-    const answer = await onSave(values.newUsername)
-    if (answer === '') {
+  const mutation = useMutation(userModule.updateUser, {
+    onSuccess: () => {
+      refetchUser()
       onClose()
-    } else {
-      setError('newUsername', { type: 'custom', message: answer })
+    },
+    onError: (error) => {
+      const err = error as any
+      console.log('[DEBUG] Error at updateUser', err.toJSON())
+      setError('newUsername', { type: 'custom', message: err.message })
     }
+  })
+
+  const onSubmit: SubmitHandler<{ newUsername: string }> = (values) => {
+    mutation.mutate({ id: loggedInUser.id, userData: { username: values.newUsername } })
   }
 
   return (
@@ -63,7 +83,7 @@ export const EditUsernameModal: FC<Props> = ({ currentUsername, isOpen, onClose,
                   minLength: { value: 3, message: 'Too short, minimum length is 3 characters' },
                   pattern: { value: /^[a-z0-9_]+$/i, message: 'Field can contain only alphanumeric and underscore characters' },
                   validate: {
-                    notSameAsOld: (v) => v !== currentUsername || 'New username cannot be the current one'
+                    notSameAsOld: (v) => v !== loggedInUser.username || 'New username cannot be the current one'
                   },
                   setValueAs: (value) => value?.toLowerCase()
                 })}

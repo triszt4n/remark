@@ -1,10 +1,9 @@
 import { useToast } from '@chakra-ui/react'
 import { UserView } from '@triszt4n/remark-types'
-import axios from 'axios'
 import Cookies from 'js-cookie'
 import { createContext, FC, useState } from 'react'
 import { GoogleLoginResponse, GoogleLoginResponseOffline } from 'react-google-login'
-import { useQuery } from 'react-query'
+import { useMutation, useQuery } from 'react-query'
 import { useNavigate } from 'react-router-dom'
 import { queryClient } from '../../../util/query-client'
 import { userModule } from '../../modules/user.module'
@@ -19,6 +18,7 @@ export type AuthContextType = {
   onLoginFailure: (response: GoogleLoginResponseOffline | GoogleLoginResponse) => void
   onLogout: () => void
   refetchUser: () => Promise<void>
+  loginLoading: boolean
 }
 
 export const AuthContext = createContext<AuthContextType>({
@@ -29,7 +29,8 @@ export const AuthContext = createContext<AuthContextType>({
   onLoginSuccess: () => {},
   onLoginFailure: () => {},
   onLogout: () => {},
-  refetchUser: async () => {}
+  refetchUser: async () => {},
+  loginLoading: false
 })
 
 export const AuthProvider: FC = ({ children }) => {
@@ -39,20 +40,33 @@ export const AuthProvider: FC = ({ children }) => {
 
   const queryOptions = { enabled: isLoggedIn }
   const { isLoading, data: user, error } = useQuery('currentUser', userModule.fetchCurrentUser, queryOptions)
+  const mutation = useMutation(userModule.loginUser, {
+    onSuccess: ({ data }) => {
+      const { jwt } = data
+      Cookies.set(CookieKeys.REMARK_JWT_TOKEN, jwt, { expires: 2 })
+      setIsLoggedIn(true)
+      queryClient.invalidateQueries('currentUser')
+      navigate('/profile')
+    },
+    onError: (error) => {
+      const err = error as any
+      console.log('[DEBUG] Error at deleteComment', err.toJSON())
+      toast({
+        title: 'Error occured when deleting comment. Try again later.',
+        description: `${err.response.status} ${err.message}`,
+        status: 'error',
+        isClosable: true
+      })
+    }
+  })
 
-  const onLoginSuccess = async (response: GoogleLoginResponseOffline | GoogleLoginResponse) => {
+  const onLoginSuccess = (response: GoogleLoginResponseOffline | GoogleLoginResponse) => {
     const { accessToken } = response as GoogleLoginResponse
-
-    const res = await axios.post<{ user: UserView; jwt: string }>(`/users/login`, { accessToken })
-    const { jwt } = res.data
-
-    Cookies.set(CookieKeys.REMARK_JWT_TOKEN, jwt, { expires: 2 })
-    setIsLoggedIn(true)
-    queryClient.invalidateQueries('currentUser')
-    navigate('/profile')
+    mutation.mutate(accessToken)
   }
 
   const onLoginFailure = (response: GoogleLoginResponseOffline | GoogleLoginResponse) => {
+    console.log('[DEBUG] Error at onLoginFailure', JSON.stringify(onLoginFailure, null, 2))
     toast({
       title: 'Authentication error',
       description: 'There was an error while authenticating you at Google!',
@@ -83,7 +97,8 @@ export const AuthProvider: FC = ({ children }) => {
         onLoginSuccess,
         onLoginFailure,
         onLogout,
-        refetchUser
+        refetchUser,
+        loginLoading: mutation.isLoading
       }}
     >
       {children}

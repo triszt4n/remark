@@ -1,27 +1,35 @@
+import { useToast } from '@chakra-ui/react'
 import { CreateChannelView } from '@triszt4n/remark-types'
 import { FC } from 'react'
+import { useMutation } from 'react-query'
 import { Navigate, useNavigate } from 'react-router-dom'
 import { useAuthContext } from '../../../api/contexts/auth/useAuthContext'
 import { channelModule } from '../../../api/modules/channel.module'
-import { RLayout } from '../../../components/commons/RLayout'
 import { ChannelForm } from './ChannelForm'
 
 export const CreateChannelPage: FC = () => {
   const navigate = useNavigate()
+  const toast = useToast()
   const { isLoggedIn } = useAuthContext()
 
-  const onSend = async (creatable: CreateChannelView) => {
-    const response = await channelModule.createChannel(creatable)
-    if (response.status >= 200 && response.status < 300) {
-      navigate(`/channels/${response.data.id}`)
-    } else {
-      navigate(`/error`, {
-        state: {
-          title: 'Error occured when creating channel',
-          messages: [JSON.stringify(response.data, null, 2), `${response.status} ${response.statusText}`]
-        }
+  const mutation = useMutation(channelModule.createChannel, {
+    onSuccess: ({ data }) => {
+      navigate(`/channels/${data.id}`)
+    },
+    onError: (error) => {
+      const err = error as any
+      console.log('[DEBUG] Error at createChannel', err.toJSON())
+      toast({
+        title: 'Error occured when creating channel. Try again later.',
+        description: `${err.response.status} ${err.message}`,
+        status: 'error',
+        isClosable: true
       })
     }
+  })
+
+  const onSend = async (creatable: CreateChannelView) => {
+    mutation.mutate(creatable)
   }
 
   if (!isLoggedIn) {
@@ -41,9 +49,5 @@ export const CreateChannelPage: FC = () => {
     )
   }
 
-  return (
-    <RLayout>
-      <ChannelForm onSend={onSend} sendButtonText="Create" />
-    </RLayout>
-  )
+  return <ChannelForm onSend={onSend} sendButtonText="Create" />
 }

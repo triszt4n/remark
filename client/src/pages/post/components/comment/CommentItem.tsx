@@ -9,48 +9,93 @@ import {
   MenuList,
   Spacer,
   Tooltip,
-  useBreakpointValue
+  useBreakpointValue,
+  useToast
 } from '@chakra-ui/react'
-import { CommentView } from '@triszt4n/remark-types'
+import { CommentView, PostView } from '@triszt4n/remark-types'
 import ChakraUIRenderer from 'chakra-ui-markdown-renderer'
 import { FC } from 'react'
 import { FaEdit, FaEllipsisV, FaTrashAlt } from 'react-icons/fa'
 import ReactMarkdown from 'react-markdown'
+import { useMutation } from 'react-query'
 import { useNavigate } from 'react-router-dom'
+import { useAuthContext } from '../../../../api/contexts/auth/useAuthContext'
 import { commentModule } from '../../../../api/modules/comment.module'
 import { RLink } from '../../../../components/commons/RLink'
+import { FailedVotingModal } from '../../../../components/voting/FailedVotingModal'
 import { VoteButtons } from '../../../../components/voting/VoteButtons'
 import { ellipsifyLongText, toDateTimeString, toRelativeDateString } from '../../../../util/core-util-functions'
 import { queryClient } from '../../../../util/query-client'
 
 type Props = {
   comment: CommentView
+  post: PostView | undefined
 }
 
-export const CommentItem: FC<Props> = ({ comment }) => {
+export const CommentItem: FC<Props> = ({ comment, post }) => {
   const { publisher: user, createdAt, rawMarkdown, voteCount, amIPublisher, myVote } = comment
+  const { isLoggedIn } = useAuthContext()
   const navigate = useNavigate()
+  const toast = useToast()
+  const unauthorizedToast = () =>
+    toast({
+      render: ({ onClose }) => (
+        <FailedVotingModal
+          onClose={onClose}
+          message="Please log in to vote!"
+          actionButton={{ text: 'Log in here', onClick: () => navigate('/login') }}
+        />
+      )
+    })
 
-  const onUpvotePressed = () => {}
-
-  const onDownvotePressed = () => {}
-
-  const onEditPressed = () => {
-    navigate(`comments/${comment.id}/edit`)
-  }
-
-  const onDeletePressed = async () => {
-    const response = await commentModule.deleteComment(comment.id)
-    if (response.status >= 200 && response.status < 300) {
+  const voteMutation = useMutation(commentModule.voteComment, {
+    onSuccess: () => {
       queryClient.invalidateQueries(['postComments', comment.parentPostId])
-    } else {
-      navigate(`/error`, {
-        state: {
-          title: 'Error occured when deleting comment',
-          messages: [JSON.stringify(response.data, null, 2), `${response.status} ${response.statusText}`]
-        }
+    },
+    onError: (error) => {
+      const err = error as any
+      console.log('[DEBUG] Error at voteComment', err.toJSON())
+      toast({
+        title: 'Error occured when sending vote. Try again later.',
+        description: `${err.response.status} ${err.message}`,
+        status: 'error',
+        isClosable: true
       })
     }
+  })
+  const delMutation = useMutation(commentModule.deleteComment, {
+    onSuccess: () => {
+      queryClient.invalidateQueries(['postComments', comment.parentPostId])
+    },
+    onError: (error) => {
+      const err = error as any
+      console.log('[DEBUG] Error at deleteComment', err.toJSON())
+      toast({
+        title: 'Error occured when deleting comment. Try again later.',
+        description: `${err.response.status} ${err.message}`,
+        status: 'error',
+        isClosable: true
+      })
+    }
+  })
+
+  const onUpvotePressed = () => {
+    if (!isLoggedIn) {
+      return unauthorizedToast()
+    }
+    voteMutation.mutate({ id: comment.id, voteType: comment.myVote === 'none' ? 'up' : 'none' })
+  }
+  const onDownvotePressed = () => {
+    if (!isLoggedIn) {
+      return unauthorizedToast()
+    }
+    voteMutation.mutate({ id: comment.id, voteType: comment.myVote === 'none' ? 'down' : 'none' })
+  }
+  const onEditPressed = () => {
+    navigate(`/comments/${comment.id}/edit`, { state: { comment, post } })
+  }
+  const onDeletePressed = () => {
+    if (confirm('Are you sure, you want to delete this comment?')) delMutation.mutate(comment.id)
   }
 
   return (
@@ -69,19 +114,21 @@ export const CommentItem: FC<Props> = ({ comment }) => {
           <time dateTime={new Date(createdAt * 1000).toISOString()}>{toRelativeDateString(createdAt)}</time>
         </Tooltip>
         <Spacer />
-        {amIPublisher && (
-          <Menu>
-            <MenuButton as={IconButton} size="sm" aria-label="Options" icon={<FaEllipsisV />} variant="outline" colorScheme="theme" />
-            <MenuList>
-              <MenuItem icon={<FaEdit />} onClick={onEditPressed}>
-                Edit
-              </MenuItem>
-              <MenuItem icon={<FaTrashAlt />} onClick={onDeletePressed}>
-                Delete
-              </MenuItem>
-            </MenuList>
-          </Menu>
-        )}
+        <Box>
+          {(amIPublisher || post?.channel.amIModerator || post?.channel.amIOwner) && (
+            <Menu>
+              <MenuButton as={IconButton} size="sm" aria-label="Options" icon={<FaEllipsisV />} variant="outline" colorScheme="theme" />
+              <MenuList>
+                <MenuItem icon={<FaEdit />} onClick={onEditPressed}>
+                  Edit
+                </MenuItem>
+                <MenuItem icon={<FaTrashAlt />} onClick={onDeletePressed}>
+                  Delete
+                </MenuItem>
+              </MenuList>
+            </Menu>
+          )}
+        </Box>
       </HStack>
       <Box borderLeftWidth="0.2rem" overflow="auto" ml={{ base: '0.6rem', sm: '0.9rem' }} pl={{ base: '0.7rem', sm: '1.4rem' }}>
         <ReactMarkdown components={ChakraUIRenderer()} children={rawMarkdown} skipHtml />

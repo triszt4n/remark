@@ -11,7 +11,7 @@ export type PostPreviewProps = {
 }
 
 export const PostPreview: FC<PostPreviewProps> = ({ post, onUpvotePressed = () => {}, onDownvotePressed = () => {} }) => {
-  const targetPath = `/channels/${post.channel.id}/posts/${post.id}`
+  const targetPath = `/posts/${post.id}`
 
   return (
     <Box as="article" p={4} borderRadius="md" borderWidth="1px">

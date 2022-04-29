@@ -4,7 +4,6 @@ import { useQuery } from 'react-query'
 import { Navigate, useParams } from 'react-router-dom'
 import { useAuthContext } from '../../api/contexts/auth/useAuthContext'
 import { userModule } from '../../api/modules/user.module'
-import { RLayout } from '../../components/commons/RLayout'
 import { ProfileDetailsLoading } from './components/ProfileDetailsLoading'
 
 export const UserProxyPage: FC = () => {
@@ -19,11 +18,9 @@ export const UserProxyPage: FC = () => {
 
   if (isLoading) {
     return (
-      <RLayout>
-        <VStack alignItems="flex-start">
-          <ProfileDetailsLoading />
-        </VStack>
-      </RLayout>
+      <VStack alignItems="flex-start">
+        <ProfileDetailsLoading />
+      </VStack>
     )
   }
 

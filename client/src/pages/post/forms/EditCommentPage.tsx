@@ -1,15 +1,17 @@
-import { Code, Heading, useToast, VStack } from '@chakra-ui/react'
-import { ChannelView, PostView, UpdatePostView } from '@triszt4n/remark-types'
+import { Box, Heading, useToast, VStack } from '@chakra-ui/react'
+import { CommentView, PostView, UpdateCommentView } from '@triszt4n/remark-types'
 import { FC } from 'react'
 import { useMutation } from 'react-query'
 import { Navigate, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useAuthContext } from '../../../api/contexts/auth/useAuthContext'
-import { postModule } from '../../../api/modules/post.module'
-import { PostForm } from './PostForm'
+import { commentModule } from '../../../api/modules/comment.module'
+import { RLink } from '../../../components/commons/RLink'
+import { queryClient } from '../../../util/query-client'
+import { CommentForm } from './CommentForm'
 
-export const EditPostPage: FC = () => {
-  const { post } = useLocation().state as { post: PostView; channel: ChannelView }
-  const { postId } = useParams()
+export const EditCommentPage: FC = () => {
+  const { post, comment } = useLocation().state as { post: PostView; comment: CommentView }
+  const { commentId } = useParams()
   const navigate = useNavigate()
   const toast = useToast()
   const { isLoggedIn } = useAuthContext()
@@ -48,15 +50,16 @@ export const EditPostPage: FC = () => {
     )
   }
 
-  const mutation = useMutation(postModule.updatePost, {
+  const mutation = useMutation(commentModule.updateComment, {
     onSuccess: () => {
-      navigate(`/posts/${postId}`)
+      navigate(`/posts/${post.id}`)
+      queryClient.invalidateQueries(['postComments', [post.id]])
     },
     onError: (error) => {
       const err = error as any
-      console.log('[DEBUG] Error at updatePost', err.toJSON())
+      console.log('[DEBUG] Error at updateComment', err.toJSON())
       toast({
-        title: 'Error occured when updating post. Try again later.',
+        title: 'Error occured when updating comment. Try again later.',
         description: `${err.response.status} ${err.message}`,
         status: 'error',
         isClosable: true
@@ -64,17 +67,19 @@ export const EditPostPage: FC = () => {
     }
   })
 
-  const onSend = (updatable: UpdatePostView) => {
-    if (!postId) return
-    mutation.mutate({ id: postId, postData: updatable })
+  const onSend = (updatable: UpdateCommentView) => {
+    if (!commentId) return
+    mutation.mutate({ id: commentId, commentData: updatable })
   }
 
   return (
     <VStack spacing={6} alignItems="stretch">
-      <Heading fontSize="3xl">
-        Edit your post in <Code fontSize="3xl">ch/{post.channel.uriName}</Code>
-      </Heading>
-      <PostForm onSend={onSend} sendButtonText="Save" defaultValues={post} />
+      <Heading fontSize="3xl">Edit comment</Heading>
+      <Box>
+        Comment by <RLink to={`/u/${comment.publisher.username}`}>{comment.publisher.username}</RLink> under post titled{' '}
+        <RLink to={`/posts/${post.id}`}>{post.title}</RLink>
+      </Box>
+      <CommentForm onSend={onSend} buttonProps={{ sendButtonText: 'Save' }} defaultValues={comment} />
     </VStack>
   )
 }

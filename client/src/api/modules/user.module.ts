@@ -12,8 +12,12 @@ class UserModule {
     return response.data
   }
 
-  async updateUser(id: string, userData: UpdateUserView) {
+  async updateUser({ id, userData }: { id: string; userData: UpdateUserView }) {
     return axios.patch<UserView>(`/users/users/${id}`, userData)
+  }
+
+  async loginUser(accessToken: string) {
+    return await axios.post<{ user: UserView; jwt: string }>(`/users/login`, { accessToken })
   }
 }
 

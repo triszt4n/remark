@@ -1,52 +1,48 @@
-import { Button, Flex, HStack, Skeleton, VStack } from '@chakra-ui/react'
+import { Flex, HStack, Skeleton, useToast, VStack } from '@chakra-ui/react'
 import { UpdateCommentView } from '@triszt4n/remark-types'
-import { FC } from 'react'
-import { FormProvider, SubmitHandler, useForm } from 'react-hook-form'
+import { FC, useState } from 'react'
 import { FaPaperPlane } from 'react-icons/fa'
-import { useQuery } from 'react-query'
-import { Navigate, useNavigate, useParams } from 'react-router-dom'
+import { useMutation, useQuery } from 'react-query'
+import { Navigate, useParams } from 'react-router-dom'
 import { useAuthContext } from '../../api/contexts/auth/useAuthContext'
 import { commentModule } from '../../api/modules/comment.module'
 import { postModule } from '../../api/modules/post.module'
-import { RLayout } from '../../components/commons/RLayout'
-import { RemarkEditor } from '../../components/editor/RemarkEditor'
 import { RemarkEditorLoading } from '../../components/editor/RemarkEditorLoading'
 import { queryClient } from '../../util/query-client'
 import { ActionsSection } from './components/ActionsSection'
 import { CommentSection } from './components/CommentSection'
 import { PostDetails } from './components/PostDetails'
 import { PostDetailsLoading } from './components/PostDetailsLoading'
+import { CommentForm } from './forms/CommentForm'
 
 export const PostPage: FC = () => {
   const { postId } = useParams()
   const { isLoggedIn } = useAuthContext()
-  const navigate = useNavigate()
+  const toast = useToast()
   const { isLoading, data: post, error } = useQuery(['post', postId], () => postModule.fetchPost(postId!!))
-  const methods = useForm<UpdateCommentView>({ mode: 'all' })
-  const {
-    formState: { isSubmitting },
-    handleSubmit,
-    setValue
-  } = methods
+  const [canEraseContent, setCanEraseContent] = useState(false)
 
-  const onSend = async (creatable: UpdateCommentView) => {
-    if (!postId) return
-    const response = await commentModule.createComment({ ...creatable, parentPostId: postId })
-    if (response.status >= 200 && response.status < 300) {
+  const mutation = useMutation(commentModule.createComment, {
+    onSuccess: () => {
       queryClient.invalidateQueries(['postComments', postId])
-      setValue('rawMarkdown', '')
-    } else {
-      navigate(`/error`, {
-        state: {
-          title: 'Error occured when creating comment',
-          messages: [JSON.stringify(response.data, null, 2), `${response.status} ${response.statusText}`]
-        }
+      setCanEraseContent(true)
+      setCanEraseContent(false)
+    },
+    onError: (error) => {
+      const err = error as any
+      console.log('[DEBUG] Error at createComment', err.toJSON())
+      toast({
+        title: 'Error occured when creating comment. Try again later.',
+        description: `${err.response.status} ${err.message}`,
+        status: 'error',
+        isClosable: true
       })
     }
-  }
+  })
 
-  const onSubmit: SubmitHandler<UpdateCommentView> = (values) => {
-    onSend(values)
+  const onSend = (creatable: UpdateCommentView) => {
+    if (!postId) return
+    mutation.mutate({ ...creatable, parentPostId: postId })
   }
 
   if (error) {
@@ -55,43 +51,30 @@ export const PostPage: FC = () => {
   }
 
   return (
-    <RLayout>
-      <VStack align="stretch" spacing={10}>
-        {isLoading ? (
-          <>
-            <PostDetailsLoading />
-            <HStack>
-              <Skeleton width="6rem" height="2.5rem" />
-              <Flex flex={1} borderTopWidth="2px" />
-            </HStack>
-          </>
-        ) : (
-          <>
-            <PostDetails post={post!!} />
-            <ActionsSection post={post!!} />
-          </>
-        )}
-        {isLoggedIn && isLoading && <RemarkEditorLoading />}
-        {isLoggedIn && !isLoading && (
-          <FormProvider {...methods}>
-            <form onSubmit={handleSubmit(onSubmit)}>
-              <RemarkEditor
-                formDetails={{
-                  id: 'rawMarkdown',
-                  promptText: 'Share your thoughts in a markdown formatted comment!',
-                  maxChar: 500
-                }}
-              />
-              <Flex justifyContent="end">
-                <Button leftIcon={<FaPaperPlane />} colorScheme="theme" isLoading={isSubmitting} type="submit">
-                  Send
-                </Button>
-              </Flex>
-            </form>
-          </FormProvider>
-        )}
-        <CommentSection postId={postId!!} />
-      </VStack>
-    </RLayout>
+    <VStack align="stretch" spacing={10}>
+      {isLoading ? (
+        <>
+          <PostDetailsLoading />
+          <HStack>
+            <Skeleton width="6rem" height="2.5rem" />
+            <Flex flex={1} borderTopWidth="2px" />
+          </HStack>
+        </>
+      ) : (
+        <>
+          <PostDetails post={post!!} />
+          <ActionsSection post={post!!} />
+        </>
+      )}
+      {isLoggedIn && isLoading && <RemarkEditorLoading />}
+      {isLoggedIn && !isLoading && (
+        <CommentForm
+          buttonProps={{ sendButtonText: 'Send comment', hideBackButton: true, sendButtonIcon: <FaPaperPlane /> }}
+          onSend={onSend}
+          canEraseContent={canEraseContent}
+        />
+      )}
+      <CommentSection postId={postId!!} post={post} />
+    </VStack>
   )
 }

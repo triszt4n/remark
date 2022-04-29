@@ -9,7 +9,6 @@ const DesktopNav: FC = () => {
   const [navItems, setNavItems] = useState(NAV_ITEMS)
 
   useEffect(() => {
-    console.log('isLoggedIn changed:', isLoggedIn)
     setNavItems(NAV_ITEMS.filter((item) => item.shouldBeShown(isLoggedIn)))
   }, [isLoggedIn])
 

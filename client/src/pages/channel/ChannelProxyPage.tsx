@@ -3,18 +3,13 @@ import { useQuery } from 'react-query'
 import { Navigate, useParams } from 'react-router-dom'
 import { channelModule } from '../../api/modules/channel.module'
 import { PuzzleAnimated } from '../../components/commons/PuzzleAnimated'
-import { RLayout } from '../../components/commons/RLayout'
 
 export const ChannelProxyPage: FC = () => {
   const { uriName } = useParams()
   const { isLoading, data, error } = useQuery(['channel', uriName], () => channelModule.fetchChannelIdByUriName(uriName!!))
 
   if (isLoading) {
-    return (
-      <RLayout>
-        <PuzzleAnimated text="Loading" />
-      </RLayout>
-    )
+    return <PuzzleAnimated text="Loading" />
   }
 
   if (error) {

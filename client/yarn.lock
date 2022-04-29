@@ -4683,13 +4683,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axios@npm:0.27.1":
-  version: 0.27.1
-  resolution: "axios@npm:0.27.1"
+"axios@npm:0.27.2":
+  version: 0.27.2
+  resolution: "axios@npm:0.27.2"
   dependencies:
     follow-redirects: ^1.14.9
     form-data: ^4.0.0
-  checksum: 0da3131125429fcaeb5057c9b7249699c59d48a053d8aaa897089c96e5fa623cf2cf9c3ae36c307235dab495ab7409c87ffbd9b77407624a21403571a492c771
+  checksum: 38cb7540465fe8c4102850c4368053c21683af85c5fdf0ea619f9628abbcb59415d1e22ebc8a6390d2bbc9b58a9806c874f139767389c862ec9b772235f06854
   languageName: node
   linkType: hard
 
@@ -7476,9 +7476,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"framer-motion@npm:6.3.2":
-  version: 6.3.2
-  resolution: "framer-motion@npm:6.3.2"
+"framer-motion@npm:6.3.3":
+  version: 6.3.3
+  resolution: "framer-motion@npm:6.3.3"
   dependencies:
     "@emotion/is-prop-valid": ^0.8.2
     framesync: 6.0.1
@@ -7492,7 +7492,7 @@ __metadata:
   dependenciesMeta:
     "@emotion/is-prop-valid":
       optional: true
-  checksum: 50dc1263165a70a8eec54f8b30d7e1a788d17dcf876d37a7b919e2664264d48d235286640425a485a9ab0c8829aaf1604d708cb0e9ec0b60dc7f0a9e747a9a56
+  checksum: 905ccf2679a45b00f6fd3fa6220f73f176e0c14b43d65ceb5feb93e23b12098def275930b98926c9bd4320f0436564745ebcfd488d7a477646a7a4600362fdbf
   languageName: node
   linkType: hard
 
@@ -12754,14 +12754,14 @@ __metadata:
     "@types/react-helmet": 6.1.5
     "@typescript-eslint/eslint-plugin": 5.21.0
     "@typescript-eslint/parser": 5.21.0
-    axios: 0.27.1
+    axios: 0.27.2
     chakra-ui-markdown-renderer: 4.0.0
     date-fns: 2.28.0
     easymde: 2.16.1
     eslint: 8.14.0
     eslint-config-prettier: 8.5.0
     eslint-plugin-prettier: 4.0.0
-    framer-motion: 6.3.2
+    framer-motion: 6.3.3
     js-cookie: 3.0.1
     npm-run-all: 4.1.5
     prettier: 2.6.2

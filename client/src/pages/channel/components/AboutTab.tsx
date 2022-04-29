@@ -1,11 +1,32 @@
-import { Box, Button, Flex, Skeleton, Stat, StatHelpText, StatLabel, StatNumber, Text, VStack } from '@chakra-ui/react'
+import {
+  Box,
+  Button,
+  Flex,
+  Menu,
+  MenuButton,
+  MenuDivider,
+  MenuItem,
+  MenuList,
+  Skeleton,
+  Stat,
+  StatHelpText,
+  StatLabel,
+  StatNumber,
+  Text,
+  useDisclosure,
+  useToast,
+  VStack
+} from '@chakra-ui/react'
 import { ChannelView } from '@triszt4n/remark-types'
 import ChakraUIRenderer from 'chakra-ui-markdown-renderer'
 import { FC } from 'react'
-import { FaEdit } from 'react-icons/fa'
+import { FaChevronDown, FaEdit, FaTrashAlt, FaUserPlus } from 'react-icons/fa'
 import ReactMarkdown from 'react-markdown'
+import { useMutation } from 'react-query'
 import { useNavigate } from 'react-router-dom'
+import { channelModule } from '../../../api/modules/channel.module'
 import { toDateString, toReadableNumber } from '../../../util/core-util-functions'
+import { AddModeratorModal } from './AddModeratorModal'
 import { ModeratorsSection } from './moderator/ModeratorsSection'
 
 type Props = {
@@ -16,8 +37,30 @@ type Props = {
 
 export const AboutTab: FC<Props> = ({ channelId, isLoading, channel }) => {
   const navigate = useNavigate()
+  const toast = useToast()
+  const { isOpen, onOpen: onModeratorAddPressed, onClose } = useDisclosure()
+
+  const mutation = useMutation(channelModule.deleteChannel, {
+    onSuccess: () => {
+      navigate('/')
+    },
+    onError: (error) => {
+      const err = error as any
+      console.log('[DEBUG] Error at deleteChannel', err.toJSON())
+      toast({
+        title: 'Error occured when deleting channel. Try again later.',
+        description: `${err.response.status} ${err.message}`,
+        status: 'error',
+        isClosable: true
+      })
+    }
+  })
+
   const onEditPressed = () => {
     navigate('edit', { state: { channel } })
+  }
+  const onDeletePressed = () => {
+    if (confirm('Are you sure, you want to delete this channel?')) mutation.mutate(channelId)
   }
 
   if (isLoading) {
@@ -57,9 +100,25 @@ export const AboutTab: FC<Props> = ({ channelId, isLoading, channel }) => {
         </Stat>
         <Flex justifyContent="end" ml={2}>
           {(channel!!.amIModerator || channel!!.amIOwner) && (
-            <Button leftIcon={<FaEdit />} colorScheme="theme" variant="solid" onClick={onEditPressed}>
-              Edit
-            </Button>
+            <Menu>
+              <MenuButton as={Button} rightIcon={<FaChevronDown />} colorScheme="theme">
+                Actions
+              </MenuButton>
+              <MenuList>
+                <MenuItem icon={<FaEdit />} onClick={onEditPressed}>
+                  Edit channel
+                </MenuItem>
+                {channel!!.amIOwner && (
+                  <MenuItem icon={<FaUserPlus />} onClick={onModeratorAddPressed}>
+                    Add moderator
+                  </MenuItem>
+                )}
+                <MenuDivider />
+                <MenuItem icon={<FaTrashAlt />} onClick={onDeletePressed}>
+                  Delete channel
+                </MenuItem>
+              </MenuList>
+            </Menu>
           )}
         </Flex>
       </Flex>
@@ -75,6 +134,7 @@ export const AboutTab: FC<Props> = ({ channelId, isLoading, channel }) => {
       <Box>
         <ModeratorsSection channelId={channelId} />
       </Box>
+      <AddModeratorModal channel={channel!!} isOpen={isOpen} onClose={onClose} />
     </VStack>
   )
 }

@@ -1,4 +1,5 @@
 import {
+  ChannelJoinModel,
   ChannelModel,
   ChannelPartialView,
   ChannelView,
@@ -42,13 +43,25 @@ class ChannelModule {
     return response
   }
 
-  async updateChannel(id: string, channelData: UpdateChannelView) {
+  async updateChannel({ id, channelData }: { id: string; channelData: UpdateChannelView }) {
     const response = await axios.patch<ChannelModel & { id: string }>(`/channels/channels/${id}`, channelData)
     return response
   }
 
   async deleteChannel(id: string) {
     const response = await axios.patch<ChannelModel & { id: string }>(`/channels/channels/${id}`)
+    return response
+  }
+
+  async joinOrLeaveChannel({ id, intent }: { id: string; intent: 'join' | 'leave' }) {
+    const response = await axios.post<ChannelJoinModel & { id: string }>(`/channels/channels/${id}/join`, { intent })
+    return response
+  }
+
+  async addModeratorToChannel({ id, moderatorUsername }: { id: string; moderatorUsername: string }) {
+    const response = await axios.post<ChannelJoinModel & { id: string }>(`/channels/channels/${id}/moderator`, {
+      moderatorUsername
+    })
     return response
   }
 }

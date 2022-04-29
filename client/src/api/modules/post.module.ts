@@ -1,4 +1,13 @@
-import { CommentView, CreatePostView, PostModel, PostPartialView, PostView, UpdatePostView } from '@triszt4n/remark-types'
+import {
+  CommentView,
+  CreatePostView,
+  MyVoteType,
+  PostModel,
+  PostPartialView,
+  PostView,
+  PostVoteModel,
+  UpdatePostView
+} from '@triszt4n/remark-types'
 import axios from 'axios'
 
 class PostModule {
@@ -22,13 +31,18 @@ class PostModule {
     return response
   }
 
-  async updatePost(id: string, postData: UpdatePostView) {
+  async updatePost({ id, postData }: { id: string; postData: UpdatePostView }) {
     const response = await axios.patch<PostModel & { id: string }>(`/posts/posts/${id}`, postData)
     return response
   }
 
   async deletePost(id: string) {
     const response = await axios.delete<PostModel & { id: string }>(`/posts/posts/${id}`)
+    return response
+  }
+
+  async votePost({ id, voteType }: { id: string; voteType: MyVoteType }) {
+    const response = await axios.post<PostVoteModel & { id: string }>(`/posts/posts/${id}/vote`, { intent: voteType })
     return response
   }
 }

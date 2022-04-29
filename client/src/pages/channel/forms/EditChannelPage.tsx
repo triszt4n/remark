@@ -1,30 +1,38 @@
+import { useToast } from '@chakra-ui/react'
 import { ChannelView, UpdateChannelView } from '@triszt4n/remark-types'
 import { FC } from 'react'
+import { useMutation } from 'react-query'
 import { Navigate, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useAuthContext } from '../../../api/contexts/auth/useAuthContext'
 import { channelModule } from '../../../api/modules/channel.module'
-import { RLayout } from '../../../components/commons/RLayout'
 import { ChannelForm } from './ChannelForm'
 
 export const EditChannelPage: FC = () => {
   const { channel } = useLocation().state as { channel: ChannelView }
   const { channelId } = useParams()
   const navigate = useNavigate()
+  const toast = useToast()
   const { isLoggedIn } = useAuthContext()
+
+  const mutation = useMutation(channelModule.updateChannel, {
+    onSuccess: () => {
+      navigate(`/channels/${channelId}`)
+    },
+    onError: (error) => {
+      const err = error as any
+      console.log('[DEBUG] Error at updateChannel', err.toJSON())
+      toast({
+        title: 'Error occured when updating channel. Try again later.',
+        description: `${err.response.status} ${err.message}`,
+        status: 'error',
+        isClosable: true
+      })
+    }
+  })
 
   const onSend = async (updatable: UpdateChannelView) => {
     if (!channelId) return
-    const response = await channelModule.updateChannel(channelId, updatable)
-    if (response.status >= 200 && response.status < 300) {
-      navigate(`/channels/${channelId}`)
-    } else {
-      navigate(`/error`, {
-        state: {
-          title: 'Error occured when updating channel',
-          messages: [JSON.stringify(response.data, null, 2), `${response.status} ${response.statusText}`]
-        }
-      })
-    }
+    mutation.mutate({ id: channelId, channelData: updatable })
   }
 
   if (!isLoggedIn) {
@@ -50,10 +58,10 @@ export const EditChannelPage: FC = () => {
         replace
         to="/error"
         state={{
-          title: 'You are not logged in',
+          title: 'Access forbidden',
           messages: [
-            'The action you intended to do is restricted to authenticated users',
-            'Please log in via the Log in button in the navigation bar'
+            'The action you intended to do is restricted users with proper access to the resource',
+            "Please contact the resource's owner for further actions"
           ],
           backPath: -2
         }}
@@ -61,9 +69,5 @@ export const EditChannelPage: FC = () => {
     )
   }
 
-  return (
-    <RLayout>
-      <ChannelForm onSend={onSend} sendButtonText="Save" defaultValues={channel} />
-    </RLayout>
-  )
+  return <ChannelForm onSend={onSend} sendButtonText="Save" defaultValues={channel} />
 }
