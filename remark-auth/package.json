@@ -16,5 +16,10 @@
   "devDependencies": {
     "@types/jsonwebtoken": "8.5.8",
     "typescript": "4.6.3"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/triszt4n/remark/tree/master/remark-auth"
+  },
+  "homepage": "https://github.com/triszt4n/remark/blob/master/remark-auth/README.md"
 }
