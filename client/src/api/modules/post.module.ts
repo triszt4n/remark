@@ -27,23 +27,19 @@ class PostModule {
   }
 
   async createPost(postData: CreatePostView) {
-    const response = await axios.post<PostModel & { id: string }>(`/posts/posts`, postData)
-    return response
+    return axios.post<PostModel & { id: string }>(`/posts/posts`, postData)
   }
 
   async updatePost({ id, postData }: { id: string; postData: UpdatePostView }) {
-    const response = await axios.patch<PostModel & { id: string }>(`/posts/posts/${id}`, postData)
-    return response
+    return axios.patch<PostModel & { id: string }>(`/posts/posts/${id}`, postData)
   }
 
   async deletePost(id: string) {
-    const response = await axios.delete<PostModel & { id: string }>(`/posts/posts/${id}`)
-    return response
+    return axios.delete<PostModel & { id: string }>(`/posts/posts/${id}`)
   }
 
   async votePost({ id, voteType }: { id: string; voteType: MyVoteType }) {
-    const response = await axios.post<PostVoteModel & { id: string }>(`/posts/posts/${id}/vote`, { intent: voteType })
-    return response
+    return axios.post<PostVoteModel & { id: string }>(`/posts/posts/${id}/vote`, { intent: voteType })
   }
 }
 

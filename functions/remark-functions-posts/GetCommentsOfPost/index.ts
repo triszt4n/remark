@@ -43,9 +43,11 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
       let myVote: MyVoteType = 'none'
       if (user) {
         const { resources } = await commentVotesContainer.items
-          .query<{ isUpvote: boolean }>(createQueryCommentVoteByCommentIdAndUserId(comment.id, user.id))
+          .query<CommentVoteResource>(createQueryCommentVoteByCommentIdAndUserId(comment.id, user.id))
           .fetchAll()
-        myVote = resources[0].isUpvote ? 'up' : 'down'
+        if (resources.length > 0) {
+          myVote = resources[0].isUpvote ? 'up' : 'down'
+        }
       }
 
       const returnable: CommentView = {

@@ -40,30 +40,25 @@ class ChannelModule {
   }
 
   async createChannel(channelData: CreateChannelView) {
-    const response = await axios.post<ChannelModel & { id: string }>(`/channels/channels`, channelData)
-    return response
+    return axios.post<ChannelModel & { id: string }>(`/channels/channels`, channelData)
   }
 
   async updateChannel({ id, channelData }: { id: string; channelData: UpdateChannelView }) {
-    const response = await axios.patch<ChannelModel & { id: string }>(`/channels/channels/${id}`, channelData)
-    return response
+    return axios.patch<ChannelModel & { id: string }>(`/channels/channels/${id}`, channelData)
   }
 
   async deleteChannel(id: string) {
-    const response = await axios.patch<ChannelModel & { id: string }>(`/channels/channels/${id}`)
-    return response
+    return axios.patch<ChannelModel & { id: string }>(`/channels/channels/${id}`)
   }
 
   async joinOrLeaveChannel({ id, intent }: { id: string; intent: 'join' | 'leave' }) {
-    const response = await axios.post<JoinInfo>(`/channels/channels/${id}/join`, { intent })
-    return response
+    return axios.post<JoinInfo>(`/channels/channels/${id}/join`, { intent })
   }
 
   async addModeratorToChannel({ id, moderatorUsername }: { id: string; moderatorUsername: string }) {
-    const response = await axios.post<ChannelModel & { id: string }>(`/channels/channels/${id}/moderator`, {
+    return axios.post<ChannelModel & { id: string }>(`/channels/channels/${id}/moderator`, {
       moderatorUsername
     })
-    return response
   }
 }
 

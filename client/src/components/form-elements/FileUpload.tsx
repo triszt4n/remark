@@ -42,13 +42,13 @@ export const FileUpload: FC<Props> = ({
   } = useFormContext()
 
   const validateFiles = (value: FileList) => {
-    if (required && value.length < 1) {
+    if (required && value?.length < 1) {
       return 'At least one file is required for upload!'
     }
-    if (!multiple && value.length > 1) {
+    if (!multiple && value?.length > 1) {
       return 'Only one file is allowed for upload!'
     }
-    for (const file of Array.from(value)) {
+    for (const file of Array.from(value || [])) {
       const fsMb = file.size / (1024 * 1024)
       const MAX_FILE_SIZE_IN_MB = 10
       if (fsMb > MAX_FILE_SIZE_IN_MB) return 'File size cannot exceed 10 MB!'

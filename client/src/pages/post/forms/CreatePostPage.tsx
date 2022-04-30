@@ -46,7 +46,7 @@ export const CreatePostPage: FC = () => {
     }
   })
 
-  const onSend = (creatable: UpdatePostView) => {
+  const onSend = (creatable: UpdatePostView & { imageFileData?: any }) => {
     mutation.mutate({ ...creatable, parentChannelId: channel.id })
   }
 

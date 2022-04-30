@@ -2,6 +2,7 @@ import {
   Avatar,
   Box,
   Button,
+  Flex,
   HStack,
   IconButton,
   Menu,
@@ -24,14 +25,14 @@ import { CreatedPostsSection } from './post/CreatedPostsSection'
 type Props = {
   user: UserView
   profileOptions?: {
+    onChangeProfileImagePressed: () => void
     onLogoutPressed: () => void
     onUsernameEditPressed: () => void
   }
 }
 
 export const ProfileDetails: FC<Props> = ({ user, profileOptions }) => {
-  const { onLogoutPressed, onUsernameEditPressed } = profileOptions || {}
-  const onChangeProfileImagePressed = () => {}
+  const { onLogoutPressed, onUsernameEditPressed, onChangeProfileImagePressed } = profileOptions || {}
 
   const {
     isLoading: isLoadingChannels,
@@ -69,7 +70,7 @@ export const ProfileDetails: FC<Props> = ({ user, profileOptions }) => {
           </HStack>
         </HStack>
         {profileOptions && (
-          <HStack flex={1} justifyContent="end">
+          <Flex flex={1} justifyContent="end">
             <Menu>
               <MenuButton as={Button} colorScheme="themeHelper" rightIcon={<FaChevronDown />}>
                 Actions
@@ -83,7 +84,7 @@ export const ProfileDetails: FC<Props> = ({ user, profileOptions }) => {
                 </MenuItem>
               </MenuList>
             </Menu>
-          </HStack>
+          </Flex>
         )}
       </HStack>
       <VStack align="stretch">

@@ -5,10 +5,12 @@ import { useAuthContext } from '../../api/contexts/auth/useAuthContext'
 import { EditUsernameModal } from './components/EditUsernameModal'
 import { ProfileDetails } from './components/ProfileDetails'
 import { ProfileDetailsLoading } from './components/ProfileDetailsLoading'
+import { UploadImageModal } from './components/UploadImageModal'
 
 export const ProfilePage: FC = () => {
   const { isLoggedIn, loggedInUser, loggedInUserError, loggedInUserLoading, onLogout } = useAuthContext()
-  const { isOpen, onOpen: onUsernameEditPressed, onClose } = useDisclosure()
+  const { isOpen: isOpenUsernameEdit, onOpen: onUsernameEditPressed, onClose: onCloseUsernameEdit } = useDisclosure()
+  const { isOpen: isOpenProfileImageModal, onOpen: onChangeProfileImagePressed, onClose: onCloseProfileImageModal } = useDisclosure()
 
   if (loggedInUserError) {
     console.log('[DEBUG] Error at ProfilePage', loggedInUserError)
@@ -26,10 +28,15 @@ export const ProfilePage: FC = () => {
       ) : (
         <ProfileDetails
           user={loggedInUser!!}
-          profileOptions={{ onLogoutPressed: onLogout, onUsernameEditPressed: onUsernameEditPressed }}
+          profileOptions={{ onLogoutPressed: onLogout, onUsernameEditPressed, onChangeProfileImagePressed }}
         />
       )}
-      {loggedInUser && <EditUsernameModal isOpen={isOpen} onClose={onClose} />}
+      {loggedInUser && (
+        <>
+          <EditUsernameModal isOpen={isOpenUsernameEdit} onClose={onCloseUsernameEdit} />
+          <UploadImageModal isOpen={isOpenProfileImageModal} onClose={onCloseProfileImageModal} />
+        </>
+      )}
     </>
   )
 }

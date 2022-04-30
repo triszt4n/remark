@@ -61,7 +61,7 @@ export const EditUsernameModal: FC<Props> = ({ isOpen, onClose }) => {
   })
 
   const onSubmit: SubmitHandler<{ newUsername: string }> = (values) => {
-    mutation.mutate({ id: loggedInUser.id, userData: { username: values.newUsername } })
+    mutation.mutate({ username: values.newUsername })
   }
 
   return (

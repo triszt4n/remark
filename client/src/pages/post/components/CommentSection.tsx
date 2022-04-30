@@ -29,7 +29,7 @@ export const CommentSection: FC<Props> = ({ postId, post }) => {
   if (error) {
     return (
       <Flex justifyContent="center">
-        <Box>Error while loading comments: {(error as any).response.data.message}</Box>
+        <Box>Error while loading comments: {(error as any).response?.data?.message || (error as any).message}</Box>
       </Flex>
     )
   }

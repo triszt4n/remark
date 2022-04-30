@@ -1,4 +1,4 @@
-import { UpdateUserView, UserView } from '@triszt4n/remark-types'
+import { UpdateUserImageView, UpdateUserView, UserView } from '@triszt4n/remark-types'
 import axios from 'axios'
 
 class UserModule {
@@ -12,12 +12,16 @@ class UserModule {
     return response.data
   }
 
-  async updateUser({ id, userData }: { id: string; userData: UpdateUserView }) {
-    return axios.patch<UserView>(`/users/users/${id}`, userData)
+  async updateUser(userData: UpdateUserView) {
+    return axios.patch<UserView>(`/users/profile`, userData)
+  }
+
+  async uploadProfileImage(userData: UpdateUserImageView) {
+    return axios.post<UserView>(`/users/profile/image`, userData)
   }
 
   async loginUser(accessToken: string) {
-    return await axios.post<{ user: UserView; jwt: string }>(`/users/login`, { accessToken })
+    return axios.post<{ user: UserView; jwt: string }>(`/users/login`, { accessToken })
   }
 }
 

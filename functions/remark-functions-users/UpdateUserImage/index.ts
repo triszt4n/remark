@@ -1,12 +1,12 @@
 import { AzureFunction, Context, HttpRequest } from '@azure/functions'
 import { readUserFromAuthHeader } from '@triszt4n/remark-auth'
+import { UpdateUserImageView } from '@triszt4n/remark-types'
 import { fetchCosmosContainer } from '../lib/dbConfig'
-import { createQueryByUsername } from '../lib/dbQueries'
 import { UserResource } from '../lib/model'
 
 const httpTrigger: AzureFunction = async function (context: Context, req: HttpRequest): Promise<void> {
   // Request body verification
-  if (!req.body || !req.body.username) {
+  if (!req.body || !req.body.imageFileData) {
     context.res = {
       status: 400,
       body: { message: `Bad request: No username in request body!` }
@@ -25,19 +25,10 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
   }
   const { userFromJwt } = result
 
-  const newUsername = req.body.username as string
+  const { imageFileData } = req.body as UpdateUserImageView
   const usersContainer = fetchCosmosContainer('Users')
 
-  // Validate new username is unique
-  const { resources: usersWithSameUsername } = await usersContainer.items.query<UserResource>(createQueryByUsername(newUsername)).fetchAll()
-  if (usersWithSameUsername.length > 0) {
-    context.res = {
-      status: 400,
-      body: { message: `User with username ${newUsername} already exists.` }
-    }
-    return
-  }
-
+  // Get user of id
   const userItem = usersContainer.item(userFromJwt.id, userFromJwt.id)
   let { resource: user } = await userItem.read<UserResource>()
   if (!user) {
@@ -48,9 +39,13 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
     return
   }
 
+  // Upload as Blob
+  // todo: realize upload of imageFileData to Azure Blob Storage, retrieve public url and send down
+  const imageUrl = ''
+
   user = {
     ...user,
-    username: newUsername
+    imageUrl
   }
   const { resource: updatedUser } = await userItem.replace<UserResource>(user)
 

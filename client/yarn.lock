@@ -3299,10 +3299,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@triszt4n/remark-types@npm:1.0.15":
-  version: 1.0.15
-  resolution: "@triszt4n/remark-types@npm:1.0.15"
-  checksum: 3ac509b203c53964edf9d8008b8c4ec0a8a859109b9c58901a917926369083dd12cb27a2a8aca19c451e3be183301fd3055cb553045f71c9c8e7117943c2e924
+"@triszt4n/remark-types@npm:1.0.16":
+  version: 1.0.16
+  resolution: "@triszt4n/remark-types@npm:1.0.16"
+  checksum: b0a1b1398b5090b7e098714ab235fa0fe1267889a9b489d843ab9bf3cbea378c83ee3086de3f7fe76a49adad01f87243b9177bda407be21729625366c42e5f6a
   languageName: node
   linkType: hard
 
@@ -12745,7 +12745,7 @@ __metadata:
     "@emotion/react": 11.9.0
     "@emotion/styled": 11.8.1
     "@fontsource/inter": 4.5.7
-    "@triszt4n/remark-types": 1.0.15
+    "@triszt4n/remark-types": 1.0.16
     "@types/jest": 27.4.1
     "@types/js-cookie": 3.0.2
     "@types/node": 17.0.30

@@ -41,9 +41,11 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
       let myVote: MyVoteType = 'none'
       if (user) {
         const { resources } = await postVotesContainer.items
-          .query<{ isUpvote: boolean }>(createQueryPostVoteByPostIdAndUserId(post.id, user.id))
+          .query<PostVoteResource>(createQueryPostVoteByPostIdAndUserId(post.id, user.id))
           .fetchAll()
-        myVote = resources[0].isUpvote ? 'up' : 'down'
+        if (resources.length > 0) {
+          myVote = resources[0].isUpvote ? 'up' : 'down'
+        }
       }
 
       const { resource: parentChannel } = await channelsContainer.item(post.parentChannelId, post.parentChannelId).read<ChannelResource>()

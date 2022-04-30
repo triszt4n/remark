@@ -21,7 +21,7 @@ export const createQueryCommentVotesByCommentId = (commentId: string): SqlQueryS
 })
 
 export const createQueryPostVoteByPostIdAndUserId = (postId: string, userId: string): SqlQuerySpec => ({
-  query: 'SELECT pv.isUpvote FROM PostVotes pv WHERE pv.postId = @postId AND pv.userId = @userId',
+  query: 'SELECT * FROM PostVotes pv WHERE pv.postId = @postId AND pv.userId = @userId',
   parameters: [
     {
       name: '@postId',
@@ -35,7 +35,7 @@ export const createQueryPostVoteByPostIdAndUserId = (postId: string, userId: str
 })
 
 export const createQueryCommentVoteByCommentIdAndUserId = (commentId: string, userId: string): SqlQuerySpec => ({
-  query: 'SELECT cv.isUpvote FROM CommentVotes cv WHERE cv.commentId = @commentId AND cv.userId = @userId',
+  query: 'SELECT * FROM CommentVotes cv WHERE cv.commentId = @commentId AND cv.userId = @userId',
   parameters: [
     {
       name: '@commentId',
