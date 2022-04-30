@@ -12,7 +12,7 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
   if (resources.length == 0) {
     context.res = {
       status: 404,
-      body: { message: `Channel with uriName ${uriName} not found` }
+      body: { message: `Channel with uriName ${uriName} not found.` }
     }
     return
   }

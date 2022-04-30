@@ -52,7 +52,7 @@ export const AddModeratorModal: FC<Props> = ({ channel, isOpen, onClose }) => {
     onError: (error) => {
       const err = error as any
       console.log('[DEBUG] Error at addModeratorToChannel', err.toJSON())
-      setError('moderatorUsername', { type: 'custom', message: err.message })
+      setError('moderatorUsername', { type: 'custom', message: err.response.data.message })
     }
   })
 

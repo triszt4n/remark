@@ -38,8 +38,8 @@ export const CreatePostPage: FC = () => {
       const err = error as any
       console.log('[DEBUG] Error at createPost', err.toJSON())
       toast({
-        title: 'Error occured when creating post. Try again later.',
-        description: `${err.response.status} ${err.message}`,
+        title: 'Error occured when creating post',
+        description: `${err.response.status} ${err.response.data.message} Try again later.`,
         status: 'error',
         isClosable: true
       })

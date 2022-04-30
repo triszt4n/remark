@@ -19,7 +19,7 @@ export const JoinedChannel: FC<Props> = ({ channel }) => {
       <VStack>
         <Code fontSize="xs">ch/{channel.uriName}</Code>
         <Heading size="sm">
-          <LinkOverlay as={Link} to={targetPath} href={targetPath}>
+          <LinkOverlay as={Link} to={targetPath}>
             {ellipsifyLongText(channel.title, 32)}
           </LinkOverlay>
         </Heading>

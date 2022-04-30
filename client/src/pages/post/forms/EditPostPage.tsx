@@ -56,8 +56,8 @@ export const EditPostPage: FC = () => {
       const err = error as any
       console.log('[DEBUG] Error at updatePost', err.toJSON())
       toast({
-        title: 'Error occured when updating post. Try again later.',
-        description: `${err.response.status} ${err.message}`,
+        title: 'Error occured when updating post',
+        description: `${err.response.status} ${err.response.data.message} Try again later.`,
         status: 'error',
         isClosable: true
       })

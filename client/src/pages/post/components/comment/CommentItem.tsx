@@ -56,8 +56,8 @@ export const CommentItem: FC<Props> = ({ comment, post }) => {
       const err = error as any
       console.log('[DEBUG] Error at voteComment', err.toJSON())
       toast({
-        title: 'Error occured when sending vote. Try again later.',
-        description: `${err.response.status} ${err.message}`,
+        title: 'Error occured when sending vote',
+        description: `${err.response.status} ${err.response.data.message} Try again later.`,
         status: 'error',
         isClosable: true
       })
@@ -71,8 +71,8 @@ export const CommentItem: FC<Props> = ({ comment, post }) => {
       const err = error as any
       console.log('[DEBUG] Error at deleteComment', err.toJSON())
       toast({
-        title: 'Error occured when deleting comment. Try again later.',
-        description: `${err.response.status} ${err.message}`,
+        title: 'Error occured when deleting comment',
+        description: `${err.response.status} ${err.response.data.message} Try again later.`,
         status: 'error',
         isClosable: true
       })

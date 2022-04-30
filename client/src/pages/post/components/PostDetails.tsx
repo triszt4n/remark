@@ -37,8 +37,8 @@ export const PostDetails: FC<Props> = ({ post }) => {
       const err = error as any
       console.log('[DEBUG] Error at votePost', err.toJSON())
       toast({
-        title: 'Error occured when sending vote. Try again later.',
-        description: `${err.response.status} ${err.message}`,
+        title: 'Error occured when sending vote',
+        description: `${err.response.status} ${err.response.data.message} Try again later.`,
         status: 'error',
         isClosable: true
       })

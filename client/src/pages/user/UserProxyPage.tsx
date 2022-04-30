@@ -26,7 +26,9 @@ export const UserProxyPage: FC = () => {
 
   if (error) {
     console.error('[DEBUG] Error at UserProxyPage', error)
-    return <Navigate replace to="/error" state={{ title: 'Error occured loading user', messages: [(error as any)?.message] }} />
+    return (
+      <Navigate replace to="/error" state={{ title: 'Error occured loading user', messages: [(error as any)?.response.data.message] }} />
+    )
   }
 
   return <Navigate replace to={`/users/${user?.id}`} state={{ user: user!! }} />

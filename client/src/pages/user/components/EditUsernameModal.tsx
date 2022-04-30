@@ -56,7 +56,7 @@ export const EditUsernameModal: FC<Props> = ({ isOpen, onClose }) => {
     onError: (error) => {
       const err = error as any
       console.log('[DEBUG] Error at updateUser', err.toJSON())
-      setError('newUsername', { type: 'custom', message: err.message })
+      setError('newUsername', { type: 'custom', message: err.response.data.message })
     }
   })
 

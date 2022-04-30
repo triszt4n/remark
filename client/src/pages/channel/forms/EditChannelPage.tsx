@@ -22,8 +22,8 @@ export const EditChannelPage: FC = () => {
       const err = error as any
       console.log('[DEBUG] Error at updateChannel', err.toJSON())
       toast({
-        title: 'Error occured when updating channel. Try again later.',
-        description: `${err.response.status} ${err.message}`,
+        title: 'Error occured when updating channel',
+        description: `${err.response.status} ${err.response.data.message} Try again later.`,
         status: 'error',
         isClosable: true
       })

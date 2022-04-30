@@ -20,7 +20,7 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
       if (user == null) {
         context.res = {
           status: 404,
-          body: { message: `User with id ${id} not found` }
+          body: { message: `User with id ${id} not found.` }
         }
         return
       }

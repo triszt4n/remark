@@ -1,4 +1,4 @@
-import { Box, Center, Heading, Skeleton } from '@chakra-ui/react'
+import { Box, Heading, Skeleton } from '@chakra-ui/react'
 import { PostPartialView } from '@triszt4n/remark-types'
 import { FC } from 'react'
 import { CreatedPost } from './CreatedPost'
@@ -30,9 +30,16 @@ export const CreatedPostsSection: FC<Props> = ({ posts, isLoading, error }) => {
   if (error) {
     console.log('[DEBUG] Error at ProfileDetails: CreatedPostsSection', error)
     return (
-      <Box width="full">
-        <Center fontSize="lg">Error when fetching created posts! {error?.response?.statusText}</Center>
-      </Box>
+      <>
+        <Box>
+          <Heading size="xl" mt={10} mb={4}>
+            Posts created
+          </Heading>
+        </Box>
+        <Box maxWidth="100%">
+          <Box>Error when fetching createad posts! {error?.response.data.message}</Box>
+        </Box>
+      </>
     )
   }
 

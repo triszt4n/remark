@@ -27,7 +27,7 @@ export const CreatedPost: FC<Props> = ({ post }) => {
             </HStack>
           </Badge>
           <Heading size="sm">
-            <LinkOverlay as={Link} to={`/posts/${id}`} href={`/posts/${id}`}>
+            <LinkOverlay as={Link} to={`/posts/${id}`}>
               {ellipsifyLongText(title, 26)}
             </LinkOverlay>
           </Heading>

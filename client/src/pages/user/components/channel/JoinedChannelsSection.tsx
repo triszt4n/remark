@@ -1,4 +1,4 @@
-import { Box, Center, Heading, Skeleton } from '@chakra-ui/react'
+import { Box, Heading, Skeleton } from '@chakra-ui/react'
 import { ChannelPartialView } from '@triszt4n/remark-types'
 import { FC } from 'react'
 import { JoinedChannel } from './JoinedChannel'
@@ -30,9 +30,16 @@ export const JoinedChannelsSection: FC<Props> = ({ channels, isLoading, error })
   if (error) {
     console.log('[DEBUG] Error at ProfileDetails: JoinedChannelsSection', error)
     return (
-      <Box width="full">
-        <Center fontSize="lg">Error when fetching joined channels! {error?.response?.statusText}</Center>
-      </Box>
+      <>
+        <Box>
+          <Heading size="xl" mt={10} mb={4}>
+            Channels joined
+          </Heading>
+        </Box>
+        <Box maxWidth="100%">
+          <Box>Error when fetching joined channels! {error?.response.data.message}</Box>
+        </Box>
+      </>
     )
   }
 

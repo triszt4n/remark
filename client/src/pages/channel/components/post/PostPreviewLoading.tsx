@@ -1,4 +1,4 @@
-import { Box, Heading, HStack, LinkBox, Skeleton, SkeletonText, Spacer, useBreakpointValue, VStack } from '@chakra-ui/react'
+import { Box, Heading, HStack, Skeleton, SkeletonText, Spacer, useBreakpointValue, VStack } from '@chakra-ui/react'
 import { FC } from 'react'
 import { VoteButtonsLoading } from '../../../../components/voting/VoteButtonsLoading'
 
@@ -34,7 +34,7 @@ export const PostPreviewLoading: FC<Props> = ({ hasImage }) => {
             <VStack spacing={2}>
               <VoteButtonsLoading />
             </VStack>
-            <LinkBox as={HStack} flex={1} spacing={3} alignItems="start">
+            <HStack flex={1} spacing={3} alignItems="start">
               <Box flex={1}>
                 <Skeleton height="1rem" width="50%" mb={1} />
                 <Heading mb={4}>
@@ -47,7 +47,7 @@ export const PostPreviewLoading: FC<Props> = ({ hasImage }) => {
                   <Skeleton height={{ md: '8rem', lg: '10rem' }} width={{ md: '12rem', lg: '14rem' }} />
                 </Box>
               )}
-            </LinkBox>
+            </HStack>
           </HStack>
         )
       })}

@@ -39,7 +39,7 @@ export const PostPreviewDesktop: FC<Props> = ({ post, onUpvotePressed, onDownvot
             </Tooltip>
           </Box>
           <Heading size="lg" mb={4}>
-            <LinkOverlay as={Link} to={targetPath} href={targetPath}>
+            <LinkOverlay as={Link} to={targetPath}>
               {post.title}
             </LinkOverlay>
           </Heading>

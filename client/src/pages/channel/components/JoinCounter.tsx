@@ -31,8 +31,8 @@ export const JoinCounter: FC<Props> = ({ channel, joinCount }) => {
       const err = error as any
       console.log('[DEBUG] Error at joinOrLeaveChannel', err.toJSON())
       toast({
-        title: 'Error occured when joining or leaving channel. Try again later.',
-        description: `${err.response.status} ${err.message}`,
+        title: 'Error occured when joining or leaving channel',
+        description: `${err.response.status} ${err.response.data.message} Try again later.`,
         status: 'error',
         isClosable: true
       })
@@ -40,8 +40,11 @@ export const JoinCounter: FC<Props> = ({ channel, joinCount }) => {
   })
 
   const onJoinPressed = () => {
-    if (channel.amIJoined && confirm('Do you really want to leave this channel?'))
-      mutation.mutate({ id: channel.id, intent: channel.amIJoined ? 'leave' : 'join' })
+    if (channel.amIJoined) {
+      if (confirm('Do you really want to leave this channel?')) mutation.mutate({ id: channel.id, intent: 'leave' })
+    } else {
+      mutation.mutate({ id: channel.id, intent: 'join' })
+    }
   }
 
   return (

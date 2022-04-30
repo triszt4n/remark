@@ -83,7 +83,7 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
     }
     return
   }
-  if (channel.ownerId === user.id) {
+  if (channel.ownerId === user.id && intent === 'leave') {
     context.res = {
       status: 403,
       body: { message: `Forbidden: Channel owner cannot leave the channel!` }

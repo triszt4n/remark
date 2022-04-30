@@ -19,7 +19,7 @@ export const PostPreviewMobile: FC<Props> = ({ post, onUpvotePressed, onDownvote
       <LinkBox as={HStack} mb={4}>
         <Box flex={1}>
           <Heading size="md" mb={2}>
-            <LinkOverlay as={Link} to={targetPath} href={targetPath}>
+            <LinkOverlay as={Link} to={targetPath}>
               {post.title}
             </LinkOverlay>
           </Heading>

@@ -9,7 +9,7 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
   if (!req.body) {
     context.res = {
       status: 400,
-      body: { message: `No body attached to POST query` }
+      body: { message: `No body attached to POST query.` }
     }
     return
   }

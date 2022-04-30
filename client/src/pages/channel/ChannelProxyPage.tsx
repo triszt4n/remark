@@ -14,7 +14,9 @@ export const ChannelProxyPage: FC = () => {
 
   if (error) {
     console.error('[DEBUG] Error at ChannelProxyPage', error)
-    return <Navigate replace to="/error" state={{ title: 'Error occured loading channel', messages: [(error as any)?.message] }} />
+    return (
+      <Navigate replace to="/error" state={{ title: 'Error occured loading channel', messages: [(error as any)?.response.data.message] }} />
+    )
   }
 
   const { id } = data!!

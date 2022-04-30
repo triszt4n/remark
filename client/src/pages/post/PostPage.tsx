@@ -32,8 +32,8 @@ export const PostPage: FC = () => {
       const err = error as any
       console.log('[DEBUG] Error at createComment', err.toJSON())
       toast({
-        title: 'Error occured when creating comment. Try again later.',
-        description: `${err.response.status} ${err.message}`,
+        title: 'Error occured when creating comment',
+        description: `${err.response.status} ${err.response.data.message} Try again later.`,
         status: 'error',
         isClosable: true
       })
@@ -47,7 +47,13 @@ export const PostPage: FC = () => {
 
   if (error) {
     console.log('[DEBUG] Error at PostPage', error)
-    return <Navigate replace to="/error" state={{ title: "Error when fetching post's details!", messages: [(error as any)?.message] }} />
+    return (
+      <Navigate
+        replace
+        to="/error"
+        state={{ title: "Error when fetching post's details!", messages: [(error as any)?.response.data.message] }}
+      />
+    )
   }
 
   return (

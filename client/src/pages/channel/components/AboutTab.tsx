@@ -48,8 +48,8 @@ export const AboutTab: FC<Props> = ({ channelId, isLoading, channel }) => {
       const err = error as any
       console.log('[DEBUG] Error at deleteChannel', err.toJSON())
       toast({
-        title: 'Error occured when deleting channel. Try again later.',
-        description: `${err.response.status} ${err.message}`,
+        title: 'Error occured when deleting channel',
+        description: `${err.response.status} ${err.response.data.message} Try again later.`,
         status: 'error',
         isClosable: true
       })

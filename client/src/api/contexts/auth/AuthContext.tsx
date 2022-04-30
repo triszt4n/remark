@@ -52,8 +52,8 @@ export const AuthProvider: FC = ({ children }) => {
       const err = error as any
       console.log('[DEBUG] Error at deleteComment', err.toJSON())
       toast({
-        title: 'Error occured when deleting comment. Try again later.',
-        description: `${err.response.status} ${err.message}`,
+        title: 'Error occured when deleting comment',
+        description: `${err.response.status} ${err.response.data.message} Try again later.`,
         status: 'error',
         isClosable: true
       })
@@ -66,7 +66,7 @@ export const AuthProvider: FC = ({ children }) => {
   }
 
   const onLoginFailure = (response: GoogleLoginResponseOffline | GoogleLoginResponse) => {
-    console.log('[DEBUG] Error at onLoginFailure', JSON.stringify(onLoginFailure, null, 2))
+    console.log('[DEBUG] Error at onLoginFailure', JSON.stringify(response, null, 2))
     toast({
       title: 'Authentication error',
       description: 'There was an error while authenticating you at Google!',
