@@ -1,6 +1,6 @@
 {
   "name": "@triszt4n/remark-auth",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Authorization functions for the Remark project by triszt4n",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -15,7 +15,7 @@
   },
   "devDependencies": {
     "@types/jsonwebtoken": "8.5.8",
-    "typescript": "4.6.3"
+    "typescript": "4.6.4"
   },
   "repository": {
     "type": "git",
