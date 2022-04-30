@@ -3299,10 +3299,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@triszt4n/remark-types@npm:1.0.14":
-  version: 1.0.14
-  resolution: "@triszt4n/remark-types@npm:1.0.14"
-  checksum: a1c25bc309ba9651ae3174bfef38b5744c1140e651de41088c9060f0ba801af2f8c4e99831ae537ac64c29316922ab32169df051f871df983964d1fa319596f3
+"@triszt4n/remark-types@npm:1.0.15":
+  version: 1.0.15
+  resolution: "@triszt4n/remark-types@npm:1.0.15"
+  checksum: 3ac509b203c53964edf9d8008b8c4ec0a8a859109b9c58901a917926369083dd12cb27a2a8aca19c451e3be183301fd3055cb553045f71c9c8e7117943c2e924
   languageName: node
   linkType: hard
 
@@ -3627,10 +3627,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:17.0.29":
-  version: 17.0.29
-  resolution: "@types/node@npm:17.0.29"
-  checksum: bb9d7bce9d6d3882efd9d63b773b548dce98df4bd57eff8ceaa316aa2f3346e36d3618764cc93da84bbff92005174a35eec3465cde91ee973ef1c351ffa40074
+"@types/node@npm:17.0.30":
+  version: 17.0.30
+  resolution: "@types/node@npm:17.0.30"
+  checksum: b3cd2db6474aae3ddac5a312f340f6e4ca200429371e62cb74698fe7f23d7414d0200f643204ddfaa797846328539359e3797d7f2baaf3cdd643b159cf53baa6
   languageName: node
   linkType: hard
 
@@ -12745,10 +12745,10 @@ __metadata:
     "@emotion/react": 11.9.0
     "@emotion/styled": 11.8.1
     "@fontsource/inter": 4.5.7
-    "@triszt4n/remark-types": 1.0.14
+    "@triszt4n/remark-types": 1.0.15
     "@types/jest": 27.4.1
     "@types/js-cookie": 3.0.2
-    "@types/node": 17.0.29
+    "@types/node": 17.0.30
     "@types/react": 17.0.44
     "@types/react-dom": 17.0.16
     "@types/react-helmet": 6.1.5
@@ -12776,7 +12776,7 @@ __metadata:
     react-router-dom: 6.3.0
     react-scripts: 5.0.1
     remark-gfm: 3.0.1
-    typescript: 4.6.3
+    typescript: 4.6.4
     web-vitals: 2.1.4
   languageName: unknown
   linkType: soft
@@ -14281,23 +14281,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:4.6.3":
-  version: 4.6.3
-  resolution: "typescript@npm:4.6.3"
+"typescript@npm:4.6.4":
+  version: 4.6.4
+  resolution: "typescript@npm:4.6.4"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 255bb26c8cb846ca689dd1c3a56587af4f69055907aa2c154796ea28ee0dea871535b1c78f85a6212c77f2657843a269c3a742d09d81495b97b914bf7920415b
+  checksum: e7bfcc39cd4571a63a54e5ea21f16b8445268b9900bf55aee0e02ad981be576acc140eba24f1af5e3c1457767c96cea6d12861768fb386cf3ffb34013718631a
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@4.6.3#~builtin<compat/typescript>":
-  version: 4.6.3
-  resolution: "typescript@patch:typescript@npm%3A4.6.3#~builtin<compat/typescript>::version=4.6.3&hash=bda367"
+"typescript@patch:typescript@4.6.4#~builtin<compat/typescript>":
+  version: 4.6.4
+  resolution: "typescript@patch:typescript@npm%3A4.6.4#~builtin<compat/typescript>::version=4.6.4&hash=bda367"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 6bf45caf847062420592e711bc9c28bf5f9a9a7fa8245343b81493e4ededae33f1774009d1234d911422d1646a2c839f44e1a23ecb111b40a60ac2ea4c1482a8
+  checksum: 1cb434fbc637d347be90e3a0c6cd05e33c38f941713c8786d3031faf1842c2c148ba91d2fac01e7276b0ae3249b8633f1660e32686cc7a8c6a8fd5361dc52c66
   languageName: node
   linkType: hard
 

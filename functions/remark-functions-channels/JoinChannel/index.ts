@@ -37,7 +37,7 @@ const tryCreatingJoin = async (
 
   const { resource: createdJoin } = await container.items.create<ChannelJoinModel>({
     userId: user.id,
-    channelId: user.id,
+    channelId: channelId,
     createdAt: +new Date()
   })
   return {
@@ -88,6 +88,7 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
       status: 403,
       body: { message: `Forbidden: Channel owner cannot leave the channel!` }
     }
+    return
   }
 
   const channelJoinsContainer = fetchCosmosContainer(database, 'ChannelJoins')
