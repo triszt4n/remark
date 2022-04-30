@@ -17,3 +17,7 @@ export interface CreateUserView {
 export interface UpdateUserView {
   username: string
 }
+
+export interface UpdateUserImageView {
+  imageFileData: File
+}

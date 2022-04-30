@@ -11,7 +11,7 @@ import { ChannelInPostView, ChannelPartialView, ChannelView, CreateChannelView, 
 import { CommentView, CreateCommentView, UpdateCommentView } from './views/comment.view'
 import { NotificationView } from './views/notification.view'
 import { CreatePostView, PostPartialView, PostView, UpdatePostView } from './views/post.view'
-import { CreateUserView, UpdateUserView, UserView } from './views/user.view'
+import { CreateUserView, UpdateUserImageView, UpdateUserView, UserView } from './views/user.view'
 import { MyVoteType } from './views/_commons.view'
 
 export {
@@ -36,6 +36,7 @@ export {
   CommentView,
   MyVoteType,
   UpdateUserView,
+  UpdateUserImageView,
   UpdateChannelView,
   UpdateCommentView,
   UpdatePostView,
