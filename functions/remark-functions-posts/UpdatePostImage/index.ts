@@ -3,8 +3,8 @@ import { BlockBlobParallelUploadOptions } from '@azure/storage-blob'
 import { readUserFromAuthHeader } from '@triszt4n/remark-auth'
 import * as multipart from 'parse-multipart'
 import { v4 as uuidv4 } from 'uuid'
-import { fetchCosmosContainer } from '../lib/dbConfig'
-import { UserResource } from '../lib/model'
+import { fetchCosmosContainer, fetchCosmosDatabase } from '../lib/dbConfig'
+import { ChannelResource, PostResource } from '../lib/model'
 import { fetchBlobContainer } from '../lib/storageConfig'
 
 const httpTrigger: AzureFunction = async function (context: Context, req: HttpRequest): Promise<void> {
@@ -40,21 +40,36 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
     }
     return
   }
-  const { userFromJwt } = result
+  const { userFromJwt: user } = result as { userFromJwt: { id: string; username: string; email: string } }
 
-  // Get user
-  const usersContainer = fetchCosmosContainer('Users')
-  const userItem = usersContainer.item(userFromJwt.id, userFromJwt.id)
-  let { resource: user } = await userItem.read<UserResource>()
-  if (!user) {
+  // Get post
+  const id = context.bindingData.id as string
+  const database = fetchCosmosDatabase()
+  const postsContainer = fetchCosmosContainer(database, 'Posts')
+  const postItem = postsContainer.item(id, id)
+  let { resource: post } = await postItem.read<PostResource>()
+  if (!post) {
     context.res = {
       status: 404,
-      body: { message: `User with id ${userFromJwt.id} not found.` }
+      body: { message: `Post with id ${id} not found.` }
     }
     return
   }
 
-  const oldImageUrl = user.imageUrl
+  // Get parent channel
+  const channelContainer = fetchCosmosContainer(database, 'Channels')
+  const { resource: parentChannel } = await channelContainer.item(post.parentChannelId, post.parentChannelId).read<ChannelResource>()
+
+  // Permission control
+  if (post.publisherId != user.id && parentChannel.ownerId != user.id && !parentChannel.moderatorIds.includes(user.id)) {
+    context.res = {
+      status: 403,
+      body: { message: 'You are forbidden to make changes this post!' }
+    }
+    return
+  }
+
+  const oldImageUrl = post.imageUrl
   try {
     // Each chunk of the file is delimited by a special string
     const filename = req.query.filename
@@ -72,25 +87,25 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
     }
 
     // Upload as Blob
-    const blobContainerName = 'remark-user-images'
+    const blobContainerName = 'remark-post-images'
     const blobContainer = fetchBlobContainer(blobContainerName)
-    const blobName = `${user.username}_${uuidv4()}_${filename}`
+    const blobName = `${post.id}_${uuidv4()}_${filename}`
 
     const blobClient = blobContainer.getBlockBlobClient(blobName)
     const options: BlockBlobParallelUploadOptions = {
-      tags: { userId: user.id }
+      tags: { postId: post.id }
     }
     await blobClient.uploadData(parts[0]?.data, options)
     const imageUrl = `https://${process.env.STORAGE_ACCOUNT_NAME}.blob.core.windows.net/${blobContainerName}/${blobName}`
 
-    user = {
-      ...user,
+    post = {
+      ...post,
       imageUrl
     }
-    const { resource: updatedUser } = await userItem.replace<UserResource>(user)
+    const { resource: updatedPost } = await postItem.replace<PostResource>(post)
 
     context.res = {
-      body: updatedUser
+      body: updatedPost
     }
 
     // Delete old blob

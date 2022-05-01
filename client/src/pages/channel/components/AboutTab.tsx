@@ -13,6 +13,7 @@ import {
   StatLabel,
   StatNumber,
   Text,
+  useColorModeValue,
   useDisclosure,
   useToast,
   VStack
@@ -130,7 +131,7 @@ export const AboutTab: FC<Props> = ({ channelId, isLoading, channel }) => {
                   </MenuItem>
                 )}
                 <MenuDivider />
-                <MenuItem icon={<FaTrashAlt />} onClick={onDeletePressed}>
+                <MenuItem color={useColorModeValue('red.600', 'red.400')} icon={<FaTrashAlt />} onClick={onDeletePressed}>
                   Delete channel
                 </MenuItem>
               </MenuList>

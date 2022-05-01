@@ -7,15 +7,17 @@ import {
   IconButton,
   Menu,
   MenuButton,
+  MenuDivider,
   MenuItem,
   MenuList,
   Tooltip,
   useBreakpointValue,
+  useColorModeValue,
   VStack
 } from '@chakra-ui/react'
 import { UserView } from '@triszt4n/remark-types'
 import React, { FC } from 'react'
-import { FaAddressCard, FaAt, FaChevronDown, FaEdit, FaRegUserCircle, FaSignOutAlt } from 'react-icons/fa'
+import { FaAddressCard, FaAt, FaChevronDown, FaEdit, FaRegFileImage, FaSignOutAlt } from 'react-icons/fa'
 import { useQuery } from 'react-query'
 import { channelModule } from '../../../api/modules/channel.module'
 import { postModule } from '../../../api/modules/post.module'
@@ -75,10 +77,14 @@ export const ProfileDetails: FC<Props> = ({ user, profileOptions }) => {
                 Actions
               </MenuButton>
               <MenuList>
-                <MenuItem icon={<FaRegUserCircle />} onClick={onChangeProfileImagePressed}>
+                <MenuItem icon={<FaRegFileImage />} onClick={onChangeProfileImagePressed}>
                   Change profile image
                 </MenuItem>
-                <MenuItem icon={<FaSignOutAlt />} onClick={onLogoutPressed}>
+                <MenuItem icon={<FaEdit />} onClick={onUsernameEditPressed}>
+                  Change username
+                </MenuItem>
+                <MenuDivider />
+                <MenuItem color={useColorModeValue('red.600', 'red.400')} icon={<FaSignOutAlt />} onClick={onLogoutPressed}>
                   Log out
                 </MenuItem>
               </MenuList>

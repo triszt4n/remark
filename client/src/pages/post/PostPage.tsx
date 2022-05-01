@@ -1,4 +1,4 @@
-import { Flex, HStack, Skeleton, useToast, VStack } from '@chakra-ui/react'
+import { Flex, HStack, Skeleton, useDisclosure, useToast, VStack } from '@chakra-ui/react'
 import { UpdateCommentView } from '@triszt4n/remark-types'
 import { FC, useState } from 'react'
 import { FaPaperPlane } from 'react-icons/fa'
@@ -14,6 +14,7 @@ import { CommentSection } from './components/CommentSection'
 import { PostDetails } from './components/PostDetails'
 import { PostDetailsLoading } from './components/PostDetailsLoading'
 import { CommentForm } from './forms/CommentForm'
+import { UploadPostImageModal } from './modals/UploadPostImageModal'
 
 export const PostPage: FC = () => {
   const { postId } = useParams()
@@ -21,6 +22,7 @@ export const PostPage: FC = () => {
   const toast = useToast()
   const { isLoading, data: post, error } = useQuery(['post', postId], () => postModule.fetchPost(postId!!))
   const [canEraseContent, setCanEraseContent] = useState(false)
+  const { isOpen, onOpen: onUploadImagePressed, onClose } = useDisclosure()
 
   const mutation = useMutation(commentModule.createComment, {
     onSuccess: () => {
@@ -57,31 +59,34 @@ export const PostPage: FC = () => {
   }
 
   return (
-    <VStack align="stretch" spacing={10}>
-      {isLoading ? (
-        <>
-          <PostDetailsLoading />
-          <HStack>
-            <Skeleton width="6rem" height="2.5rem" />
-            <Flex flex={1} borderTopWidth="2px" />
-          </HStack>
-        </>
-      ) : (
-        <>
-          <PostDetails post={post!!} />
-          <ActionsSection post={post!!} />
-        </>
-      )}
-      {isLoggedIn && isLoading && <RemarkEditorLoading />}
-      {isLoggedIn && !isLoading && (
-        <CommentForm
-          buttonProps={{ sendButtonText: 'Send comment', hideBackButton: true, sendButtonIcon: <FaPaperPlane /> }}
-          onSend={onSend}
-          canEraseContent={canEraseContent}
-          isSendLoading={mutation.isLoading}
-        />
-      )}
-      <CommentSection postId={postId!!} post={post} />
-    </VStack>
+    <>
+      <VStack align="stretch" spacing={10}>
+        {isLoading ? (
+          <>
+            <PostDetailsLoading />
+            <HStack>
+              <Skeleton width="6rem" height="2.5rem" />
+              <Flex flex={1} borderTopWidth="2px" />
+            </HStack>
+          </>
+        ) : (
+          <>
+            <PostDetails post={post!!} />
+            <ActionsSection post={post!!} onUploadImagePressed={onUploadImagePressed} />
+          </>
+        )}
+        {isLoggedIn && isLoading && <RemarkEditorLoading />}
+        {isLoggedIn && !isLoading && (
+          <CommentForm
+            buttonProps={{ sendButtonText: 'Send comment', hideBackButton: true, sendButtonIcon: <FaPaperPlane /> }}
+            onSend={onSend}
+            canEraseContent={canEraseContent}
+            isSendLoading={mutation.isLoading}
+          />
+        )}
+        <CommentSection postId={postId!!} post={post} />
+      </VStack>
+      <UploadPostImageModal postId={postId!!} isOpen={isOpen} onClose={onClose} />
+    </>
   )
 }

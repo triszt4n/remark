@@ -12,6 +12,7 @@ import {
   Spinner,
   Tooltip,
   useBreakpointValue,
+  useColorModeValue,
   useToast
 } from '@chakra-ui/react'
 import { CommentView, PostView } from '@triszt4n/remark-types'
@@ -122,10 +123,10 @@ export const CommentItem: FC<Props> = ({ comment, post }) => {
               <MenuButton as={IconButton} size="sm" aria-label="Options" icon={<FaEllipsisV />} variant="outline" colorScheme="theme" />
               <MenuList>
                 <MenuItem icon={<FaEdit />} onClick={onEditPressed}>
-                  Edit
+                  Edit comment
                 </MenuItem>
-                <MenuItem icon={<FaTrashAlt />} onClick={onDeletePressed}>
-                  Delete
+                <MenuItem color={useColorModeValue('red.600', 'red.400')} icon={<FaTrashAlt />} onClick={onDeletePressed}>
+                  Delete comment
                 </MenuItem>
               </MenuList>
             </Menu>

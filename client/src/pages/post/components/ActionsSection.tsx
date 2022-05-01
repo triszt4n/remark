@@ -1,7 +1,20 @@
-import { Box, Button, Flex, HStack, Link as ChakraLink, Menu, MenuButton, MenuItem, MenuList, useToast } from '@chakra-ui/react'
+import {
+  Box,
+  Button,
+  Flex,
+  HStack,
+  Link as ChakraLink,
+  Menu,
+  MenuButton,
+  MenuDivider,
+  MenuItem,
+  MenuList,
+  useColorModeValue,
+  useToast
+} from '@chakra-ui/react'
 import { PostView } from '@triszt4n/remark-types'
 import { FC } from 'react'
-import { FaChevronDown, FaComments, FaEdit, FaTrashAlt } from 'react-icons/fa'
+import { FaChevronDown, FaComments, FaEdit, FaRegFileImage, FaTrashAlt } from 'react-icons/fa'
 import { useMutation } from 'react-query'
 import { useNavigate } from 'react-router-dom'
 import { postModule } from '../../../api/modules/post.module'
@@ -9,9 +22,10 @@ import { queryClient } from '../../../util/query-client'
 
 type Props = {
   post: PostView
+  onUploadImagePressed: () => void
 }
 
-export const ActionsSection: FC<Props> = ({ post }) => {
+export const ActionsSection: FC<Props> = ({ post, onUploadImagePressed }) => {
   const navigate = useNavigate()
   const toast = useToast()
   const onEditPressed = () => {
@@ -73,7 +87,11 @@ export const ActionsSection: FC<Props> = ({ post }) => {
               <MenuItem icon={<FaEdit />} onClick={onEditPressed}>
                 Edit post
               </MenuItem>
-              <MenuItem icon={<FaTrashAlt />} onClick={onDeletePressed}>
+              <MenuItem icon={<FaRegFileImage />} onClick={onUploadImagePressed}>
+                Upload featured image
+              </MenuItem>
+              <MenuDivider />
+              <MenuItem color={useColorModeValue('red.600', 'red.400')} icon={<FaTrashAlt />} onClick={onDeletePressed}>
                 Delete post
               </MenuItem>
             </MenuList>

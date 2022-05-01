@@ -1,7 +1,7 @@
 import { Box, Button, Center, Flex, VStack } from '@chakra-ui/react'
 import { ChannelView } from '@triszt4n/remark-types'
 import { FC } from 'react'
-import { FaPlus } from 'react-icons/fa'
+import { FaComments } from 'react-icons/fa'
 import { useQuery } from 'react-query'
 import { useNavigate } from 'react-router-dom'
 import { useAuthContext } from '../../../api/contexts/auth/useAuthContext'
@@ -42,8 +42,8 @@ export const PostsTab: FC<Props> = ({ channel, channelId }) => {
     <>
       {isLoggedIn && channel && channel.amIJoined && (
         <Flex justifyContent="end" mb={3}>
-          <Button size="sm" leftIcon={<FaPlus />} colorScheme="theme" variant="outline" onClick={onCreatePostPressed}>
-            Add post
+          <Button leftIcon={<FaComments />} colorScheme="themeHelper" onClick={onCreatePostPressed}>
+            Publish post
           </Button>
         </Flex>
       )}

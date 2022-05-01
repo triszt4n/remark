@@ -1,6 +1,7 @@
 import { Box, Button, HStack, useToast } from '@chakra-ui/react'
 import { ChannelView } from '@triszt4n/remark-types'
 import { FC } from 'react'
+import { FaCheck, FaPlus } from 'react-icons/fa'
 import { useMutation } from 'react-query'
 import { useAuthContext } from '../../../api/contexts/auth/useAuthContext'
 import { channelModule } from '../../../api/modules/channel.module'
@@ -49,15 +50,18 @@ export const JoinCounter: FC<Props> = ({ channel, joinCount }) => {
 
   return (
     <HStack ml="auto">
-      <Box>{toReadableNumber(joinCount)} joined</Box>
+      <Box>
+        <strong>{toReadableNumber(joinCount)}</strong> joined
+      </Box>
       {isLoggedIn && (
         <Button
+          leftIcon={channel.amIJoined ? <FaCheck /> : <FaPlus />}
           colorScheme="theme"
           variant={channel.amIJoined ? 'outline' : 'solid'}
           onClick={onJoinPressed}
           isLoading={mutation.isLoading}
         >
-          {channel.amIJoined ? 'Leave' : 'Join'}
+          {channel.amIJoined ? 'Joined' : 'Join'}
         </Button>
       )}
     </HStack>
