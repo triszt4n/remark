@@ -50,10 +50,10 @@ export const ProfileDetails: FC<Props> = ({ user, profileOptions }) => {
   return (
     <Box>
       <HStack flexWrap="wrap" justifyContent="space-between" alignItems="center" mb={5}>
-        <HStack flexWrap="wrap">
+        <HStack flexWrap="wrap" spacing={4}>
           <Avatar size={useBreakpointValue({ base: 'lg', md: 'xl' })} name={`${user.firstName} ${user.lastName}`} src={user.imageUrl} />
           <HStack>
-            <Box fontSize="4xl" fontWeight={700} wordBreak="break-all">
+            <Box fontSize={{ base: '2xl', sm: '4xl' }} fontWeight={700} wordBreak="break-all">
               u/{user.username}
             </Box>
             {profileOptions && (

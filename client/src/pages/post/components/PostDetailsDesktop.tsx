@@ -43,20 +43,20 @@ export const PostDetailsDesktop: FC<Props> = ({ post, onUpvotePressed, onDownvot
         </Box>
         <Spacer />
         {imageUrl && (
-          <Link href={imageUrl} isExternal>
-            <Box position="relative">
-              <Image
-                borderRadius="md"
-                maxHeight={{ md: '6rem', lg: '12rem' }}
-                maxWidth={{ md: '10rem', lg: '20rem' }}
-                src={imageUrl}
-                alt="Post image"
-              />
+          <Box position="relative">
+            <Image
+              borderRadius="md"
+              maxHeight={{ md: '6rem', lg: '12rem' }}
+              maxWidth={{ md: '10rem', lg: '20rem' }}
+              src={imageUrl}
+              alt="Post image"
+            />
+            <Link href={imageUrl} isExternal>
               <Button size="xs" colorScheme="themeHelper" position="absolute" top="-0.15rem" right="-0.15rem">
                 <FaExpand />
               </Button>
-            </Box>
-          </Link>
+            </Link>
+          </Box>
         )}
       </HStack>
       <Box px={6}>

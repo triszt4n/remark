@@ -44,14 +44,14 @@ export const PostDetailsMobile: FC<Props> = ({ post, onUpvotePressed, onDownvote
       </VStack>
 
       {imageUrl && (
-        <Link href={imageUrl} isExternal>
-          <Box position="relative">
-            <Image borderRadius="md" src={imageUrl} alt="Dan Abramov" />
+        <Box position="relative">
+          <Image borderRadius="md" src={imageUrl} alt="Post image" />
+          <Link href={imageUrl} isExternal>
             <Button size="xs" colorScheme="themeHelper" position="absolute" top="-0.15rem" right="-0.15rem">
               <FaExpand />
             </Button>
-          </Box>
-        </Link>
+          </Link>
+        </Box>
       )}
       <Box>
         <ReactMarkdown components={ChakraUIRenderer()} children={rawMarkdown} skipHtml />

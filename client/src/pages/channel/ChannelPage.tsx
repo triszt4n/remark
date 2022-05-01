@@ -32,7 +32,7 @@ export const ChannelPage: FC = () => {
       ) : (
         <Flex justifyContent="space-between" flexWrap="wrap" alignItems="center" mb={5}>
           <Box wordBreak="break-all">
-            <Text fontSize="4xl" fontWeight={700}>
+            <Text fontSize={{ base: '2xl', sm: '4xl' }} fontWeight={700}>
               ch/{channel?.uriName}
             </Text>
             <Text fontSize={{ base: 'sm', md: 'md' }}>{channel?.title}</Text>
