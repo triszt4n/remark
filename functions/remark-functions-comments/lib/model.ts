@@ -9,5 +9,5 @@ export type ChannelJoinResource = ChannelJoinModel & Resource
 export type CommentVoteResource = CommentVoteModel & Resource
 
 export const validateInput = ({ rawMarkdown }: UpdateCommentView): boolean => {
-  return [validator.isLength(rawMarkdown, { min: 0, max: 500 })].every(Boolean)
+  return [validator.isLength(rawMarkdown, { min: 1, max: 500 })].every(Boolean)
 }

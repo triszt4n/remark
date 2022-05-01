@@ -48,6 +48,7 @@ export const CommentForm: FC<Props> = ({
           formDetails={{
             id: 'rawMarkdown',
             promptText: 'Share your thoughts in a markdown formatted comment!',
+            minChar: 1,
             maxChar: 500
           }}
           defaultValue={defaultValues?.rawMarkdown}

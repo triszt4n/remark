@@ -2,8 +2,7 @@ import { AzureFunction, Context, HttpRequest } from '@azure/functions'
 import { readUserFromAuthHeader } from '@triszt4n/remark-auth'
 import { CommentModel, CommentVoteModel, CreateCommentView } from '@triszt4n/remark-types'
 import { fetchCosmosContainer, fetchCosmosDatabase } from '../lib/dbConfig'
-import { createQueryChannelJoinByUserIdAndChannelId } from '../lib/dbQueries'
-import { ChannelJoinResource, PostResource, validateInput } from '../lib/model'
+import { PostResource, validateInput } from '../lib/model'
 
 const httpTrigger: AzureFunction = async function (context: Context, req: HttpRequest): Promise<void> {
   if (!req.body) {
@@ -51,18 +50,9 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
     return
   }
 
-  // Check if joined to channel
-  const channelJoinsContainer = fetchCosmosContainer(database, 'ChannelJoins')
-  const { resources } = await channelJoinsContainer.items
-    .query<ChannelJoinResource>(createQueryChannelJoinByUserIdAndChannelId(user.id, parentPost.parentChannelId))
-    .fetchAll()
-  if (resources.length == 0) {
-    context.res = {
-      status: 403,
-      body: { message: `You are not joined to the channel you want to publish a comment to!` }
-    }
-    return
-  }
+  // Check if joined to channel - DEPRECATED
+  // EDIT: Even the unjoined people will be able to comment under any posts, only posting requires joining channel
+  // Check commit 8363e6373515a4d0bb8074d1a009a081d6add630 if you need the old code again
 
   // Creation
   const creatableComment: CommentModel = {

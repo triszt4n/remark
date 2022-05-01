@@ -23,6 +23,7 @@ type Props = {
   formDetails: {
     id: string
     promptText: string
+    minChar?: number
     maxChar: number
   }
   defaultValue?: string
@@ -58,6 +59,7 @@ export const RemarkEditor: FC<Props> = ({ textAreaHeight = '22rem', previewHeigh
               height={textAreaHeight}
               defaultValue={defaultValue}
               {...register(formDetails.id, {
+                minLength: formDetails.minChar ? { value: formDetails.minChar, message: 'Text cannot be blank!' } : undefined,
                 maxLength: { value: formDetails.maxChar, message: 'Text entered is too long!' }
               })}
               isInvalid={errors[formDetails.id]}

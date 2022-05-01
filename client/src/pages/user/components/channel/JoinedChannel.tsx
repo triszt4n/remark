@@ -40,8 +40,12 @@ export const JoinedChannel: FC<Props> = ({ channel, userId }) => {
     }
   })
 
-  const onLeavePressed = () => {
-    if (confirm('Do you really want to leave this channel?')) mutation.mutate({ id: channel.id, intent: 'leave' })
+  const onJoinPressed = () => {
+    if (channel.amIJoined) {
+      if (confirm('Do you really want to leave this channel?')) mutation.mutate({ id: channel.id, intent: 'leave' })
+    } else {
+      mutation.mutate({ id: channel.id, intent: 'join' })
+    }
   }
 
   return (
@@ -61,8 +65,14 @@ export const JoinedChannel: FC<Props> = ({ channel, userId }) => {
         {isLoggedIn && (
           <VStack justifyContent="center">
             <Box>
-              <Button size="sm" colorScheme="theme" variant="outline" onClick={onLeavePressed} isLoading={mutation.isLoading}>
-                Leave
+              <Button
+                size="sm"
+                colorScheme="theme"
+                variant={channel.amIJoined ? 'outline' : 'solid'}
+                onClick={onJoinPressed}
+                isLoading={mutation.isLoading}
+              >
+                {channel.amIJoined ? 'Leave' : 'Join'}
               </Button>
             </Box>
             <Box>
