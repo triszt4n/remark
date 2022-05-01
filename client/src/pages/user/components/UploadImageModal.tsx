@@ -13,11 +13,12 @@ type Props = {
 }
 
 export const UploadImageModal: FC<Props> = ({ isOpen, onClose }) => {
-  const methods = useForm<{ files: FileList }>({ mode: 'all' })
+  const methods = useForm<{ files: FileList | undefined }>({ mode: 'all' })
   const {
     handleSubmit,
-    formState: { isSubmitting, isValid },
-    setError
+    formState: { isValid },
+    setError,
+    setValue
   } = methods
 
   const { loggedInUser, refetchUser } = useAuthContext()
@@ -36,19 +37,23 @@ export const UploadImageModal: FC<Props> = ({ isOpen, onClose }) => {
   const mutation = useMutation(userModule.uploadProfileImage, {
     onSuccess: () => {
       refetchUser()
-      onClose()
+      onCancelPressed()
     },
     onError: (error) => {
       const err = error as any
       console.log('[DEBUG] Error at uploadProfileImage', err.toJSON())
       setError('files', { type: 'custom', message: err.response.data.message || err.message })
+      setValue('files', undefined)
     }
   })
 
-  const onSubmitFile: SubmitHandler<{ files: FileList }> = (values) => {
-    const formData = new FormData()
-    formData.append('file', values.files[0])
-    mutation.mutate({ imageFileData: formData })
+  const onSubmitFile: SubmitHandler<{ files: FileList | undefined }> = (values) => {
+    if (values.files) mutation.mutate({ imageFile: values.files[0] })
+  }
+
+  const onCancelPressed = () => {
+    onClose()
+    setValue('files', undefined)
   }
 
   return (
@@ -63,11 +68,11 @@ export const UploadImageModal: FC<Props> = ({ isOpen, onClose }) => {
               <FileUpload required fieldName="files" helper={<>Choose a file to upload as image</>} />
             </ModalBody>
             <ModalFooter>
-              <Button variant="outline" colorScheme="theme" mr={3} onClick={onClose}>
+              <Button variant="outline" colorScheme="theme" mr={3} onClick={onCancelPressed} type="button">
                 Cancel
               </Button>
               <Spacer />
-              <Button rightIcon={<FaUpload />} colorScheme="theme" disabled={!isValid} isLoading={isSubmitting} type="submit">
+              <Button rightIcon={<FaUpload />} colorScheme="theme" disabled={!isValid} isLoading={mutation.isLoading} type="submit">
                 Upload
               </Button>
             </ModalFooter>

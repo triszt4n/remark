@@ -6,6 +6,7 @@ import {
   PostPartialView,
   PostView,
   PostVoteModel,
+  UpdatePostImageView,
   UpdatePostView
 } from '@triszt4n/remark-types'
 import axios from 'axios'
@@ -32,6 +33,12 @@ class PostModule {
 
   async updatePost({ id, postData }: { id: string; postData: UpdatePostView }) {
     return axios.patch<PostModel & { id: string }>(`/posts/posts/${id}`, postData)
+  }
+
+  async uploadPostImage({ id, postData: { imageFile } }: { id: string; postData: UpdatePostImageView }) {
+    const formData = new FormData()
+    formData.append('file', imageFile)
+    return axios.post<PostModel & { id: string }>(`/posts/posts/${id}/image?filename=${imageFile.name}`, formData)
   }
 
   async deletePost(id: string) {

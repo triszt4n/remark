@@ -79,7 +79,7 @@ export const EditCommentPage: FC = () => {
         Comment by <RLink to={`/u/${comment.publisher.username}`}>{comment.publisher.username}</RLink> under post titled{' '}
         <RLink to={`/posts/${post.id}`}>{post.title}</RLink>
       </Box>
-      <CommentForm onSend={onSend} buttonProps={{ sendButtonText: 'Save' }} defaultValues={comment} />
+      <CommentForm onSend={onSend} buttonProps={{ sendButtonText: 'Save' }} defaultValues={comment} isSendLoading={mutation.isLoading} />
     </VStack>
   )
 }

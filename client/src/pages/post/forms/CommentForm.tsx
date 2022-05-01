@@ -15,19 +15,22 @@ type Props = {
   onSend: (creatable: UpdateCommentView) => void
   defaultValues?: CommentView
   canEraseContent?: boolean
+  isSendLoading: boolean
 }
+
 export const CommentForm: FC<Props> = ({
   buttonProps: { sendButtonText, hideBackButton = false, sendButtonIcon = <FaCheck /> },
   onSend,
   defaultValues,
-  canEraseContent
+  canEraseContent,
+  isSendLoading
 }) => {
   const navigate = useNavigate()
   const methods = useForm<UpdateCommentView>({ mode: 'all' })
   const {
     handleSubmit,
     setValue,
-    formState: { isSubmitting, isValid }
+    formState: { isValid }
   } = methods
 
   useEffect(() => {
@@ -58,7 +61,7 @@ export const CommentForm: FC<Props> = ({
             </Button>
           )}
           <Flex flex={1} justifyContent="end">
-            <Button disabled={!isValid} rightIcon={sendButtonIcon} colorScheme="theme" isLoading={isSubmitting} type="submit">
+            <Button disabled={!isValid} rightIcon={sendButtonIcon} colorScheme="theme" isLoading={isSendLoading} type="submit">
               {sendButtonText}
             </Button>
           </Flex>

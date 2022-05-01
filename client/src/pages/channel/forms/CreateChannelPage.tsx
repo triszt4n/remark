@@ -49,5 +49,5 @@ export const CreateChannelPage: FC = () => {
     )
   }
 
-  return <ChannelForm onSend={onSend} sendButtonText="Create" />
+  return <ChannelForm onSend={onSend} sendButtonText="Create" isSendLoading={mutation.isLoading} />
 }

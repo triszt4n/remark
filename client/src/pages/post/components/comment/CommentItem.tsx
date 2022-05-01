@@ -83,13 +83,13 @@ export const CommentItem: FC<Props> = ({ comment, post }) => {
     if (!isLoggedIn) {
       return unauthorizedToast()
     }
-    voteMutation.mutate({ id: comment.id, voteType: comment.myVote === 'none' ? 'up' : 'none' })
+    voteMutation.mutate({ id: comment.id, voteType: comment.myVote === 'up' ? 'none' : 'up' })
   }
   const onDownvotePressed = () => {
     if (!isLoggedIn) {
       return unauthorizedToast()
     }
-    voteMutation.mutate({ id: comment.id, voteType: comment.myVote === 'none' ? 'down' : 'none' })
+    voteMutation.mutate({ id: comment.id, voteType: comment.myVote === 'down' ? 'none' : 'down' })
   }
   const onEditPressed = () => {
     navigate(`/comments/${comment.id}/edit`, { state: { comment, post } })

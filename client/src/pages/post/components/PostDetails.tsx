@@ -49,13 +49,13 @@ export const PostDetails: FC<Props> = ({ post }) => {
     if (!isLoggedIn) {
       return unauthorizedToast()
     }
-    voteMutation.mutate({ id: post.id, voteType: post.myVote === 'none' ? 'up' : 'none' })
+    voteMutation.mutate({ id: post.id, voteType: post.myVote === 'up' ? 'none' : 'up' })
   }
   const onDownvotePressed = () => {
     if (!isLoggedIn) {
       return unauthorizedToast()
     }
-    voteMutation.mutate({ id: post.id, voteType: post.myVote === 'none' ? 'down' : 'none' })
+    voteMutation.mutate({ id: post.id, voteType: post.myVote === 'down' ? 'none' : 'down' })
   }
 
   return (

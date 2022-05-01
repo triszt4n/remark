@@ -7,9 +7,10 @@ type Props = {
   channels: ChannelPartialView[] | undefined
   isLoading: boolean
   error: any
+  userId: string
 }
 
-export const JoinedChannelsSection: FC<Props> = ({ channels, isLoading, error }) => {
+export const JoinedChannelsSection: FC<Props> = ({ channels, isLoading, error, userId }) => {
   if (isLoading) {
     return (
       <>
@@ -56,7 +57,7 @@ export const JoinedChannelsSection: FC<Props> = ({ channels, isLoading, error })
         ) : (
           <Box py={3} overflowX="auto" whiteSpace="nowrap">
             {channels?.map((channel) => (
-              <JoinedChannel key={channel.id} channel={channel} />
+              <JoinedChannel key={channel.id} channel={channel} userId={userId} />
             ))}
           </Box>
         )}

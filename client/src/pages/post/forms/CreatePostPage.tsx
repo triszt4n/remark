@@ -55,7 +55,7 @@ export const CreatePostPage: FC = () => {
       <Heading fontSize="3xl">
         Create post in <Code fontSize="3xl">ch/{channel.uriName}</Code>
       </Heading>
-      <PostForm onSend={onSend} sendButtonText="Create" showImageSection />
+      <PostForm onSend={onSend} sendButtonText="Create" isSendLoading={mutation.isLoading} />
     </VStack>
   )
 }

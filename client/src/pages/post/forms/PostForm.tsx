@@ -5,32 +5,25 @@ import { FormProvider, SubmitHandler, useForm } from 'react-hook-form'
 import { FaCheck, FaChevronLeft } from 'react-icons/fa'
 import { useNavigate } from 'react-router-dom'
 import { RemarkEditor } from '../../../components/editor/RemarkEditor'
-import { FileUpload } from '../../../components/form-elements/FileUpload'
 import { TextField } from '../../../components/form-elements/TextField'
 
 type Props = {
   sendButtonText: string
-  onSend: (creatable: UpdatePostView & { imageFileData?: any }) => void
+  onSend: (creatable: UpdatePostView) => void
   defaultValues?: PostView
-  showImageSection?: boolean
+  isSendLoading: boolean
 }
 
-export const PostForm: FC<Props> = ({ sendButtonText, onSend, defaultValues, showImageSection }) => {
+export const PostForm: FC<Props> = ({ sendButtonText, onSend, defaultValues, isSendLoading }) => {
   const navigate = useNavigate()
   const methods = useForm<UpdatePostView>({ mode: 'all' })
   const {
     handleSubmit,
-    formState: { isSubmitting, isValid }
+    formState: { isValid }
   } = methods
 
   const onSubmit: SubmitHandler<UpdatePostView> = (values) => {
-    let formData = undefined
-    if (showImageSection) {
-      formData = new FormData()
-      // todo: fix
-      // formData.append('file', (values as CreatePostView).imageFileData[0])
-    }
-    onSend({ ...values, imageFileData: formData })
+    onSend(values)
   }
 
   return (
@@ -47,7 +40,6 @@ export const PostForm: FC<Props> = ({ sendButtonText, onSend, defaultValues, sho
           fieldTitle="Title"
           helper={<>The title of your post</>}
         />
-        {showImageSection && <FileUpload fieldName="file" helper={<>Choose a file to upload as image</>} />}
         <RemarkEditor
           formDetails={{
             id: 'rawMarkdown',
@@ -60,7 +52,7 @@ export const PostForm: FC<Props> = ({ sendButtonText, onSend, defaultValues, sho
           <Button variant="outline" leftIcon={<FaChevronLeft />} colorScheme="theme" onClick={() => navigate(-1)} type="button">
             Back
           </Button>
-          <Button disabled={!isValid} rightIcon={<FaCheck />} colorScheme="theme" isLoading={isSubmitting} type="submit">
+          <Button disabled={!isValid} rightIcon={<FaCheck />} colorScheme="theme" isLoading={isSendLoading} type="submit">
             {sendButtonText}
           </Button>
         </Flex>

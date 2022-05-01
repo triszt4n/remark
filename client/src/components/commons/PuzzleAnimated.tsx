@@ -25,15 +25,15 @@ export const PuzzleAnimated: FC<Props> = ({ text }) => {
             <PuzzleIcon1 color="theme.400" w="8rem" h="8rem" />
           </motion.div>
           <motion.div animate={animation} transition={{ ...transition, duration: 2 + Math.random() * 3, delay: Math.random() * 3 }}>
-            <PuzzleIcon2 color="themeHelper.400" ml="-3.75rem" w="8rem" h="8rem" />
+            <PuzzleIcon2 color="themeHelper.400" ml="-3.6rem" w="8rem" h="8rem" />
           </motion.div>
         </Flex>
         <Flex>
           <motion.div animate={animation} transition={{ ...transition, duration: 2 + Math.random() * 3, delay: Math.random() * 2 }}>
-            <PuzzleIcon3 color="secondary.400" mt="-3.75rem" w="8rem" h="8rem" />
+            <PuzzleIcon3 color="secondary.400" mt="-3.6rem" w="8rem" h="8rem" />
           </motion.div>
           <motion.div animate={animation} transition={{ ...transition, duration: 2 + Math.random() * 3, delay: Math.random() * 4 }}>
-            <PuzzleIcon4 color="primary.300" ml="-3.6rem" mt="-3.75rem" w="8rem" h="8rem" />
+            <PuzzleIcon4 color="primary.300" ml="-3.6rem" mt="-3.6rem" w="8rem" h="8rem" />
           </motion.div>
         </Flex>
       </Box>

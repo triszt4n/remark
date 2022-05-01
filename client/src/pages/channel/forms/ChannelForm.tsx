@@ -13,15 +13,16 @@ type Props = {
   sendButtonText: string
   onSend: (creatable: View) => void
   defaultValues?: ChannelView
+  isSendLoading: boolean
 }
 
-export const ChannelForm: FC<Props> = ({ sendButtonText, onSend, defaultValues }) => {
+export const ChannelForm: FC<Props> = ({ sendButtonText, onSend, defaultValues, isSendLoading }) => {
   const navigate = useNavigate()
   const methods = useForm<View>({ mode: 'all' })
   const {
     handleSubmit,
     watch,
-    formState: { isSubmitting, isValid }
+    formState: { isValid }
   } = methods
 
   const onSubmit: SubmitHandler<View> = (values) => {
@@ -74,7 +75,7 @@ export const ChannelForm: FC<Props> = ({ sendButtonText, onSend, defaultValues }
           <Button variant="outline" leftIcon={<FaChevronLeft />} colorScheme="theme" onClick={() => navigate(-1)} type="button">
             Back
           </Button>
-          <Button disabled={!isValid} rightIcon={<FaCheck />} colorScheme="theme" isLoading={isSubmitting} type="submit">
+          <Button disabled={!isValid} rightIcon={<FaCheck />} colorScheme="theme" isLoading={isSendLoading} type="submit">
             {sendButtonText}
           </Button>
         </Flex>

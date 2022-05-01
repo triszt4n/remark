@@ -74,7 +74,7 @@ export const EditPostPage: FC = () => {
       <Heading fontSize="3xl">
         Edit your post in <Code fontSize="3xl">ch/{post.channel.uriName}</Code>
       </Heading>
-      <PostForm onSend={onSend} sendButtonText="Save" defaultValues={post} />
+      <PostForm onSend={onSend} sendButtonText="Save" defaultValues={post} isSendLoading={mutation.isLoading} />
     </VStack>
   )
 }

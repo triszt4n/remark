@@ -69,5 +69,5 @@ export const EditChannelPage: FC = () => {
     )
   }
 
-  return <ChannelForm onSend={onSend} sendButtonText="Save" defaultValues={channel} />
+  return <ChannelForm onSend={onSend} sendButtonText="Save" defaultValues={channel} isSendLoading={mutation.isLoading} />
 }

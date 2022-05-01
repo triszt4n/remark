@@ -78,6 +78,7 @@ export const PostPage: FC = () => {
           buttonProps={{ sendButtonText: 'Send comment', hideBackButton: true, sendButtonIcon: <FaPaperPlane /> }}
           onSend={onSend}
           canEraseContent={canEraseContent}
+          isSendLoading={mutation.isLoading}
         />
       )}
       <CommentSection postId={postId!!} post={post} />

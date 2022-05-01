@@ -31,7 +31,7 @@ export const EditUsernameModal: FC<Props> = ({ isOpen, onClose }) => {
   const {
     handleSubmit,
     register,
-    formState: { errors, isSubmitting, isValid },
+    formState: { errors, isValid },
     watch,
     setError
   } = useForm<{ newUsername: string }>({ mode: 'all' })
@@ -105,7 +105,7 @@ export const EditUsernameModal: FC<Props> = ({ isOpen, onClose }) => {
               Cancel
             </Button>
             <Spacer />
-            <Button rightIcon={<FaCheck />} colorScheme="theme" disabled={!isValid} isLoading={isSubmitting} type="submit">
+            <Button rightIcon={<FaCheck />} colorScheme="theme" disabled={!isValid} isLoading={mutation.isLoading} type="submit">
               Save
             </Button>
           </ModalFooter>

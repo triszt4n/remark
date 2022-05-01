@@ -1,6 +1,7 @@
 import { AzureFunction, Context, HttpRequest } from '@azure/functions'
+import { BlockBlobParallelUploadOptions } from '@azure/storage-blob'
 import { readUserFromAuthHeader } from '@triszt4n/remark-auth'
-import { formidable } from 'formidable'
+import * as multipart from 'parse-multipart'
 import { v4 as uuidv4 } from 'uuid'
 import { fetchCosmosContainer } from '../lib/dbConfig'
 import { UserResource } from '../lib/model'
@@ -8,10 +9,24 @@ import { fetchBlobContainer } from '../lib/storageConfig'
 
 const httpTrigger: AzureFunction = async function (context: Context, req: HttpRequest): Promise<void> {
   // Request body verification
-  if (!req.body) {
+  if (!req.body || !req.body.length) {
     context.res = {
       status: 400,
-      body: { message: `Bad request: No username in request body!` }
+      body: { message: `Bad request: Request body is invalid!` }
+    }
+    return
+  }
+  if (!req.headers || !req.headers['content-type']) {
+    context.res = {
+      status: 400,
+      body: { message: `Bad request: Content type not defined!` }
+    }
+    return
+  }
+  if (!req.query?.filename) {
+    context.res = {
+      status: 400,
+      body: { message: `Bad request: Filename not defined in query!` }
     }
     return
   }
@@ -27,23 +42,8 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
   }
   const { userFromJwt } = result
 
-  const { imageFileData } = req.body
-
-  const form = formidable({ multiples: false })
-  form.parse(imageFileData, (err, fields, files) => {
-    if (err) {
-      context.log('[ERROR] at form.parse', err)
-      return
-    }
-    context.log(JSON.stringify({ fields, files }, null, 2))
-  })
-
-  const fileItself = imageFileData.file
-  context.log('imageFileData', imageFileData)
-  context.log('imageFileData[file]', fileItself)
+  // Get user
   const usersContainer = fetchCosmosContainer('Users')
-
-  // Get user of id
   const userItem = usersContainer.item(userFromJwt.id, userFromJwt.id)
   let { resource: user } = await userItem.read<UserResource>()
   if (!user) {
@@ -54,30 +54,50 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
     return
   }
 
-  // Upload as Blob
-  const blobContainer = fetchBlobContainer('remark-images-container')
-  const blobName = `${user.username}-${uuidv4()}-${'asd'}`
+  try {
+    // Each chunk of the file is delimited by a special string
+    const filename = req.query.filename
+    const bodyBuffer = Buffer.from(req.body)
+    const boundary = multipart.getBoundary(req.headers['content-type'])
+    const parts = multipart.Parse(bodyBuffer, boundary)
 
-  context.log('Blob name', blobName)
-  return
+    // The file buffer is corrupted or incomplete?
+    if (!parts?.length) {
+      context.res = {
+        status: 400,
+        body: { message: `Failed upload: File buffer is incorrect` }
+      }
+      return
+    }
 
-  const blockBlobClient = blobContainer.getBlockBlobClient(blobName)
-  blockBlobClient.setTags({ userId: user.id })
+    // Upload as Blob
+    const blobContainerName = 'remark-images-container'
+    const blobContainer = fetchBlobContainer(blobContainerName)
+    const blobName = `${user.username}-${uuidv4()}-${filename}`
 
-  // Upload data to the blob
-  const data = (fileItself as File).stream().read() as Buffer
-  const uploadBlobResponse = await blockBlobClient.upload(data, data.length)
+    const blobClient = blobContainer.getBlockBlobClient(blobName)
+    const options: BlockBlobParallelUploadOptions = {
+      tags: { userId: user.id }
+    }
+    await blobClient.uploadData(parts[0]?.data, options)
+    const imageUrl = `https://${process.env.STORAGE_ACCOUNT_NAME}.blob.core.windows.net/${blobContainerName}/${blobName}`
 
-  const imageUrl = ''
+    user = {
+      ...user,
+      imageUrl
+    }
+    const { resource: updatedUser } = await userItem.replace<UserResource>(user)
 
-  user = {
-    ...user,
-    imageUrl
-  }
-  const { resource: updatedUser } = await userItem.replace<UserResource>(user)
-
-  context.res = {
-    body: updatedUser
+    context.res = {
+      body: updatedUser
+    }
+  } catch (err) {
+    context.log.error(err.message)
+    context.res = {
+      status: 500,
+      body: { message: `${err.message}` }
+    }
+    return
   }
 }
 

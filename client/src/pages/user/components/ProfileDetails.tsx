@@ -33,6 +33,8 @@ type Props = {
 
 export const ProfileDetails: FC<Props> = ({ user, profileOptions }) => {
   const { onLogoutPressed, onUsernameEditPressed, onChangeProfileImagePressed } = profileOptions || {}
+  user.imageUrl =
+    'https://remarkimages.blob.core.windows.net/remark-images-container/triszt4n-133281a4-1791-4da6-b6d0-6cae3ced9557-trisz_spy.jpg'
 
   const {
     isLoading: isLoadingChannels,
@@ -100,7 +102,7 @@ export const ProfileDetails: FC<Props> = ({ user, profileOptions }) => {
             <Box>{user.email}</Box>
           </HStack>
         </Box>
-        <JoinedChannelsSection channels={channels} isLoading={isLoadingChannels} error={errorInChannels} />
+        <JoinedChannelsSection channels={channels} isLoading={isLoadingChannels} error={errorInChannels} userId={user.id} />
         <CreatedPostsSection posts={posts} isLoading={isLoadingPosts} error={errorInPosts} />
       </VStack>
     </Box>
