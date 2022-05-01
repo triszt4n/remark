@@ -10,7 +10,7 @@ import { RemarkDatabaseContainerId } from './model/_containerId'
 import { ChannelInPostView, ChannelPartialView, ChannelView, CreateChannelView, UpdateChannelView } from './views/channel.view'
 import { CommentView, CreateCommentView, UpdateCommentView } from './views/comment.view'
 import { NotificationView } from './views/notification.view'
-import { CreatePostView, PostPartialView, PostView, UpdatePostView } from './views/post.view'
+import { CreatePostView, PostPartialView, PostView, UpdatePostImageView, UpdatePostView } from './views/post.view'
 import { CreateUserView, UpdateUserImageView, UpdateUserView, UserView } from './views/user.view'
 import { MyVoteType } from './views/_commons.view'
 
@@ -40,6 +40,7 @@ export {
   UpdateChannelView,
   UpdateCommentView,
   UpdatePostView,
+  UpdatePostImageView,
   CreateChannelView,
   CreateCommentView,
   CreatePostView,

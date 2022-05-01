@@ -32,5 +32,8 @@ export interface UpdatePostView {
 
 export interface CreatePostView extends UpdatePostView {
   parentChannelId: string
-  imageFileData?: File
+}
+
+export interface UpdatePostImageView {
+  imageFile: File
 }

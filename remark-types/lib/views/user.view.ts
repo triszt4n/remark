@@ -19,5 +19,5 @@ export interface UpdateUserView {
 }
 
 export interface UpdateUserImageView {
-  imageFileData: File
+  imageFile: File
 }
