@@ -15,8 +15,5 @@ cd ..
 cd remark-functions-users
 npm install @triszt4n/remark-types@$version --save --save-exact
 cd ..
-cd remark-functions-comments
-npm install @triszt4n/remark-types@$version --save --save-exact
-cd ..
 cd ..
 bash updatePackageLocks.sh

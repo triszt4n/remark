@@ -13,9 +13,6 @@ cd ..
 cd remark-functions-users
 npm install
 cd ..
-cd remark-functions-comments
-npm install
-cd ..
 cd ..
 cd remark-auth
 npm install
