@@ -12,13 +12,13 @@ export const ProfilePage: FC = () => {
   const { isOpen: isOpenUsernameEdit, onOpen: onUsernameEditPressed, onClose: onCloseUsernameEdit } = useDisclosure()
   const { isOpen: isOpenProfileImageModal, onOpen: onChangeProfileImagePressed, onClose: onCloseProfileImageModal } = useDisclosure()
 
+  if (!isLoggedIn) {
+    return <Navigate replace to="/error" state={{ title: 'You are not logged in yet!', messages: [] }} />
+  }
+
   if (loggedInUserError) {
     console.log('[DEBUG] Error at ProfilePage', loggedInUserError)
     return <Navigate replace to="/error" state={{ title: 'You are not logged in yet!', messages: [(loggedInUserError as any)?.message] }} />
-  }
-
-  if (!isLoggedIn) {
-    return <Navigate replace to="/error" state={{ title: 'You are not logged in yet!', messages: [] }} />
   }
 
   return (

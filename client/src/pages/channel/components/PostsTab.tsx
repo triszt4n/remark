@@ -16,7 +16,7 @@ export const PostsTab: FC<Props> = ({ channel, channelId }) => {
   const { isLoggedIn } = useAuthContext()
   const navigate = useNavigate()
   const onCreatePostPressed = () => {
-    navigate('/posts/new', { state: { channel } })
+    navigate(`/posts/new/${channel?.id}`, { state: { channel } })
   }
 
   if (isLoading) {

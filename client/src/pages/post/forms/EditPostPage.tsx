@@ -1,15 +1,15 @@
 import { Code, Heading, useToast, VStack } from '@chakra-ui/react'
-import { ChannelView, PostView, UpdatePostView } from '@triszt4n/remark-types'
+import { PostView, UpdatePostView } from '@triszt4n/remark-types'
 import { FC } from 'react'
 import { useMutation } from 'react-query'
-import { Navigate, useLocation, useNavigate, useParams } from 'react-router-dom'
+import { Navigate, useNavigate, useParams } from 'react-router-dom'
 import { useAuthContext } from '../../../api/contexts/auth/useAuthContext'
+import { useStatefulQuery } from '../../../api/hooks/useStatefulQuery'
 import { postModule } from '../../../api/modules/post.module'
+import { PuzzleAnimated } from '../../../components/commons/PuzzleAnimated'
 import { PostForm } from './PostForm'
 
 export const EditPostPage: FC = () => {
-  const { post } = useLocation().state as { post: PostView; channel: ChannelView }
-  const { postId } = useParams()
   const navigate = useNavigate()
   const toast = useToast()
   const { isLoggedIn } = useAuthContext()
@@ -31,7 +31,21 @@ export const EditPostPage: FC = () => {
     )
   }
 
-  if (!post.amIPublisher && !post.channel.amIModerator && !post.channel.amIOwner) {
+  const { postId } = useParams()
+  const { isLoading, error, data: post } = useStatefulQuery<PostView>('post', ['post', postId], () => postModule.fetchPost(postId!!))
+
+  if (isLoading) {
+    return <PuzzleAnimated text="Loading" />
+  }
+
+  if (error) {
+    console.error('[DEBUG] Error at EditPostPage', error)
+    return (
+      <Navigate replace to="/error" state={{ title: 'Error occured loading post', messages: [(error as any)?.response.data.message] }} />
+    )
+  }
+
+  if (!post?.amIPublisher && !post?.channel.amIModerator && !post?.channel.amIOwner) {
     return (
       <Navigate
         replace

@@ -12,7 +12,15 @@ type ErrorPageState = {
 export const ErrorPage: FC<ErrorPageState> = ({ title, messages, backPath }) => {
   const { state } = useLocation()
   const navigate = useNavigate()
-  const { title: t, messages: m, backPath: bp } = (state as ErrorPageState) || {}
+  const {
+    title: t,
+    messages: m,
+    backPath: bp
+  } = (state as ErrorPageState) || {
+    title: 'This is a blank error page',
+    messages: ['You might have found yourself here by reloading the error page or copying a link from somewhere else.'],
+    backPath: '/'
+  }
 
   return (
     <Alert p={10} status="error" variant="subtle" flexDirection="column" alignItems="center" justifyContent="center" textAlign="center">

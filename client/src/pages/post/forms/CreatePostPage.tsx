@@ -2,15 +2,17 @@ import { Code, Heading, useToast, VStack } from '@chakra-ui/react'
 import { ChannelView, UpdatePostView } from '@triszt4n/remark-types'
 import { FC } from 'react'
 import { useMutation } from 'react-query'
-import { Navigate, useLocation, useNavigate } from 'react-router-dom'
+import { Navigate, useNavigate, useParams } from 'react-router-dom'
 import { useAuthContext } from '../../../api/contexts/auth/useAuthContext'
+import { useStatefulQuery } from '../../../api/hooks/useStatefulQuery'
+import { channelModule } from '../../../api/modules/channel.module'
 import { postModule } from '../../../api/modules/post.module'
+import { PuzzleAnimated } from '../../../components/commons/PuzzleAnimated'
 import { PostForm } from './PostForm'
 
 export const CreatePostPage: FC = () => {
   const navigate = useNavigate()
   const toast = useToast()
-  const { channel } = useLocation().state as { channel: ChannelView }
   const { isLoggedIn } = useAuthContext()
 
   if (!isLoggedIn) {
@@ -26,6 +28,28 @@ export const CreatePostPage: FC = () => {
           ],
           backPath: -2
         }}
+      />
+    )
+  }
+
+  const { channelId } = useParams()
+  const {
+    isLoading,
+    error,
+    data: channel
+  } = useStatefulQuery<ChannelView>('channel', ['channelInfo', channelId], () => channelModule.fetchChannel(channelId!!))
+
+  if (isLoading) {
+    return <PuzzleAnimated text="Loading" />
+  }
+
+  if (error) {
+    console.error('[DEBUG] Error at CreatePostPage', error)
+    return (
+      <Navigate
+        replace
+        to="/error"
+        state={{ title: 'Error occured loading channel info for creating post for', messages: [(error as any)?.response.data.message] }}
       />
     )
   }
@@ -47,13 +71,13 @@ export const CreatePostPage: FC = () => {
   })
 
   const onSend = (creatable: UpdatePostView & { imageFileData?: any }) => {
-    mutation.mutate({ ...creatable, parentChannelId: channel.id })
+    mutation.mutate({ ...creatable, parentChannelId: channel!!.id })
   }
 
   return (
     <VStack spacing={6} alignItems="stretch">
       <Heading fontSize="3xl">
-        Create post in <Code fontSize="3xl">ch/{channel.uriName}</Code>
+        Create post in <Code fontSize="3xl">ch/{channel!!.uriName}</Code>
       </Heading>
       <PostForm onSend={onSend} sendButtonText="Create" isSendLoading={mutation.isLoading} />
     </VStack>

@@ -1,4 +1,4 @@
-import { Badge, Box, Heading, HStack, Image, LinkBox, LinkOverlay, useBreakpointValue, VStack } from '@chakra-ui/react'
+import { Badge, Box, Heading, HStack, Image, LinkBox, LinkOverlay, VStack } from '@chakra-ui/react'
 import { PostPartialView } from '@triszt4n/remark-types'
 import { FC } from 'react'
 import { FaRegThumbsDown, FaRegThumbsUp } from 'react-icons/fa'
@@ -32,13 +32,8 @@ export const CreatedPost: FC<Props> = ({ post }) => {
             </LinkOverlay>
           </Heading>
         </HStack>
-        <Box fontSize="xs">
-          <ReactMarkdown
-            allowedElements={[]}
-            unwrapDisallowed
-            children={ellipsifyLongText(rawMarkdown, useBreakpointValue({ base: 45, md: 70, lg: 120 }))}
-            skipHtml
-          />
+        <Box fontSize="xs" whiteSpace="normal">
+          <ReactMarkdown allowedElements={[]} unwrapDisallowed children={ellipsifyLongText(rawMarkdown, 120)} skipHtml />
         </Box>
         {imageUrl && (
           <Box>

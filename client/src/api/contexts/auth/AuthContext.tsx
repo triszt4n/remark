@@ -1,7 +1,7 @@
 import { useToast } from '@chakra-ui/react'
 import { UserView } from '@triszt4n/remark-types'
 import Cookies from 'js-cookie'
-import { createContext, FC, useEffect, useState } from 'react'
+import { createContext, FC, useState } from 'react'
 import { GoogleLoginResponse, GoogleLoginResponseOffline } from 'react-google-login'
 import { useMutation, useQuery } from 'react-query'
 import { useNavigate } from 'react-router-dom'
@@ -86,12 +86,6 @@ export const AuthProvider: FC = ({ children }) => {
   const refetchUser = async () => {
     return queryClient.invalidateQueries('currentUser')
   }
-
-  useEffect(() => {
-    if (error) {
-      onLogout()
-    }
-  }, [error])
 
   return (
     <AuthContext.Provider

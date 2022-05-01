@@ -95,7 +95,7 @@ export const CommentItem: FC<Props> = ({ comment, post }) => {
     voteMutation.mutate({ id: comment.id, voteType: comment.myVote === 'down' ? 'none' : 'down' })
   }
   const onEditPressed = () => {
-    navigate(`/comments/${comment.id}/edit`, { state: { comment, post } })
+    navigate(`/comments/${comment.id}/edit/${post?.id}`, { state: { comment, post } })
   }
   const onDeletePressed = () => {
     if (confirm('Are you sure, you want to delete this comment?')) delMutation.mutate(comment.id)
