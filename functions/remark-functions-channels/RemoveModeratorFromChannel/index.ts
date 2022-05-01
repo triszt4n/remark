@@ -5,6 +5,7 @@ import { ChannelResource } from '../lib/model'
 
 const httpTrigger: AzureFunction = async function (context: Context, req: HttpRequest): Promise<void> {
   const id = context.bindingData.id as string
+  const moderatorId = context.bindingData.moderatorId as string
 
   // Authorization
   const result = readUserFromAuthHeader(req, process.env.JWT_PRIVATE_KEY)
@@ -16,15 +17,6 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
     return
   }
   const { userFromJwt: user } = result
-
-  const { moderatorId } = req.body as { moderatorId: string }
-  if (!moderatorId) {
-    context.res = {
-      status: 400,
-      body: { message: `Request body field(s) failed validation.` }
-    }
-    return
-  }
 
   const database = fetchCosmosDatabase()
   const channelsContainer = fetchCosmosContainer(database, 'Channels')

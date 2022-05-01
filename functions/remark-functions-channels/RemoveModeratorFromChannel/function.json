@@ -6,7 +6,7 @@
       "direction": "in",
       "name": "req",
       "methods": ["delete"],
-      "route": "channels/{id}/moderator"
+      "route": "channels/{id}/moderator/{moderatorId}"
     },
     {
       "type": "http",
