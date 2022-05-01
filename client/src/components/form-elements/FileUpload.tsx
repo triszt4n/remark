@@ -55,12 +55,12 @@ export const FileUpload: FC<Props> = ({
     }
     return true
   }
-  const registerProps = { ...register(fieldName, { validate: validateFiles }) }
+  const registerProps = { ...register(fieldName, { required: 'Required field', validate: validateFiles }) }
   const onUploadPressed = () => inputRef.current?.click()
   const onRemovePressed = () => setValue(fieldName, undefined)
 
   return (
-    <FormControl isRequired={required} isInvalid={!!errors.title}>
+    <FormControl isRequired={required} isInvalid={!!errors[fieldName]}>
       {fieldTitle && <FormLabel htmlFor={fieldName}>{fieldTitle}</FormLabel>}
       <InputGroup>
         <input
@@ -80,7 +80,11 @@ export const FileUpload: FC<Props> = ({
         <Input value={watch(fieldName)?.item(0)?.name || 'No file chosen'} readOnly />
         <InputRightAddon as={IconButton} aria-label="Remove chosen file" icon={<FaTimes />} onClick={onRemovePressed} />
       </InputGroup>
-      {errors?.title ? <FormErrorMessage>{errors.title.message}</FormErrorMessage> : helper && <FormHelperText>{helper}</FormHelperText>}
+      {errors?.[fieldName] ? (
+        <FormErrorMessage>{errors[fieldName].message}</FormErrorMessage>
+      ) : (
+        helper && <FormHelperText>{helper}</FormHelperText>
+      )}
     </FormControl>
   )
 }

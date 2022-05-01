@@ -29,7 +29,7 @@ export const TextField: FC<Props> = ({
   } = useFormContext()
 
   return (
-    <FormControl isRequired={required} isInvalid={!!errors.title}>
+    <FormControl isRequired={required} isInvalid={!!errors[fieldName]}>
       {fieldTitle && <FormLabel htmlFor={fieldName}>{fieldTitle}</FormLabel>}
       <Input
         id={fieldName}
@@ -43,7 +43,11 @@ export const TextField: FC<Props> = ({
         })}
         defaultValue={defaultValue}
       />
-      {errors?.title ? <FormErrorMessage>{errors.title.message}</FormErrorMessage> : helper && <FormHelperText>{helper}</FormHelperText>}
+      {errors?.[fieldName] ? (
+        <FormErrorMessage>{errors[fieldName].message}</FormErrorMessage>
+      ) : (
+        helper && <FormHelperText>{helper}</FormHelperText>
+      )}
     </FormControl>
   )
 }

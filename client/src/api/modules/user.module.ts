@@ -1,4 +1,4 @@
-import { UpdateUserImageView, UpdateUserView, UserView } from '@triszt4n/remark-types'
+import { UpdateUserView, UserView } from '@triszt4n/remark-types'
 import axios from 'axios'
 
 class UserModule {
@@ -16,8 +16,9 @@ class UserModule {
     return axios.patch<UserView>(`/users/profile`, userData)
   }
 
-  async uploadProfileImage(userData: UpdateUserImageView) {
-    return axios.post<UserView>(`/users/profile/image`, userData)
+  async uploadProfileImage(userData: { imageFileData: FormData }) {
+    return axios.post<UserView>(`http://localhost:7071/api/profile/image`, userData, { baseURL: '' })
+    // return axios.post<UserView>(`/users/profile/image`, userData)
   }
 
   async loginUser(accessToken: string) {

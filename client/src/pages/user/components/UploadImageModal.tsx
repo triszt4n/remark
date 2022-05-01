@@ -41,12 +41,14 @@ export const UploadImageModal: FC<Props> = ({ isOpen, onClose }) => {
     onError: (error) => {
       const err = error as any
       console.log('[DEBUG] Error at uploadProfileImage', err.toJSON())
-      setError('files', { type: 'custom', message: err.response.data.message })
+      setError('files', { type: 'custom', message: err.response.data.message || err.message })
     }
   })
 
   const onSubmitFile: SubmitHandler<{ files: FileList }> = (values) => {
-    mutation.mutate({ imageFileData: values.files[0] })
+    const formData = new FormData()
+    formData.append('file', values.files[0])
+    mutation.mutate({ imageFileData: formData })
   }
 
   return (
@@ -58,7 +60,7 @@ export const UploadImageModal: FC<Props> = ({ isOpen, onClose }) => {
             <ModalHeader>Change user profile image</ModalHeader>
             <ModalCloseButton />
             <ModalBody>
-              <FileUpload fieldName="files" helper={<>Choose a file to upload as image</>} />
+              <FileUpload required fieldName="files" helper={<>Choose a file to upload as image</>} />
             </ModalBody>
             <ModalFooter>
               <Button variant="outline" colorScheme="theme" mr={3} onClick={onClose}>
