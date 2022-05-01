@@ -41,8 +41,24 @@ export const AboutTab: FC<Props> = ({ channelId, isLoading, channel }) => {
   const { isOpen, onOpen: onModeratorAddPressed, onClose } = useDisclosure()
 
   const mutation = useMutation(channelModule.deleteChannel, {
+    onMutate: () => {
+      toast({
+        title: 'Action started',
+        description: `Deleting channel is in progess, please wait.`,
+        status: 'info',
+        isClosable: true,
+        duration: 10000
+      })
+    },
     onSuccess: () => {
-      navigate('/')
+      toast({
+        title: 'Action successfully done',
+        description: `Deleting channel was successful! Redirecting to home page.`,
+        status: 'success',
+        isClosable: true,
+        duration: 3000
+      })
+      setTimeout(() => navigate('/'), 2000)
     },
     onError: (error) => {
       const err = error as any

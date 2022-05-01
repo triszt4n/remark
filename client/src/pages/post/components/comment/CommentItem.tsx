@@ -1,5 +1,6 @@
 import {
   Avatar,
+  Badge,
   Box,
   HStack,
   IconButton,
@@ -8,6 +9,7 @@ import {
   MenuItem,
   MenuList,
   Spacer,
+  Spinner,
   Tooltip,
   useBreakpointValue,
   useToast
@@ -131,9 +133,23 @@ export const CommentItem: FC<Props> = ({ comment, post }) => {
         </Box>
       </HStack>
       <Box borderLeftWidth="0.2rem" overflow="auto" ml={{ base: '0.6rem', sm: '0.9rem' }} pl={{ base: '0.7rem', sm: '1.4rem' }}>
+        {delMutation.isLoading && (
+          <Badge size="xl" colorScheme="red">
+            <HStack>
+              <Spinner size="xs" />
+              <Box>Deletion in progress</Box>
+            </HStack>
+          </Badge>
+        )}
         <ReactMarkdown components={ChakraUIRenderer()} children={rawMarkdown} skipHtml />
         <HStack spacing={2} my={2}>
-          <VoteButtons voteCount={voteCount} onUpvotePressed={onUpvotePressed} onDownvotePressed={onDownvotePressed} myVote={myVote} />
+          <VoteButtons
+            voteCount={voteCount}
+            onUpvotePressed={onUpvotePressed}
+            onDownvotePressed={onDownvotePressed}
+            myVote={myVote}
+            isSendLoading={voteMutation.isLoading}
+          />
         </HStack>
       </Box>
     </Box>

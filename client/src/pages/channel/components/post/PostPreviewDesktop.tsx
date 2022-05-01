@@ -12,9 +12,10 @@ type Props = {
   post: PostView
   onUpvotePressed: () => void
   onDownvotePressed: () => void
+  isSendLoading: boolean
 }
 
-export const PostPreviewDesktop: FC<Props> = ({ post, onUpvotePressed, onDownvotePressed, targetPath }) => {
+export const PostPreviewDesktop: FC<Props> = ({ post, onUpvotePressed, onDownvotePressed, targetPath, isSendLoading }) => {
   return (
     <HStack spacing={6} alignItems="start">
       <VStack spacing={2}>
@@ -23,6 +24,7 @@ export const PostPreviewDesktop: FC<Props> = ({ post, onUpvotePressed, onDownvot
           myVote={post.myVote}
           onUpvotePressed={onUpvotePressed}
           onDownvotePressed={onDownvotePressed}
+          isSendLoading={isSendLoading}
         />
       </VStack>
       <LinkBox as={HStack} flex={1} spacing={3} alignItems="start">

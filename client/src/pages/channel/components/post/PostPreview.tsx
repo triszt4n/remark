@@ -63,10 +63,22 @@ export const PostPreview: FC<PostPreviewProps> = ({ post }) => {
     <Box as="article" p={4} borderRadius="md" borderWidth="1px">
       {useBreakpointValue({
         base: (
-          <PostPreviewMobile post={post} onUpvotePressed={onUpvotePressed} onDownvotePressed={onDownvotePressed} targetPath={targetPath} />
+          <PostPreviewMobile
+            post={post}
+            onUpvotePressed={onUpvotePressed}
+            onDownvotePressed={onDownvotePressed}
+            targetPath={targetPath}
+            isSendLoading={voteMutation.isLoading}
+          />
         ),
         md: (
-          <PostPreviewDesktop post={post} onUpvotePressed={onUpvotePressed} onDownvotePressed={onDownvotePressed} targetPath={targetPath} />
+          <PostPreviewDesktop
+            post={post}
+            onUpvotePressed={onUpvotePressed}
+            onDownvotePressed={onDownvotePressed}
+            targetPath={targetPath}
+            isSendLoading={voteMutation.isLoading}
+          />
         )
       })}
     </Box>

@@ -29,7 +29,7 @@ export const PostDetails: FC<Props> = ({ post }) => {
       )
     })
 
-  const voteMutation = useMutation(postModule.votePost, {
+  const mutation = useMutation(postModule.votePost, {
     onSuccess: () => {
       queryClient.invalidateQueries(['post', post.id])
     },
@@ -49,20 +49,34 @@ export const PostDetails: FC<Props> = ({ post }) => {
     if (!isLoggedIn) {
       return unauthorizedToast()
     }
-    voteMutation.mutate({ id: post.id, voteType: post.myVote === 'up' ? 'none' : 'up' })
+    mutation.mutate({ id: post.id, voteType: post.myVote === 'up' ? 'none' : 'up' })
   }
   const onDownvotePressed = () => {
     if (!isLoggedIn) {
       return unauthorizedToast()
     }
-    voteMutation.mutate({ id: post.id, voteType: post.myVote === 'down' ? 'none' : 'down' })
+    mutation.mutate({ id: post.id, voteType: post.myVote === 'down' ? 'none' : 'down' })
   }
 
   return (
     <VStack spacing={{ base: 4, md: 10 }} align="stretch">
       {useBreakpointValue({
-        base: <PostDetailsMobile post={post} onUpvotePressed={onUpvotePressed} onDownvotePressed={onDownvotePressed} />,
-        md: <PostDetailsDesktop post={post} onUpvotePressed={onUpvotePressed} onDownvotePressed={onDownvotePressed} />
+        base: (
+          <PostDetailsMobile
+            post={post}
+            onUpvotePressed={onUpvotePressed}
+            onDownvotePressed={onDownvotePressed}
+            isSendLoading={mutation.isLoading}
+          />
+        ),
+        md: (
+          <PostDetailsDesktop
+            post={post}
+            onUpvotePressed={onUpvotePressed}
+            onDownvotePressed={onDownvotePressed}
+            isSendLoading={mutation.isLoading}
+          />
+        )
       })}
     </VStack>
   )

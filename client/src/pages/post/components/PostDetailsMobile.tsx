@@ -12,9 +12,10 @@ type Props = {
   post: PostView
   onUpvotePressed: () => void
   onDownvotePressed: () => void
+  isSendLoading: boolean
 }
 
-export const PostDetailsMobile: FC<Props> = ({ post, onUpvotePressed, onDownvotePressed }) => {
+export const PostDetailsMobile: FC<Props> = ({ post, onUpvotePressed, onDownvotePressed, isSendLoading }) => {
   const { createdAt, publisher: user, rawMarkdown, channel, title, voteCount, myVote, imageUrl } = post
 
   return (
@@ -32,7 +33,13 @@ export const PostDetailsMobile: FC<Props> = ({ post, onUpvotePressed, onDownvote
         </HStack>
         <Heading size={useBreakpointValue({ base: '2xl', sm: '3xl' })}>{title}</Heading>
         <HStack spacing={2}>
-          <VoteButtons voteCount={voteCount} onUpvotePressed={onUpvotePressed} onDownvotePressed={onDownvotePressed} myVote={myVote} />
+          <VoteButtons
+            voteCount={voteCount}
+            onUpvotePressed={onUpvotePressed}
+            onDownvotePressed={onDownvotePressed}
+            myVote={myVote}
+            isSendLoading={isSendLoading}
+          />
         </HStack>
       </VStack>
 

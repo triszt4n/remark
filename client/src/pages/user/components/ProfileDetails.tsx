@@ -33,9 +33,6 @@ type Props = {
 
 export const ProfileDetails: FC<Props> = ({ user, profileOptions }) => {
   const { onLogoutPressed, onUsernameEditPressed, onChangeProfileImagePressed } = profileOptions || {}
-  user.imageUrl =
-    'https://remarkimages.blob.core.windows.net/remark-images-container/triszt4n-133281a4-1791-4da6-b6d0-6cae3ced9557-trisz_spy.jpg'
-
   const {
     isLoading: isLoadingChannels,
     data: channels,

@@ -19,8 +19,24 @@ export const ActionsSection: FC<Props> = ({ post }) => {
   }
 
   const mutation = useMutation(postModule.deletePost, {
+    onMutate: () => {
+      toast({
+        title: 'Action started',
+        description: `Deleting post is in progess, please wait.`,
+        status: 'info',
+        isClosable: true,
+        duration: 10000
+      })
+    },
     onSuccess: () => {
-      navigate(`/channels/${post.channel.id}`)
+      toast({
+        title: 'Action successfully done',
+        description: `Deleting post was successful! Redirecting to channel page.`,
+        status: 'success',
+        isClosable: true,
+        duration: 3000
+      })
+      setTimeout(() => navigate(`/channels/${post.channel.id}`), 2000)
       queryClient.invalidateQueries(['channelPosts', post.channel.id])
     },
     onError: (error) => {

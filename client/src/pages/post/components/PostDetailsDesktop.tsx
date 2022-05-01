@@ -12,9 +12,10 @@ type Props = {
   post: PostView
   onUpvotePressed: () => void
   onDownvotePressed: () => void
+  isSendLoading: boolean
 }
 
-export const PostDetailsDesktop: FC<Props> = ({ post, onUpvotePressed, onDownvotePressed }) => {
+export const PostDetailsDesktop: FC<Props> = ({ post, onUpvotePressed, onDownvotePressed, isSendLoading }) => {
   const { createdAt, publisher: user, rawMarkdown, channel, title, voteCount, myVote, imageUrl } = post
 
   return (
@@ -22,7 +23,13 @@ export const PostDetailsDesktop: FC<Props> = ({ post, onUpvotePressed, onDownvot
       <HStack alignItems="start" spacing={6}>
         <VStack spacing={2}>
           <Avatar m={1} mb={3} name={`${user.firstName} ${user.lastName}`} src={user.imageUrl} />
-          <VoteButtons voteCount={voteCount} onUpvotePressed={onUpvotePressed} onDownvotePressed={onDownvotePressed} myVote={myVote} />
+          <VoteButtons
+            voteCount={voteCount}
+            onUpvotePressed={onUpvotePressed}
+            onDownvotePressed={onDownvotePressed}
+            myVote={myVote}
+            isSendLoading={isSendLoading}
+          />
         </VStack>
         <Box>
           <Box fontSize={{ base: 'sm', md: 'md' }}>

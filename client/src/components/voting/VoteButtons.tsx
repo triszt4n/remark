@@ -10,9 +10,10 @@ type Props = {
   onDownvotePressed: () => void
   myVote: MyVoteType
   isLoading?: boolean
+  isSendLoading: boolean
 }
 
-export const VoteButtons: FC<Props> = ({ voteCount, onUpvotePressed, onDownvotePressed, myVote, isLoading }) => {
+export const VoteButtons: FC<Props> = ({ voteCount, onUpvotePressed, onDownvotePressed, myVote, isLoading, isSendLoading }) => {
   return (
     <>
       <IconButton
@@ -22,6 +23,7 @@ export const VoteButtons: FC<Props> = ({ voteCount, onUpvotePressed, onDownvoteP
         variant={myVote === 'up' ? 'solid' : 'outline'}
         colorScheme="secondary"
         onClick={onUpvotePressed}
+        isLoading={isLoading || isSendLoading}
       />
       {isLoading ? (
         <Skeleton height="1rem" width="2rem" />
@@ -37,6 +39,7 @@ export const VoteButtons: FC<Props> = ({ voteCount, onUpvotePressed, onDownvoteP
         variant={myVote === 'down' ? 'solid' : 'outline'}
         colorScheme="primary"
         onClick={onDownvotePressed}
+        isLoading={isLoading || isSendLoading}
       />
     </>
   )
