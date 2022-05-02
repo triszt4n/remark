@@ -51,7 +51,7 @@ export const PostPreviewMobile: FC<Props> = ({ post, onUpvotePressed, onDownvote
             Posted by <RLink to={`/u/${post.publisher.username}`}>{ellipsifyLongText(post.publisher.username, 24)}</RLink>
           </Box>
           <Box>
-            <time dateTime={new Date(post.createdAt * 1000).toISOString()}>{toRelativeDateString(post.createdAt)}</time>
+            <time dateTime={new Date(post.createdAt).toISOString()}>{toRelativeDateString(post.createdAt)}</time>
           </Box>
         </Box>
       </HStack>

@@ -9,12 +9,11 @@ import { ProfileDetailsLoading } from './components/ProfileDetailsLoading'
 export const UserProxyPage: FC = () => {
   const { username } = useParams()
   const { loggedInUser } = useAuthContext()
+  const { isLoading, data: user, error } = useQuery(['user', username], () => userModule.fetchUserByUsername(username!!))
 
   if (username?.toLowerCase() === loggedInUser?.username.toLowerCase()) {
     return <Navigate replace to="/profile" />
   }
-
-  const { isLoading, data: user, error } = useQuery(['user', username], () => userModule.fetchUserByUsername(username!!))
 
   if (isLoading) {
     return (

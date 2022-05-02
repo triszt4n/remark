@@ -2,6 +2,7 @@
   "root": true,
   "parser": "@typescript-eslint/parser",
   "extends": ["prettier", "plugin:prettier/recommended"],
+  "plugins": ["react-hooks"],
   "parserOptions": {
     "ecmaVersion": 2018,
     "sourceType": "module",

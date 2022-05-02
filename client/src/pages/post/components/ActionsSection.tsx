@@ -28,6 +28,7 @@ type Props = {
 export const ActionsSection: FC<Props> = ({ post, onUploadImagePressed }) => {
   const navigate = useNavigate()
   const toast = useToast()
+  const dangerColor = useColorModeValue('red.600', 'red.400')
   const onEditPressed = () => {
     navigate('./edit', { state: { post } })
   }
@@ -91,7 +92,7 @@ export const ActionsSection: FC<Props> = ({ post, onUploadImagePressed }) => {
                 Upload featured image
               </MenuItem>
               <MenuDivider />
-              <MenuItem color={useColorModeValue('red.600', 'red.400')} icon={<FaTrashAlt />} onClick={onDeletePressed}>
+              <MenuItem color={dangerColor} icon={<FaTrashAlt />} onClick={onDeletePressed}>
                 Delete post
               </MenuItem>
             </MenuList>

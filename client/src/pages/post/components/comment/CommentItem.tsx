@@ -40,6 +40,7 @@ export const CommentItem: FC<Props> = ({ comment, post }) => {
   const { isLoggedIn } = useAuthContext()
   const navigate = useNavigate()
   const toast = useToast()
+  const dangerColor = useColorModeValue('red.600', 'red.400')
   const unauthorizedToast = () =>
     toast({
       render: ({ onClose }) => (
@@ -114,7 +115,7 @@ export const CommentItem: FC<Props> = ({ comment, post }) => {
         </RLink>
         <Box>·</Box>
         <Tooltip hasArrow placement="top" label={toDateTimeString(createdAt)}>
-          <time dateTime={new Date(createdAt * 1000).toISOString()}>{toRelativeDateString(createdAt)}</time>
+          <time dateTime={new Date(createdAt).toISOString()}>{toRelativeDateString(createdAt)}</time>
         </Tooltip>
         <Spacer />
         <Box>
@@ -125,7 +126,7 @@ export const CommentItem: FC<Props> = ({ comment, post }) => {
                 <MenuItem icon={<FaEdit />} onClick={onEditPressed}>
                   Edit comment
                 </MenuItem>
-                <MenuItem color={useColorModeValue('red.600', 'red.400')} icon={<FaTrashAlt />} onClick={onDeletePressed}>
+                <MenuItem color={dangerColor} icon={<FaTrashAlt />} onClick={onDeletePressed}>
                   Delete comment
                 </MenuItem>
               </MenuList>

@@ -32,10 +32,7 @@ export const PostPreviewDesktop: FC<Props> = ({ post, onUpvotePressed, onDownvot
           <Box fontSize="sm" fontWeight={300}>
             posted by <RLink to={`/u/${post.publisher.username}`}>{post.publisher.username}</RLink>{' '}
             <Tooltip hasArrow placement="top" label={toDateTimeString(post.createdAt)}>
-              <time
-                style={{ position: 'absolute', zIndex: 2, marginLeft: '0.25rem' }}
-                dateTime={new Date(post.createdAt * 1000).toISOString()}
-              >
+              <time style={{ position: 'absolute', zIndex: 2, marginLeft: '0.25rem' }} dateTime={new Date(post.createdAt).toISOString()}>
                 {toRelativeDateString(post.createdAt)}
               </time>
             </Tooltip>

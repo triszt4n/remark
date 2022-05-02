@@ -34,6 +34,7 @@ type Props = {
 }
 
 export const ProfileDetails: FC<Props> = ({ user, profileOptions }) => {
+  const dangerColor = useColorModeValue('red.600', 'red.400')
   const { onLogoutPressed, onUsernameEditPressed, onChangeProfileImagePressed } = profileOptions || {}
   const {
     isLoading: isLoadingChannels,
@@ -84,7 +85,7 @@ export const ProfileDetails: FC<Props> = ({ user, profileOptions }) => {
                   Change username
                 </MenuItem>
                 <MenuDivider />
-                <MenuItem color={useColorModeValue('red.600', 'red.400')} icon={<FaSignOutAlt />} onClick={onLogoutPressed}>
+                <MenuItem color={dangerColor} icon={<FaSignOutAlt />} onClick={onLogoutPressed}>
                   Log out
                 </MenuItem>
               </MenuList>

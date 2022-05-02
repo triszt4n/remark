@@ -14,6 +14,11 @@ type ModeratorInfo = { owner: UserView; moderators: UserView[] }
 type JoinInfo = { channel: ChannelModel & { id: string }; join: ChannelJoinModel & { id: string } }
 
 class ChannelModule {
+  async fetchChannels(): Promise<ChannelView[]> {
+    const response = await axios.get<ChannelView[]>(`/channels/channels`)
+    return response.data
+  }
+
   async fetchModeratorInfoOfChannel(id: string): Promise<ModeratorInfo> {
     const response = await axios.get<ModeratorInfo>(`/channels/channels/${id}/modinfo`)
     return response.data
@@ -59,6 +64,10 @@ class ChannelModule {
     return axios.post<ChannelModel & { id: string }>(`/channels/channels/${id}/moderator`, {
       moderatorUsername
     })
+  }
+
+  async removeModeratorFromChannel({ id, moderatorId }: { id: string; moderatorId: string }) {
+    return axios.delete<ChannelModel & { id: string }>(`/channels/channels/${id}/moderator/${moderatorId}`)
   }
 }
 

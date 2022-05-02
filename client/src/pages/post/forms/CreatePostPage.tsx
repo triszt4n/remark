@@ -14,6 +14,12 @@ export const CreatePostPage: FC = () => {
   const navigate = useNavigate()
   const toast = useToast()
   const { isLoggedIn } = useAuthContext()
+  const { channelId } = useParams()
+  const {
+    isLoading,
+    error,
+    data: channel
+  } = useStatefulQuery<ChannelView>('channel', ['channelInfo', channelId], () => channelModule.fetchChannel(channelId!!))
 
   if (!isLoggedIn) {
     return (
@@ -25,19 +31,11 @@ export const CreatePostPage: FC = () => {
           messages: [
             'The action you intended to do is restricted to authenticated users',
             'Please log in via the Log in button in the navigation bar'
-          ],
-          backPath: -2
+          ]
         }}
       />
     )
   }
-
-  const { channelId } = useParams()
-  const {
-    isLoading,
-    error,
-    data: channel
-  } = useStatefulQuery<ChannelView>('channel', ['channelInfo', channelId], () => channelModule.fetchChannel(channelId!!))
 
   if (isLoading) {
     return <PuzzleAnimated text="Loading" />

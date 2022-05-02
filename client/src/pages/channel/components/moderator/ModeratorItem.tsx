@@ -1,14 +1,17 @@
-import { Avatar, Box, HStack, useBreakpointValue } from '@chakra-ui/react'
+import { Avatar, Box, HStack, IconButton, useBreakpointValue } from '@chakra-ui/react'
 import { UserView } from '@triszt4n/remark-types'
 import { FC } from 'react'
+import { FaUserMinus } from 'react-icons/fa'
 import { RLink } from '../../../../components/commons/RLink'
 
 type Props = {
   user: UserView
   subtitle?: string
+  onRemove?: (moderator: UserView) => void
+  onSendLoading?: boolean
 }
 
-export const ModeratorItem: FC<Props> = ({ user, subtitle }) => {
+export const ModeratorItem: FC<Props> = ({ user, subtitle, onRemove, onSendLoading }) => {
   return (
     <HStack spacing={4} p={2}>
       <Avatar name={`${user.firstName} ${user.lastName}`} src={user.imageUrl} size={useBreakpointValue({ base: 'sm', md: 'md' })} />
@@ -22,6 +25,18 @@ export const ModeratorItem: FC<Props> = ({ user, subtitle }) => {
           </Box>
         )}
       </Box>
+      {onRemove && (
+        <Box>
+          <IconButton
+            size="sm"
+            colorScheme="primary"
+            aria-label={`Remove moderator ${user.username}`}
+            icon={<FaUserMinus />}
+            onClick={() => onRemove(user)}
+            isLoading={onSendLoading}
+          />
+        </Box>
+      )}
     </HStack>
   )
 }

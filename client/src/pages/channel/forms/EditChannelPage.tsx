@@ -13,41 +13,12 @@ export const EditChannelPage: FC = () => {
   const navigate = useNavigate()
   const toast = useToast()
   const { isLoggedIn } = useAuthContext()
-
-  if (!isLoggedIn) {
-    return (
-      <Navigate
-        replace
-        to="/error"
-        state={{
-          title: 'You are not logged in',
-          messages: [
-            'The action you intended to do is restricted to authenticated users',
-            'Please log in via the Log in button in the navigation bar'
-          ],
-          backPath: -2
-        }}
-      />
-    )
-  }
-
   const { channelId } = useParams()
   const {
     isLoading,
     error,
     data: channel
   } = useStatefulQuery<ChannelView>('channel', ['channelInfo', channelId], () => channelModule.fetchChannel(channelId!!))
-
-  if (isLoading) {
-    return <PuzzleAnimated text="Loading" />
-  }
-
-  if (error) {
-    console.error('[DEBUG] Error at EditChannelPage', error)
-    return (
-      <Navigate replace to="/error" state={{ title: 'Error occured loading channel', messages: [(error as any)?.response.data.message] }} />
-    )
-  }
 
   const mutation = useMutation(channelModule.updateChannel, {
     onSuccess: () => {
@@ -70,6 +41,33 @@ export const EditChannelPage: FC = () => {
     mutation.mutate({ id: channelId, channelData: updatable })
   }
 
+  if (!isLoggedIn) {
+    return (
+      <Navigate
+        replace
+        to="/error"
+        state={{
+          title: 'You are not logged in',
+          messages: [
+            'The action you intended to do is restricted to authenticated users',
+            'Please log in via the Log in button in the navigation bar'
+          ]
+        }}
+      />
+    )
+  }
+
+  if (isLoading) {
+    return <PuzzleAnimated text="Loading" />
+  }
+
+  if (error) {
+    console.error('[DEBUG] Error at EditChannelPage', error)
+    return (
+      <Navigate replace to="/error" state={{ title: 'Error occured loading channel', messages: [(error as any)?.response.data.message] }} />
+    )
+  }
+
   if (!channel?.amIOwner) {
     return (
       <Navigate
@@ -78,10 +76,9 @@ export const EditChannelPage: FC = () => {
         state={{
           title: 'Access forbidden',
           messages: [
-            'The action you intended to do is restricted users with proper access to the resource',
+            'The action you intended to do is restricted to users with proper access to the resource',
             "Please contact the resource's owner for further actions"
-          ],
-          backPath: -2
+          ]
         }}
       />
     )

@@ -36,17 +36,6 @@ export const EditUsernameModal: FC<Props> = ({ isOpen, onClose }) => {
     setError
   } = useForm<{ newUsername: string }>({ mode: 'all' })
   const { loggedInUser, refetchUser } = useAuthContext()
-  if (!loggedInUser) {
-    return (
-      <Modal isOpen={isOpen} onClose={onClose}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>You are not logged in!</ModalHeader>
-          <ModalCloseButton />
-        </ModalContent>
-      </Modal>
-    )
-  }
 
   const mutation = useMutation(userModule.updateUser, {
     onSuccess: () => {
@@ -62,6 +51,18 @@ export const EditUsernameModal: FC<Props> = ({ isOpen, onClose }) => {
 
   const onSubmit: SubmitHandler<{ newUsername: string }> = (values) => {
     mutation.mutate({ username: values.newUsername })
+  }
+
+  if (!loggedInUser) {
+    return (
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>You are not logged in!</ModalHeader>
+          <ModalCloseButton />
+        </ModalContent>
+      </Modal>
+    )
   }
 
   return (

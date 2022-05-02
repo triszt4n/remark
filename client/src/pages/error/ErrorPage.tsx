@@ -1,4 +1,4 @@
-import { Alert, AlertDescription, AlertIcon, AlertTitle, Button, Text, VStack } from '@chakra-ui/react'
+import { Alert, AlertDescription, AlertIcon, AlertTitle, Button, VStack } from '@chakra-ui/react'
 import { FC } from 'react'
 import { FaChevronLeft } from 'react-icons/fa'
 import { To, useLocation, useNavigate } from 'react-router-dom'
@@ -28,20 +28,20 @@ export const ErrorPage: FC<ErrorPageState> = ({ title, messages, backPath }) => 
       <AlertTitle mt={4} mb={3} fontSize="2xl">
         {title || t || 'Error occured'}
       </AlertTitle>
-      <AlertDescription maxWidth="sm">
+      <AlertDescription>
         <VStack justifyContent="center" spacing={1}>
-          {messages?.map((errorMsg) => (
-            <Text key={errorMsg}>{errorMsg}</Text>
+          {messages?.filter(Boolean).map((errorMsg) => (
+            <span key={errorMsg}>{errorMsg}</span>
           ))}
+          {m && (
+            <>
+              {m?.filter(Boolean).map((errorMsg) => (
+                <span key={errorMsg}>{errorMsg}</span>
+              ))}
+              <span>See console for more information</span>
+            </>
+          )}
         </VStack>
-        {m && (
-          <VStack justifyContent="center" spacing={1}>
-            {m?.map((errorMsg) => (
-              <Text key={errorMsg}>{errorMsg}</Text>
-            ))}
-            <Text>See console for more information</Text>
-          </VStack>
-        )}
       </AlertDescription>
       <Button
         colorScheme="theme"

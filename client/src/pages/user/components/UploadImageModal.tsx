@@ -20,20 +20,7 @@ export const UploadImageModal: FC<Props> = ({ isOpen, onClose }) => {
     setError,
     setValue
   } = methods
-
   const { loggedInUser, refetchUser } = useAuthContext()
-  if (!loggedInUser) {
-    return (
-      <Modal isOpen={isOpen} onClose={onClose}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>You are not logged in!</ModalHeader>
-          <ModalCloseButton />
-        </ModalContent>
-      </Modal>
-    )
-  }
-
   const mutation = useMutation(userModule.uploadProfileImage, {
     onSuccess: () => {
       refetchUser()
@@ -54,6 +41,18 @@ export const UploadImageModal: FC<Props> = ({ isOpen, onClose }) => {
   const onCancelPressed = () => {
     onClose()
     setValue('files', undefined)
+  }
+
+  if (!loggedInUser) {
+    return (
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>You are not logged in!</ModalHeader>
+          <ModalCloseButton />
+        </ModalContent>
+      </Modal>
+    )
   }
 
   return (

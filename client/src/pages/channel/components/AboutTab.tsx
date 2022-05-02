@@ -39,6 +39,7 @@ type Props = {
 export const AboutTab: FC<Props> = ({ channelId, isLoading, channel }) => {
   const navigate = useNavigate()
   const toast = useToast()
+  const dangerColor = useColorModeValue('red.600', 'red.400')
   const { isOpen, onOpen: onModeratorAddPressed, onClose } = useDisclosure()
 
   const mutation = useMutation(channelModule.deleteChannel, {
@@ -116,7 +117,7 @@ export const AboutTab: FC<Props> = ({ channelId, isLoading, channel }) => {
           <StatHelpText>channel founded {toDateString(channel!!.createdAt)}</StatHelpText>
         </Stat>
         <Flex justifyContent="end" ml={2}>
-          {(channel!!.amIModerator || channel!!.amIOwner) && (
+          {channel!!.amIOwner && (
             <Menu>
               <MenuButton as={Button} rightIcon={<FaChevronDown />} colorScheme="theme">
                 Actions
@@ -131,7 +132,7 @@ export const AboutTab: FC<Props> = ({ channelId, isLoading, channel }) => {
                   </MenuItem>
                 )}
                 <MenuDivider />
-                <MenuItem color={useColorModeValue('red.600', 'red.400')} icon={<FaTrashAlt />} onClick={onDeletePressed}>
+                <MenuItem color={dangerColor} icon={<FaTrashAlt />} onClick={onDeletePressed}>
                   Delete channel
                 </MenuItem>
               </MenuList>
@@ -149,7 +150,7 @@ export const AboutTab: FC<Props> = ({ channelId, isLoading, channel }) => {
         <ReactMarkdown components={ChakraUIRenderer()} children={channel!!.descRawMarkdown} skipHtml />
       </Box>
       <Box>
-        <ModeratorsSection channelId={channelId} />
+        <ModeratorsSection channelId={channelId} amIOwner={channel!!.amIOwner} />
       </Box>
       <AddModeratorModal channel={channel!!} isOpen={isOpen} onClose={onClose} />
     </VStack>

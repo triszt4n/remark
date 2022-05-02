@@ -22,6 +22,7 @@ import { FaCheck } from 'react-icons/fa'
 import { useMutation } from 'react-query'
 import { useAuthContext } from '../../../api/contexts/auth/useAuthContext'
 import { channelModule } from '../../../api/modules/channel.module'
+import { queryClient } from '../../../util/query-client'
 
 type Props = {
   channel: ChannelView
@@ -42,6 +43,7 @@ export const AddModeratorModal: FC<Props> = ({ channel, isOpen, onClose }) => {
 
   const mutation = useMutation(channelModule.addModeratorToChannel, {
     onSuccess: () => {
+      queryClient.invalidateQueries(['channelModerators', channel.id])
       onClose()
       toast({
         status: 'success',

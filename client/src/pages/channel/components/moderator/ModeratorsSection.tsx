@@ -1,13 +1,42 @@
-import { Box, Center, HStack, Skeleton, Text } from '@chakra-ui/react'
+import { Box, Center, HStack, Skeleton, Text, useToast } from '@chakra-ui/react'
+import { UserView } from '@triszt4n/remark-types'
 import { FC } from 'react'
-import { useQuery } from 'react-query'
+import { useMutation, useQuery } from 'react-query'
 import { channelModule } from '../../../../api/modules/channel.module'
 import { toReadableNumber } from '../../../../util/core-util-functions'
+import { queryClient } from '../../../../util/query-client'
 import { ModeratorItem } from './ModeratorItem'
 import { ModeratorItemLoading } from './ModeratorItemLoading'
 
-export const ModeratorsSection: FC<{ channelId: string }> = ({ channelId }) => {
+type Props = {
+  channelId: string
+  amIOwner: boolean
+}
+
+export const ModeratorsSection: FC<Props> = ({ channelId, amIOwner }) => {
   const { isLoading, data, error } = useQuery(['channelModerators', channelId], () => channelModule.fetchModeratorInfoOfChannel(channelId))
+  const toast = useToast()
+
+  const mutation = useMutation(channelModule.removeModeratorFromChannel, {
+    onSuccess: () => {
+      queryClient.invalidateQueries(['channelModerators', channelId])
+    },
+    onError: (error) => {
+      const err = error as any
+      console.log('[DEBUG] Error at removeModeratorFromChannel', err.toJSON())
+      toast({
+        title: 'Error occured when removing a moderator',
+        description: `${err.response.status} ${err.response.data.message || err.message} Try again later.`,
+        status: 'error',
+        isClosable: true
+      })
+    }
+  })
+
+  const onRemovePressed = (moderator: UserView) => {
+    if (confirm(`Do you really want to remove ${moderator.username} from the moderators of this channel?`))
+      mutation.mutate({ id: channelId, moderatorId: moderator.id })
+  }
 
   if (isLoading) {
     return (
@@ -41,7 +70,7 @@ export const ModeratorsSection: FC<{ channelId: string }> = ({ channelId }) => {
       </Text>
       <ModeratorItem user={owner} subtitle="founder" />
       {moderators.map((mod) => (
-        <ModeratorItem key={mod.username} user={mod} />
+        <ModeratorItem key={mod.username} user={mod} onRemove={amIOwner ? onRemovePressed : undefined} onSendLoading={mutation.isLoading} />
       ))}
     </>
   )

@@ -11,24 +11,6 @@ export const CreateChannelPage: FC = () => {
   const navigate = useNavigate()
   const toast = useToast()
   const { isLoggedIn } = useAuthContext()
-
-  if (!isLoggedIn) {
-    return (
-      <Navigate
-        replace
-        to="/error"
-        state={{
-          title: 'You are not logged in',
-          messages: [
-            'The action you intended to do is restricted to authenticated users',
-            'Please log in via the Log in button in the navigation bar'
-          ],
-          backPath: -2
-        }}
-      />
-    )
-  }
-
   const mutation = useMutation(channelModule.createChannel, {
     onSuccess: ({ data }) => {
       navigate(`/channels/${data.id}`)
@@ -47,6 +29,22 @@ export const CreateChannelPage: FC = () => {
 
   const onSend = async (creatable: CreateChannelView) => {
     mutation.mutate(creatable)
+  }
+
+  if (!isLoggedIn) {
+    return (
+      <Navigate
+        replace
+        to="/error"
+        state={{
+          title: 'You are not logged in',
+          messages: [
+            'The action you intended to do is restricted to authenticated users',
+            'Please log in via the Log in button in the navigation bar'
+          ]
+        }}
+      />
+    )
   }
 
   return <ChannelForm onSend={onSend} sendButtonText="Create" isSendLoading={mutation.isLoading} />

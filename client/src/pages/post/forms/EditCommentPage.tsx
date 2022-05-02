@@ -29,24 +29,6 @@ export const EditCommentPage: FC = () => {
   const navigate = useNavigate()
   const toast = useToast()
   const { isLoggedIn } = useAuthContext()
-
-  if (!isLoggedIn) {
-    return (
-      <Navigate
-        replace
-        to="/error"
-        state={{
-          title: 'You are not logged in',
-          messages: [
-            'The action you intended to do is restricted to authenticated users',
-            'Please log in via the Log in button in the navigation bar'
-          ],
-          backPath: -2
-        }}
-      />
-    )
-  }
-
   const { postId } = useParams()
   const {
     isLoading: isLoadingPost,
@@ -61,34 +43,10 @@ export const EditCommentPage: FC = () => {
     data: comment
   } = useStatefulQuery<CommentView>('comment', ['comment', commentId], () => commentModule.fetchComment(commentId!!))
 
-  if (isLoadingPost || isLoadingComment) {
-    return <PuzzleAnimated text="Loading" />
-  }
-
-  errorHandler(errorPost)
-  errorHandler(errorComment)
-
-  if (!post?.amIPublisher && !post?.channel.amIModerator && !post?.channel.amIOwner) {
-    return (
-      <Navigate
-        replace
-        to="/error"
-        state={{
-          title: 'Access forbidden',
-          messages: [
-            'The action you intended to do is restricted users with proper access to the resource',
-            "Please contact the resource's owner for further actions"
-          ],
-          backPath: -2
-        }}
-      />
-    )
-  }
-
   const mutation = useMutation(commentModule.updateComment, {
     onSuccess: () => {
-      navigate(`/posts/${post.id}`)
-      queryClient.invalidateQueries(['postComments', [post.id]])
+      navigate(`/posts/${post?.id}`)
+      queryClient.invalidateQueries(['postComments', [post?.id]])
     },
     onError: (error) => {
       const err = error as any
@@ -105,6 +63,63 @@ export const EditCommentPage: FC = () => {
   const onSend = (updatable: UpdateCommentView) => {
     if (!commentId) return
     mutation.mutate({ id: commentId, commentData: updatable })
+  }
+
+  if (!isLoggedIn) {
+    return (
+      <Navigate
+        replace
+        to="/error"
+        state={{
+          title: 'You are not logged in',
+          messages: [
+            'The action you intended to do is restricted to authenticated users',
+            'Please log in via the Log in button in the navigation bar'
+          ]
+        }}
+      />
+    )
+  }
+
+  if (isLoadingPost || isLoadingComment) {
+    return <PuzzleAnimated text="Loading" />
+  }
+
+  if (errorPost) {
+    console.error('[DEBUG] Error at EditCommentPage', errorPost)
+    return (
+      <Navigate
+        replace
+        to="/error"
+        state={{ title: 'Error occured loading post info', messages: [(errorPost as any)?.response.data.message] }}
+      />
+    )
+  }
+  if (errorComment) {
+    console.error('[DEBUG] Error at EditCommentPage', errorComment)
+    return (
+      <Navigate
+        replace
+        to="/error"
+        state={{ title: 'Error occured loading comment info', messages: [(errorComment as any)?.response.data.message] }}
+      />
+    )
+  }
+
+  if (!post?.amIPublisher && !post?.channel.amIModerator && !post?.channel.amIOwner) {
+    return (
+      <Navigate
+        replace
+        to="/error"
+        state={{
+          title: 'Access forbidden',
+          messages: [
+            'The action you intended to do is restricted to users with proper access to the resource',
+            "Please contact the resource's owner for further actions"
+          ]
+        }}
+      />
+    )
   }
 
   return (

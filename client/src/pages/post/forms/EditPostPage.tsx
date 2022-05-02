@@ -13,54 +13,8 @@ export const EditPostPage: FC = () => {
   const navigate = useNavigate()
   const toast = useToast()
   const { isLoggedIn } = useAuthContext()
-
-  if (!isLoggedIn) {
-    return (
-      <Navigate
-        replace
-        to="/error"
-        state={{
-          title: 'You are not logged in',
-          messages: [
-            'The action you intended to do is restricted to authenticated users',
-            'Please log in via the Log in button in the navigation bar'
-          ],
-          backPath: -2
-        }}
-      />
-    )
-  }
-
   const { postId } = useParams()
   const { isLoading, error, data: post } = useStatefulQuery<PostView>('post', ['post', postId], () => postModule.fetchPost(postId!!))
-
-  if (isLoading) {
-    return <PuzzleAnimated text="Loading" />
-  }
-
-  if (error) {
-    console.error('[DEBUG] Error at EditPostPage', error)
-    return (
-      <Navigate replace to="/error" state={{ title: 'Error occured loading post', messages: [(error as any)?.response.data.message] }} />
-    )
-  }
-
-  if (!post?.amIPublisher && !post?.channel.amIModerator && !post?.channel.amIOwner) {
-    return (
-      <Navigate
-        replace
-        to="/error"
-        state={{
-          title: 'Access forbidden',
-          messages: [
-            'The action you intended to do is restricted users with proper access to the resource',
-            "Please contact the resource's owner for further actions"
-          ],
-          backPath: -2
-        }}
-      />
-    )
-  }
 
   const mutation = useMutation(postModule.updatePost, {
     onSuccess: () => {
@@ -81,6 +35,49 @@ export const EditPostPage: FC = () => {
   const onSend = (updatable: UpdatePostView) => {
     if (!postId) return
     mutation.mutate({ id: postId, postData: updatable })
+  }
+
+  if (!isLoggedIn) {
+    return (
+      <Navigate
+        replace
+        to="/error"
+        state={{
+          title: 'You are not logged in',
+          messages: [
+            'The action you intended to do is restricted to authenticated users',
+            'Please log in via the Log in button in the navigation bar'
+          ]
+        }}
+      />
+    )
+  }
+
+  if (isLoading) {
+    return <PuzzleAnimated text="Loading" />
+  }
+
+  if (error) {
+    console.error('[DEBUG] Error at EditPostPage', error)
+    return (
+      <Navigate replace to="/error" state={{ title: 'Error occured loading post', messages: [(error as any)?.response.data.message] }} />
+    )
+  }
+
+  if (!post?.amIPublisher && !post?.channel.amIModerator && !post?.channel.amIOwner) {
+    return (
+      <Navigate
+        replace
+        to="/error"
+        state={{
+          title: 'Access forbidden',
+          messages: [
+            'The action you intended to do is restricted to users with proper access to the resource',
+            "Please contact the resource's owner for further actions"
+          ]
+        }}
+      />
+    )
   }
 
   return (
