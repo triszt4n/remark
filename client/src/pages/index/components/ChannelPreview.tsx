@@ -4,6 +4,7 @@ import { FC } from 'react'
 import { FaCheck, FaPlus } from 'react-icons/fa'
 import ReactMarkdown from 'react-markdown'
 import { Link } from 'react-router-dom'
+import { useAuthContext } from '../../../api/contexts/auth/useAuthContext'
 import { ellipsifyLongText, toReadableNumber, toRelativeDateString } from '../../../util/core-util-functions'
 
 type Props = {
@@ -13,6 +14,8 @@ type Props = {
 }
 
 export const ChannelPreview: FC<Props> = ({ channel, onJoinPressed, isSendLoading }) => {
+  const { isLoggedIn } = useAuthContext()
+
   return (
     <LinkBox borderWidth="1px" borderRadius="lg" p={6}>
       <HStack mb={4}>
@@ -43,15 +46,17 @@ export const ChannelPreview: FC<Props> = ({ channel, onJoinPressed, isSendLoadin
           <Box>
             <strong>{toReadableNumber(channel.joinCount)}</strong>&nbsp;joined
           </Box>
-          <Button
-            leftIcon={channel.amIJoined ? <FaCheck /> : <FaPlus />}
-            colorScheme="theme"
-            variant={channel.amIJoined ? 'outline' : 'solid'}
-            onClick={() => onJoinPressed(channel)}
-            isLoading={isSendLoading}
-          >
-            {channel.amIJoined ? 'Joined' : 'Join'}
-          </Button>
+          {isLoggedIn && (
+            <Button
+              leftIcon={channel.amIJoined ? <FaCheck /> : <FaPlus />}
+              colorScheme="theme"
+              variant={channel.amIJoined ? 'outline' : 'solid'}
+              onClick={() => onJoinPressed(channel)}
+              isLoading={isSendLoading}
+            >
+              {channel.amIJoined ? 'Joined' : 'Join'}
+            </Button>
+          )}
         </HStack>
       </HStack>
     </LinkBox>
