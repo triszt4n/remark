@@ -1,6 +1,7 @@
-import { Box, Heading, HStack, Image, Link, LinkBox, LinkOverlay, Spacer } from '@chakra-ui/react'
+import { Box, Heading, HStack, Image, LinkBox, LinkOverlay, Spacer } from '@chakra-ui/react'
 import { PostView } from '@triszt4n/remark-types'
 import { FC } from 'react'
+import { Link } from 'react-router-dom'
 import { RLink } from '../../../../components/commons/RLink'
 import { VoteButtons } from '../../../../components/voting/VoteButtons'
 import { ellipsifyLongText, toRelativeDateString } from '../../../../util/core-util-functions'
