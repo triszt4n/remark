@@ -4,7 +4,11 @@ import { Link } from 'react-router-dom'
 import { useAuthContext } from '../../api/contexts/auth/useAuthContext'
 import { NAV_ITEMS } from '../../util/nav-items'
 
-const MobileNav: FC = () => {
+type Props = {
+  onNavigate: () => void
+}
+
+const MobileNav: FC<Props> = ({ onNavigate }) => {
   const { isLoggedIn } = useAuthContext()
   const [navItems, setNavItems] = useState(NAV_ITEMS)
 
@@ -15,7 +19,7 @@ const MobileNav: FC = () => {
   return (
     <Stack display={{ md: 'none' }} fontWeight={700} fontSize="xl" ml={6} mb={6}>
       {navItems.map((item) => (
-        <HStack key={item.label} as={Link} to={item.path}>
+        <HStack key={item.label} as={Link} to={item.path} onClick={onNavigate}>
           <item.icon />
           <Text textAlign="center">{item.label}</Text>
         </HStack>

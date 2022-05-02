@@ -1,9 +1,9 @@
 import { Avatar, Box, Button, Heading, HStack, Image, Link, Tooltip, useBreakpointValue, VStack } from '@chakra-ui/react'
 import { PostView } from '@triszt4n/remark-types'
-import ChakraUIRenderer from 'chakra-ui-markdown-renderer'
 import { FC } from 'react'
 import { FaExpand } from 'react-icons/fa'
 import ReactMarkdown from 'react-markdown'
+import { RemarkUIRenderer } from '../../../assets/remark-ui-renderer'
 import { RLink } from '../../../components/commons/RLink'
 import { VoteButtons } from '../../../components/voting/VoteButtons'
 import { toDateTimeString, toRelativeDateString } from '../../../util/core-util-functions'
@@ -54,7 +54,7 @@ export const PostDetailsMobile: FC<Props> = ({ post, onUpvotePressed, onDownvote
         </Box>
       )}
       <Box>
-        <ReactMarkdown components={ChakraUIRenderer()} children={rawMarkdown} skipHtml />
+        <ReactMarkdown components={RemarkUIRenderer()} children={rawMarkdown} skipHtml />
       </Box>
     </>
   )

@@ -8,6 +8,7 @@ import MobileNav from './MobileNav'
 
 export const Navbar: FC = () => {
   const { isOpen, onToggle } = useDisclosure()
+  const onNavigate = () => onToggle()
 
   return (
     <Box mx="auto" maxW="6xl" w="full" fontFamily="heading">
@@ -32,7 +33,7 @@ export const Navbar: FC = () => {
       </Flex>
 
       <Collapse in={isOpen} animateOpacity>
-        <MobileNav />
+        <MobileNav onNavigate={onNavigate} />
       </Collapse>
     </Box>
   )

@@ -10,7 +10,7 @@ import { ModeratorItemLoading } from './ModeratorItemLoading'
 
 type Props = {
   channelId: string
-  amIOwner: boolean
+  amIOwner?: boolean
 }
 
 export const ModeratorsSection: FC<Props> = ({ channelId, amIOwner }) => {
@@ -61,15 +61,15 @@ export const ModeratorsSection: FC<Props> = ({ channelId, amIOwner }) => {
     )
   }
 
-  const { owner, moderators } = data!!
+  const { owner, moderators } = data || {}
 
   return (
     <>
       <Text fontSize="sm" mb={2}>
-        Moderators ({toReadableNumber(moderators.length + 1)})
+        Moderators ({toReadableNumber(moderators!!.length + 1)})
       </Text>
-      <ModeratorItem user={owner} subtitle="founder" />
-      {moderators.map((mod) => (
+      <ModeratorItem user={owner!!} subtitle="founder" />
+      {moderators!!.map((mod) => (
         <ModeratorItem key={mod.username} user={mod} onRemove={amIOwner ? onRemovePressed : undefined} onSendLoading={mutation.isLoading} />
       ))}
     </>

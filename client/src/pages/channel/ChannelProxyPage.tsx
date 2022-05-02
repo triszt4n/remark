@@ -6,7 +6,7 @@ import { PuzzleAnimated } from '../../components/commons/PuzzleAnimated'
 
 export const ChannelProxyPage: FC = () => {
   const { uriName } = useParams()
-  const { isLoading, data, error } = useQuery(['channel', uriName], () => channelModule.fetchChannelIdByUriName(uriName!!))
+  const { isLoading, data: channel, error } = useQuery(['channel', uriName], () => channelModule.fetchChannelIdByUriName(uriName!!))
 
   if (isLoading) {
     return <PuzzleAnimated text="Loading" />
@@ -19,6 +19,5 @@ export const ChannelProxyPage: FC = () => {
     )
   }
 
-  const { id } = data!!
-  return <Navigate replace to={`/channels/${id}`} />
+  return <Navigate replace to={`/channels/${channel?.id}`} />
 }

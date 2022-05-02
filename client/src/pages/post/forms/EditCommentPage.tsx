@@ -106,7 +106,8 @@ export const EditCommentPage: FC = () => {
     )
   }
 
-  if (!post?.amIPublisher && !post?.channel.amIModerator && !post?.channel.amIOwner) {
+  // Comment's publisher, moderators and owner can edit the comment
+  if (!comment?.amIPublisher && !post?.channel.amIModerator && !post?.channel.amIOwner) {
     return (
       <Navigate
         replace
@@ -127,7 +128,7 @@ export const EditCommentPage: FC = () => {
       <Heading fontSize="3xl">Edit comment</Heading>
       <Box>
         Comment by <RLink to={`/u/${comment?.publisher.username}`}>{comment?.publisher.username}</RLink> under post titled{' '}
-        <RLink to={`/posts/${post.id}`}>{post.title}</RLink>
+        <RLink to={`/posts/${post?.id}`}>{post?.title}</RLink>
       </Box>
       <CommentForm onSend={onSend} buttonProps={{ sendButtonText: 'Save' }} defaultValues={comment} isSendLoading={mutation.isLoading} />
     </VStack>

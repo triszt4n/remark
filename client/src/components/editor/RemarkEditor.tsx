@@ -12,10 +12,10 @@ import {
   Tabs,
   Textarea
 } from '@chakra-ui/react'
-import ChakraUIRenderer from 'chakra-ui-markdown-renderer'
 import { FC } from 'react'
 import { useFormContext } from 'react-hook-form'
 import ReactMarkdown from 'react-markdown'
+import { RemarkUIRenderer } from '../../assets/remark-ui-renderer'
 import { RLink } from '../commons/RLink'
 import { getStatusString } from './editorUtils'
 
@@ -77,7 +77,7 @@ export const RemarkEditor: FC<Props> = ({ textAreaHeight = '22rem', previewHeigh
         </TabPanel>
         <TabPanel>
           <Box maxHeight={previewHeight} overflowY="scroll">
-            <ReactMarkdown components={ChakraUIRenderer()} children={watch(formDetails.id)} skipHtml />
+            <ReactMarkdown components={RemarkUIRenderer()} children={watch(formDetails.id)} skipHtml />
           </Box>
         </TabPanel>
       </TabPanels>

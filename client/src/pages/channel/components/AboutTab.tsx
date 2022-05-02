@@ -2,30 +2,33 @@ import {
   Box,
   Button,
   Flex,
+  HStack,
   Menu,
   MenuButton,
   MenuDivider,
   MenuItem,
   MenuList,
   Skeleton,
+  SkeletonCircle,
   Stat,
   StatHelpText,
   StatLabel,
   StatNumber,
   Text,
+  useBreakpointValue,
   useColorModeValue,
   useDisclosure,
   useToast,
   VStack
 } from '@chakra-ui/react'
 import { ChannelView } from '@triszt4n/remark-types'
-import ChakraUIRenderer from 'chakra-ui-markdown-renderer'
 import { FC } from 'react'
 import { FaChevronDown, FaEdit, FaTrashAlt, FaUserPlus } from 'react-icons/fa'
 import ReactMarkdown from 'react-markdown'
 import { useMutation } from 'react-query'
 import { useNavigate } from 'react-router-dom'
 import { channelModule } from '../../../api/modules/channel.module'
+import { RemarkUIRenderer } from '../../../assets/remark-ui-renderer'
 import { toDateString, toReadableNumber } from '../../../util/core-util-functions'
 import { AddModeratorModal } from './AddModeratorModal'
 import { ModeratorsSection } from './moderator/ModeratorsSection'
@@ -40,6 +43,7 @@ export const AboutTab: FC<Props> = ({ channelId, isLoading, channel }) => {
   const navigate = useNavigate()
   const toast = useToast()
   const dangerColor = useColorModeValue('red.600', 'red.400')
+  const circleSize = useBreakpointValue({ base: '10', md: '14' })
   const { isOpen, onOpen: onModeratorAddPressed, onClose } = useDisclosure()
 
   const mutation = useMutation(channelModule.deleteChannel, {
@@ -83,20 +87,18 @@ export const AboutTab: FC<Props> = ({ channelId, isLoading, channel }) => {
 
   if (isLoading) {
     return (
-      <>
-        <Flex flexDir={{ base: 'column', md: 'row' }} mb={2}>
-          <Stat borderWidth="1px" borderRadius="lg" p={4} flex={1}>
-            <StatLabel>Channel</StatLabel>
-            <Skeleton height="2rem" width="80%" />
-            <Skeleton height="1rem" width="70%" mt={2} />
-          </Stat>
-          <Stat borderWidth="1px" borderRadius="lg" p={4} flex={1} mt={{ base: 2, md: 0 }} ml={{ base: 0, md: 2 }}>
-            <StatLabel>Statistics</StatLabel>
-            <Skeleton height="2rem" width="80%" />
-            <Skeleton height="1rem" width="70%" mt={2} />
-          </Stat>
-        </Flex>
-        <Box borderWidth="1px" borderRadius="lg" p={4}>
+      <VStack spacing={14} align="stretch">
+        <Stat>
+          <StatLabel>Channel</StatLabel>
+          <Skeleton height="2rem" width="80%" />
+          <Skeleton height="1rem" width="70%" mt={2} />
+        </Stat>
+        <Stat>
+          <StatLabel>Statistics</StatLabel>
+          <Skeleton height="2rem" width="80%" />
+          <Skeleton height="1rem" width="70%" mt={2} />
+        </Stat>
+        <Box>
           <Text fontSize="sm">Description</Text>
           <Skeleton height="2rem" width="60%" mt={4} />
           <Skeleton height="1rem" width="100%" mt={2} />
@@ -104,7 +106,20 @@ export const AboutTab: FC<Props> = ({ channelId, isLoading, channel }) => {
           <Skeleton height="1rem" width="100%" mt={4} />
           <Skeleton height="1rem" width="30%" mt={2} />
         </Box>
-      </>
+        <Box>
+          <Text fontSize="sm" mb={2}>
+            Moderators
+          </Text>
+          <HStack spacing={4} p={2}>
+            <SkeletonCircle size={circleSize} />
+            <Skeleton height="2rem" width="60%" mt={4} />
+          </HStack>
+          <HStack spacing={4} p={2}>
+            <SkeletonCircle size={circleSize} />
+            <Skeleton height="2rem" width="60%" mt={4} />
+          </HStack>
+        </Box>
+      </VStack>
     )
   }
 
@@ -113,11 +128,11 @@ export const AboutTab: FC<Props> = ({ channelId, isLoading, channel }) => {
       <Flex flexDir={{ base: 'column-reverse', sm: 'row' }}>
         <Stat flex={1}>
           <StatLabel>Channel</StatLabel>
-          <StatNumber>{channel!!.title}</StatNumber>
-          <StatHelpText>channel founded {toDateString(channel!!.createdAt)}</StatHelpText>
+          <StatNumber>{channel?.title}</StatNumber>
+          <StatHelpText>channel founded {toDateString(channel?.createdAt || 0)}</StatHelpText>
         </Stat>
         <Flex justifyContent="end" ml={2}>
-          {channel!!.amIOwner && (
+          {channel?.amIOwner && (
             <Menu>
               <MenuButton as={Button} rightIcon={<FaChevronDown />} colorScheme="theme">
                 Actions
@@ -126,11 +141,9 @@ export const AboutTab: FC<Props> = ({ channelId, isLoading, channel }) => {
                 <MenuItem icon={<FaEdit />} onClick={onEditPressed}>
                   Edit channel
                 </MenuItem>
-                {channel!!.amIOwner && (
-                  <MenuItem icon={<FaUserPlus />} onClick={onModeratorAddPressed}>
-                    Add moderator
-                  </MenuItem>
-                )}
+                <MenuItem icon={<FaUserPlus />} onClick={onModeratorAddPressed}>
+                  Add moderator
+                </MenuItem>
                 <MenuDivider />
                 <MenuItem color={dangerColor} icon={<FaTrashAlt />} onClick={onDeletePressed}>
                   Delete channel
@@ -142,15 +155,15 @@ export const AboutTab: FC<Props> = ({ channelId, isLoading, channel }) => {
       </Flex>
       <Stat mt={{ base: 2, md: 0 }} ml={{ base: 0, md: 2 }}>
         <StatLabel>Statistics</StatLabel>
-        <StatNumber>{toReadableNumber(channel!!.postsCount)} posts in channel</StatNumber>
-        <StatHelpText>{toReadableNumber(channel!!.joinCount)} users joined</StatHelpText>
+        <StatNumber>{toReadableNumber(channel?.postsCount || 0)} posts in channel</StatNumber>
+        <StatHelpText>{toReadableNumber(channel?.joinCount || 0)} users joined</StatHelpText>
       </Stat>
       <Box>
         <Text fontSize="sm">Description</Text>
-        <ReactMarkdown components={ChakraUIRenderer()} children={channel!!.descRawMarkdown} skipHtml />
+        <ReactMarkdown components={RemarkUIRenderer()} children={channel?.descRawMarkdown || ''} skipHtml />
       </Box>
       <Box>
-        <ModeratorsSection channelId={channelId} amIOwner={channel!!.amIOwner} />
+        <ModeratorsSection channelId={channelId} amIOwner={channel?.amIOwner} />
       </Box>
       <AddModeratorModal channel={channel!!} isOpen={isOpen} onClose={onClose} />
     </VStack>

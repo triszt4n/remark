@@ -2,6 +2,7 @@ import { AzureFunction, Context } from '@azure/functions'
 import { fetchCosmosContainer, fetchCosmosDatabase } from '../lib/dbConfig'
 import { createQueryCommentsOfPostId, createQueryPostVotesByPostId } from '../lib/dbQueries'
 import { CommentResource, PostResource, PostVoteResource } from '../lib/model'
+import { fetchBlobContainer } from '../lib/storageConfig'
 
 type DeletedPostResource = PostResource & { isDeleted?: boolean }
 
@@ -15,6 +16,7 @@ const cosmosDBTrigger: AzureFunction = async function (context: Context, documen
   const postsContainer = fetchCosmosContainer(database, 'Posts')
   const postVotesContainer = fetchCosmosContainer(database, 'PostVotes')
   const commentsContainer = fetchCosmosContainer(database, 'Comments')
+  const blobContainer = fetchBlobContainer('remark-post-images')
 
   await Promise.all(
     documents
@@ -33,6 +35,12 @@ const cosmosDBTrigger: AzureFunction = async function (context: Context, documen
           .query<PostVoteResource>(createQueryPostVotesByPostId(post.id))
           .fetchAll()
         await Promise.all(postVotes.map(async (postVote) => postVotesContainer.item(postVote.id, postVote.id).delete()))
+
+        // If image given, delete it
+        if (post.imageUrl) {
+          const blobName = post.imageUrl.split('/').pop()
+          await blobContainer.getBlockBlobClient(blobName).delete()
+        }
 
         // Delete post
         return postsContainer.item(post.id, post.id).delete()

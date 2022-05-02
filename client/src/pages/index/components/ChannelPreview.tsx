@@ -1,4 +1,4 @@
-import { Badge, Box, Button, Heading, HStack, LinkBox, LinkOverlay, Spacer, useBreakpointValue } from '@chakra-ui/react'
+import { Badge, Box, Button, Heading, HStack, LinkBox, LinkOverlay, useBreakpointValue } from '@chakra-ui/react'
 import { ChannelView } from '@triszt4n/remark-types'
 import { FC } from 'react'
 import { FaCheck, FaPlus } from 'react-icons/fa'
@@ -32,26 +32,27 @@ export const ChannelPreview: FC<Props> = ({ channel, onJoinPressed, isSendLoadin
           </Box>
         </Box>
       </HStack>
-      <HStack spacing={2}>
-        <Box fontSize="sm">
+      <HStack flexWrap="wrap">
+        <Box fontSize="sm" py={2}>
           <Box>
             Founded <time dateTime={new Date(channel.createdAt).toISOString()}>{toRelativeDateString(channel.createdAt)}</time>
           </Box>
           <Box>{channel.postsCount} posts published</Box>
         </Box>
-        <Spacer />
-        <Box>
-          <strong>{toReadableNumber(channel.joinCount)}</strong> joined
-        </Box>
-        <Button
-          leftIcon={channel.amIJoined ? <FaCheck /> : <FaPlus />}
-          colorScheme="theme"
-          variant={channel.amIJoined ? 'outline' : 'solid'}
-          onClick={() => onJoinPressed(channel)}
-          isLoading={isSendLoading}
-        >
-          {channel.amIJoined ? 'Joined' : 'Join'}
-        </Button>
+        <HStack spacing={3} flex={1} justifyContent="flex-end">
+          <Box>
+            <strong>{toReadableNumber(channel.joinCount)}</strong>&nbsp;joined
+          </Box>
+          <Button
+            leftIcon={channel.amIJoined ? <FaCheck /> : <FaPlus />}
+            colorScheme="theme"
+            variant={channel.amIJoined ? 'outline' : 'solid'}
+            onClick={() => onJoinPressed(channel)}
+            isLoading={isSendLoading}
+          >
+            {channel.amIJoined ? 'Joined' : 'Join'}
+          </Button>
+        </HStack>
       </HStack>
     </LinkBox>
   )

@@ -15,7 +15,6 @@ export type PostPreviewProps = {
 }
 
 export const PostPreview: FC<PostPreviewProps> = ({ post }) => {
-  const targetPath = `/posts/${post.id}`
   const toast = useToast()
   const navigate = useNavigate()
   const { isLoggedIn } = useAuthContext()
@@ -67,7 +66,7 @@ export const PostPreview: FC<PostPreviewProps> = ({ post }) => {
             post={post}
             onUpvotePressed={onUpvotePressed}
             onDownvotePressed={onDownvotePressed}
-            targetPath={targetPath}
+            targetPath={`/posts/${post.id}`}
             isSendLoading={voteMutation.isLoading}
           />
         ),
@@ -76,7 +75,7 @@ export const PostPreview: FC<PostPreviewProps> = ({ post }) => {
             post={post}
             onUpvotePressed={onUpvotePressed}
             onDownvotePressed={onDownvotePressed}
-            targetPath={targetPath}
+            targetPath={`/posts/${post.id}`}
             isSendLoading={voteMutation.isLoading}
           />
         )

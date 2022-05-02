@@ -16,7 +16,6 @@ import {
   useToast
 } from '@chakra-ui/react'
 import { CommentView, PostView } from '@triszt4n/remark-types'
-import ChakraUIRenderer from 'chakra-ui-markdown-renderer'
 import { FC } from 'react'
 import { FaEdit, FaEllipsisV, FaTrashAlt } from 'react-icons/fa'
 import ReactMarkdown from 'react-markdown'
@@ -24,6 +23,7 @@ import { useMutation } from 'react-query'
 import { useNavigate } from 'react-router-dom'
 import { useAuthContext } from '../../../../api/contexts/auth/useAuthContext'
 import { commentModule } from '../../../../api/modules/comment.module'
+import { RemarkUIRenderer } from '../../../../assets/remark-ui-renderer'
 import { RLink } from '../../../../components/commons/RLink'
 import { FailedVotingModal } from '../../../../components/voting/FailedVotingModal'
 import { VoteButtons } from '../../../../components/voting/VoteButtons'
@@ -143,7 +143,7 @@ export const CommentItem: FC<Props> = ({ comment, post }) => {
             </HStack>
           </Badge>
         )}
-        <ReactMarkdown components={ChakraUIRenderer()} children={rawMarkdown} skipHtml />
+        <ReactMarkdown components={RemarkUIRenderer()} children={rawMarkdown} skipHtml />
         <HStack spacing={2} my={2}>
           <VoteButtons
             voteCount={voteCount}
