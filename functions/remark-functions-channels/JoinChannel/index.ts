@@ -106,10 +106,10 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
   // Removing moderator if in the channel
   // todo: Optimize with parallel processing
   const indexOfModerator = channel.moderatorIds.indexOf(user.id)
+  let updatedChannel: ChannelResource | undefined = undefined
   if (indexOfModerator != -1) {
     channel.moderatorIds.splice(indexOfModerator, 1)
-    const { resource: updatedChannel } = await channelItem.replace<ChannelResource>(channel)
-    context.res.body.channel = updatedChannel
+    updatedChannel = (await channelItem.replace<ChannelResource>(channel)).resource
   }
 
   // Apply changes
@@ -121,6 +121,8 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
       context.res = await tryCreatingJoin(channelJoinsContainer, id, user, channelJoin)
       break
   }
+
+  context.res.body.channel = updatedChannel || channel
 }
 
 export default httpTrigger
