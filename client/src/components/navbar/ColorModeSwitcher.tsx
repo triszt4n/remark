@@ -1,5 +1,5 @@
 import { IconButton, IconButtonProps, useColorMode, useColorModeValue } from '@chakra-ui/react'
-import React, { FC } from 'react'
+import { FC } from 'react'
 import { FaMoon } from 'react-icons/fa'
 import { FiSun } from 'react-icons/fi'
 
