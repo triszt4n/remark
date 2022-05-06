@@ -3,4 +3,6 @@ export interface NotificationView {
   createdAt: number
   messageTitle: string
   messageBody: string
+  isSent: boolean
+  userId: string
 }
