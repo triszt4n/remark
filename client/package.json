@@ -11,7 +11,7 @@
     "@emotion/styled": "11.8.1",
     "@fontsource/inter": "4.5.10",
     "@microsoft/signalr": "6.0.4",
-    "@triszt4n/remark-types": "1.1.0",
+    "@triszt4n/remark-types": "1.1.2",
     "axios": "0.27.2",
     "chakra-ui-markdown-renderer": "4.0.0",
     "date-fns": "2.28.0",
