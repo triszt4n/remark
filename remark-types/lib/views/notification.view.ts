@@ -6,3 +6,10 @@ export interface NotificationView {
   isSent: boolean
   userId: string
 }
+
+// todo: message should be an object
+export interface CreateNotificationView {
+  messageTitle: string
+  messageBody: string
+  userId: string
+}
