@@ -1,7 +1,7 @@
 import { AzureFunction, Context, HttpRequest } from '@azure/functions'
 import { readUserFromAuthHeader } from '@triszt4n/remark-auth'
 import { fetchCosmosContainer, fetchCosmosDatabase } from '../lib/dbConfig'
-import { createQueryLatestUnsentNotificationsOfUser } from '../lib/dbQueries'
+import { createQueryNotificationsOfUser } from '../lib/dbQueries'
 import { NotificationResource } from '../lib/model'
 
 const httpTrigger: AzureFunction = async function (context: Context, req: HttpRequest): Promise<void> {
@@ -19,7 +19,7 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
   const database = fetchCosmosDatabase()
   const notificationsContainer = fetchCosmosContainer(database, 'Notifications')
   const { resources: unsents } = await notificationsContainer.items
-    .query<NotificationResource>(createQueryLatestUnsentNotificationsOfUser(user.id))
+    .query<NotificationResource>(createQueryNotificationsOfUser(user.id, 'UNSENT'))
     .fetchAll()
 
   context.res = {

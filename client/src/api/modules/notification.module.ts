@@ -8,11 +8,11 @@ class NotificationModule {
   }
 
   async updateUnsentsToSent(notificationIds: string[]) {
-    return axios.patch<{ updatedCount: number }>(`/notifications/notifications/unsent-to-sent`, { notificationIds })
+    return axios.patch<{ updatedCount: number }>(`/notifications/notifications/to-sent`, { notificationIds })
   }
 
   async clearSentNotifications(notificationIds: string[]) {
-    return axios.delete<{ deletedCount: number }>(`/notifications/notifications/sents`, { data: { notificationIds } })
+    return axios.delete<{ deletedCount: number }>(`/notifications/notifications`, { data: { notificationIds } })
   }
 }
 

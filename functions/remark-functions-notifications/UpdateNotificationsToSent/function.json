@@ -5,8 +5,8 @@
       "type": "httpTrigger",
       "direction": "in",
       "name": "req",
-      "methods": ["delete"],
-      "route": "notifications/sents"
+      "methods": ["patch"],
+      "route": "notifications/to-sent"
     },
     {
       "type": "http",
@@ -14,5 +14,5 @@
       "name": "res"
     }
   ],
-  "scriptFile": "../dist/DeleteSentNotifications/index.js"
+  "scriptFile": "../dist/UpdateUnsentToSent/index.js"
 }

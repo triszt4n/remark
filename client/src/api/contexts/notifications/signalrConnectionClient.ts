@@ -1,6 +1,8 @@
-import { HubConnectionBuilder, LogLevel } from '@microsoft/signalr'
+import { HubConnection, HubConnectionBuilder, LogLevel } from '@microsoft/signalr'
 
-export const signalrConnection = new HubConnectionBuilder()
-  .withUrl('/notifhub')
-  .configureLogging(process.env.NODE_ENV == 'production' ? LogLevel.Information : LogLevel.Debug)
-  .build()
+export const fetchSignalrConnection = (): HubConnection => {
+  return new HubConnectionBuilder()
+    .withUrl('http://localhost:7071/api')
+    .configureLogging(process.env.NODE_ENV == 'production' ? LogLevel.Information : LogLevel.Debug)
+    .build()
+}

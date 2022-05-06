@@ -1,11 +1,18 @@
 {
   "bindings": [
     {
-      "name": "mySbMsg",
+      "name": "queueItem",
       "type": "serviceBusTrigger",
       "direction": "in",
-      "queueName": "remark-input-queue",
+      "queueName": "remark-queue",
       "connection": "SERVICE_BUS_CONNECTION_STRING"
+    },
+    {
+      "type": "signalR",
+      "name": "signalRMessages",
+      "hubName": "remark",
+      "connectionStringSetting": "SIGNALR_CONNECTION_STRING",
+      "direction": "out"
     }
   ],
   "scriptFile": "../dist/CreateNotificationServiceBusQueueTrigger/index.js"

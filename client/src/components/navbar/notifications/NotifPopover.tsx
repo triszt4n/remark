@@ -35,7 +35,9 @@ export const NotifPopover: FC<Props> = ({}) => {
       id: '1',
       messageTitle: 'Chakra is going live',
       messageBody: 'Chakra is going live, make it a big hit with us!',
-      createdAt: 1651707100000
+      createdAt: 1651707100000,
+      userId: 'asd',
+      isSent: true
     }
   ]
   const onTriggerPressed = () => {

@@ -5,7 +5,7 @@ import { useQuery } from 'react-query'
 import { useLocalStorage } from '../../hooks/useLocalStorage'
 import { notificationModule } from '../../modules/notification.module'
 import { LocalStorageKeys } from '../LocalStorageKeys'
-import { signalrConnection } from './signalrConnectionClient'
+import { fetchSignalrConnection } from './signalrConnectionClient'
 
 export type NotificationsContextType = {
   notifications: NotificationView[]
@@ -33,6 +33,7 @@ export const NotificationsProvider: FC = ({ children }) => {
     []
   )
   const [notifications, setNotifications] = useState<NotificationView[]>(storedNotifications)
+  const signalrConnection = fetchSignalrConnection()
 
   const attachToNotifications = (notifs?: NotificationView[]) => {
     if (!notifs) return

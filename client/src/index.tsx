@@ -6,6 +6,7 @@ import { ReactQueryDevtools } from 'react-query/devtools'
 import { BrowserRouter } from 'react-router-dom'
 import { AuthProvider } from './api/contexts/auth/AuthContext'
 import { CookieConsentProvider } from './api/contexts/cookie-consent/CookieConsentContext'
+import { NotificationsProvider } from './api/contexts/notifications/NotificationsContext'
 import { App } from './App'
 import customTheme from './assets/theme'
 import { initAxios, queryClient } from './util/query-client'
@@ -20,8 +21,10 @@ ReactDOM.render(
         <QueryClientProvider client={queryClient}>
           <BrowserRouter>
             <AuthProvider>
-              <App />
-              <ReactQueryDevtools />
+              <NotificationsProvider>
+                <App />
+                <ReactQueryDevtools />
+              </NotificationsProvider>
             </AuthProvider>
           </BrowserRouter>
         </QueryClientProvider>

@@ -10,22 +10,24 @@ export const createQueryNotificationsInIds = (notificationIds: string[]): SqlQue
   ]
 })
 
-export const createQueryLatestUnsentNotificationsOfUser = (userId: string): SqlQuerySpec => ({
-  query: 'SELECT * FROM Notifications n WHERE n.userId = @userId AND NOT n.isSent',
-  parameters: [
-    {
-      name: '@userId',
-      value: userId
-    }
-  ]
-})
-
-export const createQuerySentNotificationsOfUser = (userId: string): SqlQuerySpec => ({
-  query: 'SELECT * FROM Notifications n WHERE n.userId = @userId AND n.isSent',
-  parameters: [
-    {
-      name: '@userId',
-      value: userId
-    }
-  ]
-})
+type SentStatus = 'UNSENT' | 'SENT' | 'DONTCARE'
+export const createQueryNotificationsOfUser = (userId: string, sentStatus: SentStatus = 'DONTCARE'): SqlQuerySpec => {
+  let sendQueryPartial = ''
+  switch (sentStatus) {
+    case 'SENT':
+      sendQueryPartial = ' AND n.isSent'
+      break
+    case 'UNSENT':
+      sendQueryPartial = ' AND NOT n.isSent'
+      break
+  }
+  return {
+    query: `SELECT * FROM Notifications n WHERE n.userId = @userId${sendQueryPartial}`,
+    parameters: [
+      {
+        name: '@userId',
+        value: userId
+      }
+    ]
+  }
+}

@@ -1,7 +1,9 @@
 import { AzureFunction, Context, HttpRequest } from '@azure/functions'
+import { ServiceBusMessage } from '@azure/service-bus'
 import { CreateNotificationView, NotificationModel } from '@triszt4n/remark-types'
 import { fetchCosmosContainer, fetchCosmosDatabase } from '../lib/dbConfig'
 import { validateInput } from '../lib/model'
+import { fetchServiceBus } from '../lib/serviceBusConfig'
 
 const httpTrigger: AzureFunction = async function (context: Context, req: HttpRequest): Promise<void> {
   if (!req.body) {
@@ -35,6 +37,19 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
 
   context.res = {
     body: notification
+  }
+
+  // Send it to Service Bus
+  const notifMessage: ServiceBusMessage = {
+    body: notification
+  }
+  const { serviceBusClient, serviceBusSender } = fetchServiceBus()
+
+  try {
+    await serviceBusSender.sendMessages(notifMessage)
+    await serviceBusSender.close()
+  } finally {
+    await serviceBusClient.close()
   }
 }
 
