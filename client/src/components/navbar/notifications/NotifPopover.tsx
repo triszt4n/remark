@@ -71,19 +71,25 @@ export const NotifPopover: FC<Props> = ({}) => {
         {isLoggedIn ? (
           <>
             <PopoverBody overflowY="auto" py={3}>
-              <VStack alignItems="stretch" spacing={3} divider={<StackDivider borderColor={dividerColor} />}>
-                {notifications.map((notif) => (
-                  <NotificationItem key={notif.id} notif={notif} />
-                ))}
-              </VStack>
+              {notifications.length > 0 ? (
+                <VStack alignItems="stretch" spacing={3} divider={<StackDivider borderColor={dividerColor} />}>
+                  {notifications.map((notif) => (
+                    <NotificationItem key={notif.id} notif={notif} />
+                  ))}
+                </VStack>
+              ) : (
+                <Box fontStyle="italic" p={2}>
+                  Your inbox is empty...
+                </Box>
+              )}
             </PopoverBody>
             <PopoverFooter display="flex" justifyContent="end">
               <Button
                 colorScheme="themeHelper"
-                size="sm"
                 variant="outline"
                 leftIcon={<FaTrashAlt />}
                 isLoading={clearLoading}
+                disabled={notifications.length === 0}
                 onClick={onClearPressed}
               >
                 Clear all
