@@ -15,10 +15,12 @@ export const NotificationItem: FC<Props> = ({ notif: { messageTitle, messageBody
     <VStack alignItems="stretch">
       <HStack flexWrap="wrap" justifyContent="space-between">
         <Box fontWeight={700}>{messageTitle}</Box>
-        <HStack fontSize="xs" flex={1} justifyContent="end">
-          <Box>{toRelativeDateString(createdAt)}</Box>
-          <Icon as={FaRegPaperPlane} />
-        </HStack>
+        <Box flex={1}>
+          <HStack fontSize="xs" justifyContent="end">
+            <Box>{toRelativeDateString(createdAt)}</Box>
+            <Icon as={FaRegPaperPlane} />
+          </HStack>
+        </Box>
       </HStack>
       <Box fontSize="sm">
         <ReactMarkdown components={RemarkUIRenderer()} children={messageBody} skipHtml />

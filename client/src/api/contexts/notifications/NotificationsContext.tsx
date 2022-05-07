@@ -30,6 +30,7 @@ export const NotificationsProvider: FC = ({ children }) => {
   const toast = useToast()
   const [notifications, setNotifications] = useState<NotificationView[]>([])
   const [showNotificationCircle, setShowNotificationCircle] = useState<boolean>(false)
+
   const signalrConnection = fetchSignalrConnection()
   const mutation = useMutation(notificationModule.clearNotifications, {
     onSuccess: ({ data: { deletedIds } }) => {
@@ -57,9 +58,11 @@ export const NotificationsProvider: FC = ({ children }) => {
       // start the new connection
       await signalrConnection.start()
       // on my messages, I will send to the others
-      signalrConnection.on(`notif:${userId}`, (notification: NotificationView) => {
-        attachToNotifications([notification])
-        setShowNotificationCircle(true)
+      signalrConnection.on(`newNotification`, (notification: NotificationView) => {
+        if (notification.userId == userId) {
+          attachToNotifications([notification])
+          setShowNotificationCircle(true)
+        }
       })
       rconsole.log('SignalR Connected!', signalrConnection.connectionId)
     } catch (err) {
@@ -88,6 +91,7 @@ export const NotificationsProvider: FC = ({ children }) => {
   const startNotificationReception = async (user: UserView) => {
     const notifs = await notificationModule.fetchNotifications()
     setNotifications(notifs)
+    setShowNotificationCircle(true)
     await startConnection(user.id)
   }
 
