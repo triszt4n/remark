@@ -1,0 +1,15 @@
+{
+  "bindings": [
+    {
+      "type": "cosmosDBTrigger",
+      "name": "documents",
+      "direction": "in",
+      "leaseCollectionName": "leases",
+      "connectionStringSetting": "remarkcosmosdb_DOCUMENTDB",
+      "databaseName": "RemarkDatabase",
+      "collectionName": "Comments",
+      "createLeaseCollectionIfNotExists": true
+    }
+  ],
+  "scriptFile": "../dist/CreateCommentCosmosTrigger/index.js"
+}
