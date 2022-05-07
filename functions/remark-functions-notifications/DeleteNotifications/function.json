@@ -14,5 +14,5 @@
       "name": "res"
     }
   ],
-  "scriptFile": "../dist/DeleteSentNotifications/index.js"
+  "scriptFile": "../dist/DeleteNotifications/index.js"
 }
