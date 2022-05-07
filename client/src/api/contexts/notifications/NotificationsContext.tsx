@@ -72,6 +72,8 @@ export const NotificationsProvider: FC = ({ children }) => {
     try {
       // stop the connection
       await signalrConnection.stop()
+      setNotifications([])
+      setShowNotificationCircle(false)
       rconsole.log('SignalR Disconnected!')
     } catch (err) {
       rconsole.log(err)
