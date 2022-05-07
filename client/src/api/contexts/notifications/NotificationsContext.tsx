@@ -93,7 +93,7 @@ export const NotificationsProvider: FC = ({ children }) => {
   const startNotificationReception = async (user: UserView) => {
     const notifs = await notificationModule.fetchNotifications()
     setNotifications(notifs)
-    setShowNotificationCircle(true)
+    setShowNotificationCircle(notifs.length > 0)
     await startConnection(user.id)
   }
 

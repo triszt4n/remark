@@ -1,4 +1,4 @@
-import { Box, Button, Center, Flex, useToast, VStack } from '@chakra-ui/react'
+import { Box, Button, Center, Flex, Heading, useToast, VStack } from '@chakra-ui/react'
 import { ChannelView } from '@triszt4n/remark-types'
 import { FC } from 'react'
 import { FaPlus } from 'react-icons/fa'
@@ -63,6 +63,9 @@ export const IndexPage: FC = () => {
 
   return (
     <>
+      <Box pb={10}>
+        <Heading size="4xl">Channels</Heading>
+      </Box>
       {isLoggedIn && (
         <Flex justifyContent="end" mb={3}>
           <Button leftIcon={<FaPlus />} colorScheme="themeHelper" onClick={onCreateChannelPressed}>
