@@ -1,6 +1,6 @@
 import { useToast } from '@chakra-ui/react'
 import { NotificationView, UserView } from '@triszt4n/remark-types'
-import { createContext, FC, useState } from 'react'
+import { createContext, Dispatch, FC, SetStateAction, useState } from 'react'
 import { useMutation } from 'react-query'
 import { rconsole } from '../../../util/remark-console'
 import { notificationModule } from '../../modules/notification.module'
@@ -12,6 +12,8 @@ export type NotificationsContextType = {
   stopNotificationReception: () => Promise<void>
   clearNotifications: () => void
   clearLoading: boolean
+  showNotificationCircle: boolean
+  setShowNotificationCircle: Dispatch<SetStateAction<boolean>>
 }
 
 export const NotificationsContext = createContext<NotificationsContextType>({
@@ -19,12 +21,15 @@ export const NotificationsContext = createContext<NotificationsContextType>({
   startNotificationReception: async () => {},
   stopNotificationReception: async () => {},
   clearNotifications: () => {},
-  clearLoading: false
+  clearLoading: false,
+  showNotificationCircle: false,
+  setShowNotificationCircle: () => {}
 })
 
 export const NotificationsProvider: FC = ({ children }) => {
   const toast = useToast()
   const [notifications, setNotifications] = useState<NotificationView[]>([])
+  const [showNotificationCircle, setShowNotificationCircle] = useState<boolean>(false)
   const signalrConnection = fetchSignalrConnection()
   const mutation = useMutation(notificationModule.clearNotifications, {
     onSuccess: ({ data: { deletedIds } }) => {
@@ -54,6 +59,7 @@ export const NotificationsProvider: FC = ({ children }) => {
       // on my messages, I will send to the others
       signalrConnection.on(`notif:${userId}`, (notification: NotificationView) => {
         attachToNotifications([notification])
+        setShowNotificationCircle(true)
       })
       rconsole.log('SignalR Connected!', signalrConnection.connectionId)
     } catch (err) {
@@ -94,7 +100,9 @@ export const NotificationsProvider: FC = ({ children }) => {
         startNotificationReception,
         stopNotificationReception,
         clearNotifications,
-        clearLoading: mutation.isLoading
+        clearLoading: mutation.isLoading,
+        showNotificationCircle,
+        setShowNotificationCircle
       }}
     >
       {children}

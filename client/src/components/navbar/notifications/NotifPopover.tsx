@@ -31,7 +31,15 @@ const CircleIcon = createIcon({
 
 export const NotifPopover: FC<Props> = ({}) => {
   const { isLoggedIn, loggedInUser } = useAuthContext()
-  const { startNotificationReception, stopNotificationReception, notifications, clearNotifications, clearLoading } = useNotifContext()
+  const {
+    startNotificationReception,
+    stopNotificationReception,
+    notifications,
+    clearNotifications,
+    clearLoading,
+    showNotificationCircle,
+    setShowNotificationCircle
+  } = useNotifContext()
   useEffect(() => {
     if (isLoggedIn && loggedInUser) {
       startNotificationReception(loggedInUser)
@@ -41,41 +49,50 @@ export const NotifPopover: FC<Props> = ({}) => {
   }, [isLoggedIn])
 
   const dividerColor = useColorModeValue('gray.200', 'gray.600')
-  const onTriggerPressed = () => {
+  const onOpenPopover = () => {
+    setShowNotificationCircle(false)
+  }
+  const onClearPressed = () => {
     clearNotifications()
   }
 
   return (
-    <Popover placement="bottom-end" closeOnBlur={true}>
+    <Popover placement="bottom-end" closeOnBlur={true} onOpen={onOpenPopover}>
       <PopoverTrigger>
         <Box position="relative">
-          <IconButton
-            size="md"
-            fontSize={{ base: 'xl', md: '2xl' }}
-            variant="ghost"
-            onClick={onTriggerPressed}
-            icon={<FaBell />}
-            aria-label="Notifications popup"
-          />
-          <CircleIcon position="absolute" right={0.5} top={0.5} color="theme.400" />
+          <IconButton size="md" fontSize={{ base: 'xl', md: '2xl' }} variant="ghost" icon={<FaBell />} aria-label="Notifications popup" />
+          {showNotificationCircle && <CircleIcon position="absolute" right={0.5} top={0.5} color="theme.400" />}
         </Box>
       </PopoverTrigger>
       <PopoverContent maxHeight="80vh">
         <PopoverHeader fontWeight={700}>Notifications</PopoverHeader>
         <PopoverArrow />
         <PopoverCloseButton />
-        <PopoverBody overflowY="auto" py={3}>
-          <VStack alignItems="stretch" spacing={3} divider={<StackDivider borderColor={dividerColor} />}>
-            {notifications.map((notif) => (
-              <NotificationItem key={notif.id} notif={notif} />
-            ))}
-          </VStack>
-        </PopoverBody>
-        <PopoverFooter display="flex" justifyContent="end">
-          <Button colorScheme="themeHelper" size="sm" variant="outline" leftIcon={<FaTrashAlt />} isLoading={clearLoading}>
-            Clear all
-          </Button>
-        </PopoverFooter>
+        {isLoggedIn ? (
+          <>
+            <PopoverBody overflowY="auto" py={3}>
+              <VStack alignItems="stretch" spacing={3} divider={<StackDivider borderColor={dividerColor} />}>
+                {notifications.map((notif) => (
+                  <NotificationItem key={notif.id} notif={notif} />
+                ))}
+              </VStack>
+            </PopoverBody>
+            <PopoverFooter display="flex" justifyContent="end">
+              <Button
+                colorScheme="themeHelper"
+                size="sm"
+                variant="outline"
+                leftIcon={<FaTrashAlt />}
+                isLoading={clearLoading}
+                onClick={onClearPressed}
+              >
+                Clear all
+              </Button>
+            </PopoverFooter>
+          </>
+        ) : (
+          <PopoverBody py={3}>You are not logged in yet</PopoverBody>
+        )}
       </PopoverContent>
     </Popover>
   )
