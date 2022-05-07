@@ -58,51 +58,53 @@ export const NotifPopover: FC<Props> = ({}) => {
   }
 
   return (
-    <Popover placement="bottom-end" closeOnBlur={true} onOpen={onOpenPopover}>
-      <PopoverTrigger>
-        <Box position="relative">
-          <IconButton size="md" fontSize={{ base: 'xl', md: '2xl' }} variant="ghost" icon={<FaBell />} aria-label="Notifications popup" />
-          {showNotificationCircle && <CircleIcon position="absolute" right={0.5} top={0.5} color="theme.400" />}
-        </Box>
-      </PopoverTrigger>
-      <PopoverContent maxHeight="80vh">
-        <PopoverHeader fontWeight={700}>Notifications</PopoverHeader>
-        <PopoverArrow />
-        <PopoverCloseButton />
-        {isLoggedIn ? (
-          <>
-            <PopoverBody overflowY="auto" py={3}>
-              {notifications.length > 0 ? (
-                <Box>
-                  <VStack alignItems="stretch" spacing={3} divider={<StackDivider borderColor={dividerColor} />}>
-                    {notifications.map((notif) => (
-                      <NotificationItem key={notif.id} notif={notif} />
-                    ))}
-                  </VStack>
-                </Box>
-              ) : (
-                <Box fontStyle="italic" p={2}>
-                  Your inbox is empty...
-                </Box>
-              )}
-            </PopoverBody>
-            <PopoverFooter display="flex" justifyContent="end">
-              <Button
-                colorScheme="themeHelper"
-                variant="outline"
-                leftIcon={<FaTrashAlt />}
-                isLoading={clearLoading}
-                disabled={notifications.length === 0}
-                onClick={onClearPressed}
-              >
-                Clear all
-              </Button>
-            </PopoverFooter>
-          </>
-        ) : (
-          <PopoverBody py={3}>You are not logged in yet</PopoverBody>
-        )}
-      </PopoverContent>
-    </Popover>
+    <Box>
+      <Popover placement="bottom-end" closeOnBlur={true} onOpen={onOpenPopover}>
+        <PopoverTrigger>
+          <Box position="relative">
+            <IconButton size="md" fontSize={{ base: 'xl', md: '2xl' }} variant="ghost" icon={<FaBell />} aria-label="Notifications popup" />
+            {showNotificationCircle && <CircleIcon position="absolute" right={0.5} top={0.5} color="theme.400" />}
+          </Box>
+        </PopoverTrigger>
+        <PopoverContent maxHeight="80vh">
+          <PopoverHeader fontWeight={700}>Notifications</PopoverHeader>
+          <PopoverArrow />
+          <PopoverCloseButton />
+          {isLoggedIn ? (
+            <>
+              <PopoverBody overflowY="auto" py={3}>
+                {notifications.length > 0 ? (
+                  <Box>
+                    <VStack alignItems="stretch" spacing={3} divider={<StackDivider borderColor={dividerColor} />}>
+                      {notifications.map((notif) => (
+                        <NotificationItem key={notif.id} notif={notif} />
+                      ))}
+                    </VStack>
+                  </Box>
+                ) : (
+                  <Box fontStyle="italic" p={2}>
+                    Your inbox is empty...
+                  </Box>
+                )}
+              </PopoverBody>
+              <PopoverFooter display="flex" justifyContent="end">
+                <Button
+                  colorScheme="themeHelper"
+                  variant="outline"
+                  leftIcon={<FaTrashAlt />}
+                  isLoading={clearLoading}
+                  disabled={notifications.length === 0}
+                  onClick={onClearPressed}
+                >
+                  Clear all
+                </Button>
+              </PopoverFooter>
+            </>
+          ) : (
+            <PopoverBody py={3}>You are not logged in yet</PopoverBody>
+          )}
+        </PopoverContent>
+      </Popover>
+    </Box>
   )
 }
