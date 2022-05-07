@@ -10,7 +10,9 @@ const createNotifications = async (database: Database, forUserId: string, ownerU
   const notificationsContainer = fetchCosmosContainer(database, 'Notifications')
   await notificationsContainer.items.create<NotificationModel>({
     createdAt: +new Date(),
-    messageBody: `You've been made a moderator of ch/${channel.uriName} by the owner u/${ownerUsername}.`,
+    messageBody:
+      `You've been made a moderator of [ch/${channel.uriName}](/ch/${channel.uriName}) ` +
+      `by the owner [u/${ownerUsername}](/u/${ownerUsername}).`,
     messageTitle: "You've been promoted to moderator",
     userId: forUserId,
     isSent: false

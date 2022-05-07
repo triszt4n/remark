@@ -9,7 +9,9 @@ const createNotifications = async (database: Database, forUserId: string, ownerU
   const notificationsContainer = fetchCosmosContainer(database, 'Notifications')
   await notificationsContainer.items.create<NotificationModel>({
     createdAt: +new Date(),
-    messageBody: `You've been demoted from moderator privileges from ch/${channel.uriName} by the owner u/${ownerUsername}.`,
+    messageBody:
+      `You've been demoted from moderator privileges in [ch/${channel.uriName}](/ch/${channel.uriName}) ` +
+      `by the owner [u/${ownerUsername}](/u/${ownerUsername}).`,
     messageTitle: 'Your moderator privilege has been revoked',
     userId: forUserId,
     isSent: false

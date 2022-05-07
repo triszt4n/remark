@@ -30,7 +30,10 @@ const cosmosDBTrigger: AzureFunction = async function (context: Context, documen
           }
           return await notificationsContainer.items.create<NotificationModel>({
             createdAt: +new Date(),
-            messageBody: `There's a new post titled "${post.title}", published by u/${publisherUser.username} in ch/${channel.uriName}. Check it out!`,
+            messageBody:
+              `There's a new post titled [${post.title}](/posts/${post.id}), ` +
+              `published by [u/${publisherUser.username}](/u/${publisherUser.username}) ` +
+              `in [ch/${channel.uriName}](/ch/${channel.uriName}). Check it out!`,
             messageTitle,
             userId: join.userId,
             isSent: false

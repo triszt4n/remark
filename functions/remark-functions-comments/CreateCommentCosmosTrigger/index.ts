@@ -12,10 +12,12 @@ const cosmosDBTrigger: AzureFunction = async function (context: Context, documen
   await Promise.all(
     documents.map(async (comment) => {
       const { resource: parentPost } = await postsContainer.item(comment.parentPostId, comment.parentPostId).read<PostResource>()
-      const { resource: posterUser } = await usersContainer.item(comment.publisherId, comment.publisherId).read<UserResource>()
+      const { resource: commenterUser } = await usersContainer.item(comment.publisherId, comment.publisherId).read<UserResource>()
       await notificationsContainer.items.create<NotificationModel>({
         createdAt: +new Date(),
-        messageBody: `Your post posts/${parentPost.id} received a comment by u/${posterUser.username}.`,
+        messageBody:
+          `Your post titled [${parentPost.title}](/posts/${parentPost.id}) received a comment by ` +
+          `[u/${commenterUser.username}](/u/${commenterUser.username}).`,
         messageTitle: 'Someone commented on your post',
         userId: parentPost.publisherId,
         isSent: false

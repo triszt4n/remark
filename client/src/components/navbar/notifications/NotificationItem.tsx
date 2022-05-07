@@ -2,6 +2,8 @@ import { Box, HStack, Icon, VStack } from '@chakra-ui/react'
 import { NotificationView } from '@triszt4n/remark-types'
 import { FC } from 'react'
 import { FaRegPaperPlane } from 'react-icons/fa'
+import ReactMarkdown from 'react-markdown'
+import { RemarkUIRenderer } from '../../../assets/remark-ui-renderer'
 import { toRelativeDateString } from '../../../util/core-util-functions'
 
 type Props = {
@@ -18,7 +20,9 @@ export const NotificationItem: FC<Props> = ({ notif: { messageTitle, messageBody
           <Icon as={FaRegPaperPlane} />
         </HStack>
       </HStack>
-      <Box fontSize="sm">{messageBody}</Box>
+      <Box fontSize="sm">
+        <ReactMarkdown components={RemarkUIRenderer()} children={messageBody} skipHtml />
+      </Box>
     </VStack>
   )
 }

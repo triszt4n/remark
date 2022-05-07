@@ -104,7 +104,7 @@ export const CommentItem: FC<Props> = ({ comment, post }) => {
   }
 
   return (
-    <Box as="article">
+    <Box as="article" id={comment.id}>
       <HStack spacing={2} fontSize={{ base: 'xs', sm: 'sm' }} mb={1}>
         <Avatar
           name={`${comment.publisher.firstName} ${user.lastName}`}

@@ -15,7 +15,9 @@ const cosmosDBTrigger: AzureFunction = async function (context: Context, documen
       const { resource: joinedUser } = await usersContainer.item(join.userId, join.userId).read<UserResource>()
       await notificationsContainer.items.create<NotificationModel>({
         createdAt: +new Date(),
-        messageBody: `Your channel ch/${channel.uriName} celebrates a new join by u/${joinedUser.username}.`,
+        messageBody:
+          `Your channel [ch/${channel.uriName}](/ch/${channel.uriName}) ` +
+          `celebrates a new join by [u/${joinedUser.username}](/u/${joinedUser.username}).`,
         messageTitle: 'Someone joined your channel',
         userId: channel.ownerId,
         isSent: false

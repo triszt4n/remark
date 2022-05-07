@@ -15,9 +15,10 @@ const cosmosDBTrigger: AzureFunction = async function (context: Context, documen
       const { resource: voterUser } = await usersContainer.item(vote.userId, vote.userId).read<UserResource>()
       await notificationsContainer.items.create<NotificationModel>({
         createdAt: +new Date(),
-        messageBody: `Your post "${post.title}" under posts/${post.id} received an ${vote.isUpvote ? 'upvote' : 'downvote'} by u/${
-          voterUser.username
-        }.`,
+        messageBody:
+          `Your post [${post.title}](/posts/${post.id}) ` +
+          `received an ${vote.isUpvote ? 'upvote' : 'downvote'} ` +
+          `by [u/${voterUser.username}](u/${voterUser.username}).`,
         messageTitle: 'Someone voted on your post',
         userId: post.publisherId,
         isSent: false

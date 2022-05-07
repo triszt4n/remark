@@ -40,13 +40,14 @@ export const NotifPopover: FC<Props> = ({}) => {
     showNotificationCircle,
     setShowNotificationCircle
   } = useNotifContext()
+
   useEffect(() => {
-    if (isLoggedIn && loggedInUser) {
+    if (loggedInUser) {
       startNotificationReception(loggedInUser)
     } else {
       stopNotificationReception()
     }
-  }, [isLoggedIn])
+  }, [loggedInUser])
 
   const dividerColor = useColorModeValue('gray.200', 'gray.600')
   const onOpenPopover = () => {
@@ -72,11 +73,13 @@ export const NotifPopover: FC<Props> = ({}) => {
           <>
             <PopoverBody overflowY="auto" py={3}>
               {notifications.length > 0 ? (
-                <VStack alignItems="stretch" spacing={3} divider={<StackDivider borderColor={dividerColor} />}>
-                  {notifications.map((notif) => (
-                    <NotificationItem key={notif.id} notif={notif} />
-                  ))}
-                </VStack>
+                <Box>
+                  <VStack alignItems="stretch" spacing={3} divider={<StackDivider borderColor={dividerColor} />}>
+                    {notifications.map((notif) => (
+                      <NotificationItem key={notif.id} notif={notif} />
+                    ))}
+                  </VStack>
+                </Box>
               ) : (
                 <Box fontStyle="italic" p={2}>
                   Your inbox is empty...
