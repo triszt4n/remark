@@ -1,7 +1,20 @@
+import { Database } from '@azure/cosmos'
 import { AzureFunction, Context, HttpRequest } from '@azure/functions'
 import { readUserFromAuthHeader } from '@triszt4n/remark-auth'
+import { NotificationModel } from '@triszt4n/remark-types'
 import { fetchCosmosContainer, fetchCosmosDatabase } from '../lib/dbConfig'
 import { ChannelResource } from '../lib/model'
+
+const createNotifications = async (database: Database, forUserId: string, ownerUsername: string, channel: ChannelResource) => {
+  const notificationsContainer = fetchCosmosContainer(database, 'Notifications')
+  await notificationsContainer.items.create<NotificationModel>({
+    createdAt: +new Date(),
+    messageBody: `You've been demoted from moderator privileges from ch/${channel.uriName} by the owner u/${ownerUsername}.`,
+    messageTitle: 'Your moderator privilege has been revoked',
+    userId: forUserId,
+    isSent: false
+  })
+}
 
 const httpTrigger: AzureFunction = async function (context: Context, req: HttpRequest): Promise<void> {
   const id = context.bindingData.id as string
@@ -55,6 +68,9 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
   context.res = {
     body: updatedChannel
   }
+
+  // Send out notification for moderator
+  await createNotifications(database, moderatorId, user.username, channel)
 }
 
 export default httpTrigger

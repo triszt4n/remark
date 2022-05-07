@@ -1,8 +1,21 @@
+import { Database } from '@azure/cosmos'
 import { AzureFunction, Context, HttpRequest } from '@azure/functions'
 import { readUserFromAuthHeader } from '@triszt4n/remark-auth'
+import { NotificationModel } from '@triszt4n/remark-types'
 import { fetchCosmosContainer, fetchCosmosDatabase } from '../lib/dbConfig'
 import { createQueryExistsJoinOfUserIdAndChannelId, createQueryUserByUsername } from '../lib/dbQueries'
 import { ChannelJoinResource, ChannelResource, UserResource } from '../lib/model'
+
+const createNotifications = async (database: Database, forUserId: string, ownerUsername: string, channel: ChannelResource) => {
+  const notificationsContainer = fetchCosmosContainer(database, 'Notifications')
+  await notificationsContainer.items.create<NotificationModel>({
+    createdAt: +new Date(),
+    messageBody: `You've been made a moderator of ch/${channel.uriName} by the owner u/${ownerUsername}.`,
+    messageTitle: "You've been promoted to moderator",
+    userId: forUserId,
+    isSent: false
+  })
+}
 
 const httpTrigger: AzureFunction = async function (context: Context, req: HttpRequest): Promise<void> {
   const id = context.bindingData.id as string
@@ -82,6 +95,9 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
   context.res = {
     body: updatedChannel
   }
+
+  // Send out notification for moderator
+  await createNotifications(database, moderator.id, user.username, channel)
 }
 
 export default httpTrigger
