@@ -49,8 +49,10 @@ export const NotificationsProvider: FC = ({ children }) => {
     }
   })
 
-  const attachToNotifications = (newNotifications: NotificationView[]) => {
-    setNotifications([...notifications, ...newNotifications])
+  const attachNotification = (notif: NotificationView) => {
+    const newNotifications = [...notifications]
+    newNotifications.push(notif)
+    setNotifications(newNotifications)
   }
 
   const startConnection = async (userId: string) => {
@@ -60,7 +62,7 @@ export const NotificationsProvider: FC = ({ children }) => {
       // on my messages, I will send to the others
       signalrConnection.on(`newNotification`, (notification: NotificationView) => {
         if (notification.userId == userId) {
-          attachToNotifications([notification])
+          attachNotification(notification)
           setShowNotificationCircle(true)
         }
       })
