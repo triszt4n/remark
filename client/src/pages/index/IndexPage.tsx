@@ -71,9 +71,11 @@ export const IndexPage: FC = () => {
         </Flex>
       )}
       <VStack spacing={6} align="stretch">
-        {channels?.map((channel) => (
-          <ChannelPreview key={channel.id} channel={channel} onJoinPressed={onJoinPressed} isSendLoading={mutation.isLoading} />
-        ))}
+        {channels
+          ?.sort((a, b) => b.createdAt - a.createdAt) // desc
+          .map((channel) => (
+            <ChannelPreview key={channel.id} channel={channel} onJoinPressed={onJoinPressed} isSendLoading={mutation.isLoading} />
+          ))}
       </VStack>
     </>
   )

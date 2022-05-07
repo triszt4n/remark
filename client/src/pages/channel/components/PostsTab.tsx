@@ -49,9 +49,11 @@ export const PostsTab: FC<Props> = ({ channel, channelId }) => {
         </Flex>
       )}
       <VStack spacing={6} align="stretch">
-        {posts?.map((post) => (
-          <PostPreview key={post.id} post={post} />
-        ))}
+        {posts
+          ?.sort((a, b) => b.createdAt - a.createdAt) // desc
+          .map((post) => (
+            <PostPreview key={post.id} post={post} />
+          ))}
       </VStack>
     </>
   )

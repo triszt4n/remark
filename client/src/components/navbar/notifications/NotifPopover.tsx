@@ -76,9 +76,11 @@ export const NotifPopover: FC<Props> = ({}) => {
                 {notifications.length > 0 ? (
                   <Box>
                     <VStack alignItems="stretch" spacing={3} divider={<StackDivider borderColor={dividerColor} />}>
-                      {notifications.map((notif) => (
-                        <NotificationItem key={notif.id} notif={notif} />
-                      ))}
+                      {notifications
+                        .sort((a, b) => b.createdAt - a.createdAt) // desc
+                        .map((notif) => (
+                          <NotificationItem key={notif.id} notif={notif} />
+                        ))}
                     </VStack>
                   </Box>
                 ) : (

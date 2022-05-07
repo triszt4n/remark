@@ -37,9 +37,11 @@ export const CommentSection: FC<Props> = ({ postId, post }) => {
   return (
     <>
       <VStack align="stretch" spacing={6} id="comments">
-        {comments?.map((comment) => (
-          <CommentItem post={post} key={comment.id} comment={comment} />
-        ))}
+        {comments
+          ?.sort((a, b) => b.createdAt - a.createdAt) // desc
+          .map((comment) => (
+            <CommentItem post={post} key={comment.id} comment={comment} />
+          ))}
       </VStack>
     </>
   )

@@ -56,9 +56,11 @@ export const CreatedPostsSection: FC<Props> = ({ posts, isLoading, error }) => {
           <Box>No posts found</Box>
         ) : (
           <Box py={3} overflowX="auto" whiteSpace="nowrap">
-            {posts?.map((post) => (
-              <CreatedPost key={post.id} post={post} />
-            ))}
+            {posts
+              ?.sort((a, b) => b.createdAt - a.createdAt) // desc
+              .map((post) => (
+                <CreatedPost key={post.id} post={post} />
+              ))}
           </Box>
         )}
       </Box>

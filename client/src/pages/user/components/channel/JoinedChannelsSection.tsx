@@ -57,9 +57,11 @@ export const JoinedChannelsSection: FC<Props> = ({ channels, isLoading, error, u
           <Box>No channels found</Box>
         ) : (
           <Box py={3} overflowX="auto" whiteSpace="nowrap">
-            {channels?.map((channel) => (
-              <JoinedChannel key={channel.id} channel={channel} userId={userId} />
-            ))}
+            {channels
+              ?.sort((a, b) => b.joinedAt - a.joinedAt) // desc
+              .map((channel) => (
+                <JoinedChannel key={channel.id} channel={channel} userId={userId} />
+              ))}
           </Box>
         )}
       </Box>
