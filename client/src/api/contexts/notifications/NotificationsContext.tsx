@@ -9,7 +9,7 @@ import { fetchSignalrConnection } from './signalrConnectionClient'
 export type NotificationsContextType = {
   notifications: NotificationView[]
   startNotificationReception: (userId: UserView) => Promise<void>
-  stopNotificationReception: () => void
+  stopNotificationReception: () => Promise<void>
   clearNotifications: () => void
   clearLoading: boolean
 }
@@ -17,7 +17,7 @@ export type NotificationsContextType = {
 export const NotificationsContext = createContext<NotificationsContextType>({
   notifications: [],
   startNotificationReception: async () => {},
-  stopNotificationReception: () => {},
+  stopNotificationReception: async () => {},
   clearNotifications: () => {},
   clearLoading: false
 })

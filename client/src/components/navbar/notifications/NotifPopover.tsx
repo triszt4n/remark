@@ -15,9 +15,10 @@ import {
   useColorModeValue,
   VStack
 } from '@chakra-ui/react'
-import { NotificationView } from '@triszt4n/remark-types'
-import { FC } from 'react'
+import { FC, useEffect } from 'react'
 import { FaBell, FaTrashAlt } from 'react-icons/fa'
+import { useAuthContext } from '../../../api/contexts/auth/useAuthContext'
+import { useNotifContext } from '../../../api/contexts/notifications/useNotifContext'
 import { NotificationItem } from './NotificationItem'
 
 type Props = {}
@@ -29,19 +30,19 @@ const CircleIcon = createIcon({
 })
 
 export const NotifPopover: FC<Props> = ({}) => {
-  const dividerColor = useColorModeValue('gray.200', 'gray.600')
-  const notifications: NotificationView[] = [
-    {
-      id: '1',
-      messageTitle: 'Chakra is going live',
-      messageBody: 'Chakra is going live, make it a big hit with us!',
-      createdAt: 1651707100000,
-      userId: 'asd',
-      isSent: true
+  const { isLoggedIn, loggedInUser } = useAuthContext()
+  const { startNotificationReception, stopNotificationReception, notifications, clearNotifications, clearLoading } = useNotifContext()
+  useEffect(() => {
+    if (isLoggedIn && loggedInUser) {
+      startNotificationReception(loggedInUser)
+    } else {
+      stopNotificationReception()
     }
-  ]
+  }, [isLoggedIn])
+
+  const dividerColor = useColorModeValue('gray.200', 'gray.600')
   const onTriggerPressed = () => {
-    // todo: update context, tell the context that the notifications not read should be read
+    clearNotifications()
   }
 
   return (
@@ -71,7 +72,7 @@ export const NotifPopover: FC<Props> = ({}) => {
           </VStack>
         </PopoverBody>
         <PopoverFooter display="flex" justifyContent="end">
-          <Button colorScheme="themeHelper" size="sm" variant="outline" leftIcon={<FaTrashAlt />}>
+          <Button colorScheme="themeHelper" size="sm" variant="outline" leftIcon={<FaTrashAlt />} isLoading={clearLoading}>
             Clear all
           </Button>
         </PopoverFooter>
