@@ -26,12 +26,15 @@ import { ProfilePage } from './pages/user/ProfilePage'
 import { UserPage } from './pages/user/UserPage'
 import { UserProxyPage } from './pages/user/UserProxyPage'
 import { UI_VERSION } from './util/environment'
+import { rconsole } from './util/remark-console'
 
 export const App = () => {
   const { onLogout } = useAuthContext()
   useEffect(() => {
+    const COOKIE_UI_VERSION = Cookies.get(CookieKeys.REMARK_UI_VERSION)
+    rconsole.log('RConsole started...', COOKIE_UI_VERSION)
     // Instantly log out every user on first website load when the UI is updated!
-    if (Cookies.get(CookieKeys.REMARK_UI_VERSION) != UI_VERSION) {
+    if (COOKIE_UI_VERSION != UI_VERSION) {
       onLogout()
       Cookies.set(CookieKeys.REMARK_UI_VERSION, UI_VERSION)
     }

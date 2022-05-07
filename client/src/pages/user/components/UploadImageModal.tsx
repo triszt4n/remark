@@ -6,6 +6,7 @@ import { useMutation } from 'react-query'
 import { useAuthContext } from '../../../api/contexts/auth/useAuthContext'
 import { userModule } from '../../../api/modules/user.module'
 import { FileUpload } from '../../../components/form-elements/FileUpload'
+import { queryClient } from '../../../util/query-client'
 import { rconsole } from '../../../util/remark-console'
 
 type Props = {
@@ -21,10 +22,10 @@ export const UploadImageModal: FC<Props> = ({ isOpen, onClose }) => {
     setError,
     setValue
   } = methods
-  const { loggedInUser, refetchUser } = useAuthContext()
+  const { loggedInUser } = useAuthContext()
   const mutation = useMutation(userModule.uploadProfileImage, {
     onSuccess: () => {
-      refetchUser()
+      queryClient.invalidateQueries('currentUser')
       onCancelPressed()
     },
     onError: (error) => {

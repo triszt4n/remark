@@ -15,7 +15,7 @@ import {
   useColorModeValue,
   VStack
 } from '@chakra-ui/react'
-import { FC } from 'react'
+import { FC, useEffect } from 'react'
 import { FaBell, FaTrashAlt } from 'react-icons/fa'
 import { useAuthContext } from '../../../api/contexts/auth/useAuthContext'
 import { useNotifContext } from '../../../api/contexts/notifications/useNotifContext'
@@ -30,8 +30,16 @@ const CircleIcon = createIcon({
 })
 
 export const NotifPopover: FC<Props> = ({}) => {
-  const { isLoggedIn } = useAuthContext()
-  const { notifications, clearNotifications, clearLoading, showNotificationCircle, setShowNotificationCircle } = useNotifContext()
+  const { isLoggedIn, loggedInUser } = useAuthContext()
+  const {
+    startNotificationReception,
+    stopNotificationReception,
+    notifications,
+    clearNotifications,
+    clearLoading,
+    showNotificationCircle,
+    setShowNotificationCircle
+  } = useNotifContext()
 
   const dividerColor = useColorModeValue('gray.200', 'gray.600')
   const onOpenPopover = () => {
@@ -40,6 +48,14 @@ export const NotifPopover: FC<Props> = ({}) => {
   const onClearPressed = () => {
     clearNotifications()
   }
+
+  useEffect(() => {
+    if (loggedInUser) {
+      startNotificationReception(loggedInUser.id)
+    } else {
+      stopNotificationReception()
+    }
+  }, [loggedInUser])
 
   return (
     <Box>

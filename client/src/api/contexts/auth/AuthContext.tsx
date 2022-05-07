@@ -1,7 +1,7 @@
 import { useToast } from '@chakra-ui/react'
 import { UserView } from '@triszt4n/remark-types'
 import Cookies from 'js-cookie'
-import { createContext, FC, useEffect, useState } from 'react'
+import { createContext, FC, useState } from 'react'
 import { GoogleLoginResponse, GoogleLoginResponseOffline } from 'react-google-login'
 import { useMutation, useQuery } from 'react-query'
 import { useNavigate } from 'react-router-dom'
@@ -19,7 +19,6 @@ export type AuthContextType = {
   onLoginSuccess: (response: GoogleLoginResponseOffline | GoogleLoginResponse) => void
   onLoginFailure: (response: GoogleLoginResponseOffline | GoogleLoginResponse) => void
   onLogout: () => void
-  refetchUser: () => Promise<void>
   loginLoading: boolean
 }
 
@@ -31,7 +30,6 @@ export const AuthContext = createContext<AuthContextType>({
   onLoginSuccess: () => {},
   onLoginFailure: () => {},
   onLogout: () => {},
-  refetchUser: async () => {},
   loginLoading: false
 })
 
@@ -41,23 +39,22 @@ export const AuthProvider: FC = ({ children }) => {
   const { startNotificationReception, stopNotificationReception } = useNotifContext()
 
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(typeof Cookies.get(CookieKeys.REMARK_JWT_TOKEN) !== 'undefined')
-  const queryOptions = { enabled: isLoggedIn }
-  const { isLoading, data: user, error } = useQuery('currentUser', userModule.fetchCurrentUser, queryOptions)
-
-  useEffect(() => {
-    if (user) {
-      startNotificationReception(user)
-    }
-  }, [user])
+  const {
+    isLoading,
+    data: user,
+    error
+  } = useQuery('currentUser', userModule.fetchCurrentUser, {
+    enabled: !!isLoggedIn
+  })
 
   const mutation = useMutation(userModule.loginUser, {
-    onSuccess: ({ data }) => {
+    onSuccess: async ({ data }) => {
       const { jwt, user } = data
       Cookies.set(CookieKeys.REMARK_JWT_TOKEN, jwt, { expires: 2 })
+
+      await queryClient.invalidateQueries('currentUser')
       setIsLoggedIn(true)
-      queryClient.invalidateQueries('currentUser')
       navigate('/profile')
-      startNotificationReception(user)
     },
     onError: (error) => {
       const err = error as any
@@ -92,11 +89,6 @@ export const AuthProvider: FC = ({ children }) => {
     setIsLoggedIn(false)
     queryClient.invalidateQueries('currentUser')
     navigate('/')
-    stopNotificationReception()
-  }
-
-  const refetchUser = async () => {
-    return queryClient.invalidateQueries('currentUser')
   }
 
   return (
@@ -109,7 +101,6 @@ export const AuthProvider: FC = ({ children }) => {
         onLoginSuccess,
         onLoginFailure,
         onLogout,
-        refetchUser,
         loginLoading: mutation.isLoading
       }}
     >

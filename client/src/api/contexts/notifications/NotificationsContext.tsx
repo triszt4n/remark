@@ -1,5 +1,5 @@
 import { useToast } from '@chakra-ui/react'
-import { NotificationView, UserView } from '@triszt4n/remark-types'
+import { NotificationView } from '@triszt4n/remark-types'
 import { createContext, Dispatch, FC, SetStateAction, useState } from 'react'
 import { useMutation } from 'react-query'
 import { rconsole } from '../../../util/remark-console'
@@ -8,7 +8,7 @@ import { fetchSignalrConnection } from './signalrConnectionClient'
 
 export type NotificationsContextType = {
   notifications: NotificationView[]
-  startNotificationReception: (userId: UserView) => Promise<void>
+  startNotificationReception: (userId: string) => Promise<void>
   stopNotificationReception: () => Promise<void>
   clearNotifications: () => void
   clearLoading: boolean
@@ -49,23 +49,18 @@ export const NotificationsProvider: FC = ({ children }) => {
     }
   })
 
-  const attachNotification = (notif: NotificationView) => {
-    const newNotifications = [...notifications]
-    newNotifications.push(notif)
-    setNotifications(newNotifications)
+  const notifHandler = (notification: NotificationView, userId: string) => {
+    if (notification.userId === userId) {
+      rconsole.log('[SIGNALR] Attach happened: ', notifications)
+      setNotifications((oldArray) => [...oldArray, notification])
+      setShowNotificationCircle(true)
+    }
   }
 
   const startConnection = async (userId: string) => {
     try {
-      // start the new connection
       await signalrConnection.start()
-      // on my messages, I will send to the others
-      signalrConnection.on(`newNotification`, (notification: NotificationView) => {
-        if (notification.userId == userId) {
-          attachNotification(notification)
-          setShowNotificationCircle(true)
-        }
-      })
+      signalrConnection.on(`newNotification`, (notif) => notifHandler(notif, userId))
       rconsole.log('SignalR Connected!', signalrConnection.connectionId)
     } catch (err) {
       rconsole.log(err)
@@ -75,7 +70,6 @@ export const NotificationsProvider: FC = ({ children }) => {
 
   const stopConnection = async () => {
     try {
-      // stop the connection
       await signalrConnection.stop()
       setNotifications([])
       setShowNotificationCircle(false)
@@ -90,12 +84,12 @@ export const NotificationsProvider: FC = ({ children }) => {
     mutation.mutate(notifications.map((notif) => notif.id))
   }
 
-  const startNotificationReception = async (user: UserView) => {
-    await startConnection(user.id)
+  const startNotificationReception = async (userId: string) => {
+    await startConnection(userId)
     if (signalrConnection.connectionId) {
-      const notifs = await notificationModule.fetchNotifications()
-      setNotifications(notifs)
-      setShowNotificationCircle(notifs.length > 0)
+      const dbNotifications = await notificationModule.fetchNotifications()
+      setNotifications(dbNotifications || [])
+      setShowNotificationCircle(notifications.length > 0)
     }
   }
 

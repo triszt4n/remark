@@ -21,6 +21,7 @@ import { FaCheck } from 'react-icons/fa'
 import { useMutation } from 'react-query'
 import { useAuthContext } from '../../../api/contexts/auth/useAuthContext'
 import { userModule } from '../../../api/modules/user.module'
+import { queryClient } from '../../../util/query-client'
 import { rconsole } from '../../../util/remark-console'
 
 type Props = {
@@ -36,11 +37,11 @@ export const EditUsernameModal: FC<Props> = ({ isOpen, onClose }) => {
     watch,
     setError
   } = useForm<{ newUsername: string }>({ mode: 'all' })
-  const { loggedInUser, refetchUser } = useAuthContext()
+  const { loggedInUser } = useAuthContext()
 
   const mutation = useMutation(userModule.updateUser, {
     onSuccess: () => {
-      refetchUser()
+      queryClient.invalidateQueries('currentUser')
       onClose()
     },
     onError: (error) => {

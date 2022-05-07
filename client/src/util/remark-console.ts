@@ -1,7 +1,6 @@
 class RemarkConsole {
   log(...messages: any[]): void {
-    const message = '%c[DEBUG] %c'.concat(messages.join(' '))
-    console.debug(message, 'font-weight: 700; color: #bada55;', 'font-weigth: 400; color: #ff9524;')
+    console.log('%c[DEBUG] %c'.concat(messages.join(' ')), 'font-weight: 700; color: #bada55;', 'font-weigth: 400; color: #ff9524;')
   }
 }
 
