@@ -1,7 +1,7 @@
 import { useToast } from '@chakra-ui/react'
 import { UserView } from '@triszt4n/remark-types'
 import Cookies from 'js-cookie'
-import { createContext, FC, useState } from 'react'
+import { createContext, FC, useEffect, useState } from 'react'
 import { GoogleLoginResponse, GoogleLoginResponseOffline } from 'react-google-login'
 import { useMutation, useQuery } from 'react-query'
 import { useNavigate } from 'react-router-dom'
@@ -9,6 +9,7 @@ import { queryClient } from '../../../util/query-client'
 import { rconsole } from '../../../util/remark-console'
 import { userModule } from '../../modules/user.module'
 import { CookieKeys } from '../CookieKeys'
+import { useNotifContext } from '../notifications/useNotifContext'
 
 export type AuthContextType = {
   isLoggedIn: boolean
@@ -37,17 +38,26 @@ export const AuthContext = createContext<AuthContextType>({
 export const AuthProvider: FC = ({ children }) => {
   const toast = useToast()
   const navigate = useNavigate()
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(typeof Cookies.get(CookieKeys.REMARK_JWT_TOKEN) !== 'undefined')
+  const { startNotificationReception, stopNotificationReception } = useNotifContext()
 
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(typeof Cookies.get(CookieKeys.REMARK_JWT_TOKEN) !== 'undefined')
   const queryOptions = { enabled: isLoggedIn }
   const { isLoading, data: user, error } = useQuery('currentUser', userModule.fetchCurrentUser, queryOptions)
+
+  useEffect(() => {
+    if (user) {
+      startNotificationReception(user)
+    }
+  }, [user])
+
   const mutation = useMutation(userModule.loginUser, {
     onSuccess: ({ data }) => {
-      const { jwt } = data
+      const { jwt, user } = data
       Cookies.set(CookieKeys.REMARK_JWT_TOKEN, jwt, { expires: 2 })
       setIsLoggedIn(true)
       queryClient.invalidateQueries('currentUser')
       navigate('/profile')
+      startNotificationReception(user)
     },
     onError: (error) => {
       const err = error as any
@@ -82,6 +92,7 @@ export const AuthProvider: FC = ({ children }) => {
     setIsLoggedIn(false)
     queryClient.invalidateQueries('currentUser')
     navigate('/')
+    stopNotificationReception()
   }
 
   const refetchUser = async () => {

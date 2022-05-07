@@ -20,12 +20,12 @@ ReactDOM.render(
       <CookieConsentProvider>
         <QueryClientProvider client={queryClient}>
           <BrowserRouter>
-            <AuthProvider>
-              <NotificationsProvider>
+            <NotificationsProvider>
+              <AuthProvider>
                 <App />
                 <ReactQueryDevtools />
-              </NotificationsProvider>
-            </AuthProvider>
+              </AuthProvider>
+            </NotificationsProvider>
           </BrowserRouter>
         </QueryClientProvider>
       </CookieConsentProvider>

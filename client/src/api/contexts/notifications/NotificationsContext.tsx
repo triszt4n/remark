@@ -91,10 +91,12 @@ export const NotificationsProvider: FC = ({ children }) => {
   }
 
   const startNotificationReception = async (user: UserView) => {
-    const notifs = await notificationModule.fetchNotifications()
-    setNotifications(notifs)
-    setShowNotificationCircle(notifs.length > 0)
     await startConnection(user.id)
+    if (signalrConnection.connectionId) {
+      const notifs = await notificationModule.fetchNotifications()
+      setNotifications(notifs)
+      setShowNotificationCircle(notifs.length > 0)
+    }
   }
 
   const stopNotificationReception = async () => {
