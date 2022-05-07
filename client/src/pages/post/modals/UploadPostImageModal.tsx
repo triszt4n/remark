@@ -6,6 +6,7 @@ import { useMutation } from 'react-query'
 import { postModule } from '../../../api/modules/post.module'
 import { FileUpload } from '../../../components/form-elements/FileUpload'
 import { queryClient } from '../../../util/query-client'
+import { rconsole } from '../../../util/remark-console'
 
 type Props = {
   postId: string
@@ -29,7 +30,7 @@ export const UploadPostImageModal: FC<Props> = ({ postId, isOpen, onClose }) => 
     },
     onError: (error) => {
       const err = error as any
-      console.log('[DEBUG] Error at uploadPostImage', err.toJSON())
+      rconsole.log('Error at uploadPostImage', err.toJSON())
       setError('files', { type: 'custom', message: err.response.data.message || err.message })
       setValue('files', undefined)
     }

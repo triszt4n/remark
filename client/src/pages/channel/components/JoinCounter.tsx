@@ -7,6 +7,7 @@ import { useAuthContext } from '../../../api/contexts/auth/useAuthContext'
 import { channelModule } from '../../../api/modules/channel.module'
 import { toReadableNumber } from '../../../util/core-util-functions'
 import { queryClient } from '../../../util/query-client'
+import { rconsole } from '../../../util/remark-console'
 
 type Props = {
   channel: ChannelView
@@ -30,7 +31,7 @@ export const JoinCounter: FC<Props> = ({ channel, joinCount }) => {
     },
     onError: (error) => {
       const err = error as any
-      console.log('[DEBUG] Error at joinOrLeaveChannel', err.toJSON())
+      rconsole.log('Error at joinOrLeaveChannel', err.toJSON())
       toast({
         title: 'Error occured when joining or leaving channel',
         description: `${err.response.status} ${err.response.data.message} Try again later.`,

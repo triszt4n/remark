@@ -1,6 +1,7 @@
 import { Box, Heading, Skeleton } from '@chakra-ui/react'
 import { ChannelPartialView } from '@triszt4n/remark-types'
 import { FC } from 'react'
+import { rconsole } from '../../../../util/remark-console'
 import { JoinedChannel } from './JoinedChannel'
 
 type Props = {
@@ -29,7 +30,7 @@ export const JoinedChannelsSection: FC<Props> = ({ channels, isLoading, error, u
   }
 
   if (error) {
-    console.log('[DEBUG] Error at ProfileDetails: JoinedChannelsSection', error)
+    rconsole.log('Error at ProfileDetails: JoinedChannelsSection', error)
     return (
       <>
         <Box>

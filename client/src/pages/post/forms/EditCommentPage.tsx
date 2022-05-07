@@ -10,6 +10,7 @@ import { postModule } from '../../../api/modules/post.module'
 import { PuzzleAnimated } from '../../../components/commons/PuzzleAnimated'
 import { RLink } from '../../../components/commons/RLink'
 import { queryClient } from '../../../util/query-client'
+import { rconsole } from '../../../util/remark-console'
 import { CommentForm } from './CommentForm'
 
 const errorHandler = (error: any) => {
@@ -50,7 +51,7 @@ export const EditCommentPage: FC = () => {
     },
     onError: (error) => {
       const err = error as any
-      console.log('[DEBUG] Error at updateComment', err.toJSON())
+      rconsole.log('Error at updateComment', err.toJSON())
       toast({
         title: 'Error occured when updating comment',
         description: `${err.response.status} ${err.response.data.message} Try again later.`,

@@ -1,89 +1,100 @@
 import { useToast } from '@chakra-ui/react'
-import { NotificationView } from '@triszt4n/remark-types'
-import { createContext, FC, useEffect, useState } from 'react'
-import { useQuery } from 'react-query'
-import { useLocalStorage } from '../../hooks/useLocalStorage'
+import { NotificationView, UserView } from '@triszt4n/remark-types'
+import { createContext, FC, useState } from 'react'
+import { useMutation } from 'react-query'
+import { rconsole } from '../../../util/remark-console'
 import { notificationModule } from '../../modules/notification.module'
-import { LocalStorageKeys } from '../LocalStorageKeys'
 import { fetchSignalrConnection } from './signalrConnectionClient'
 
 export type NotificationsContextType = {
   notifications: NotificationView[]
+  startNotificationReception: (userId: UserView) => Promise<void>
+  stopNotificationReception: () => void
+  clearNotifications: () => void
+  clearLoading: boolean
 }
 
 export const NotificationsContext = createContext<NotificationsContextType>({
-  notifications: []
+  notifications: [],
+  startNotificationReception: async () => {},
+  stopNotificationReception: () => {},
+  clearNotifications: () => {},
+  clearLoading: false
 })
 
 export const NotificationsProvider: FC = ({ children }) => {
   const toast = useToast()
-  const errToast = (err: any) =>
-    toast({
-      title: 'Notifications cannot be retrieved',
-      description: `Error at latestUnsentNotifications ${err?.response.data.message || err.message}`,
-      status: 'error',
-      duration: 5000,
-      isClosable: true
-    })
-
-  const { data: latestUnsentNotifications, error } = useQuery('latestUnsentNotifications', notificationModule.fetchUnsentNotifications)
-
-  const [storedNotifications, setStoredNotifications, resetStoredNotifications] = useLocalStorage<NotificationView[]>(
-    LocalStorageKeys.REMARK_LATEST_NOTIFICATIONS,
-    []
-  )
-  const [notifications, setNotifications] = useState<NotificationView[]>(storedNotifications)
+  const [notifications, setNotifications] = useState<NotificationView[]>([])
   const signalrConnection = fetchSignalrConnection()
-
-  const attachToNotifications = (notifs?: NotificationView[]) => {
-    if (!notifs) return
-
-    let newNotifications = [...notifications]
-    if (latestUnsentNotifications) {
-      newNotifications.push(...latestUnsentNotifications)
+  const mutation = useMutation(notificationModule.clearNotifications, {
+    onSuccess: ({ data: { deletedIds } }) => {
+      const newNotifications = notifications.filter((notif) => !deletedIds.includes(notif.id))
+      setNotifications(newNotifications)
+    },
+    onError: (error) => {
+      const err = error as any
+      rconsole.log('Error at clearNotifications', err.toJSON())
+      toast({
+        title: 'Error occured when clearing notifications',
+        description: `${err.response.status} ${err.response.data.message || err.message} Try again later.`,
+        status: 'error',
+        isClosable: true
+      })
     }
-    setNotifications(newNotifications)
-    setStoredNotifications(newNotifications)
+  })
+
+  const attachToNotifications = (newNotifications: NotificationView[]) => {
+    setNotifications([...notifications, ...newNotifications])
   }
 
-  const updateToSent = async (notifs?: NotificationView[]): Promise<{ updatedCount: number }> => {
-    if (notifs) {
-      const { data } = await notificationModule.updateUnsentsToSent(notifs.map((v) => v.id))
-      return data
-    }
-    return { updatedCount: 0 }
-  }
-
-  const startConnection = async () => {
+  const startConnection = async (userId: string) => {
     try {
+      // start the new connection
       await signalrConnection.start()
-      console.log('[DEBUG] SignalR Connected!', signalrConnection.connectionId)
+      // on my messages, I will send to the others
+      signalrConnection.on(`notif:${userId}`, (notification: NotificationView) => {
+        attachToNotifications([notification])
+      })
+      rconsole.log('SignalR Connected!', signalrConnection.connectionId)
     } catch (err) {
-      console.log(err)
+      rconsole.log(err)
       setTimeout(startConnection, 5000)
     }
   }
 
-  useEffect(() => {
-    signalrConnection.onclose(async () => {
-      await startConnection()
-    })
-  }, [])
-
-  useEffect(() => {
-    if (error) {
-      errToast(error as any)
-    } else {
-      startConnection()
-      attachToNotifications(latestUnsentNotifications)
-      updateToSent(latestUnsentNotifications)
+  const stopConnection = async () => {
+    try {
+      // stop the connection
+      await signalrConnection.stop()
+      rconsole.log('SignalR Disconnected!')
+    } catch (err) {
+      rconsole.log(err)
+      setTimeout(stopConnection, 5000)
     }
-  }, [latestUnsentNotifications])
+  }
+
+  const clearNotifications = () => {
+    mutation.mutate(notifications.map((notif) => notif.id))
+  }
+
+  const startNotificationReception = async (user: UserView) => {
+    const notifs = await notificationModule.fetchNotifications()
+    setNotifications(notifs)
+    await startConnection(user.id)
+  }
+
+  const stopNotificationReception = async () => {
+    await stopConnection()
+  }
 
   return (
     <NotificationsContext.Provider
       value={{
-        notifications
+        notifications,
+        startNotificationReception,
+        stopNotificationReception,
+        clearNotifications,
+        clearLoading: mutation.isLoading
       }}
     >
       {children}

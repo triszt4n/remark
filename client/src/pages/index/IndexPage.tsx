@@ -8,6 +8,7 @@ import { useAuthContext } from '../../api/contexts/auth/useAuthContext'
 import { channelModule } from '../../api/modules/channel.module'
 import { PuzzleAnimated } from '../../components/commons/PuzzleAnimated'
 import { queryClient } from '../../util/query-client'
+import { rconsole } from '../../util/remark-console'
 import { ChannelPreview } from './components/ChannelPreview'
 
 export const IndexPage: FC = () => {
@@ -26,7 +27,7 @@ export const IndexPage: FC = () => {
     },
     onError: (error) => {
       const err = error as any
-      console.log('[DEBUG] Error at joinOrLeaveChannel', err.toJSON())
+      rconsole.log('Error at joinOrLeaveChannel', err.toJSON())
       toast({
         title: 'Error occured when joining or leaving channel',
         description: `${err.response.status} ${err.response.data.message || err.message} Try again later.`,
@@ -49,7 +50,7 @@ export const IndexPage: FC = () => {
   }
 
   if (error) {
-    console.log('[DEBUG] at IndexPage', error)
+    rconsole.log('Error at channels', error)
     const err = error as any
     return (
       <Box width="full">

@@ -18,12 +18,12 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
 
   const database = fetchCosmosDatabase()
   const notificationsContainer = fetchCosmosContainer(database, 'Notifications')
-  const { resources: unsents } = await notificationsContainer.items
-    .query<NotificationResource>(createQueryNotificationsOfUser(user.id, 'UNSENT'))
+  const { resources: notifications } = await notificationsContainer.items
+    .query<NotificationResource>(createQueryNotificationsOfUser(user.id))
     .fetchAll()
 
   context.res = {
-    body: unsents
+    body: notifications
   }
 }
 

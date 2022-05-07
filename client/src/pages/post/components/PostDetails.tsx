@@ -7,6 +7,7 @@ import { useAuthContext } from '../../../api/contexts/auth/useAuthContext'
 import { postModule } from '../../../api/modules/post.module'
 import { FailedVotingModal } from '../../../components/voting/FailedVotingModal'
 import { queryClient } from '../../../util/query-client'
+import { rconsole } from '../../../util/remark-console'
 import { PostDetailsDesktop } from './PostDetailsDesktop'
 import { PostDetailsMobile } from './PostDetailsMobile'
 
@@ -35,7 +36,7 @@ export const PostDetails: FC<Props> = ({ post }) => {
     },
     onError: (error) => {
       const err = error as any
-      console.log('[DEBUG] Error at votePost', err.toJSON())
+      rconsole.log('Error at votePost', err.toJSON())
       toast({
         title: 'Error occured when sending vote',
         description: `${err.response.status} ${err.response.data.message} Try again later.`,

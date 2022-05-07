@@ -5,6 +5,7 @@ import { useMutation } from 'react-query'
 import { Navigate, useNavigate } from 'react-router-dom'
 import { useAuthContext } from '../../../api/contexts/auth/useAuthContext'
 import { channelModule } from '../../../api/modules/channel.module'
+import { rconsole } from '../../../util/remark-console'
 import { ChannelForm } from './ChannelForm'
 
 export const CreateChannelPage: FC = () => {
@@ -17,7 +18,7 @@ export const CreateChannelPage: FC = () => {
     },
     onError: (error) => {
       const err = error as any
-      console.log('[DEBUG] Error at createChannel', err.toJSON())
+      rconsole.log('Error at createChannel', err.toJSON())
       toast({
         title: 'Error occured when creating channel',
         description: `${err.response.status} ${err.response.data.message} Try again later.`,

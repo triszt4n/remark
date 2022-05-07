@@ -30,6 +30,7 @@ import { useNavigate } from 'react-router-dom'
 import { channelModule } from '../../../api/modules/channel.module'
 import { RemarkUIRenderer } from '../../../assets/remark-ui-renderer'
 import { toDateString, toReadableNumber } from '../../../util/core-util-functions'
+import { rconsole } from '../../../util/remark-console'
 import { AddModeratorModal } from './AddModeratorModal'
 import { ModeratorsSection } from './moderator/ModeratorsSection'
 
@@ -68,7 +69,7 @@ export const AboutTab: FC<Props> = ({ channelId, isLoading, channel }) => {
     },
     onError: (error) => {
       const err = error as any
-      console.log('[DEBUG] Error at deleteChannel', err.toJSON())
+      rconsole.log('Error at deleteChannel', err.toJSON())
       toast({
         title: 'Error occured when deleting channel',
         description: `${err.response.status} ${err.response.data.message} Try again later.`,

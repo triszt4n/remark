@@ -5,6 +5,7 @@ import { useMutation, useQuery } from 'react-query'
 import { channelModule } from '../../../../api/modules/channel.module'
 import { toReadableNumber } from '../../../../util/core-util-functions'
 import { queryClient } from '../../../../util/query-client'
+import { rconsole } from '../../../../util/remark-console'
 import { ModeratorItem } from './ModeratorItem'
 import { ModeratorItemLoading } from './ModeratorItemLoading'
 
@@ -23,7 +24,7 @@ export const ModeratorsSection: FC<Props> = ({ channelId, amIOwner }) => {
     },
     onError: (error) => {
       const err = error as any
-      console.log('[DEBUG] Error at removeModeratorFromChannel', err.toJSON())
+      rconsole.log('Error at removeModeratorFromChannel', err.toJSON())
       toast({
         title: 'Error occured when removing a moderator',
         description: `${err.response.status} ${err.response.data.message || err.message} Try again later.`,
@@ -53,7 +54,7 @@ export const ModeratorsSection: FC<Props> = ({ channelId, amIOwner }) => {
   }
 
   if (error) {
-    console.log('[DEBUG] at ChannelPage: ModeratorsTab', error)
+    rconsole.log('Error at ModeratorsSection: channelModerators', error)
     return (
       <Box width="full">
         <Center fontSize="lg">Error when fetching channel's moderators! {(error as any)?.response.data.message}</Center>

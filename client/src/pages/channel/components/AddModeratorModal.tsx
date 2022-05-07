@@ -23,6 +23,7 @@ import { useMutation } from 'react-query'
 import { useAuthContext } from '../../../api/contexts/auth/useAuthContext'
 import { channelModule } from '../../../api/modules/channel.module'
 import { queryClient } from '../../../util/query-client'
+import { rconsole } from '../../../util/remark-console'
 
 type Props = {
   channel: ChannelView
@@ -53,7 +54,7 @@ export const AddModeratorModal: FC<Props> = ({ channel, isOpen, onClose }) => {
     },
     onError: (error) => {
       const err = error as any
-      console.log('[DEBUG] Error at addModeratorToChannel', err.toJSON())
+      rconsole.log('Error at addModeratorToChannel', err.toJSON())
       setError('moderatorUsername', { type: 'custom', message: err.response.data.message })
     }
   })

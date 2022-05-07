@@ -8,6 +8,7 @@ import { useStatefulQuery } from '../../../api/hooks/useStatefulQuery'
 import { channelModule } from '../../../api/modules/channel.module'
 import { postModule } from '../../../api/modules/post.module'
 import { PuzzleAnimated } from '../../../components/commons/PuzzleAnimated'
+import { rconsole } from '../../../util/remark-console'
 import { PostForm } from './PostForm'
 
 export const CreatePostPage: FC = () => {
@@ -58,7 +59,7 @@ export const CreatePostPage: FC = () => {
     },
     onError: (error) => {
       const err = error as any
-      console.log('[DEBUG] Error at createPost', err.toJSON())
+      rconsole.log('Error at createPost', err.toJSON())
       toast({
         title: 'Error occured when creating post',
         description: `${err.response.status} ${err.response.data.message} Try again later.`,

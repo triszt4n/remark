@@ -3,6 +3,7 @@ import { FC } from 'react'
 import { useQuery } from 'react-query'
 import { Navigate, useParams } from 'react-router-dom'
 import { channelModule } from '../../api/modules/channel.module'
+import { rconsole } from '../../util/remark-console'
 import { AboutTab } from './components/AboutTab'
 import { JoinCounter } from './components/JoinCounter'
 import { PostsTab } from './components/PostsTab'
@@ -12,7 +13,7 @@ export const ChannelPage: FC = () => {
   const { isLoading, data: channel, error } = useQuery(['channelInfo', channelId], () => channelModule.fetchChannel(channelId!!))
 
   if (error) {
-    console.log('[DEBUG] at ChannelPage: AboutTab', error)
+    rconsole.log('Error at ChannelPage: channelInfo', error)
     return (
       <Navigate
         replace

@@ -7,6 +7,7 @@ import { useAuthContext } from '../../../../api/contexts/auth/useAuthContext'
 import { channelModule } from '../../../../api/modules/channel.module'
 import { ellipsifyLongText, toReadableNumber, toRelativeDateString } from '../../../../util/core-util-functions'
 import { queryClient } from '../../../../util/query-client'
+import { rconsole } from '../../../../util/remark-console'
 
 type Props = {
   channel: ChannelPartialView
@@ -30,7 +31,7 @@ export const JoinedChannel: FC<Props> = ({ channel, userId }) => {
     },
     onError: (error) => {
       const err = error as any
-      console.log('[DEBUG] Error at joinOrLeaveChannel', err.toJSON())
+      rconsole.log('Error at joinOrLeaveChannel', err.toJSON())
       toast({
         title: 'Error occured when leaving channel',
         description: `${err.response.status} ${err.response.data.message || err.message} Try again later.`,

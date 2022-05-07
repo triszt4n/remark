@@ -43,7 +43,7 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
   await Promise.all(notifs.map(({ id }) => notificationsContainer.item(id, id).delete()))
 
   context.res = {
-    body: { deletedCount: notifs.length }
+    body: { deletedIds: notifs.map((notif) => notif.id) }
   }
 }
 

@@ -5,8 +5,8 @@ const serviceBusQueueTrigger: AzureFunction = async function (context: Context, 
   context.log('[DEBUG] ServiceBus queue trigger function processed message:', queueItem)
   context.bindings.signalRMessages = [
     {
-      target: 'newMessage',
-      arguments: queueItem
+      target: `notif:${queueItem.userId}`,
+      arguments: [queueItem]
     }
   ]
   context.done()

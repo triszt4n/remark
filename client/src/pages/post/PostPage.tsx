@@ -9,6 +9,7 @@ import { commentModule } from '../../api/modules/comment.module'
 import { postModule } from '../../api/modules/post.module'
 import { RemarkEditorLoading } from '../../components/editor/RemarkEditorLoading'
 import { queryClient } from '../../util/query-client'
+import { rconsole } from '../../util/remark-console'
 import { ActionsSection } from './components/ActionsSection'
 import { CommentSection } from './components/CommentSection'
 import { PostDetails } from './components/PostDetails'
@@ -32,7 +33,7 @@ export const PostPage: FC = () => {
     },
     onError: (error) => {
       const err = error as any
-      console.log('[DEBUG] Error at createComment', err.toJSON())
+      rconsole.log('Error at createComment', err.toJSON())
       toast({
         title: 'Error occured when creating comment',
         description: `${err.response.status} ${err.response.data.message} Try again later.`,
@@ -48,7 +49,7 @@ export const PostPage: FC = () => {
   }
 
   if (error) {
-    console.log('[DEBUG] Error at PostPage', error)
+    rconsole.log('Error at PostPage', error)
     return (
       <Navigate
         replace

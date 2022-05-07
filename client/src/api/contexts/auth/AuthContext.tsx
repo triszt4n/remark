@@ -6,6 +6,7 @@ import { GoogleLoginResponse, GoogleLoginResponseOffline } from 'react-google-lo
 import { useMutation, useQuery } from 'react-query'
 import { useNavigate } from 'react-router-dom'
 import { queryClient } from '../../../util/query-client'
+import { rconsole } from '../../../util/remark-console'
 import { userModule } from '../../modules/user.module'
 import { CookieKeys } from '../CookieKeys'
 
@@ -50,7 +51,7 @@ export const AuthProvider: FC = ({ children }) => {
     },
     onError: (error) => {
       const err = error as any
-      console.log('[DEBUG] Error at loginUser', err.toJSON())
+      rconsole.log('Error at loginUser', err.toJSON())
       toast({
         title: 'Error occured when logging in new user',
         description: `${err.response.status} ${err.response.data.message} Try again later.`,
@@ -66,7 +67,7 @@ export const AuthProvider: FC = ({ children }) => {
   }
 
   const onLoginFailure = (response: GoogleLoginResponseOffline | GoogleLoginResponse) => {
-    console.log('[DEBUG] Error at onLoginFailure', JSON.stringify(response, null, 2))
+    rconsole.log('Error at onLoginFailure', JSON.stringify(response, null, 2))
     toast({
       title: 'Authentication error',
       description: 'There was an error while authenticating you at Google!',

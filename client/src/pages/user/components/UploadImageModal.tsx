@@ -6,6 +6,7 @@ import { useMutation } from 'react-query'
 import { useAuthContext } from '../../../api/contexts/auth/useAuthContext'
 import { userModule } from '../../../api/modules/user.module'
 import { FileUpload } from '../../../components/form-elements/FileUpload'
+import { rconsole } from '../../../util/remark-console'
 
 type Props = {
   isOpen: boolean
@@ -28,7 +29,7 @@ export const UploadImageModal: FC<Props> = ({ isOpen, onClose }) => {
     },
     onError: (error) => {
       const err = error as any
-      console.log('[DEBUG] Error at uploadProfileImage', err.toJSON())
+      rconsole.log('Error at uploadProfileImage', err.toJSON())
       setError('files', { type: 'custom', message: err.response.data.message || err.message })
       setValue('files', undefined)
     }

@@ -6,7 +6,7 @@
       "direction": "in",
       "name": "req",
       "methods": ["get"],
-      "route": "notifications/unsents"
+      "route": "notifications"
     },
     {
       "type": "http",
@@ -14,5 +14,5 @@
       "name": "res"
     }
   ],
-  "scriptFile": "../dist/GetUnsentNotifications/index.js"
+  "scriptFile": "../dist/GetNotifications/index.js"
 }

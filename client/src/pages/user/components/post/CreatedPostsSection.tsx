@@ -1,6 +1,7 @@
 import { Box, Heading, Skeleton } from '@chakra-ui/react'
 import { PostPartialView } from '@triszt4n/remark-types'
 import { FC } from 'react'
+import { rconsole } from '../../../../util/remark-console'
 import { CreatedPost } from './CreatedPost'
 
 type Props = {
@@ -28,7 +29,7 @@ export const CreatedPostsSection: FC<Props> = ({ posts, isLoading, error }) => {
   }
 
   if (error) {
-    console.log('[DEBUG] Error at ProfileDetails: CreatedPostsSection', error)
+    rconsole.log('Error at ProfileDetails: CreatedPostsSection', error)
     return (
       <>
         <Box>

@@ -21,6 +21,7 @@ import { FaCheck } from 'react-icons/fa'
 import { useMutation } from 'react-query'
 import { useAuthContext } from '../../../api/contexts/auth/useAuthContext'
 import { userModule } from '../../../api/modules/user.module'
+import { rconsole } from '../../../util/remark-console'
 
 type Props = {
   isOpen: boolean
@@ -44,7 +45,7 @@ export const EditUsernameModal: FC<Props> = ({ isOpen, onClose }) => {
     },
     onError: (error) => {
       const err = error as any
-      console.log('[DEBUG] Error at updateUser', err.toJSON())
+      rconsole.log('Error at updateUser', err.toJSON())
       setError('newUsername', { type: 'custom', message: err.response.data.message })
     }
   })

@@ -7,6 +7,7 @@ import { useAuthContext } from '../../../../api/contexts/auth/useAuthContext'
 import { postModule } from '../../../../api/modules/post.module'
 import { FailedVotingModal } from '../../../../components/voting/FailedVotingModal'
 import { queryClient } from '../../../../util/query-client'
+import { rconsole } from '../../../../util/remark-console'
 import { PostPreviewDesktop } from './PostPreviewDesktop'
 import { PostPreviewMobile } from './PostPreviewMobile'
 
@@ -35,7 +36,7 @@ export const PostPreview: FC<PostPreviewProps> = ({ post }) => {
     },
     onError: (error) => {
       const err = error as any
-      console.log('[DEBUG] Error at votePost', err.toJSON())
+      rconsole.log('Error at votePost', err.toJSON())
       toast({
         title: 'Error occured when sending vote',
         description: `${err.response.status} ${err.response.data.message || err.message} Try again later.`,

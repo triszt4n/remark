@@ -19,6 +19,7 @@ import { useMutation } from 'react-query'
 import { useNavigate } from 'react-router-dom'
 import { postModule } from '../../../api/modules/post.module'
 import { queryClient } from '../../../util/query-client'
+import { rconsole } from '../../../util/remark-console'
 
 type Props = {
   post: PostView
@@ -56,7 +57,7 @@ export const ActionsSection: FC<Props> = ({ post, onUploadImagePressed }) => {
     },
     onError: (error) => {
       const err = error as any
-      console.log('[DEBUG] Error at deletePost', err.toJSON())
+      rconsole.log('Error at deletePost', err.toJSON())
       toast({
         title: 'Error occured when deleting post',
         description: `${err.response.status} ${err.response.data.message} Try again later.`,

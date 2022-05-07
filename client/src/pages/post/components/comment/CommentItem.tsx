@@ -29,6 +29,7 @@ import { FailedVotingModal } from '../../../../components/voting/FailedVotingMod
 import { VoteButtons } from '../../../../components/voting/VoteButtons'
 import { ellipsifyLongText, toDateTimeString, toRelativeDateString } from '../../../../util/core-util-functions'
 import { queryClient } from '../../../../util/query-client'
+import { rconsole } from '../../../../util/remark-console'
 
 type Props = {
   comment: CommentView
@@ -58,7 +59,7 @@ export const CommentItem: FC<Props> = ({ comment, post }) => {
     },
     onError: (error) => {
       const err = error as any
-      console.log('[DEBUG] Error at voteComment', err.toJSON())
+      rconsole.log('Error at voteComment', err.toJSON())
       toast({
         title: 'Error occured when sending vote',
         description: `${err.response.status} ${err.response.data.message} Try again later.`,
@@ -73,7 +74,7 @@ export const CommentItem: FC<Props> = ({ comment, post }) => {
     },
     onError: (error) => {
       const err = error as any
-      console.log('[DEBUG] Error at deleteComment', err.toJSON())
+      rconsole.log('Error at deleteComment', err.toJSON())
       toast({
         title: 'Error occured when deleting comment',
         description: `${err.response.status} ${err.response.data.message} Try again later.`,

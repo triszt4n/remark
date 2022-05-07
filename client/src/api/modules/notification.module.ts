@@ -1,18 +1,15 @@
 import { NotificationView } from '@triszt4n/remark-types'
 import axios from 'axios'
+import { NOTIFICATION_PATH_PREFIX } from './_common'
 
 class NotificationModule {
-  async fetchUnsentNotifications(): Promise<NotificationView[]> {
-    const response = await axios.get<NotificationView[]>(`/notifications/notifications/unsents`)
+  async fetchNotifications(): Promise<NotificationView[]> {
+    const response = await axios.get<NotificationView[]>(`${NOTIFICATION_PATH_PREFIX}/notifications`)
     return response.data
   }
 
-  async updateUnsentsToSent(notificationIds: string[]) {
-    return axios.patch<{ updatedCount: number }>(`/notifications/notifications/to-sent`, { notificationIds })
-  }
-
-  async clearSentNotifications(notificationIds: string[]) {
-    return axios.delete<{ deletedCount: number }>(`/notifications/notifications`, { data: { notificationIds } })
+  async clearNotifications(notificationIds: string[]) {
+    return axios.delete<{ deletedIds: string[] }>(`${NOTIFICATION_PATH_PREFIX}/notifications`, { data: { notificationIds } })
   }
 }
 

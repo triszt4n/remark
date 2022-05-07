@@ -7,6 +7,7 @@ import { useAuthContext } from '../../../api/contexts/auth/useAuthContext'
 import { useStatefulQuery } from '../../../api/hooks/useStatefulQuery'
 import { channelModule } from '../../../api/modules/channel.module'
 import { PuzzleAnimated } from '../../../components/commons/PuzzleAnimated'
+import { rconsole } from '../../../util/remark-console'
 import { ChannelForm } from './ChannelForm'
 
 export const EditChannelPage: FC = () => {
@@ -26,7 +27,7 @@ export const EditChannelPage: FC = () => {
     },
     onError: (error) => {
       const err = error as any
-      console.log('[DEBUG] Error at updateChannel', err.toJSON())
+      rconsole.log('Error at updateChannel', err.toJSON())
       toast({
         title: 'Error occured when updating channel',
         description: `${err.response.status} ${err.response.data.message} Try again later.`,

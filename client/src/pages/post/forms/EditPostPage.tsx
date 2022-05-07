@@ -7,6 +7,7 @@ import { useAuthContext } from '../../../api/contexts/auth/useAuthContext'
 import { useStatefulQuery } from '../../../api/hooks/useStatefulQuery'
 import { postModule } from '../../../api/modules/post.module'
 import { PuzzleAnimated } from '../../../components/commons/PuzzleAnimated'
+import { rconsole } from '../../../util/remark-console'
 import { PostForm } from './PostForm'
 
 export const EditPostPage: FC = () => {
@@ -22,7 +23,7 @@ export const EditPostPage: FC = () => {
     },
     onError: (error) => {
       const err = error as any
-      console.log('[DEBUG] Error at updatePost', err.toJSON())
+      rconsole.log('Error at updatePost', err.toJSON())
       toast({
         title: 'Error occured when updating post',
         description: `${err.response.status} ${err.response.data.message} Try again later.`,

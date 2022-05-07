@@ -6,6 +6,7 @@ import { useQuery } from 'react-query'
 import { useNavigate } from 'react-router-dom'
 import { useAuthContext } from '../../../api/contexts/auth/useAuthContext'
 import { channelModule } from '../../../api/modules/channel.module'
+import { rconsole } from '../../../util/remark-console'
 import { PostPreview } from './post/PostPreview'
 import { PostPreviewLoading } from './post/PostPreviewLoading'
 
@@ -30,7 +31,7 @@ export const PostsTab: FC<Props> = ({ channel, channelId }) => {
   }
 
   if (error) {
-    console.log('[DEBUG] at ChannelPage: PostsTab', error)
+    rconsole.log('Error at PostsTab: channelPosts', error)
     return (
       <Box width="full">
         <Center fontSize="lg">Error when fetching channel's posts! {(error as any)?.response.data.message}</Center>
