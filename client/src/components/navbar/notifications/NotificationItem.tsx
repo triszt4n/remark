@@ -17,7 +17,7 @@ export const NotificationItem: FC<Props> = ({ notif: { messageTitle, messageBody
         <Box fontWeight={700}>{messageTitle}</Box>
         <Box flex={1}>
           <HStack fontSize="xs" justifyContent="end">
-            <Box>{toRelativeDateString(createdAt)}</Box>
+            <Box whiteSpace="nowrap">{toRelativeDateString(createdAt)}</Box>
             <Icon as={FaRegPaperPlane} />
           </HStack>
         </Box>
