@@ -1,0 +1,15 @@
+{
+  "bindings": [
+    {
+      "type": "cosmosDBTrigger",
+      "name": "documents",
+      "direction": "in",
+      "leaseCollectionName": "leases",
+      "connectionStringSetting": "remarkcosmosdb_DOCUMENTDB",
+      "databaseName": "RemarkDatabase",
+      "collectionName": "PostVotes",
+      "createLeaseCollectionIfNotExists": true
+    }
+  ],
+  "scriptFile": "../dist/VotePostCosmosTrigger/index.js"
+}
