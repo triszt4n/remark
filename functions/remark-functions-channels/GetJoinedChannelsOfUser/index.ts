@@ -33,26 +33,26 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
       ).resources[0]
 
       let amIJoined: boolean
+      let joinedAt: number = join.createdAt
       if (!user) {
         amIJoined = false
       } else if (id == user.id) {
         amIJoined = true
       } else {
-        amIJoined =
-          (
-            await channelJoinsContainer.items
-              .query<ChannelJoinResource>(createQueryExistsJoinOfUserIdAndChannelId(user.id, channel.id))
-              .fetchAll()
-          ).resources.length > 0
+        const { resources: requesterJoins } = await channelJoinsContainer.items
+          .query<ChannelJoinResource>(createQueryExistsJoinOfUserIdAndChannelId(user.id, channel.id))
+          .fetchAll()
+        if (requesterJoins.length > 0) {
+          amIJoined = true
+          joinedAt = requesterJoins[0].createdAt
+        }
       }
 
       const returnable: ChannelPartialView = {
-        id: channel.id,
-        uriName: channel.uriName,
-        title: channel.title,
+        ...channel,
         joinCount,
         amIJoined,
-        joinedAt: join.createdAt
+        joinedAt
       }
       return returnable
     })
