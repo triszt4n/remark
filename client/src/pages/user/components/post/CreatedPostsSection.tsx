@@ -1,4 +1,4 @@
-import { Box, Heading, Skeleton } from '@chakra-ui/react'
+import { Box, Flex, Heading, Skeleton } from '@chakra-ui/react'
 import { PostPartialView } from '@triszt4n/remark-types'
 import { FC } from 'react'
 import { rconsole } from '../../../../util/remark-console'
@@ -18,11 +18,11 @@ export const CreatedPostsSection: FC<Props> = ({ posts, isLoading, error }) => {
           <Skeleton width="14rem" height="2.5rem" />
         </Box>
         <Box maxWidth="100%">
-          <Box py={3} overflowX="auto" whiteSpace="nowrap">
+          <Flex py={3} overflowX="auto" flexWrap="nowrap" w="full" alignItems="stretch">
             {[...Array(2)].map((_, index) => (
-              <Skeleton key={index} display="inline-block" mx={1} width="20rem" height="18rem" />
+              <Skeleton key={index} flex="0 0 auto" mx={1} width="20rem" height="16rem" />
             ))}
-          </Box>
+          </Flex>
         </Box>
       </>
     )
@@ -51,19 +51,22 @@ export const CreatedPostsSection: FC<Props> = ({ posts, isLoading, error }) => {
           Posts created
         </Heading>
       </Box>
-      <Box maxWidth="100%">
-        {posts?.length == 0 ? (
-          <Box>No posts found</Box>
-        ) : (
-          <Box py={3} overflowX="auto" whiteSpace="nowrap">
-            {posts
-              ?.sort((a, b) => b.createdAt - a.createdAt) // desc
-              .map((post) => (
-                <CreatedPost key={post.id} post={post} />
-              ))}
-          </Box>
-        )}
-      </Box>
+      {posts?.length == 0 ? (
+        <Box>No posts found</Box>
+      ) : (
+        <Flex py={3} overflowX="auto" flexWrap="nowrap" w="full" alignItems="stretch">
+          {posts
+            ?.sort((a, b) => b.createdAt - a.createdAt) // desc
+            .map((post) => (
+              <CreatedPost key={post.id} post={post} />
+            ))}
+          {posts
+            ?.sort((a, b) => b.createdAt - a.createdAt) // desc
+            .map((post) => (
+              <CreatedPost key={post.id} post={post} />
+            ))}
+        </Flex>
+      )}
     </>
   )
 }

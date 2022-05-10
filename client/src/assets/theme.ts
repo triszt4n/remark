@@ -64,6 +64,13 @@ const customTheme = extendTheme({
       800: '#520028',
       900: '#290014'
     }
+  },
+  components: {
+    Heading: {
+      baseStyle: {
+        letterSpacing: 'tight'
+      }
+    }
   }
 })
 

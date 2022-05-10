@@ -1,11 +1,11 @@
-import { Badge, Box, Button, Code, Heading, LinkBox, LinkOverlay, Text, useToast, VStack } from '@chakra-ui/react'
+import { Badge, Box, Button, Heading, HStack, LinkBox, LinkOverlay, Text, useToast, VStack } from '@chakra-ui/react'
 import { ChannelPartialView } from '@triszt4n/remark-types'
 import { FC } from 'react'
 import { useMutation } from 'react-query'
 import { Link } from 'react-router-dom'
 import { useAuthContext } from '../../../../api/contexts/auth/useAuthContext'
 import { channelModule } from '../../../../api/modules/channel.module'
-import { ellipsifyLongText, toReadableNumber, toRelativeDateString } from '../../../../util/core-util-functions'
+import { toReadableNumber, toRelativeDateString } from '../../../../util/core-util-functions'
 import { queryClient } from '../../../../util/query-client'
 import { rconsole } from '../../../../util/remark-console'
 
@@ -50,22 +50,29 @@ export const JoinedChannel: FC<Props> = ({ channel, userId }) => {
   }
 
   return (
-    <LinkBox display="inline-block" mx={1} borderWidth="1px" borderRadius="md" p={3} w="14rem">
-      <VStack>
-        <Code fontSize="xs">ch/{channel.uriName}</Code>
+    <LinkBox flex="0 0 auto">
+      <VStack justifyContent="space-between" alignItems="stretch" mx={1} borderWidth="1px" borderRadius="md" p={3} w="20rem" h="full">
+        <Box fontSize="xs" color="gray.500" fontWeight={700} letterSpacing="wide" flexWrap="wrap">
+          ch/{channel.uriName}
+        </Box>
         <Heading size="sm">
-          <LinkOverlay as={Link} to={targetPath}>
-            {ellipsifyLongText(channel.title, 32)}
+          <LinkOverlay as={Link} to={targetPath} whiteSpace="break-spaces">
+            {channel.title}
           </LinkOverlay>
         </Heading>
-        <Box>
-          <Badge colorScheme="theme" letterSpacing="wide" fontSize="xs" textTransform="uppercase">
-            {toReadableNumber(channel.joinCount)} joined
-          </Badge>
-        </Box>
-        {isLoggedIn && (
-          <VStack justifyContent="center">
-            <Box>
+        <HStack justifyContent="space-between">
+          <VStack alignItems="start" spacing={0}>
+            <Badge colorScheme="theme" fontSize="sm" textTransform="uppercase">
+              {toReadableNumber(channel.joinCount)} joined
+            </Badge>
+            {isLoggedIn && channel.amIJoined && (
+              <Box fontSize="xs" color="gray.500" fontWeight={700} letterSpacing="wide">
+                <Text fontSize="xs">you joined {toRelativeDateString(channel.joinedAt)}</Text>
+              </Box>
+            )}
+          </VStack>
+          {isLoggedIn && (
+            <Box py={1}>
               <Button
                 size="sm"
                 colorScheme="theme"
@@ -76,11 +83,8 @@ export const JoinedChannel: FC<Props> = ({ channel, userId }) => {
                 {channel.amIJoined ? 'Leave' : 'Join'}
               </Button>
             </Box>
-            <Box>
-              <Text fontSize="xs">joined {toRelativeDateString(channel.joinedAt)}</Text>
-            </Box>
-          </VStack>
-        )}
+          )}
+        </HStack>
       </VStack>
     </LinkBox>
   )

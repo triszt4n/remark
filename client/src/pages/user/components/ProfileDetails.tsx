@@ -12,8 +12,7 @@ import {
   MenuList,
   Tooltip,
   useBreakpointValue,
-  useColorModeValue,
-  VStack
+  useColorModeValue
 } from '@chakra-ui/react'
 import { UserView } from '@triszt4n/remark-types'
 import React, { FC } from 'react'
@@ -49,7 +48,7 @@ export const ProfileDetails: FC<Props> = ({ user, profileOptions }) => {
   } = useQuery(['userPosts', user.id], () => postModule.fetchCreatedPostsOfUser(user.id))
 
   return (
-    <Box>
+    <Box w="100%">
       <HStack flexWrap="wrap" justifyContent="space-between" alignItems="center" mb={5}>
         <HStack flexWrap="wrap" spacing={4}>
           <Avatar size={useBreakpointValue({ base: 'lg', md: 'xl' })} name={`${user.firstName} ${user.lastName}`} src={user.imageUrl} />
@@ -93,22 +92,20 @@ export const ProfileDetails: FC<Props> = ({ user, profileOptions }) => {
           </Flex>
         )}
       </HStack>
-      <VStack align="stretch">
-        <Box>
-          <HStack>
-            <FaAddressCard />
-            <Box>
-              {user.firstName} {user.lastName}
-            </Box>
-          </HStack>
-          <HStack>
-            <FaAt />
-            <Box>{user.email}</Box>
-          </HStack>
-        </Box>
-        <JoinedChannelsSection channels={channels} isLoading={isLoadingChannels} error={errorInChannels} userId={user.id} />
-        <CreatedPostsSection posts={posts} isLoading={isLoadingPosts} error={errorInPosts} />
-      </VStack>
+      <Box>
+        <HStack>
+          <FaAddressCard />
+          <Box>
+            {user.firstName} {user.lastName}
+          </Box>
+        </HStack>
+        <HStack>
+          <FaAt />
+          <Box>{user.email}</Box>
+        </HStack>
+      </Box>
+      <JoinedChannelsSection channels={channels} isLoading={isLoadingChannels} error={errorInChannels} userId={user.id} />
+      <CreatedPostsSection posts={posts} isLoading={isLoadingPosts} error={errorInPosts} />
     </Box>
   )
 }

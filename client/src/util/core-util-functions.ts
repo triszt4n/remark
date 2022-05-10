@@ -18,4 +18,4 @@ export const toDateString = (timestamp: number, options: object = DEFAULT_DATE_O
 export const toDateTimeString = (timestamp: number): string => format(new Date(timestamp), 'MMMM dd, yyyy - HH:mm:ss')
 
 export const ellipsifyLongText = (text: string, maxLength: number = 100): string =>
-  text.substring(0, maxLength - 1) + (text.length > maxLength ? '...' : '')
+  text.substring(0, maxLength - 1) + (text.length > maxLength - 1 ? '...' : '')

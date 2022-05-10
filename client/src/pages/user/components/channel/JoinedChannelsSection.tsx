@@ -1,4 +1,4 @@
-import { Box, Heading, Skeleton } from '@chakra-ui/react'
+import { Box, Flex, Heading, Skeleton } from '@chakra-ui/react'
 import { ChannelPartialView } from '@triszt4n/remark-types'
 import { FC } from 'react'
 import { rconsole } from '../../../../util/remark-console'
@@ -16,14 +16,14 @@ export const JoinedChannelsSection: FC<Props> = ({ channels, isLoading, error, u
     return (
       <>
         <Box py={10}>
-          <Skeleton width="16rem" height="2.5rem" />
+          <Skeleton width="14rem" height="2.5rem" />
         </Box>
         <Box maxWidth="100%">
-          <Box py={3} overflowX="auto" whiteSpace="nowrap">
+          <Flex py={3} overflowX="auto" flexWrap="nowrap" w="full" alignItems="stretch">
             {[...Array(2)].map((_, index) => (
-              <Skeleton key={index} display="inline-block" mx={1} w="14rem" height="10rem" />
+              <Skeleton key={index} flex="0 0 auto" mx={1} w="20rem" height="8rem" />
             ))}
-          </Box>
+          </Flex>
         </Box>
       </>
     )
@@ -52,19 +52,22 @@ export const JoinedChannelsSection: FC<Props> = ({ channels, isLoading, error, u
           Channels joined
         </Heading>
       </Box>
-      <Box maxWidth="100%">
-        {channels?.length == 0 ? (
-          <Box>No channels found</Box>
-        ) : (
-          <Box py={3} overflowX="auto" whiteSpace="nowrap">
-            {channels
-              ?.sort((a, b) => b.joinedAt - a.joinedAt) // desc
-              .map((channel) => (
-                <JoinedChannel key={channel.id} channel={channel} userId={userId} />
-              ))}
-          </Box>
-        )}
-      </Box>
+      {channels?.length == 0 ? (
+        <Box>No channels found</Box>
+      ) : (
+        <Flex py={3} overflowX="auto" flexWrap="nowrap" w="full" alignItems="stretch">
+          {channels
+            ?.sort((a, b) => b.joinedAt - a.joinedAt) // desc
+            .map((channel) => (
+              <JoinedChannel key={channel.id} channel={channel} userId={userId} />
+            ))}
+          {channels
+            ?.sort((a, b) => b.joinedAt - a.joinedAt) // desc
+            .map((channel) => (
+              <JoinedChannel key={channel.id} channel={channel} userId={userId} />
+            ))}
+        </Flex>
+      )}
     </>
   )
 }
