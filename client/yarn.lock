@@ -12156,12 +12156,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-hook-form@npm:7.31.0":
-  version: 7.31.0
-  resolution: "react-hook-form@npm:7.31.0"
+"react-hook-form@npm:7.31.1":
+  version: 7.31.1
+  resolution: "react-hook-form@npm:7.31.1"
   peerDependencies:
     react: ^16.8.0 || ^17 || ^18
-  checksum: 93bb7be0132275d6f3eaec5cfc67c2c2fa8e7eb9d894cc0002212956716f00a12b7ff6d494bb29dc1d58f99a52fbdc44f9ea9c5a615418a6f93487071d04cf9c
+  checksum: c387f81f0a740b610a601e06e148fce1abd466d353c9a5fd05253644d47270b69c8a0278cdc0f28a3adf5bef2c510adb4bcf37269892dc596750af8e8d062fb1
   languageName: node
   linkType: hard
 
@@ -12583,7 +12583,7 @@ __metadata:
     react: 17.0.2
     react-dom: 17.0.2
     react-google-login: 5.2.2
-    react-hook-form: 7.31.0
+    react-hook-form: 7.31.1
     react-icons: 4.3.1
     react-markdown: 8.0.3
     react-query: 3.39.0
