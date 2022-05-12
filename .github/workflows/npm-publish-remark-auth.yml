@@ -1,4 +1,4 @@
-name: Publish remark-auth Package to npmjs
+name: Publish remark-auth
 on:
   push:
     branches:
