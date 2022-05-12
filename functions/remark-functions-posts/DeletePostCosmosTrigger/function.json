@@ -8,7 +8,8 @@
       "connectionStringSetting": "remarkcosmosdb_DOCUMENTDB",
       "databaseName": "RemarkDatabase",
       "collectionName": "Posts",
-      "createLeaseCollectionIfNotExists": true
+      "createLeaseCollectionIfNotExists": true,
+      "leaseCollectionPrefix": "deleted"
     }
   ],
   "scriptFile": "../dist/DeletePostCosmosTrigger/index.js"

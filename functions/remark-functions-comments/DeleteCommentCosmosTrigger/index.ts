@@ -1,9 +1,7 @@
 import { AzureFunction, Context } from '@azure/functions'
 import { fetchCosmosContainer, fetchCosmosDatabase } from '../lib/dbConfig'
 import { createQueryCommentVotesByCommentId } from '../lib/dbQueries'
-import { CommentResource, CommentVoteResource } from '../lib/model'
-
-type DeletedCommentResource = CommentResource & { isDeleted?: boolean }
+import { CommentVoteResource, DeletedCommentResource } from '../lib/model'
 
 const cosmosDBTrigger: AzureFunction = async function (context: Context, documents: DeletedCommentResource[]): Promise<void> {
   if (!documents && documents.length === 0) {
@@ -17,7 +15,7 @@ const cosmosDBTrigger: AzureFunction = async function (context: Context, documen
 
   await Promise.all(
     documents
-      .filter((comment) => comment.isDeleted)
+      .filter((comment) => !!comment.isDeleted)
       .map(async (comment) => {
         // Properly delete comment votes
         const { resources: commentVotes } = await commentVotesContainer.items

@@ -8,7 +8,8 @@
       "connectionStringSetting": "remarkcosmosdb_DOCUMENTDB",
       "databaseName": "RemarkDatabase",
       "collectionName": "Comments",
-      "createLeaseCollectionIfNotExists": true
+      "createLeaseCollectionIfNotExists": true,
+      "leaseCollectionPrefix": "created"
     }
   ],
   "scriptFile": "../dist/CreateCommentCosmosTrigger/index.js"

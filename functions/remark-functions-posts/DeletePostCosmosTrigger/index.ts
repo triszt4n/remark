@@ -1,10 +1,8 @@
 import { AzureFunction, Context } from '@azure/functions'
 import { fetchCosmosContainer, fetchCosmosDatabase } from '../lib/dbConfig'
 import { createQueryCommentsOfPostId, createQueryPostVotesByPostId } from '../lib/dbQueries'
-import { CommentResource, PostResource, PostVoteResource } from '../lib/model'
+import { CommentResource, DeletedPostResource, PostVoteResource } from '../lib/model'
 import { fetchBlobContainer } from '../lib/storageConfig'
-
-type DeletedPostResource = PostResource & { isDeleted?: boolean }
 
 const cosmosDBTrigger: AzureFunction = async function (context: Context, documents: DeletedPostResource[]): Promise<void> {
   if (!documents && documents.length === 0) {
@@ -20,7 +18,7 @@ const cosmosDBTrigger: AzureFunction = async function (context: Context, documen
 
   await Promise.all(
     documents
-      .filter((post) => post.isDeleted)
+      .filter((post) => !!post.isDeleted)
       .map(async (post) => {
         // Soft delete comments of post
         const { resources: comments } = await commentsContainer.items
