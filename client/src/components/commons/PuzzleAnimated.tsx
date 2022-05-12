@@ -9,7 +9,7 @@ type Props = {
   stopAnimation?: boolean
 }
 
-export const PuzzleAnimated: FC<Props> = ({ text, size = 8, stopAnimation = true }) => {
+export const PuzzleAnimated: FC<Props> = ({ text, size = 8, stopAnimation }) => {
   const transition = {
     ease: 'easeInOut',
     repeat: Infinity,
