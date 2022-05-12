@@ -3,7 +3,7 @@ import { PostPartialView } from '@triszt4n/remark-types'
 import { FC } from 'react'
 import { FaChevronRight, FaRegThumbsDown, FaRegThumbsUp } from 'react-icons/fa'
 import ReactMarkdown from 'react-markdown'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { ellipsifyLongText, toRelativeDateString } from '../../../../util/core-util-functions'
 
 type Props = {
@@ -12,6 +12,10 @@ type Props = {
 
 export const CreatedPost: FC<Props> = ({ post }) => {
   const { channel, voteCount, createdAt, id, title, imageUrl, rawMarkdown } = post
+  const navigate = useNavigate()
+  const onReadMore = () => {
+    navigate(`/posts/${id}`)
+  }
 
   return (
     <LinkBox flex="0 0 auto">
@@ -43,7 +47,7 @@ export const CreatedPost: FC<Props> = ({ post }) => {
           <>
             <Spacer />
             <VStack alignItems="end">
-              <Button size="sm" variant="ghost" colorScheme="theme" rightIcon={<FaChevronRight />}>
+              <Button size="sm" variant="ghost" colorScheme="theme" rightIcon={<FaChevronRight />} onClick={onReadMore}>
                 Read more
               </Button>
             </VStack>
