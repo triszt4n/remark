@@ -61,11 +61,6 @@ export const JoinedChannelsSection: FC<Props> = ({ channels, isLoading, error, u
             .map((channel) => (
               <JoinedChannel key={channel.id} channel={channel} userId={userId} />
             ))}
-          {channels
-            ?.sort((a, b) => b.joinedAt - a.joinedAt) // desc
-            .map((channel) => (
-              <JoinedChannel key={channel.id} channel={channel} userId={userId} />
-            ))}
         </Flex>
       )}
     </>

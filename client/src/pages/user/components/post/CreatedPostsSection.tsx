@@ -60,11 +60,6 @@ export const CreatedPostsSection: FC<Props> = ({ posts, isLoading, error }) => {
             .map((post) => (
               <CreatedPost key={post.id} post={post} />
             ))}
-          {posts
-            ?.sort((a, b) => b.createdAt - a.createdAt) // desc
-            .map((post) => (
-              <CreatedPost key={post.id} post={post} />
-            ))}
         </Flex>
       )}
     </>
