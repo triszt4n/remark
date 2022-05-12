@@ -3312,10 +3312,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@triszt4n/remark-types@npm:1.2.0":
-  version: 1.2.0
-  resolution: "@triszt4n/remark-types@npm:1.2.0"
-  checksum: c63e47aa251578d7a0ab5bf1d2891c74676ea72a991805cf737bc3809ac9827eb7970a080808bdac149e54c8846b188a0c13560d2f8acc609d0eaee79d3c760c
+"@triszt4n/remark-types@npm:1.2.1":
+  version: 1.2.1
+  resolution: "@triszt4n/remark-types@npm:1.2.1"
+  checksum: 058eb7aa08dbea5df192fbadaf5f69e2dac3e7333e1c2236896bf3e269480e0056a6461c04ef25ff95d6be32d61af3f1053d8fa14233f717e22938bdcf7d4543
   languageName: node
   linkType: hard
 
@@ -12560,7 +12560,7 @@ __metadata:
     "@emotion/styled": 11.8.1
     "@fontsource/inter": 4.5.10
     "@microsoft/signalr": 6.0.5
-    "@triszt4n/remark-types": 1.2.0
+    "@triszt4n/remark-types": 1.2.1
     "@types/jest": 27.5.1
     "@types/js-cookie": 3.0.2
     "@types/node": 17.0.32
