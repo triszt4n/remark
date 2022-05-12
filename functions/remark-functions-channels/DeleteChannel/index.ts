@@ -37,7 +37,12 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
     }
     return
   }
-  const { resource: deletedChannel } = await channelItem.delete<ChannelResource>()
+
+  // Soft delete channel
+  const { resource: deletedChannel } = await channelItem.replace<ChannelResource & { isDeleted: boolean }>({
+    ...channel,
+    isDeleted: true
+  })
 
   context.res = {
     body: deletedChannel

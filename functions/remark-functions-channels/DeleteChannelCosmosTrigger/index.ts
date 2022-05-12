@@ -20,7 +20,7 @@ const cosmosDBTrigger: AzureFunction = async function (context: Context, documen
 
   await Promise.all(
     documents
-      .filter((channel) => channel.isDeleted)
+      .filter((channel) => !!channel.isDeleted)
       .map(async (channel) => {
         // Soft delete posts of channel
         const { resources: posts } = await postsContainer.items.query<PostResource>(createQueryPostsOfChannel(channel.id)).fetchAll()
