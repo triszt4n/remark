@@ -58,14 +58,16 @@ export const AboutTab: FC<Props> = ({ channelId, isLoading, channel }) => {
       })
     },
     onSuccess: () => {
-      toast({
-        title: 'Action successfully done',
-        description: `Deleting channel was successful! Redirecting to home page.`,
-        status: 'success',
-        isClosable: true,
-        duration: 3000
-      })
-      setTimeout(() => navigate('/'), 2000)
+      setTimeout(() => {
+        toast({
+          title: 'Action successfully done',
+          description: `Deleting channel was successful! Redirecting to home page.`,
+          status: 'success',
+          isClosable: true,
+          duration: 3000
+        })
+        navigate('/')
+      }, 2000)
     },
     onError: (error) => {
       const err = error as any
