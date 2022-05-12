@@ -1,6 +1,6 @@
 {
   "name": "@triszt4n/remark-types",
-  "version": "1.1.2",
+  "version": "1.2.0",
   "description": "Database and frontend view types for the Remark project by triszt4n",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

@@ -30,10 +30,11 @@ export interface ChannelInPostView {
   amIModerator: boolean
 }
 
-export interface CreateChannelView {
-  uriName: string
+export interface UpdateChannelView {
   title: string
   descRawMarkdown: string
 }
 
-export interface UpdateChannelView extends CreateChannelView {}
+export interface CreateChannelView extends UpdateChannelView {
+  uriName: string
+}
