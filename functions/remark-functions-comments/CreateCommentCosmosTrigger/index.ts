@@ -28,8 +28,7 @@ const cosmosDBTrigger: AzureFunction = async function (context: Context, documen
             `Your post titled [${parentPost.title}](/posts/${parentPost.id}) received a comment by ` +
             `[u/${commenterUser.username}](/u/${commenterUser.username}).`,
           messageTitle: 'Someone commented on your post',
-          userId: parentPost.publisherId,
-          isSent: false
+          userId: parentPost.publisherId
         })
       })
   )

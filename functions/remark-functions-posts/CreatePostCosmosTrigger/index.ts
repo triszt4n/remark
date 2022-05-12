@@ -44,8 +44,7 @@ const cosmosDBTrigger: AzureFunction = async function (context: Context, documen
                 `published by [u/${publisherUser.username}](/u/${publisherUser.username}) ` +
                 `in [ch/${channel.uriName}](/ch/${channel.uriName}). Check it out!`,
               messageTitle,
-              userId: join.userId,
-              isSent: false
+              userId: join.userId
             })
           })
         )

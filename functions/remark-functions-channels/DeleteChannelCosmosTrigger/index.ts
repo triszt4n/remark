@@ -40,8 +40,7 @@ const cosmosDBTrigger: AzureFunction = async function (context: Context, documen
                 `The channel ch/${channel.uriName} that you were a joined member of` +
                 `was deleted by the owner. It is not available anymore.`,
               messageTitle: 'One of your joined channels was removed',
-              userId: join.userId,
-              isSent: false
+              userId: join.userId
             })
             // Delete join
             await channelJoinsContainer.item(join.id, join.id).delete<ChannelJoinResource>()

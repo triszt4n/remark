@@ -20,8 +20,7 @@ const cosmosDBTrigger: AzureFunction = async function (context: Context, documen
           `received ${vote.isUpvote ? 'an upvote' : 'a downvote'} ` +
           `by [u/${voterUser.username}](u/${voterUser.username}).`,
         messageTitle: 'Someone voted on your post',
-        userId: post.publisherId,
-        isSent: false
+        userId: post.publisherId
       })
     })
   )

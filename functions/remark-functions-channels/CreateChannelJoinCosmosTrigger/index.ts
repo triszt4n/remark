@@ -24,8 +24,7 @@ const cosmosDBTrigger: AzureFunction = async function (context: Context, documen
           `Your channel [ch/${channel.uriName}](/ch/${channel.uriName}) ` +
           `celebrates a new join by [u/${joinedUser.username}](/u/${joinedUser.username}).`,
         messageTitle: 'Someone joined your channel',
-        userId: channel.ownerId,
-        isSent: false
+        userId: channel.ownerId
       })
     })
   )
