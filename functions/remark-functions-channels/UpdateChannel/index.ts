@@ -19,7 +19,7 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
   const { userFromJwt: user } = result
 
   const inputChannel = req.body as UpdateChannelView
-  const { uriName, title, descRawMarkdown } = inputChannel
+  const { title, descRawMarkdown } = inputChannel
   const isValid = validateInput(inputChannel)
   if (!isValid) {
     context.res = {
@@ -54,7 +54,6 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
   channel = {
     ...channel,
     descRawMarkdown,
-    uriName,
     title
   }
   const { resource: updatedChannel } = await channelItem.replace<ChannelResource>(channel)
