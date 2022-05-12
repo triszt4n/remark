@@ -30,6 +30,7 @@ import { useNavigate } from 'react-router-dom'
 import { channelModule } from '../../../api/modules/channel.module'
 import { RemarkUIRenderer } from '../../../assets/remark-ui-renderer'
 import { toDateString, toReadableNumber } from '../../../util/core-util-functions'
+import { queryClient } from '../../../util/query-client'
 import { rconsole } from '../../../util/remark-console'
 import { AddModeratorModal } from './AddModeratorModal'
 import { ModeratorsSection } from './moderator/ModeratorsSection'
@@ -58,6 +59,7 @@ export const AboutTab: FC<Props> = ({ channelId, isLoading, channel }) => {
       })
     },
     onSuccess: () => {
+      queryClient.invalidateQueries('channels')
       setTimeout(() => {
         toast({
           title: 'Action successfully done',

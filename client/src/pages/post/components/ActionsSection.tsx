@@ -45,6 +45,7 @@ export const ActionsSection: FC<Props> = ({ post, onUploadImagePressed }) => {
       })
     },
     onSuccess: () => {
+      queryClient.invalidateQueries(['channelPosts', post.channel.id])
       setTimeout(() => {
         toast({
           title: 'Action successfully done',
@@ -55,7 +56,6 @@ export const ActionsSection: FC<Props> = ({ post, onUploadImagePressed }) => {
         })
         navigate(`/channels/${post.channel.id}`)
       }, 2000)
-      queryClient.invalidateQueries(['channelPosts', post.channel.id])
     },
     onError: (error) => {
       const err = error as any
