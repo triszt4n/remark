@@ -4,6 +4,11 @@ import { fetchCosmosContainer, fetchCosmosDatabase } from '../lib/dbConfig'
 import { ChannelJoinResource, ChannelResource, UserResource } from '../lib/model'
 
 const cosmosDBTrigger: AzureFunction = async function (context: Context, documents: ChannelJoinResource[]): Promise<void> {
+  if (!documents && documents.length === 0) {
+    context.log('Nothing to process at [CreateChannelJoinCosmosTrigger]')
+    return
+  }
+
   const database = fetchCosmosDatabase()
   const notificationsContainer = fetchCosmosContainer(database, 'Notifications')
   const channelsContainer = fetchCosmosContainer(database, 'Channels')
