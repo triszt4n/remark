@@ -6,10 +6,10 @@ import { useMutation, useQuery } from 'react-query'
 import { useNavigate } from 'react-router-dom'
 import { useAuthContext } from '../../api/contexts/auth/useAuthContext'
 import { channelModule } from '../../api/modules/channel.module'
-import { PuzzleAnimated } from '../../components/commons/PuzzleAnimated'
 import { queryClient } from '../../util/query-client'
 import { rconsole } from '../../util/remark-console'
 import { ChannelPreview } from './components/ChannelPreview'
+import { ChannelPreviewLoading } from './components/ChannelPreviewLoading'
 
 export const IndexPage: FC = () => {
   const { isLoggedIn } = useAuthContext()
@@ -45,10 +45,6 @@ export const IndexPage: FC = () => {
     }
   }
 
-  if (isLoading) {
-    return <PuzzleAnimated text="Loading" />
-  }
-
   if (error) {
     rconsole.log('Error at channels', error)
     const err = error as any
@@ -73,13 +69,21 @@ export const IndexPage: FC = () => {
           </Button>
         </Flex>
       )}
-      <VStack spacing={6} align="stretch">
-        {channels
-          ?.sort((a, b) => b.createdAt - a.createdAt) // desc
-          .map((channel) => (
-            <ChannelPreview key={channel.id} channel={channel} onJoinPressed={onJoinPressed} isSendLoading={mutation.isLoading} />
+      {isLoading ? (
+        <VStack spacing={6} align="stretch">
+          {[...Array(3)].map((_, index) => (
+            <ChannelPreviewLoading key={index} />
           ))}
-      </VStack>
+        </VStack>
+      ) : (
+        <VStack spacing={6} align="stretch">
+          {channels
+            ?.sort((a, b) => b.createdAt - a.createdAt) // desc
+            .map((channel) => (
+              <ChannelPreview key={channel.id} channel={channel} onJoinPressed={onJoinPressed} isSendLoading={mutation.isLoading} />
+            ))}
+        </VStack>
+      )}
     </>
   )
 }
