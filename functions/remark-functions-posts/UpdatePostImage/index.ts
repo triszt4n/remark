@@ -98,11 +98,11 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
     await blobClient.uploadData(parts[0]?.data, options)
     const imageUrl = `https://${process.env.STORAGE_ACCOUNT_NAME}.blob.core.windows.net/${blobContainerName}/${blobName}`
 
-    post = {
+    const { resource: updatedPost } = await postItem.replace<PostResource & { isUpdated: boolean }>({
       ...post,
-      imageUrl
-    }
-    const { resource: updatedPost } = await postItem.replace<PostResource>(post)
+      imageUrl,
+      isUpdated: true
+    })
 
     context.res = {
       body: updatedPost

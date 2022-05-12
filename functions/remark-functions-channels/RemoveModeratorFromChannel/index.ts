@@ -13,8 +13,7 @@ const createNotifications = async (database: Database, forUserId: string, ownerU
       `You've been demoted from moderator privileges in [ch/${channel.uriName}](/ch/${channel.uriName}) ` +
       `by the owner [u/${ownerUsername}](/u/${ownerUsername}).`,
     messageTitle: 'Your moderator privilege has been revoked',
-    userId: forUserId,
-    isSent: false
+    userId: forUserId
   })
 }
 

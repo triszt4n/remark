@@ -2,15 +2,13 @@ import { AzureFunction, Context } from '@azure/functions'
 import { NotificationModel } from '@triszt4n/remark-types'
 import { fetchCosmosContainer, fetchCosmosDatabase } from '../lib/dbConfig'
 import { createQueryChannelJoinsByChannelId } from '../lib/dbQueries'
-import { ChannelJoinResource, ChannelResource, DeletedPostResource, UserResource } from '../lib/model'
+import { ChannelJoinResource, ChannelResource, ModifiedPostResource, UserResource } from '../lib/model'
 
-const cosmosDBTrigger: AzureFunction = async function (context: Context, documents: DeletedPostResource[]): Promise<void> {
+const cosmosDBTrigger: AzureFunction = async function (context: Context, documents: ModifiedPostResource[]): Promise<void> {
   if (!documents && documents.length === 0) {
     context.log('Nothing to process at [CreatePostCosmosTrigger]')
     return
   }
-
-  if (documents.every((post) => !!post.isDeleted)) return // if all deleted, do nothing
 
   const database = fetchCosmosDatabase()
   const notificationsContainer = fetchCosmosContainer(database, 'Notifications')
@@ -20,7 +18,7 @@ const cosmosDBTrigger: AzureFunction = async function (context: Context, documen
 
   await Promise.all(
     documents
-      .filter((post) => !post.isDeleted) // filter for non-deleted
+      .filter((post) => !post.isDeleted && !post.isUpdated) // filter for non-deleted
       .map(async (post) => {
         const { resource: channel } = await channelsContainer.item(post.parentChannelId, post.parentChannelId).read<ChannelResource>()
         const { resource: publisherUser } = await usersContainer.item(post.publisherId, post.publisherId).read<UserResource>()

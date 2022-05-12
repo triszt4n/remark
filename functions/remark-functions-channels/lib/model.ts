@@ -7,10 +7,14 @@ export type ChannelJoinResource = ChannelJoinModel & Resource
 export type UserResource = UserModel & Resource
 export type PostResource = PostModel & Resource
 
-export const validateInput = ({ uriName, title, descRawMarkdown }: UpdateChannelView): boolean => {
+export const validateInput = (
+  update: {
+    uriName?: string
+  } & UpdateChannelView
+): boolean => {
   return [
-    validator.isLength(uriName, { min: 3, max: 32 }),
-    validator.isLength(title, { min: 3, max: 64 }),
-    validator.isLength(descRawMarkdown, { min: 0, max: 1000 })
+    update.uriName ? validator.isLength(update.uriName, { min: 3, max: 32 }) : true,
+    validator.isLength(update.title, { min: 3, max: 64 }),
+    validator.isLength(update.descRawMarkdown, { min: 0, max: 1000 })
   ].every(Boolean)
 }

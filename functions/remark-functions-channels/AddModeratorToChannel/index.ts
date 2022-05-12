@@ -14,8 +14,7 @@ const createNotifications = async (database: Database, forUserId: string, ownerU
       `You've been made a moderator of [ch/${channel.uriName}](/ch/${channel.uriName}) ` +
       `by the owner [u/${ownerUsername}](/u/${ownerUsername}).`,
     messageTitle: "You've been promoted to moderator",
-    userId: forUserId,
-    isSent: false
+    userId: forUserId
   })
 }
 

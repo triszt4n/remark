@@ -54,12 +54,12 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
   }
 
   // Apply changes
-  post = {
+  const { resource: updatedPost } = await postItem.replace<PostResource & { isUpdated: boolean }>({
     ...post,
     rawMarkdown,
-    title
-  }
-  const { resource: updatedPost } = await postItem.replace<PostResource>(post)
+    title,
+    isUpdated: true
+  })
 
   context.res = {
     body: updatedPost

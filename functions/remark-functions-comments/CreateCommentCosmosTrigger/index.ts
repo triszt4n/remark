@@ -1,15 +1,13 @@
 import { AzureFunction, Context } from '@azure/functions'
 import { NotificationModel } from '@triszt4n/remark-types'
 import { fetchCosmosContainer, fetchCosmosDatabase } from '../lib/dbConfig'
-import { DeletedCommentResource, PostResource, UserResource } from '../lib/model'
+import { ModifiedCommentResource, PostResource, UserResource } from '../lib/model'
 
-const cosmosDBTrigger: AzureFunction = async function (context: Context, documents: DeletedCommentResource[]): Promise<void> {
+const cosmosDBTrigger: AzureFunction = async function (context: Context, documents: ModifiedCommentResource[]): Promise<void> {
   if (!documents && documents.length === 0) {
     context.log('Nothing to process at [CreateCommentCosmosTrigger]')
     return
   }
-
-  if (documents.every((comment) => !!comment.isDeleted)) return // if all deleted, do nothing
 
   const database = fetchCosmosDatabase()
   const notificationsContainer = fetchCosmosContainer(database, 'Notifications')
@@ -18,7 +16,7 @@ const cosmosDBTrigger: AzureFunction = async function (context: Context, documen
 
   await Promise.all(
     documents
-      .filter((comment) => !comment.isDeleted) // filter for non-deleted
+      .filter((comment) => !comment.isDeleted && !comment.isUpdated)
       .map(async (comment) => {
         const { resource: parentPost } = await postsContainer.item(comment.parentPostId, comment.parentPostId).read<PostResource>()
         const { resource: commenterUser } = await usersContainer.item(comment.publisherId, comment.publisherId).read<UserResource>()

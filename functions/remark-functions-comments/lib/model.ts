@@ -16,7 +16,7 @@ export type PostResource = PostModel & Resource
 export type ChannelJoinResource = ChannelJoinModel & Resource
 export type CommentVoteResource = CommentVoteModel & Resource
 export type UserResource = UserModel & Resource
-export type DeletedCommentResource = CommentResource & { isDeleted?: boolean }
+export type ModifiedCommentResource = CommentResource & { isDeleted?: boolean; isUpdated?: boolean }
 
 export const validateInput = ({ rawMarkdown }: UpdateCommentView): boolean => {
   return [validator.isLength(rawMarkdown, { min: 1, max: 500 })].every(Boolean)
