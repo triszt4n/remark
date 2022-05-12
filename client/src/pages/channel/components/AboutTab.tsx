@@ -52,7 +52,7 @@ export const AboutTab: FC<Props> = ({ channelId, isLoading, channel }) => {
     onMutate: () => {
       toast({
         title: 'Action started',
-        description: `Deleting channel is in progess, please wait.`,
+        description: `Deleting channel is in progress, please wait.`,
         status: 'info',
         isClosable: true,
         duration: 10000

@@ -38,7 +38,7 @@ export const ActionsSection: FC<Props> = ({ post, onUploadImagePressed }) => {
     onMutate: () => {
       toast({
         title: 'Action started',
-        description: `Deleting post is in progess, please wait.`,
+        description: `Deleting post is in progress, please wait.`,
         status: 'info',
         isClosable: true,
         duration: 10000

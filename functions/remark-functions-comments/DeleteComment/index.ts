@@ -45,7 +45,13 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
     }
     return
   }
-  const { resource: deletedComment } = await commentItem.delete<CommentResource>()
+
+  // Soft delete comment
+  const { resource: deletedComment } = await commentItem.replace<CommentResource & { isDeleted: boolean; deletedByUserId: string }>({
+    ...comment,
+    isDeleted: true,
+    deletedByUserId: user.id
+  })
 
   context.res = {
     body: deletedComment

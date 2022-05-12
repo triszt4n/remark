@@ -2,9 +2,9 @@ import { AzureFunction, Context } from '@azure/functions'
 import { NotificationModel } from '@triszt4n/remark-types'
 import { fetchCosmosContainer, fetchCosmosDatabase } from '../lib/dbConfig'
 import { createQueryCommentVotesByCommentId } from '../lib/dbQueries'
-import { CommentVoteResource, DeletedCommentResource } from '../lib/model'
+import { CommentVoteResource, ModifiedCommentResource } from '../lib/model'
 
-const cosmosDBTrigger: AzureFunction = async function (context: Context, documents: DeletedCommentResource[]): Promise<void> {
+const cosmosDBTrigger: AzureFunction = async function (context: Context, documents: ModifiedCommentResource[]): Promise<void> {
   if (!documents && documents.length === 0) {
     context.log('Nothing to process at [DeleteCommentCosmosTrigger]')
     return
@@ -28,12 +28,17 @@ const cosmosDBTrigger: AzureFunction = async function (context: Context, documen
         // Delete comment
         await commentsContainer.item(comment.id, comment.id).delete()
 
+        // if deleted by publisher, dont notify
+        if (comment.deletedByUserId === comment.publisherId) {
+          return
+        }
+
         // Notif about delete to publisher user
         await notificationsContainer.items.create<NotificationModel>({
           createdAt: +new Date(),
           messageBody:
             `Your comment starting with "${comment.rawMarkdown.substring(0, 20)}..." [on this post](/posts/${comment.parentPostId}) ` +
-            `was deleted (by you or a moderator). It is not available anymore.`,
+            `was deleted by a moderator. It is not available anymore.`,
           messageTitle: 'Your comment has been deleted',
           userId: comment.publisherId
         })

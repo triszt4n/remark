@@ -13,6 +13,12 @@ const cosmosDBTrigger: AzureFunction = async function (context: Context, documen
   await Promise.all(
     documents.map(async (vote) => {
       const { resource: comment } = await commentsContainer.item(vote.commentId, vote.commentId).read<CommentResource>()
+
+      // Comment publisher doesnt have to get notification of their own vote
+      if (comment.publisherId === vote.userId) {
+        return
+      }
+
       const { resource: post } = await postsContainer.item(comment.parentPostId, comment.parentPostId).read<PostResource>()
       const { resource: voterUser } = await usersContainer.item(vote.userId, vote.userId).read<UserResource>()
       await notificationsContainer.items.create<NotificationModel>({

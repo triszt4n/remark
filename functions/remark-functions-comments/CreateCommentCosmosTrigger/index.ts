@@ -19,6 +19,12 @@ const cosmosDBTrigger: AzureFunction = async function (context: Context, documen
       .filter((comment) => !comment.isDeleted && !comment.isUpdated)
       .map(async (comment) => {
         const { resource: parentPost } = await postsContainer.item(comment.parentPostId, comment.parentPostId).read<PostResource>()
+
+        // post publisher shouldnt get notification of their own comments on the post
+        if (comment.publisherId === parentPost.publisherId) {
+          return
+        }
+
         const { resource: commenterUser } = await usersContainer.item(comment.publisherId, comment.publisherId).read<UserResource>()
         await notificationsContainer.items.create<NotificationModel>({
           createdAt: +new Date(),

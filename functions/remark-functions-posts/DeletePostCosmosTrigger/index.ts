@@ -2,10 +2,10 @@ import { AzureFunction, Context } from '@azure/functions'
 import { NotificationModel } from '@triszt4n/remark-types'
 import { fetchCosmosContainer, fetchCosmosDatabase } from '../lib/dbConfig'
 import { createQueryCommentsOfPostId, createQueryPostVotesByPostId } from '../lib/dbQueries'
-import { CommentResource, DeletedPostResource, PostVoteResource } from '../lib/model'
+import { CommentResource, ModifiedPostResource, PostVoteResource } from '../lib/model'
 import { fetchBlobContainer } from '../lib/storageConfig'
 
-const cosmosDBTrigger: AzureFunction = async function (context: Context, documents: DeletedPostResource[]): Promise<void> {
+const cosmosDBTrigger: AzureFunction = async function (context: Context, documents: ModifiedPostResource[]): Promise<void> {
   if (!documents && documents.length === 0) {
     context.log('Nothing to process at [DeletePostCosmosTrigger]')
     return
@@ -45,12 +45,17 @@ const cosmosDBTrigger: AzureFunction = async function (context: Context, documen
         // Delete post
         await postsContainer.item(post.id, post.id).delete()
 
+        // if the publisher deleted, no need for notification
+        if (post.publisherId === post.deletedByUserId) {
+          return
+        }
+
         // Notif about delete to publisher user
         await notificationsContainer.items.create<NotificationModel>({
           createdAt: +new Date(),
           messageBody:
             `Your post titled "${post.title}" [in this channel](/channels/${post.parentChannelId}) ` +
-            `was deleted (by you or a moderator). It is not available anymore.`,
+            `was deleted by a moderator. It is not available anymore.`,
           messageTitle: 'Your post has been removed',
           userId: post.publisherId
         })
