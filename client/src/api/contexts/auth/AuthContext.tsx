@@ -52,7 +52,7 @@ export const AuthProvider: FC = ({ children }) => {
       const { jwt, user } = data
       Cookies.set(CookieKeys.REMARK_JWT_TOKEN, jwt, { expires: 2 })
 
-      await queryClient.invalidateQueries('currentUser')
+      await queryClient.invalidateQueries('currentUser', { refetchInactive: true })
       setIsLoggedIn(true)
       navigate('/profile')
     },
@@ -87,7 +87,7 @@ export const AuthProvider: FC = ({ children }) => {
   const onLogout = () => {
     Cookies.remove(CookieKeys.REMARK_JWT_TOKEN)
     setIsLoggedIn(false)
-    queryClient.invalidateQueries('currentUser')
+    queryClient.invalidateQueries('currentUser', { refetchInactive: true })
     navigate('/')
   }
 

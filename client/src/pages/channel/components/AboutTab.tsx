@@ -59,7 +59,7 @@ export const AboutTab: FC<Props> = ({ channelId, isLoading, channel }) => {
       })
     },
     onSuccess: () => {
-      queryClient.invalidateQueries('channels')
+      queryClient.invalidateQueries('channels', { refetchInactive: true })
       setTimeout(() => {
         toast({
           title: 'Action successfully done',

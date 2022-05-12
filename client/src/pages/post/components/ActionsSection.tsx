@@ -45,7 +45,7 @@ export const ActionsSection: FC<Props> = ({ post, onUploadImagePressed }) => {
       })
     },
     onSuccess: () => {
-      queryClient.invalidateQueries(['channelPosts', post.channel.id])
+      queryClient.invalidateQueries(['channelPosts', post.channel.id], { refetchInactive: true })
       setTimeout(() => {
         toast({
           title: 'Action successfully done',

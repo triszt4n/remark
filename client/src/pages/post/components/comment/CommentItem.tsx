@@ -70,7 +70,7 @@ export const CommentItem: FC<Props> = ({ comment, post }) => {
   })
   const delMutation = useMutation(commentModule.deleteComment, {
     onSuccess: () => {
-      queryClient.invalidateQueries(['postComments', comment.parentPostId])
+      queryClient.invalidateQueries(['postComments', comment.parentPostId], { refetchInactive: true })
     },
     onError: (error) => {
       const err = error as any
