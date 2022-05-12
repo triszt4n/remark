@@ -54,7 +54,7 @@ class ChannelModule {
   }
 
   async deleteChannel(id: string) {
-    return axios.patch<ChannelModel & { id: string }>(`${CHANNEL_PATH_PREFIX}/channels/${id}`)
+    return axios.delete<ChannelModel & { id: string }>(`${CHANNEL_PATH_PREFIX}/channels/${id}`)
   }
 
   async joinOrLeaveChannel({ id, intent }: { id: string; intent: 'join' | 'leave' }) {
