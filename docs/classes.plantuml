@@ -1,0 +1,71 @@
+@startuml Classes
+
+title Re:mark - ER diagram
+
+class "Channel" as ch {
+  uriName: string
+  createdAt: number
+  title: string
+  descRawMarkdown: string
+  ownerId: string
+  moderatorIds: string[]
+}
+class "ChannelJoin" as chj {
+  createdAt: number
+  userId: string
+  channelId: string
+}
+class "Post" as p {
+  createdAt: number
+  title: string
+  rawMarkdown: string
+  publisherId: string
+  parentChannelId: string
+  imageUrl: string | undefined
+}
+class "Comment" as c {
+  createdAt: number
+  rawMarkdown: string
+  publisherId: string
+  parentPostId: string
+}
+class "CommentVote" as cv {
+  userId: string
+  commentId: string
+  isUpvote: boolean
+}
+class "PostVote" as pv {
+  userId: string
+  postId: string
+  isUpvote: boolean
+}
+class "Notification" as n {
+  createdAt: number
+  messageTitle: string
+  messageBody: string
+  userId: string
+}
+class "User" as u {
+  email: string
+  username: string
+  lastName: string
+  firstName: string
+  imageUrl: string | undefined
+}
+
+ch "1" -- "0..*" p : posts
+u "0..*" -- "0..*" ch : join
+(ch, u) . chj
+
+u "1" -- "0..*" ch : ownership
+
+p "1" -- "0..*" c
+u "0..*" -- "0..*" p
+(p, u) .. pv
+
+u "0..*" -- "0..*" c
+(c, u) .. cv
+
+u "1" -- "0..*" n
+
+@enduml
