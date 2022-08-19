@@ -1,6 +1,5 @@
 import { Badge, Box, Button, Heading, HStack, LinkBox, LinkOverlay, Text, useToast, VStack } from '@chakra-ui/react'
 import { ChannelPartialView } from '@triszt4n/remark-types'
-import { FC } from 'react'
 import { useMutation } from 'react-query'
 import { Link } from 'react-router-dom'
 import { useAuthContext } from '../../../../api/contexts/auth/useAuthContext'
@@ -14,7 +13,7 @@ type Props = {
   userId: string
 }
 
-export const JoinedChannel: FC<Props> = ({ channel, userId }) => {
+export const JoinedChannel = ({ channel, userId }: Props) => {
   const { isLoggedIn } = useAuthContext()
   const targetPath = `/channels/${channel.id}`
   const toast = useToast()

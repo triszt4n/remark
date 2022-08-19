@@ -1,6 +1,5 @@
 import { useToast } from '@chakra-ui/react'
 import { ChannelView, UpdateChannelView } from '@triszt4n/remark-types'
-import { FC } from 'react'
 import { useMutation } from 'react-query'
 import { Navigate, useNavigate, useParams } from 'react-router-dom'
 import { useAuthContext } from '../../../api/contexts/auth/useAuthContext'
@@ -10,7 +9,7 @@ import { PuzzleAnimated } from '../../../components/commons/PuzzleAnimated'
 import { rconsole } from '../../../util/remark-console'
 import { ChannelForm } from './ChannelForm'
 
-export const EditChannelPage: FC = () => {
+export const EditChannelPage = () => {
   const navigate = useNavigate()
   const toast = useToast()
   const { isLoggedIn } = useAuthContext()

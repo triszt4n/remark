@@ -1,6 +1,5 @@
 import { Box, Flex, Heading, Skeleton } from '@chakra-ui/react'
 import { PostPartialView } from '@triszt4n/remark-types'
-import { FC } from 'react'
 import { rconsole } from '../../../../util/remark-console'
 import { CreatedPost } from './CreatedPost'
 
@@ -10,7 +9,7 @@ type Props = {
   error: any
 }
 
-export const CreatedPostsSection: FC<Props> = ({ posts, isLoading, error }) => {
+export const CreatedPostsSection = ({ posts, isLoading, error }: Props) => {
   if (isLoading) {
     return (
       <>

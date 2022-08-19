@@ -1,6 +1,5 @@
 import { Box, IconButton, Skeleton } from '@chakra-ui/react'
 import { MyVoteType } from '@triszt4n/remark-types'
-import { FC } from 'react'
 import { FaRegThumbsDown, FaRegThumbsUp } from 'react-icons/fa'
 import { toReadableNumber } from '../../util/core-util-functions'
 
@@ -13,7 +12,7 @@ type Props = {
   isSendLoading: boolean
 }
 
-export const VoteButtons: FC<Props> = ({ voteCount, onUpvotePressed, onDownvotePressed, myVote, isLoading, isSendLoading }) => {
+export const VoteButtons = ({ voteCount, onUpvotePressed, onDownvotePressed, myVote, isLoading, isSendLoading }: Props) => {
   return (
     <>
       <IconButton

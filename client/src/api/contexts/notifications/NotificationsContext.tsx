@@ -1,8 +1,9 @@
 import { useToast } from '@chakra-ui/react'
 import { NotificationView } from '@triszt4n/remark-types'
-import { createContext, Dispatch, FC, SetStateAction, useState } from 'react'
+import { createContext, Dispatch, SetStateAction, useState } from 'react'
 import { useMutation } from 'react-query'
 import { rconsole } from '../../../util/remark-console'
+import { HasChildren } from '../../../util/types'
 import { notificationModule } from '../../modules/notification.module'
 import { fetchSignalrConnection } from './signalrConnectionClient'
 
@@ -26,7 +27,7 @@ export const NotificationsContext = createContext<NotificationsContextType>({
   setShowNotificationCircle: () => {}
 })
 
-export const NotificationsProvider: FC = ({ children }) => {
+export const NotificationsProvider = ({ children }: HasChildren) => {
   const toast = useToast()
   const [notifications, setNotifications] = useState<NotificationView[]>([])
   const [showNotificationCircle, setShowNotificationCircle] = useState<boolean>(false)

@@ -1,6 +1,5 @@
 import { Box, Button, Center, Flex, Heading, useToast, VStack } from '@chakra-ui/react'
 import { ChannelView } from '@triszt4n/remark-types'
-import { FC } from 'react'
 import { FaPlus } from 'react-icons/fa'
 import { useMutation, useQuery } from 'react-query'
 import { useNavigate } from 'react-router-dom'
@@ -11,7 +10,7 @@ import { rconsole } from '../../util/remark-console'
 import { ChannelPreview } from './components/ChannelPreview'
 import { ChannelPreviewLoading } from './components/ChannelPreviewLoading'
 
-export const IndexPage: FC = () => {
+export const IndexPage = () => {
   const { isLoggedIn } = useAuthContext()
   const navigate = useNavigate()
   const toast = useToast()

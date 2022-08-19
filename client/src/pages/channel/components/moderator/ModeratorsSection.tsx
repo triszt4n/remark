@@ -1,6 +1,5 @@
 import { Box, Center, HStack, Skeleton, Text, useToast } from '@chakra-ui/react'
 import { UserView } from '@triszt4n/remark-types'
-import { FC } from 'react'
 import { useMutation, useQuery } from 'react-query'
 import { channelModule } from '../../../../api/modules/channel.module'
 import { toReadableNumber } from '../../../../util/core-util-functions'
@@ -14,7 +13,7 @@ type Props = {
   amIOwner?: boolean
 }
 
-export const ModeratorsSection: FC<Props> = ({ channelId, amIOwner }) => {
+export const ModeratorsSection = ({ channelId, amIOwner }: Props) => {
   const { isLoading, data, error } = useQuery(['channelModerators', channelId], () => channelModule.fetchModeratorInfoOfChannel(channelId))
   const toast = useToast()
 

@@ -1,6 +1,5 @@
 import { Box, useBreakpointValue, useToast } from '@chakra-ui/react'
 import { PostView } from '@triszt4n/remark-types'
-import { FC } from 'react'
 import { useMutation } from 'react-query'
 import { useNavigate } from 'react-router-dom'
 import { useAuthContext } from '../../../../api/contexts/auth/useAuthContext'
@@ -15,7 +14,7 @@ export type PostPreviewProps = {
   post: PostView
 }
 
-export const PostPreview: FC<PostPreviewProps> = ({ post }) => {
+export const PostPreview = ({ post }: PostPreviewProps) => {
   const toast = useToast()
   const navigate = useNavigate()
   const { isLoggedIn } = useAuthContext()

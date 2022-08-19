@@ -1,9 +1,8 @@
 import { Box, Container, Flex, Text } from '@chakra-ui/react'
-import React, { FC } from 'react'
 import { RLogoSimple } from '../../assets/RLogoSimple'
 import { RLink } from './RLink'
 
-export const Footer: FC = () => (
+export const Footer = () => (
   <Box as="footer">
     <Container py={8} as={Flex} justifyContent="space-between" direction={{ base: 'column', sm: 'row' }} maxW="6xl">
       <Flex mb={{ base: 4, sm: 0 }} justifyContent={{ base: 'center', sm: 'flex-start' }}>

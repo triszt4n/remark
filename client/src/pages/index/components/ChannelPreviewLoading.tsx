@@ -1,7 +1,6 @@
 import { Box, HStack, Skeleton, SkeletonText } from '@chakra-ui/react'
-import { FC } from 'react'
 
-export const ChannelPreviewLoading: FC = () => {
+export const ChannelPreviewLoading = () => {
   return (
     <Box borderWidth="1px" borderRadius="lg" p={6}>
       <HStack mb={4}>

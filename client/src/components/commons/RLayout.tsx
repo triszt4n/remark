@@ -1,14 +1,14 @@
 import { Box, Flex } from '@chakra-ui/react'
-import { FC } from 'react'
+import { HasChildren } from '../../util/types'
 import { Navbar } from '../navbar'
 import { Footer } from './Footer'
 import { RContainer } from './RContainer'
 
 type Props = {
   background?: string
-}
+} & HasChildren
 
-export const RLayout: FC<Props> = ({ background, children }) => {
+export const RLayout = ({ background, children }: Props) => {
   return (
     <Flex direction="column" minHeight="100vh">
       <Navbar />

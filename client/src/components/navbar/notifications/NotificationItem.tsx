@@ -1,6 +1,5 @@
 import { Box, HStack, Icon, VStack } from '@chakra-ui/react'
 import { NotificationView } from '@triszt4n/remark-types'
-import { FC } from 'react'
 import { FaRegPaperPlane } from 'react-icons/fa'
 import ReactMarkdown from 'react-markdown'
 import { RemarkUIRenderer } from '../../../assets/remark-ui-renderer'
@@ -10,7 +9,7 @@ type Props = {
   notif: NotificationView
 }
 
-export const NotificationItem: FC<Props> = ({ notif: { messageTitle, messageBody, createdAt } }) => {
+export const NotificationItem = ({ notif: { messageTitle, messageBody, createdAt } }: Props) => {
   return (
     <VStack alignItems="stretch">
       <HStack flexWrap="wrap" justifyContent="space-between">

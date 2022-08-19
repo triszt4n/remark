@@ -1,6 +1,5 @@
 import { Badge, Box, Button, Heading, HStack, LinkBox, LinkOverlay, useBreakpointValue } from '@chakra-ui/react'
 import { ChannelView } from '@triszt4n/remark-types'
-import { FC } from 'react'
 import { FaCheck, FaPlus } from 'react-icons/fa'
 import ReactMarkdown from 'react-markdown'
 import { Link } from 'react-router-dom'
@@ -13,7 +12,7 @@ type Props = {
   isSendLoading: boolean
 }
 
-export const ChannelPreview: FC<Props> = ({ channel, onJoinPressed, isSendLoading }) => {
+export const ChannelPreview = ({ channel, onJoinPressed, isSendLoading }: Props) => {
   const { isLoggedIn } = useAuthContext()
 
   return (

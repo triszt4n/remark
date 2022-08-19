@@ -12,7 +12,6 @@ import {
   Tabs,
   Textarea
 } from '@chakra-ui/react'
-import { FC } from 'react'
 import { useFormContext } from 'react-hook-form'
 import ReactMarkdown from 'react-markdown'
 import { RemarkUIRenderer } from '../../assets/remark-ui-renderer'
@@ -31,7 +30,7 @@ type Props = {
   previewHeight?: string | number
 }
 
-export const RemarkEditor: FC<Props> = ({ textAreaHeight = '22rem', previewHeight = '26rem', defaultValue, formDetails }) => {
+export const RemarkEditor = ({ textAreaHeight = '22rem', previewHeight = '26rem', defaultValue, formDetails }: Props) => {
   const {
     register,
     watch,
@@ -46,7 +45,7 @@ export const RemarkEditor: FC<Props> = ({ textAreaHeight = '22rem', previewHeigh
       </TabList>
       <TabPanels>
         <TabPanel>
-          <FormControl isInvalid={errors[formDetails.id]}>
+          <FormControl isInvalid={!!errors[formDetails.id]}>
             <FormLabel htmlFor={formDetails.id}>
               {`${formDetails.promptText} `}
               <RLink to="https://www.markdownguide.org/cheat-sheet/" isExternal>
@@ -62,12 +61,12 @@ export const RemarkEditor: FC<Props> = ({ textAreaHeight = '22rem', previewHeigh
                 minLength: formDetails.minChar ? { value: formDetails.minChar, message: 'Text cannot be blank!' } : undefined,
                 maxLength: { value: formDetails.maxChar, message: 'Text entered is too long!' }
               })}
-              isInvalid={errors[formDetails.id]}
+              isInvalid={!!errors[formDetails.id]}
             />
             <Flex justifyContent="flex-end">
-              {errors[formDetails.id] ? (
+              {errors?.[formDetails.id] ? (
                 <FormErrorMessage>
-                  {errors[formDetails.id].message} {getStatusString(watch(formDetails.id), formDetails.maxChar)}
+                  {errors[formDetails.id]?.message + ' ' + getStatusString(watch(formDetails.id), formDetails.maxChar)}
                 </FormErrorMessage>
               ) : (
                 <FormHelperText>{getStatusString(watch(formDetails.id), formDetails.maxChar)}</FormHelperText>

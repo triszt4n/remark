@@ -22,7 +22,6 @@ import {
   VStack
 } from '@chakra-ui/react'
 import { ChannelView } from '@triszt4n/remark-types'
-import { FC } from 'react'
 import { FaChevronDown, FaEdit, FaTrashAlt, FaUserPlus } from 'react-icons/fa'
 import ReactMarkdown from 'react-markdown'
 import { useMutation } from 'react-query'
@@ -41,7 +40,7 @@ type Props = {
   channel: ChannelView | undefined
 }
 
-export const AboutTab: FC<Props> = ({ channelId, isLoading, channel }) => {
+export const AboutTab = ({ channelId, isLoading, channel }: Props) => {
   const navigate = useNavigate()
   const toast = useToast()
   const dangerColor = useColorModeValue('red.600', 'red.400')

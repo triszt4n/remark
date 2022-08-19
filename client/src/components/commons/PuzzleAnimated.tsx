@@ -1,6 +1,5 @@
 import { Box, Flex, HStack, Text } from '@chakra-ui/react'
 import { motion } from 'framer-motion'
-import React, { FC } from 'react'
 import { PuzzleIcon1, PuzzleIcon2, PuzzleIcon3, PuzzleIcon4 } from '../../assets/svg-components/PuzzleIcons'
 
 type Props = {
@@ -9,7 +8,7 @@ type Props = {
   stopAnimation?: boolean
 }
 
-export const PuzzleAnimated: FC<Props> = ({ text, size = 8, stopAnimation }) => {
+export const PuzzleAnimated = ({ text, size = 8, stopAnimation }: Props) => {
   const transition = {
     ease: 'easeInOut',
     repeat: Infinity,

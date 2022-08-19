@@ -1,7 +1,6 @@
 import { HStack, Skeleton, SkeletonCircle } from '@chakra-ui/react'
-import { FC } from 'react'
 
-export const ModeratorItemLoading: FC = () => {
+export const ModeratorItemLoading = () => {
   return (
     <HStack spacing={4} p={2}>
       <SkeletonCircle size="10" />

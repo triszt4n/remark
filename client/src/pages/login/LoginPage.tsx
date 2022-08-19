@@ -1,5 +1,4 @@
 import { Button, HStack, Text, VStack } from '@chakra-ui/react'
-import { FC } from 'react'
 import { GoogleLogin } from 'react-google-login'
 import { FcGoogle } from 'react-icons/fc'
 import { Navigate } from 'react-router-dom'
@@ -7,7 +6,7 @@ import { useAuthContext } from '../../api/contexts/auth/useAuthContext'
 import { PuzzleAnimated } from '../../components/commons/PuzzleAnimated'
 import { GOOGLE_AUTH_CLIENT_ID } from '../../util/environment'
 
-export const LoginPage: FC = () => {
+export const LoginPage = () => {
   const { isLoggedIn, onLoginSuccess, onLoginFailure, loginLoading } = useAuthContext()
 
   if (isLoggedIn) return <Navigate replace to="/" />

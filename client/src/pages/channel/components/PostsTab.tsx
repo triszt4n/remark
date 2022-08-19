@@ -1,6 +1,5 @@
 import { Box, Button, Center, Flex, VStack } from '@chakra-ui/react'
 import { ChannelView } from '@triszt4n/remark-types'
-import { FC } from 'react'
 import { FaComments } from 'react-icons/fa'
 import { useQuery } from 'react-query'
 import { useNavigate } from 'react-router-dom'
@@ -12,7 +11,7 @@ import { PostPreviewLoading } from './post/PostPreviewLoading'
 
 type Props = { channel: ChannelView | undefined; channelId: string }
 
-export const PostsTab: FC<Props> = ({ channel, channelId }) => {
+export const PostsTab = ({ channel, channelId }: Props) => {
   const { isLoading, data: posts, error } = useQuery(['channelPosts', channelId], () => channelModule.fetchPostsOfChannel(channelId))
   const { isLoggedIn } = useAuthContext()
   const navigate = useNavigate()

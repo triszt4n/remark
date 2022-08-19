@@ -1,8 +1,7 @@
 import { Box, HStack, Skeleton, SkeletonCircle, SkeletonText, useBreakpointValue, VStack } from '@chakra-ui/react'
-import { FC } from 'react'
 import { VoteButtonsLoading } from '../../../components/voting/VoteButtonsLoading'
 
-export const PostDetailsLoading: FC = () => {
+export const PostDetailsLoading = () => {
   return (
     <Box>
       {useBreakpointValue({

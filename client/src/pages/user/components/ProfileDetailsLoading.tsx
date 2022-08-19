@@ -1,7 +1,6 @@
 import { HStack, Skeleton, SkeletonCircle } from '@chakra-ui/react'
-import { FC } from 'react'
 
-export const ProfileDetailsLoading: FC = () => {
+export const ProfileDetailsLoading = () => {
   return (
     <>
       <HStack width="100%" mb={5}>

@@ -1,6 +1,5 @@
 import { Avatar, Box, HStack, IconButton, useBreakpointValue } from '@chakra-ui/react'
 import { UserView } from '@triszt4n/remark-types'
-import { FC } from 'react'
 import { FaUserMinus } from 'react-icons/fa'
 import { RLink } from '../../../../components/commons/RLink'
 
@@ -11,7 +10,7 @@ type Props = {
   onSendLoading?: boolean
 }
 
-export const ModeratorItem: FC<Props> = ({ user, subtitle, onRemove, onSendLoading }) => {
+export const ModeratorItem = ({ user, subtitle, onRemove, onSendLoading }: Props) => {
   return (
     <HStack spacing={4} p={2}>
       <Avatar name={`${user.firstName} ${user.lastName}`} src={user.imageUrl} size={useBreakpointValue({ base: 'sm', md: 'md' })} />

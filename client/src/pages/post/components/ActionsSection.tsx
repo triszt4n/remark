@@ -13,7 +13,6 @@ import {
   useToast
 } from '@chakra-ui/react'
 import { PostView } from '@triszt4n/remark-types'
-import { FC } from 'react'
 import { FaChevronDown, FaComments, FaEdit, FaRegFileImage, FaTrashAlt } from 'react-icons/fa'
 import { useMutation } from 'react-query'
 import { useNavigate } from 'react-router-dom'
@@ -26,7 +25,7 @@ type Props = {
   onUploadImagePressed: () => void
 }
 
-export const ActionsSection: FC<Props> = ({ post, onUploadImagePressed }) => {
+export const ActionsSection = ({ post, onUploadImagePressed }: Props) => {
   const navigate = useNavigate()
   const toast = useToast()
   const dangerColor = useColorModeValue('red.600', 'red.400')

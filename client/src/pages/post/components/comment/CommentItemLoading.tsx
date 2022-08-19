@@ -1,8 +1,7 @@
 import { Box, HStack, Skeleton, SkeletonCircle, SkeletonText, useBreakpointValue } from '@chakra-ui/react'
-import { FC } from 'react'
 import { VoteButtonsLoading } from '../../../../components/voting/VoteButtonsLoading'
 
-export const CommentItemLoading: FC = () => {
+export const CommentItemLoading = () => {
   return (
     <Box>
       <HStack>

@@ -1,8 +1,7 @@
 import { IconButton, Skeleton } from '@chakra-ui/react'
-import { FC } from 'react'
 import { FaRegThumbsDown, FaRegThumbsUp } from 'react-icons/fa'
 
-export const VoteButtonsLoading: FC = () => {
+export const VoteButtonsLoading = () => {
   return (
     <>
       <IconButton size="sm" aria-label="Upvote post" icon={<FaRegThumbsUp />} variant="outline" colorScheme="secondary" />

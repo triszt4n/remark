@@ -15,7 +15,6 @@ import {
   useColorModeValue
 } from '@chakra-ui/react'
 import { UserView } from '@triszt4n/remark-types'
-import React, { FC } from 'react'
 import { FaAddressCard, FaAt, FaChevronDown, FaEdit, FaRegFileImage, FaSignOutAlt } from 'react-icons/fa'
 import { useQuery } from 'react-query'
 import { channelModule } from '../../../api/modules/channel.module'
@@ -32,7 +31,7 @@ type Props = {
   }
 }
 
-export const ProfileDetails: FC<Props> = ({ user, profileOptions }) => {
+export const ProfileDetails = ({ user, profileOptions }: Props) => {
   const dangerColor = useColorModeValue('red.600', 'red.400')
   const { onLogoutPressed, onUsernameEditPressed, onChangeProfileImagePressed } = profileOptions || {}
   const {

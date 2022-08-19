@@ -1,6 +1,6 @@
 import { Button, Flex, VStack } from '@chakra-ui/react'
 import { CommentView, UpdateCommentView } from '@triszt4n/remark-types'
-import { FC, useEffect } from 'react'
+import { useEffect } from 'react'
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form'
 import { FaCheck, FaChevronLeft } from 'react-icons/fa'
 import { useNavigate } from 'react-router-dom'
@@ -18,13 +18,13 @@ type Props = {
   isSendLoading: boolean
 }
 
-export const CommentForm: FC<Props> = ({
+export const CommentForm = ({
   buttonProps: { sendButtonText, hideBackButton = false, sendButtonIcon = <FaCheck /> },
   onSend,
   defaultValues,
   canEraseContent,
   isSendLoading
-}) => {
+}: Props) => {
   const navigate = useNavigate()
   const methods = useForm<UpdateCommentView>({ mode: 'all' })
   const {

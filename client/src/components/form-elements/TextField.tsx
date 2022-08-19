@@ -1,5 +1,4 @@
 import { FormControl, FormErrorMessage, FormHelperText, FormLabel, Input } from '@chakra-ui/react'
-import { FC } from 'react'
 import { useFormContext, ValidationRule } from 'react-hook-form'
 
 type Props = {
@@ -16,13 +15,13 @@ type Props = {
   }
 }
 
-export const TextField: FC<Props> = ({
+export const TextField = ({
   fieldTitle,
   fieldName,
   helper,
   defaultValue,
   validationOptions: { maxLength, minLength, required, pattern, setValueAs } = {}
-}) => {
+}: Props) => {
   const {
     register,
     formState: { errors }
@@ -44,7 +43,7 @@ export const TextField: FC<Props> = ({
         defaultValue={defaultValue}
       />
       {errors?.[fieldName] ? (
-        <FormErrorMessage>{errors[fieldName].message}</FormErrorMessage>
+        <FormErrorMessage>{errors[fieldName]?.message?.toString()}</FormErrorMessage>
       ) : (
         helper && <FormHelperText>{helper}</FormHelperText>
       )}

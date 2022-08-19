@@ -1,6 +1,5 @@
 import { Box, Flex, VStack } from '@chakra-ui/react'
 import { PostView } from '@triszt4n/remark-types'
-import { FC } from 'react'
 import { useQuery } from 'react-query'
 import { postModule } from '../../../api/modules/post.module'
 import { CommentItem } from './comment/CommentItem'
@@ -11,7 +10,7 @@ type Props = {
   post: PostView | undefined
 }
 
-export const CommentSection: FC<Props> = ({ postId, post }) => {
+export const CommentSection = ({ postId, post }: Props) => {
   const { isLoading, data: comments, error } = useQuery(['postComments', postId], () => postModule.fetchCommentsOfPost(postId))
 
   if (isLoading) {

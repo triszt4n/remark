@@ -10,7 +10,7 @@ import {
   InputLeftAddon,
   InputRightAddon
 } from '@chakra-ui/react'
-import { FC, useRef } from 'react'
+import { useRef } from 'react'
 import { useFormContext } from 'react-hook-form'
 import { FaFileImage, FaTimes } from 'react-icons/fa'
 
@@ -24,7 +24,7 @@ type Props = {
   required?: boolean
 }
 
-export const FileUpload: FC<Props> = ({
+export const FileUpload = ({
   fieldName,
   fieldTitle,
   uploadButtonText = 'Upload',
@@ -32,7 +32,7 @@ export const FileUpload: FC<Props> = ({
   accept = 'image/*',
   multiple = false,
   required = false
-}) => {
+}: Props) => {
   const inputRef = useRef<HTMLInputElement | null>(null)
   const {
     register,
@@ -84,7 +84,7 @@ export const FileUpload: FC<Props> = ({
         <InputRightAddon as={IconButton} aria-label="Remove chosen file" icon={<FaTimes />} onClick={onRemovePressed} />
       </InputGroup>
       {errors?.[fieldName] ? (
-        <FormErrorMessage>{errors[fieldName].message}</FormErrorMessage>
+        <FormErrorMessage>{errors[fieldName]?.message?.toString()}</FormErrorMessage>
       ) : (
         helper && <FormHelperText>{helper}</FormHelperText>
       )}

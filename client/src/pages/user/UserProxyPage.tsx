@@ -1,12 +1,11 @@
 import { VStack } from '@chakra-ui/react'
-import { FC } from 'react'
 import { useQuery } from 'react-query'
 import { Navigate, useParams } from 'react-router-dom'
 import { useAuthContext } from '../../api/contexts/auth/useAuthContext'
 import { userModule } from '../../api/modules/user.module'
 import { ProfileDetailsLoading } from './components/ProfileDetailsLoading'
 
-export const UserProxyPage: FC = () => {
+export const UserProxyPage = () => {
   const { username } = useParams()
   const { loggedInUser } = useAuthContext()
   const { isLoading, data: user, error } = useQuery(['user', username], () => userModule.fetchUserByUsername(username!!))

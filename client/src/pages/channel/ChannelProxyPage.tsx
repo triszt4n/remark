@@ -1,10 +1,9 @@
-import { FC } from 'react'
 import { useQuery } from 'react-query'
 import { Navigate, useParams } from 'react-router-dom'
 import { channelModule } from '../../api/modules/channel.module'
 import { PuzzleAnimated } from '../../components/commons/PuzzleAnimated'
 
-export const ChannelProxyPage: FC = () => {
+export const ChannelProxyPage = () => {
   const { uriName } = useParams()
   const { isLoading, data: channel, error } = useQuery(['channel', uriName], () => channelModule.fetchChannelIdByUriName(uriName!!))
 

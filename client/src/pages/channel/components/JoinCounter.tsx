@@ -1,6 +1,5 @@
 import { Box, Button, HStack, useToast } from '@chakra-ui/react'
 import { ChannelView } from '@triszt4n/remark-types'
-import { FC } from 'react'
 import { FaCheck, FaPlus } from 'react-icons/fa'
 import { useMutation } from 'react-query'
 import { useAuthContext } from '../../../api/contexts/auth/useAuthContext'
@@ -14,7 +13,7 @@ type Props = {
   joinCount: number
 }
 
-export const JoinCounter: FC<Props> = ({ channel, joinCount }) => {
+export const JoinCounter = ({ channel, joinCount }: Props) => {
   const { isLoggedIn } = useAuthContext()
   const toast = useToast()
 

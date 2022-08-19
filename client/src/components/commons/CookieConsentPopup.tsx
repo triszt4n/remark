@@ -1,11 +1,10 @@
 import { Alert, AlertDescription, AlertIcon, AlertTitle, Box, Button, Flex } from '@chakra-ui/react'
-import { FC } from 'react'
 
 type Props = {
   onClick: () => void
 }
 
-export const CookieConsentPopup: FC<Props> = ({ onClick }) => (
+export const CookieConsentPopup = ({ onClick }: Props) => (
   <Box maxWidth="80rem" mx="auto" p={2}>
     <Alert display={{ base: 'block', md: 'flex' }} colorScheme="themeHelper" variant="solid" borderRadius={6} width="full">
       <Flex flex={1}>

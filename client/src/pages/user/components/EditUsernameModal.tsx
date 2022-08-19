@@ -15,7 +15,6 @@ import {
   ModalOverlay,
   Spacer
 } from '@chakra-ui/react'
-import { FC } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { FaCheck } from 'react-icons/fa'
 import { useMutation } from 'react-query'
@@ -29,7 +28,7 @@ type Props = {
   onClose: () => void
 }
 
-export const EditUsernameModal: FC<Props> = ({ isOpen, onClose }) => {
+export const EditUsernameModal = ({ isOpen, onClose }: Props) => {
   const {
     handleSubmit,
     register,

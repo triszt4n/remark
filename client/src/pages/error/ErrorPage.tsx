@@ -1,5 +1,4 @@
 import { Alert, AlertDescription, AlertIcon, AlertTitle, Button, VStack } from '@chakra-ui/react'
-import { FC } from 'react'
 import { FaChevronLeft } from 'react-icons/fa'
 import { To, useLocation, useNavigate } from 'react-router-dom'
 
@@ -9,7 +8,7 @@ type ErrorPageState = {
   backPath?: To
 }
 
-export const ErrorPage: FC<ErrorPageState> = ({ title, messages, backPath }) => {
+export const ErrorPage = ({ title, messages, backPath }: ErrorPageState) => {
   const { state } = useLocation()
   const navigate = useNavigate()
   const {

@@ -1,6 +1,5 @@
 import { Button, Flex, VStack } from '@chakra-ui/react'
 import { PostView, UpdatePostView } from '@triszt4n/remark-types'
-import { FC } from 'react'
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form'
 import { FaCheck, FaChevronLeft } from 'react-icons/fa'
 import { useNavigate } from 'react-router-dom'
@@ -14,7 +13,7 @@ type Props = {
   isSendLoading: boolean
 }
 
-export const PostForm: FC<Props> = ({ sendButtonText, onSend, defaultValues, isSendLoading }) => {
+export const PostForm = ({ sendButtonText, onSend, defaultValues, isSendLoading }: Props) => {
   const navigate = useNavigate()
   const methods = useForm<UpdatePostView>({ mode: 'all' })
   const {

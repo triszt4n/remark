@@ -1,6 +1,5 @@
 import { useBreakpointValue, useToast, VStack } from '@chakra-ui/react'
 import { PostView } from '@triszt4n/remark-types'
-import { FC } from 'react'
 import { useMutation } from 'react-query'
 import { useNavigate } from 'react-router-dom'
 import { useAuthContext } from '../../../api/contexts/auth/useAuthContext'
@@ -15,7 +14,7 @@ type Props = {
   post: PostView
 }
 
-export const PostDetails: FC<Props> = ({ post }) => {
+export const PostDetails = ({ post }: Props) => {
   const { isLoggedIn } = useAuthContext()
   const toast = useToast()
   const navigate = useNavigate()

@@ -1,6 +1,5 @@
 import { Box, Heading, HStack, Image, LinkBox, LinkOverlay, Tooltip, VStack } from '@chakra-ui/react'
 import { PostView } from '@triszt4n/remark-types'
-import { FC } from 'react'
 import { Link } from 'react-router-dom'
 import { RLink } from '../../../../components/commons/RLink'
 import { VoteButtons } from '../../../../components/voting/VoteButtons'
@@ -15,7 +14,7 @@ type Props = {
   isSendLoading: boolean
 }
 
-export const PostPreviewDesktop: FC<Props> = ({ post, onUpvotePressed, onDownvotePressed, targetPath, isSendLoading }) => {
+export const PostPreviewDesktop = ({ post, onUpvotePressed, onDownvotePressed, targetPath, isSendLoading }: Props) => {
   return (
     <HStack spacing={6} alignItems="start">
       <VStack spacing={2}>

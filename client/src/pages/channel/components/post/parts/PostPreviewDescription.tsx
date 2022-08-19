@@ -1,5 +1,4 @@
 import { Box, useBreakpointValue } from '@chakra-ui/react'
-import { FC } from 'react'
 import ReactMarkdown from 'react-markdown'
 import { ellipsifyLongText } from '../../../../../util/core-util-functions'
 
@@ -7,7 +6,7 @@ type Props = {
   rawMarkdown: string
 }
 
-export const PostPreviewDescription: FC<Props> = ({ rawMarkdown }) => {
+export const PostPreviewDescription = ({ rawMarkdown }: Props) => {
   return (
     <Box wordBreak="break-all" fontSize={{ base: 'sm', md: 'md' }}>
       <ReactMarkdown

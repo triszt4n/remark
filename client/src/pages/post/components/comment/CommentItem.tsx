@@ -16,7 +16,6 @@ import {
   useToast
 } from '@chakra-ui/react'
 import { CommentView, PostView } from '@triszt4n/remark-types'
-import { FC } from 'react'
 import { FaEdit, FaEllipsisV, FaTrashAlt } from 'react-icons/fa'
 import ReactMarkdown from 'react-markdown'
 import { useMutation } from 'react-query'
@@ -36,7 +35,7 @@ type Props = {
   post: PostView | undefined
 }
 
-export const CommentItem: FC<Props> = ({ comment, post }) => {
+export const CommentItem = ({ comment, post }: Props) => {
   const { publisher: user, createdAt, rawMarkdown, voteCount, amIPublisher, myVote } = comment
   const { isLoggedIn } = useAuthContext()
   const navigate = useNavigate()

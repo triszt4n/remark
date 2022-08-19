@@ -1,5 +1,4 @@
 import { Box, Flex, Skeleton, Tab, TabList, TabPanel, TabPanels, Tabs, Text } from '@chakra-ui/react'
-import { FC } from 'react'
 import { useQuery } from 'react-query'
 import { Navigate, useParams } from 'react-router-dom'
 import { channelModule } from '../../api/modules/channel.module'
@@ -8,7 +7,7 @@ import { AboutTab } from './components/AboutTab'
 import { JoinCounter } from './components/JoinCounter'
 import { PostsTab } from './components/PostsTab'
 
-export const ChannelPage: FC = () => {
+export const ChannelPage = () => {
   const { channelId } = useParams()
   const { isLoading, data: channel, error } = useQuery(['channelInfo', channelId], () => channelModule.fetchChannel(channelId!!))
 

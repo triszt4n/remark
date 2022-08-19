@@ -1,12 +1,11 @@
 import { Box, Heading, HStack, Skeleton, SkeletonText, Spacer, useBreakpointValue, VStack } from '@chakra-ui/react'
-import { FC } from 'react'
 import { VoteButtonsLoading } from '../../../../components/voting/VoteButtonsLoading'
 
 type Props = {
   hasImage: boolean
 }
 
-export const PostPreviewLoading: FC<Props> = ({ hasImage }) => {
+export const PostPreviewLoading = ({ hasImage }: Props) => {
   return (
     <Box as="article" p={4} borderRadius="md" borderWidth="1px">
       {useBreakpointValue({

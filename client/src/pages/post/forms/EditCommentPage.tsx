@@ -1,6 +1,5 @@
 import { Box, Heading, useToast, VStack } from '@chakra-ui/react'
 import { CommentView, PostView, UpdateCommentView } from '@triszt4n/remark-types'
-import { FC } from 'react'
 import { useMutation } from 'react-query'
 import { Navigate, useNavigate, useParams } from 'react-router-dom'
 import { useAuthContext } from '../../../api/contexts/auth/useAuthContext'
@@ -26,7 +25,7 @@ const errorHandler = (error: any) => {
   }
 }
 
-export const EditCommentPage: FC = () => {
+export const EditCommentPage = () => {
   const navigate = useNavigate()
   const toast = useToast()
   const { isLoggedIn } = useAuthContext()

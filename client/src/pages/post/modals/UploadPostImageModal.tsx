@@ -1,5 +1,4 @@
 import { Button, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Spacer } from '@chakra-ui/react'
-import { FC } from 'react'
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form'
 import { FaUpload } from 'react-icons/fa'
 import { useMutation } from 'react-query'
@@ -14,7 +13,7 @@ type Props = {
   onClose: () => void
 }
 
-export const UploadPostImageModal: FC<Props> = ({ postId, isOpen, onClose }) => {
+export const UploadPostImageModal = ({ postId, isOpen, onClose }: Props) => {
   const methods = useForm<{ files: FileList | undefined }>({ mode: 'all' })
   const {
     handleSubmit,

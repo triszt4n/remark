@@ -1,6 +1,5 @@
 import { Avatar, Box, Button, Heading, HStack, Image, Link, Tooltip, useBreakpointValue, VStack } from '@chakra-ui/react'
 import { PostView } from '@triszt4n/remark-types'
-import { FC } from 'react'
 import { FaExpand } from 'react-icons/fa'
 import ReactMarkdown from 'react-markdown'
 import { RemarkUIRenderer } from '../../../assets/remark-ui-renderer'
@@ -15,7 +14,7 @@ type Props = {
   isSendLoading: boolean
 }
 
-export const PostDetailsMobile: FC<Props> = ({ post, onUpvotePressed, onDownvotePressed, isSendLoading }) => {
+export const PostDetailsMobile = ({ post, onUpvotePressed, onDownvotePressed, isSendLoading }: Props) => {
   const { createdAt, publisher: user, rawMarkdown, channel, title, voteCount, myVote, imageUrl } = post
 
   return (

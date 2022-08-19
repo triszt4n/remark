@@ -1,5 +1,4 @@
 import { Box, Collapse, Flex, HStack, IconButton, useBreakpointValue, useDisclosure } from '@chakra-ui/react'
-import { FC } from 'react'
 import { FaBars, FaTimes } from 'react-icons/fa'
 import { RLogo } from '../../assets/RLogo'
 import { ColorModeSwitcher } from './ColorModeSwitcher'
@@ -7,7 +6,7 @@ import DesktopNav from './DesktopNav'
 import MobileNav from './MobileNav'
 import { NotifPopover } from './notifications/NotifPopover'
 
-export const Navbar: FC = () => {
+export const Navbar = () => {
   const { isOpen, onToggle } = useDisclosure()
   const onNavigate = () => onToggle()
 

@@ -1,5 +1,4 @@
 import { useDisclosure } from '@chakra-ui/react'
-import { FC } from 'react'
 import { Navigate } from 'react-router-dom'
 import { useAuthContext } from '../../api/contexts/auth/useAuthContext'
 import { rconsole } from '../../util/remark-console'
@@ -8,7 +7,7 @@ import { ProfileDetails } from './components/ProfileDetails'
 import { ProfileDetailsLoading } from './components/ProfileDetailsLoading'
 import { UploadImageModal } from './components/UploadImageModal'
 
-export const ProfilePage: FC = () => {
+export const ProfilePage = () => {
   const { isLoggedIn, loggedInUser, loggedInUserError, loggedInUserLoading, onLogout } = useAuthContext()
   const { isOpen: isOpenUsernameEdit, onOpen: onUsernameEditPressed, onClose: onCloseUsernameEdit } = useDisclosure()
   const { isOpen: isOpenProfileImageModal, onOpen: onChangeProfileImagePressed, onClose: onCloseProfileImageModal } = useDisclosure()

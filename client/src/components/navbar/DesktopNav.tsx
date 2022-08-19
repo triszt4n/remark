@@ -1,10 +1,10 @@
 import { Box, Button, Flex, Stack } from '@chakra-ui/react'
-import { FC, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useAuthContext } from '../../api/contexts/auth/useAuthContext'
 import { NAV_ITEMS } from '../../util/nav-items'
 
-const DesktopNav: FC = () => {
+const DesktopNav = () => {
   const { isLoggedIn } = useAuthContext()
   const [navItems, setNavItems] = useState(NAV_ITEMS)
 

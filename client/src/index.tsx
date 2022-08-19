@@ -1,6 +1,6 @@
 import { ChakraProvider, ColorModeScript } from '@chakra-ui/react'
 import React from 'react'
-import ReactDOM from 'react-dom'
+import ReactDOM from 'react-dom/client'
 import { QueryClientProvider } from 'react-query'
 import { ReactQueryDevtools } from 'react-query/devtools'
 import { BrowserRouter } from 'react-router-dom'
@@ -12,8 +12,11 @@ import customTheme from './assets/theme'
 import { initAxios, queryClient } from './util/query-client'
 
 initAxios()
+const el = document.getElementById('root')
+if (el === null) throw new Error('Root container missing in index.html')
 
-ReactDOM.render(
+const root = ReactDOM.createRoot(el)
+root.render(
   <React.StrictMode>
     <ColorModeScript />
     <ChakraProvider theme={customTheme}>
@@ -30,6 +33,5 @@ ReactDOM.render(
         </QueryClientProvider>
       </CookieConsentProvider>
     </ChakraProvider>
-  </React.StrictMode>,
-  document.getElementById('root')
+  </React.StrictMode>
 )

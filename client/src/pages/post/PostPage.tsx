@@ -1,6 +1,6 @@
 import { Flex, HStack, Skeleton, useDisclosure, useToast, VStack } from '@chakra-ui/react'
 import { UpdateCommentView } from '@triszt4n/remark-types'
-import { FC, useState } from 'react'
+import { useState } from 'react'
 import { FaPaperPlane } from 'react-icons/fa'
 import { useMutation, useQuery } from 'react-query'
 import { Navigate, useParams } from 'react-router-dom'
@@ -17,7 +17,7 @@ import { PostDetailsLoading } from './components/PostDetailsLoading'
 import { CommentForm } from './forms/CommentForm'
 import { UploadPostImageModal } from './modals/UploadPostImageModal'
 
-export const PostPage: FC = () => {
+export const PostPage = () => {
   const { postId } = useParams()
   const { isLoggedIn } = useAuthContext()
   const toast = useToast()

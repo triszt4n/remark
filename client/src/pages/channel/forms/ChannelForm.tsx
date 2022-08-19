@@ -1,6 +1,5 @@
 import { Button, Code, Flex, VStack } from '@chakra-ui/react'
 import { ChannelView, CreateChannelView } from '@triszt4n/remark-types'
-import { FC } from 'react'
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form'
 import { FaCheck, FaChevronLeft } from 'react-icons/fa'
 import { useNavigate } from 'react-router-dom'
@@ -15,7 +14,7 @@ type Props = {
   isCreating?: boolean
 }
 
-export const ChannelForm: FC<Props> = ({ sendButtonText, onSend, defaultValues, isSendLoading, isCreating }) => {
+export const ChannelForm = ({ sendButtonText, onSend, defaultValues, isSendLoading, isCreating }: Props) => {
   const navigate = useNavigate()
   const methods = useForm<CreateChannelView>({ mode: 'all' })
   const {

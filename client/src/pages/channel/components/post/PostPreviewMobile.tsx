@@ -1,6 +1,5 @@
 import { Box, Heading, HStack, Image, LinkBox, LinkOverlay, Spacer } from '@chakra-ui/react'
 import { PostView } from '@triszt4n/remark-types'
-import { FC } from 'react'
 import { Link } from 'react-router-dom'
 import { RLink } from '../../../../components/commons/RLink'
 import { VoteButtons } from '../../../../components/voting/VoteButtons'
@@ -15,7 +14,7 @@ type Props = {
   isSendLoading: boolean
 }
 
-export const PostPreviewMobile: FC<Props> = ({ post, onUpvotePressed, onDownvotePressed, targetPath, isSendLoading }) => {
+export const PostPreviewMobile = ({ post, onUpvotePressed, onDownvotePressed, targetPath, isSendLoading }: Props) => {
   return (
     <Box>
       <LinkBox as={HStack} mb={4}>

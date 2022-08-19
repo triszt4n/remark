@@ -15,13 +15,11 @@ import {
   useColorModeValue,
   VStack
 } from '@chakra-ui/react'
-import { FC, useEffect } from 'react'
+import { useEffect } from 'react'
 import { FaBell, FaTrashAlt } from 'react-icons/fa'
 import { useAuthContext } from '../../../api/contexts/auth/useAuthContext'
 import { useNotifContext } from '../../../api/contexts/notifications/useNotifContext'
 import { NotificationItem } from './NotificationItem'
-
-type Props = {}
 
 const CircleIcon = createIcon({
   displayName: 'CircleIcon',
@@ -29,7 +27,7 @@ const CircleIcon = createIcon({
   path: <path fill="currentColor" d="M 100, 100 m -75, 0 a 75,75 0 1,0 150,0 a 75,75 0 1,0 -150,0" />
 })
 
-export const NotifPopover: FC<Props> = ({}) => {
+export const NotifPopover = () => {
   const { isLoggedIn, loggedInUser } = useAuthContext()
   const {
     startNotificationReception,

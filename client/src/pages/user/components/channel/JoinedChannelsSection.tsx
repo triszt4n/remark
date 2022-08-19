@@ -1,6 +1,5 @@
 import { Box, Flex, Heading, Skeleton } from '@chakra-ui/react'
 import { ChannelPartialView } from '@triszt4n/remark-types'
-import { FC } from 'react'
 import { rconsole } from '../../../../util/remark-console'
 import { JoinedChannel } from './JoinedChannel'
 
@@ -11,7 +10,7 @@ type Props = {
   userId: string
 }
 
-export const JoinedChannelsSection: FC<Props> = ({ channels, isLoading, error, userId }) => {
+export const JoinedChannelsSection = ({ channels, isLoading, error, userId }: Props) => {
   if (isLoading) {
     return (
       <>

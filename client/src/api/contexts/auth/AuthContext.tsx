@@ -1,12 +1,13 @@
 import { useToast } from '@chakra-ui/react'
 import { UserView } from '@triszt4n/remark-types'
 import Cookies from 'js-cookie'
-import { createContext, FC, useState } from 'react'
+import { createContext, useState } from 'react'
 import { GoogleLoginResponse, GoogleLoginResponseOffline } from 'react-google-login'
 import { useMutation, useQuery } from 'react-query'
 import { useNavigate } from 'react-router-dom'
 import { queryClient } from '../../../util/query-client'
 import { rconsole } from '../../../util/remark-console'
+import { HasChildren } from '../../../util/types'
 import { userModule } from '../../modules/user.module'
 import { CookieKeys } from '../CookieKeys'
 import { useNotifContext } from '../notifications/useNotifContext'
@@ -33,7 +34,7 @@ export const AuthContext = createContext<AuthContextType>({
   loginLoading: false
 })
 
-export const AuthProvider: FC = ({ children }) => {
+export const AuthProvider = ({ children }: HasChildren) => {
   const toast = useToast()
   const navigate = useNavigate()
   const { startNotificationReception, stopNotificationReception } = useNotifContext()

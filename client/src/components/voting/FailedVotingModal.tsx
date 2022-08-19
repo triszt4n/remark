@@ -1,5 +1,4 @@
 import { Alert, AlertIcon, Box, Button, IconButton } from '@chakra-ui/react'
-import React, { FC } from 'react'
 import { FaTimes } from 'react-icons/fa'
 
 type Props = {
@@ -11,7 +10,7 @@ type Props = {
   onClose: () => void
 }
 
-export const FailedVotingModal: FC<Props> = ({ message, actionButton, onClose }) => {
+export const FailedVotingModal = ({ message, actionButton, onClose }: Props) => {
   return (
     <Alert colorScheme="theme" borderRadius="lg" justifyContent="space-between">
       <AlertIcon />

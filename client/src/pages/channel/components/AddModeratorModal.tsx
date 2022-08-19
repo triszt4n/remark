@@ -16,8 +16,7 @@ import {
   useToast
 } from '@chakra-ui/react'
 import { ChannelView } from '@triszt4n/remark-types'
-import React, { FC } from 'react'
-import { SubmitHandler, useForm } from 'react-hook-form'
+import { useForm, SubmitHandler } from 'react-hook-form'
 import { FaCheck } from 'react-icons/fa'
 import { useMutation } from 'react-query'
 import { useAuthContext } from '../../../api/contexts/auth/useAuthContext'
@@ -31,7 +30,7 @@ type Props = {
   onClose: () => void
 }
 
-export const AddModeratorModal: FC<Props> = ({ channel, isOpen, onClose }) => {
+export const AddModeratorModal = ({ channel, isOpen, onClose }: Props) => {
   const {
     handleSubmit,
     register,

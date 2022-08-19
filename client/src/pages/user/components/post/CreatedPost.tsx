@@ -1,6 +1,5 @@
 import { Badge, Box, Button, Heading, HStack, Image, LinkBox, LinkOverlay, Spacer, VStack } from '@chakra-ui/react'
 import { PostPartialView } from '@triszt4n/remark-types'
-import { FC } from 'react'
 import { FaChevronRight, FaRegThumbsDown, FaRegThumbsUp } from 'react-icons/fa'
 import ReactMarkdown from 'react-markdown'
 import { Link, useNavigate } from 'react-router-dom'
@@ -10,7 +9,7 @@ type Props = {
   post: PostPartialView
 }
 
-export const CreatedPost: FC<Props> = ({ post }) => {
+export const CreatedPost = ({ post }: Props) => {
   const { channel, voteCount, createdAt, id, title, imageUrl, rawMarkdown } = post
   const navigate = useNavigate()
   const onReadMore = () => {

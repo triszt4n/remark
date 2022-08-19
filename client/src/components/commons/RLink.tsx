@@ -1,13 +1,14 @@
 import { Link as ChakraLink, LinkProps, useColorModeValue } from '@chakra-ui/react'
-import { FC } from 'react'
 import { Link as RouterLink } from 'react-router-dom'
+import { HasChildren } from '../../util/types'
 
-type RLinkProps = {
+type Props = {
   isExternal?: boolean
   to: string
-} & LinkProps
+} & HasChildren &
+  LinkProps
 
-export const RLink: FC<RLinkProps> = ({ isExternal, to, children, ...props }) => {
+export const RLink = ({ isExternal, to, children, ...props }: Props) => {
   const Component = (
     <ChakraLink as="span" color={useColorModeValue('themeHelper.500', 'themeHelper.300')} {...props}>
       {children}
