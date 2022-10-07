@@ -7718,9 +7718,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"framer-motion@npm:7.2.0":
-  version: 7.2.0
-  resolution: "framer-motion@npm:7.2.0"
+"framer-motion@npm:7.5.3":
+  version: 7.5.3
+  resolution: "framer-motion@npm:7.5.3"
   dependencies:
     "@emotion/is-prop-valid": ^0.8.2
     "@motionone/dom": 10.13.1
@@ -7735,7 +7735,7 @@ __metadata:
   dependenciesMeta:
     "@emotion/is-prop-valid":
       optional: true
-  checksum: 6b03eff78e213a964ed8147e3c0d97756f2d9c1d18d7c92f82d177044815612ad2e098c8ca90a85cc9c51651c1b2bb1c194f943a0ccbfe0d978370f568893e7c
+  checksum: 5b038ecb44e355916cef2310a1f0df7937f7e38e36b91e35a1dc0425b7717f8e5dd76b5cbf0acd38b81027ba0d8fc33d9148d901ecee7017adc76e2ae466bfea
   languageName: node
   linkType: hard
 
@@ -12892,7 +12892,7 @@ __metadata:
     eslint-config-prettier: 8.5.0
     eslint-plugin-prettier: 4.2.1
     eslint-plugin-react-hooks: 4.6.0
-    framer-motion: 7.2.0
+    framer-motion: 7.5.3
     js-cookie: 3.0.1
     npm-run-all: 4.1.5
     prettier: 2.7.1
