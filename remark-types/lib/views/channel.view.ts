@@ -11,15 +11,6 @@ export interface ChannelView {
   amIModerator: boolean
 }
 
-export interface ChannelPartialView {
-  id: string
-  uriName: string
-  title: string
-  joinCount: number
-  amIJoined: boolean
-  joinedAt: number
-}
-
 export interface ChannelInPostView {
   id: string
   createdAt: number
