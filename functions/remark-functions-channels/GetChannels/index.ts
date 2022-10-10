@@ -3,7 +3,7 @@ import { readUserFromAuthHeader } from '@triszt4n/remark-auth'
 import { ChannelView } from '@triszt4n/remark-types'
 import { fetchCosmosContainer, fetchCosmosDatabase } from '../lib/dbConfig'
 import {
-  createQueryExistsJoinOfUserIdAndChannelId,
+  createQueryChannelJoinOfUserIdAndChannelId,
   createQueryForJoinCountOfChannel,
   createQueryForPostCountOfChannel
 } from '../lib/dbQueries'
@@ -28,7 +28,7 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
         postsContainer.items.query<{ postsCount: number }>(createQueryForPostCountOfChannel(channel.id)).fetchAll(),
         user
           ? channelJoinsContainer.items
-              .query<ChannelJoinResource>(createQueryExistsJoinOfUserIdAndChannelId(user.id, channel.id))
+              .query<ChannelJoinResource>(createQueryChannelJoinOfUserIdAndChannelId(user.id, channel.id))
               .fetchAll()
           : null
       ])

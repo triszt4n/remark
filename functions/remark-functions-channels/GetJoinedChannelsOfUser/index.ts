@@ -1,10 +1,10 @@
 import { AzureFunction, Context, HttpRequest } from '@azure/functions'
 import { readUserFromAuthHeader } from '@triszt4n/remark-auth'
-import { ChannelPartialView } from '@triszt4n/remark-types'
+import { ChannelModel, ChannelView } from '@triszt4n/remark-types'
 import { fetchCosmosContainer, fetchCosmosDatabase } from '../lib/dbConfig'
 import {
+  createQueryChannelJoinOfUserIdAndChannelId,
   createQueryChannelJoinsOfUserId,
-  createQueryExistsJoinOfUserIdAndChannelId,
   createQueryForJoinCountOfChannel
 } from '../lib/dbQueries'
 import { ChannelJoinResource } from '../lib/model'
@@ -24,42 +24,52 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
     .query<ChannelJoinResource>(createQueryChannelJoinsOfUserId(id))
     .fetchAll()
 
-  const channelPartials = await Promise.all(
+  const channels = await Promise.all(
     channelJoins.map(async (join) => {
-      const { resource: channel } = await channelsContainer.item(join.channelId, join.channelId).read()
+      const { resource: channel } = await channelsContainer.item(join.channelId, join.channelId).read<ChannelModel>()
 
       const { joinCount } = (
         await channelJoinsContainer.items.query<{ joinCount: number }>(createQueryForJoinCountOfChannel(join.channelId)).fetchAll()
       ).resources[0]
 
-      let amIJoined: boolean
+      let amIJoined: boolean, amIOwner: boolean, amIModerator: boolean
       let joinedAt: number = join.createdAt
+
       if (!user) {
         amIJoined = false
+        amIOwner = false
+        amIModerator = false
       } else if (id == user.id) {
         amIJoined = true
+        amIOwner = join.isOwner
+        amIModerator = join.isModerator
       } else {
         const { resources: requesterJoins } = await channelJoinsContainer.items
-          .query<ChannelJoinResource>(createQueryExistsJoinOfUserIdAndChannelId(user.id, channel.id))
+          .query<ChannelJoinResource>(createQueryChannelJoinOfUserIdAndChannelId(user.id, channel.id))
           .fetchAll()
         if (requesterJoins.length > 0) {
           amIJoined = true
           joinedAt = requesterJoins[0].createdAt
+          amIOwner = requesterJoins[0].isOwner
+          amIModerator = requesterJoins[0].isModerator
         }
       }
 
-      const returnable: ChannelPartialView = {
+      const returnable: ChannelView = {
         ...channel,
         joinCount,
         amIJoined,
-        joinedAt
+        joinedAt,
+        postsCount: 0, // irrelevant data here
+        amIOwner,
+        amIModerator
       }
       return returnable
     })
   )
 
   context.res = {
-    body: channelPartials
+    body: channels
   }
 }
 

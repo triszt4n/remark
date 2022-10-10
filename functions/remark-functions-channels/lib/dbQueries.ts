@@ -18,7 +18,7 @@ export const createQueryForJoinCountOfChannel = (id: string) => ({
   ]
 })
 
-export const createQueryExistsJoinOfUserIdAndChannelId = (userId: string, channelId: string) => ({
+export const createQueryChannelJoinOfUserIdAndChannelId = (userId: string, channelId: string) => ({
   query: 'SELECT * FROM ChannelJoins cj WHERE cj.userId = @userId AND cj.channelId = @channelId',
   parameters: [
     {

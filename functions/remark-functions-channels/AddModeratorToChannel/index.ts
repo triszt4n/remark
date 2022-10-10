@@ -3,7 +3,7 @@ import { AzureFunction, Context, HttpRequest } from '@azure/functions'
 import { readUserFromAuthHeader } from '@triszt4n/remark-auth'
 import { NotificationModel } from '@triszt4n/remark-types'
 import { fetchCosmosContainer, fetchCosmosDatabase } from '../lib/dbConfig'
-import { createQueryExistsJoinOfUserIdAndChannelId, createQueryUserByUsername } from '../lib/dbQueries'
+import { createQueryChannelJoinOfUserIdAndChannelId, createQueryUserByUsername } from '../lib/dbQueries'
 import { ChannelJoinResource, ChannelResource, UserResource } from '../lib/model'
 
 const createNotifications = async (database: Database, forUserId: string, ownerUsername: string, channel: ChannelResource) => {
@@ -76,7 +76,7 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
   // Check if joined yet
   const channelJoinsContainer = fetchCosmosContainer(database, 'ChannelJoins')
   const { resources: channelJoins } = await channelJoinsContainer.items
-    .query<ChannelJoinResource>(createQueryExistsJoinOfUserIdAndChannelId(moderator.id, id))
+    .query<ChannelJoinResource>(createQueryChannelJoinOfUserIdAndChannelId(moderator.id, id))
     .fetchAll()
   if (channelJoins.length === 0) {
     context.res = {

@@ -4,7 +4,7 @@ import { readUserFromAuthHeader } from '@triszt4n/remark-auth'
 import { ChannelJoinModel } from '@triszt4n/remark-types'
 import validator from 'validator'
 import { fetchCosmosContainer, fetchCosmosDatabase } from '../lib/dbConfig'
-import { createQueryExistsJoinOfUserIdAndChannelId } from '../lib/dbQueries'
+import { createQueryChannelJoinOfUserIdAndChannelId } from '../lib/dbQueries'
 import { ChannelJoinResource, ChannelResource } from '../lib/model'
 
 const tryDeletingJoin = async (container: Container, channelId: string, foundJoin: ChannelJoinResource | undefined): Promise<any> => {
@@ -93,7 +93,7 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
 
   const channelJoinsContainer = fetchCosmosContainer(database, 'ChannelJoins')
   const { resources: channelJoins } = await channelJoinsContainer.items
-    .query<ChannelJoinResource>(createQueryExistsJoinOfUserIdAndChannelId(user.id, id))
+    .query<ChannelJoinResource>(createQueryChannelJoinOfUserIdAndChannelId(user.id, id))
     .fetchAll()
 
   // Found the one
