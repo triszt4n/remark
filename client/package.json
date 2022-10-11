@@ -10,7 +10,7 @@
     "@emotion/react": "11.10.4",
     "@emotion/styled": "11.10.4",
     "@fontsource/inter": "4.5.13",
-    "@microsoft/signalr": "6.0.9",
+    "@microsoft/signalr": "6.0.10",
     "axios": "1.1.2",
     "chakra-ui-markdown-renderer": "4.1.0",
     "date-fns": "2.29.3",

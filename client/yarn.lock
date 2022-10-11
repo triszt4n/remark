@@ -3264,16 +3264,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@microsoft/signalr@npm:6.0.9":
-  version: 6.0.9
-  resolution: "@microsoft/signalr@npm:6.0.9"
+"@microsoft/signalr@npm:6.0.10":
+  version: 6.0.10
+  resolution: "@microsoft/signalr@npm:6.0.10"
   dependencies:
     abort-controller: ^3.0.0
     eventsource: ^1.0.7
     fetch-cookie: ^0.11.0
     node-fetch: ^2.6.7
     ws: ^7.4.5
-  checksum: 6ff4742dbf8460351ebb4fe52750acd910c8a4b33638202b159f215acd8da4c121b6ca1f6dc99fc9c3726224d24013a3c5d93cf98da1b24dc364f10b5801e70b
+  checksum: dc25a2afee9bf12c9b22205cad21089e190e6a3c02d05490426d0a5413577c4f552cf32a59c75e5fa6d2874782d8d9d4f763c0ddce1d7d69d72f8d276bc89c50
   languageName: node
   linkType: hard
 
@@ -13044,7 +13044,7 @@ __metadata:
     "@emotion/react": 11.10.4
     "@emotion/styled": 11.10.4
     "@fontsource/inter": 4.5.13
-    "@microsoft/signalr": 6.0.9
+    "@microsoft/signalr": 6.0.10
     "@triszt4n/remark-types": 2.0.1
     "@types/jest": 29.1.2
     "@types/js-cookie": 3.0.2
