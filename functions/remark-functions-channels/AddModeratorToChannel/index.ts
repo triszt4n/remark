@@ -65,7 +65,11 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
   }
 
   // Check permissions
-  if (channel.ownerId != user.id) {
+  const channelJoinsContainer = fetchCosmosContainer(database, 'ChannelJoins')
+  const { resources: ownerJoins } = await channelJoinsContainer.items
+    .query<ChannelJoinResource>(createQueryChannelJoinOfUserIdAndChannelId(user.id, id))
+    .fetchAll()
+  if (ownerJoins.length == 0 || !ownerJoins[0].isOwner) {
     context.res = {
       status: 403,
       body: { message: 'You are forbidden to make changes this channel!' }
@@ -74,7 +78,6 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
   }
 
   // Check if joined yet
-  const channelJoinsContainer = fetchCosmosContainer(database, 'ChannelJoins')
   const { resources: channelJoins } = await channelJoinsContainer.items
     .query<ChannelJoinResource>(createQueryChannelJoinOfUserIdAndChannelId(moderator.id, id))
     .fetchAll()
@@ -87,14 +90,11 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
   }
 
   // Apply changes
-  channel = {
-    ...channel,
-    moderatorIds: [...channel.moderatorIds, moderator.id]
-  }
-  const { resource: updatedChannel } = await channelItem.replace<ChannelResource>(channel)
+  const channelJoin = { ...channelJoins[0], isModerator: true }
+  const { resource: updatedChannelJoin } = await channelJoinsContainer.item(channelJoins[0].id, channelJoins[0].id).replace(channelJoin)
 
   context.res = {
-    body: updatedChannel
+    body: updatedChannelJoin
   }
 
   // Send out notification for moderator

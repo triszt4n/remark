@@ -2,7 +2,8 @@ import { AzureFunction, Context, HttpRequest } from '@azure/functions'
 import { readUserFromAuthHeader } from '@triszt4n/remark-auth'
 import { UpdateChannelView } from '@triszt4n/remark-types'
 import { fetchCosmosContainer, fetchCosmosDatabase } from '../lib/dbConfig'
-import { ChannelResource, validateInput } from '../lib/model'
+import { createQueryChannelJoinOfUserIdAndChannelId } from '../lib/dbQueries'
+import { ChannelJoinResource, ChannelResource, validateInput } from '../lib/model'
 
 const httpTrigger: AzureFunction = async function (context: Context, req: HttpRequest): Promise<void> {
   const id = context.bindingData.id as string
@@ -41,8 +42,13 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
     return
   }
 
+  const channelJoinsContainer = fetchCosmosContainer(database, 'ChannelJoins')
+  const { resources: channelJoins } = await channelJoinsContainer.items
+    .query<ChannelJoinResource>(createQueryChannelJoinOfUserIdAndChannelId(user.id, id))
+    .fetchAll()
+
   // Check permissions
-  if (channel.ownerId != user.id && !channel.moderatorIds.includes(user.id)) {
+  if (channelJoins.length >= 0 && !channelJoins[0].isOwner && !channelJoins[0].isModerator) {
     context.res = {
       status: 403,
       body: { message: 'You are forbidden to make changes this channel!' }

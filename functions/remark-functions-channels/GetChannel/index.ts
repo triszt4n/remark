@@ -39,10 +39,16 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
 
   const { joinCount } = res1.resources[0]
   const { postsCount } = res2.resources[0]
-  const amIJoined = res3 ? res3.resources.length > 0 : false
+  let amIJoined = false,
+    amIOwner = false,
+    amIModerator = false
 
-  const amIOwner = user ? user.id === channel.ownerId : false
-  const amIModerator = user ? channel.moderatorIds.includes(user.id) : false
+  if (res3 && res3.resources.length > 0) {
+    const { isOwner, isModerator } = res3.resources[0]
+    amIJoined = true
+    amIOwner = isOwner
+    amIModerator = isModerator
+  }
 
   const returnable: ChannelView = {
     ...channel,

@@ -3,7 +3,8 @@ import { AzureFunction, Context, HttpRequest } from '@azure/functions'
 import { readUserFromAuthHeader } from '@triszt4n/remark-auth'
 import { NotificationModel } from '@triszt4n/remark-types'
 import { fetchCosmosContainer, fetchCosmosDatabase } from '../lib/dbConfig'
-import { ChannelResource } from '../lib/model'
+import { createQueryChannelJoinOfUserIdAndChannelId } from '../lib/dbQueries'
+import { ChannelJoinResource, ChannelResource } from '../lib/model'
 
 const createNotifications = async (database: Database, forUserId: string, ownerUsername: string, channel: ChannelResource) => {
   const notificationsContainer = fetchCosmosContainer(database, 'Notifications')
@@ -44,8 +45,24 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
     return
   }
 
+  const channelJoinsContainer = fetchCosmosContainer(database, 'ChannelJoins')
+  const { resources: channelJoins } = await channelJoinsContainer.items
+    .query<ChannelJoinResource>(createQueryChannelJoinOfUserIdAndChannelId(moderatorId, id))
+    .fetchAll()
+  const { resources: ownerJoins } = await channelJoinsContainer.items
+    .query<ChannelJoinResource>(createQueryChannelJoinOfUserIdAndChannelId(user.id, id))
+    .fetchAll()
+
+  if (channelJoins.length === 0) {
+    context.res = {
+      status: 404,
+      body: { message: `Channel join with user id ${moderatorId} and channel id ${id} not found.` }
+    }
+    return
+  }
+
   // Does channel have this moderator
-  if (!channel.moderatorIds.includes(moderatorId)) {
+  if (!channelJoins[0].isModerator) {
     context.res = {
       status: 400,
       body: { message: 'Moderator id is not an id of a moderator!' }
@@ -54,7 +71,7 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
   }
 
   // Check permissions
-  if (channel.ownerId != user.id) {
+  if (ownerJoins.length > 0 && ownerJoins[0].isOwner) {
     context.res = {
       status: 403,
       body: { message: 'You are forbidden to make changes this channel!' }
@@ -63,11 +80,10 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
   }
 
   // Apply changes
-  channel.moderatorIds.splice(channel.moderatorIds.indexOf(moderatorId), 1)
-  const { resource: updatedChannel } = await channelItem.replace<ChannelResource>(channel)
+  const { resource: removedChannelJoin } = await channelJoinsContainer.item(channelJoins[0].id, channelJoins[0].id).delete()
 
   context.res = {
-    body: updatedChannel
+    body: removedChannelJoin
   }
 
   // Send out notification for moderator

@@ -1,24 +1,18 @@
 import { AzureFunction, Context, HttpRequest } from '@azure/functions'
 import { fetchCosmosContainer, fetchCosmosDatabase } from '../lib/dbConfig'
-import { createQueryByModeratorIds } from '../lib/dbQueries'
-import { ChannelResource, UserResource } from '../lib/model'
+import { createQueryByModeratorIds, createQueryChannelJoinsOfChannel } from '../lib/dbQueries'
+import { ChannelJoinResource, UserResource } from '../lib/model'
 
 const httpTrigger: AzureFunction = async function (context: Context, req: HttpRequest): Promise<void> {
   const id = context.bindingData.id as string
 
   const database = fetchCosmosDatabase()
-  const channelsContainer = fetchCosmosContainer(database, 'Channels')
-  const channelItem = channelsContainer.item(id, id)
-  const { resource: channel } = await channelItem.read<ChannelResource>()
-  if (!channel) {
-    context.res = {
-      status: 404,
-      body: { message: `Channel with id ${id} not found.` }
-    }
-    return
-  }
-
-  const { moderatorIds, ownerId } = channel
+  const channelJoinsContainer = fetchCosmosContainer(database, 'ChannelJoins')
+  const { resources: channelJoins } = await channelJoinsContainer.items
+    .query<ChannelJoinResource>(createQueryChannelJoinsOfChannel(id))
+    .fetchAll()
+  const moderatorIds = channelJoins.filter((join) => join.isModerator).map((join) => join.userId)
+  const ownerId = channelJoins.find((join) => join.isOwner).userId
 
   const usersContainer = fetchCosmosContainer(database, 'Users')
   const [{ resource: owner }, { resources: moderators }] = await Promise.all([

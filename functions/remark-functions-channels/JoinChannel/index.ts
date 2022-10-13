@@ -38,7 +38,9 @@ const tryCreatingJoin = async (
   const { resource: createdJoin } = await container.items.create<ChannelJoinModel>({
     userId: user.id,
     channelId: channelId,
-    createdAt: +new Date()
+    createdAt: +new Date(),
+    isModerator: false,
+    isOwner: false
   })
   return {
     body: { join: createdJoin }
@@ -72,7 +74,6 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
   // DB
   const database = fetchCosmosDatabase()
 
-  // Owner cannot leave
   const channelContainer = fetchCosmosContainer(database, 'Channels')
   const channelItem = channelContainer.item(id, id)
   const { resource: channel } = await channelItem.read<ChannelResource>()
@@ -80,13 +81,6 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
     context.res = {
       status: 404,
       body: { message: `Channel with id ${id} not found!` }
-    }
-    return
-  }
-  if (channel.ownerId === user.id && intent === 'leave') {
-    context.res = {
-      status: 403,
-      body: { message: `Forbidden: Channel owner cannot leave the channel!` }
     }
     return
   }
@@ -102,14 +96,13 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
     channelJoin = channelJoins[0]
   }
 
-  // This shouldn't work like this, see issue #106
-  // Removing moderator if in the channel
-  // todo: Optimize with parallel processing
-  const indexOfModerator = channel.moderatorIds.indexOf(user.id)
-  let updatedChannel: ChannelResource | undefined = undefined
-  if (indexOfModerator != -1) {
-    channel.moderatorIds.splice(indexOfModerator, 1)
-    updatedChannel = (await channelItem.replace<ChannelResource>(channel)).resource
+  // Owner cannot leave
+  if (channelJoin?.isOwner && intent === 'leave') {
+    context.res = {
+      status: 403,
+      body: { message: `Forbidden: Channel owner cannot leave the channel!` }
+    }
+    return
   }
 
   // Apply changes
@@ -122,7 +115,7 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
       break
   }
 
-  context.res.body.channel = updatedChannel || channel
+  context.res.body.channel = channel
 }
 
 export default httpTrigger
