@@ -32,6 +32,16 @@ export const createQueryChannelJoinOfUserIdAndChannelId = (userId: string, chann
   ]
 })
 
+export const createQueryOwnerChannelJoinOfChannelId = (channelId: string) => ({
+  query: 'SELECT * FROM ChannelJoins cj WHERE cj.channelId = @channelId AND cj.isOwner = true',
+  parameters: [
+    {
+      name: '@channelId',
+      value: channelId
+    }
+  ]
+})
+
 export const createQueryChannelJoinsOfUserId = (userId: string) => ({
   query: 'SELECT * FROM ChannelJoins cj WHERE cj.userId = @userId',
   parameters: [

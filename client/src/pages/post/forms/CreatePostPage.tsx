@@ -58,7 +58,7 @@ export const CreatePostPage = () => {
     },
     onError: (error) => {
       const err = error as any
-      rconsole.log('Error at createPost', err.toJSON())
+      rconsole.log('Error at createPost', JSON.stringify(err))
       toast({
         title: 'Error occured when creating post',
         description: `${err.response.status} ${err.response.data.message} Try again later.`,

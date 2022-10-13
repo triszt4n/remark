@@ -26,7 +26,7 @@ export const IndexPage = () => {
     },
     onError: (error) => {
       const err = error as any
-      rconsole.log('Error at joinOrLeaveChannel', err.toJSON())
+      rconsole.log('Error at joinOrLeaveChannel', JSON.stringify(err))
       toast({
         title: 'Error occured when joining or leaving channel',
         description: `${err.response.status} ${err.response.data.message || err.message} Try again later.`,

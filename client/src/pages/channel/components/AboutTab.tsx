@@ -72,7 +72,7 @@ export const AboutTab = ({ channelId, isLoading, channel }: Props) => {
     },
     onError: (error) => {
       const err = error as any
-      rconsole.log('Error at deleteChannel', err.toJSON())
+      rconsole.log('Error at deleteChannel', JSON.stringify(err))
       toast({
         title: 'Error occured when deleting channel',
         description: `${err.response.status} ${err.response.data.message} Try again later.`,

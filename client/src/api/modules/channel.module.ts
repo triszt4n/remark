@@ -1,7 +1,6 @@
 import {
   ChannelJoinModel,
   ChannelModel,
-  ChannelPartialView,
   ChannelView,
   CreateChannelView,
   PostView,
@@ -35,8 +34,8 @@ class ChannelModule {
     return response.data
   }
 
-  async fetchJoinedChannelsOfUser(id: string): Promise<ChannelPartialView[]> {
-    const response = await axios.get<ChannelPartialView[]>(`${CHANNEL_PATH_PREFIX}/channels/user/${id}/joins`)
+  async fetchJoinedChannelsOfUser(id: string): Promise<ChannelView[]> {
+    const response = await axios.get<ChannelView[]>(`${CHANNEL_PATH_PREFIX}/channels/user/${id}/joins`)
     return response.data
   }
 

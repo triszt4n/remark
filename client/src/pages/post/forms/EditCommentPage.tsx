@@ -50,7 +50,7 @@ export const EditCommentPage = () => {
     },
     onError: (error) => {
       const err = error as any
-      rconsole.log('Error at updateComment', err.toJSON())
+      rconsole.log('Error at updateComment', JSON.stringify(err))
       toast({
         title: 'Error occured when updating comment',
         description: `${err.response.status} ${err.response.data.message} Try again later.`,

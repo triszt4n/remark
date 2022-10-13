@@ -40,7 +40,7 @@ export const NotificationsProvider = ({ children }: HasChildren) => {
     },
     onError: (error) => {
       const err = error as any
-      rconsole.log('Error at clearNotifications', err.toJSON())
+      rconsole.log('Error at clearNotifications', JSON.stringify(err))
       toast({
         title: 'Error occured when clearing notifications',
         description: `${err.response.status} ${err.response.data.message || err.message} Try again later.`,

@@ -45,7 +45,7 @@ export const EditUsernameModal = ({ isOpen, onClose }: Props) => {
     },
     onError: (error) => {
       const err = error as any
-      rconsole.log('Error at updateUser', err.toJSON())
+      rconsole.log('Error at updateUser', JSON.stringify(err))
       setError('newUsername', { type: 'custom', message: err.response.data.message })
     }
   })

@@ -29,7 +29,7 @@ export const UploadPostImageModal = ({ postId, isOpen, onClose }: Props) => {
     },
     onError: (error) => {
       const err = error as any
-      rconsole.log('Error at uploadPostImage', err.toJSON())
+      rconsole.log('Error at uploadPostImage', JSON.stringify(err))
       setError('files', { type: 'custom', message: err.response.data.message || err.message })
       setValue('files', undefined)
     }

@@ -1,5 +1,5 @@
 import { Badge, Box, Button, Heading, HStack, LinkBox, LinkOverlay, Text, useToast, VStack } from '@chakra-ui/react'
-import { ChannelPartialView } from '@triszt4n/remark-types'
+import { ChannelView } from '@triszt4n/remark-types'
 import { useMutation } from 'react-query'
 import { Link } from 'react-router-dom'
 import { useAuthContext } from '../../../../api/contexts/auth/useAuthContext'
@@ -9,7 +9,7 @@ import { queryClient } from '../../../../util/query-client'
 import { rconsole } from '../../../../util/remark-console'
 
 type Props = {
-  channel: ChannelPartialView
+  channel: ChannelView
   userId: string
 }
 
@@ -30,7 +30,7 @@ export const JoinedChannel = ({ channel, userId }: Props) => {
     },
     onError: (error) => {
       const err = error as any
-      rconsole.log('Error at joinOrLeaveChannel', err.toJSON())
+      rconsole.log('Error at joinOrLeaveChannel', JSON.stringify(err))
       toast({
         title: 'Error occured when leaving channel',
         description: `${err.response.status} ${err.response.data.message || err.message} Try again later.`,
@@ -66,7 +66,7 @@ export const JoinedChannel = ({ channel, userId }: Props) => {
             </Badge>
             {isLoggedIn && channel.amIJoined && (
               <Box fontSize="xs" color="gray.500" fontWeight={700} letterSpacing="wide">
-                <Text fontSize="xs">you joined {toRelativeDateString(channel.joinedAt)}</Text>
+                <Text fontSize="xs">you joined {toRelativeDateString(channel.joinedAt!!)}</Text>
               </Box>
             )}
           </VStack>

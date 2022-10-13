@@ -59,7 +59,7 @@ export const AuthProvider = ({ children }: HasChildren) => {
     },
     onError: (error) => {
       const err = error as any
-      rconsole.log('Error at loginUser', err.toJSON())
+      rconsole.log('Error at loginUser', JSON.stringify(err))
       toast({
         title: 'Error occured when logging in new user',
         description: `${err.response.status} ${err.response.data.message} Try again later.`,

@@ -58,7 +58,7 @@ export const ActionsSection = ({ post, onUploadImagePressed }: Props) => {
     },
     onError: (error) => {
       const err = error as any
-      rconsole.log('Error at deletePost', err.toJSON())
+      rconsole.log('Error at deletePost', JSON.stringify(err))
       toast({
         title: 'Error occured when deleting post',
         description: `${err.response.status} ${err.response.data.message} Try again later.`,

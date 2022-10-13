@@ -26,7 +26,7 @@ export const EditChannelPage = () => {
     },
     onError: (error) => {
       const err = error as any
-      rconsole.log('Error at updateChannel', err.toJSON())
+      rconsole.log('Error at updateChannel', JSON.stringify(err))
       toast({
         title: 'Error occured when updating channel',
         description: `${err.response.status} ${err.response.data.message} Try again later.`,

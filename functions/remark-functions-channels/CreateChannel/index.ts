@@ -52,9 +52,7 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
     uriName,
     createdAt: +new Date(),
     title,
-    descRawMarkdown,
-    ownerId: user.id,
-    moderatorIds: []
+    descRawMarkdown
   }
 
   const { resource: channel } = await channelsContainer.items.create(creatableChannel)
@@ -64,7 +62,9 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
   await channelJoinsContainer.items.create<ChannelJoinModel>({
     createdAt: +new Date(),
     userId: user.id,
-    channelId: channel.id
+    channelId: channel.id,
+    isOwner: true,
+    isModerator: true
   })
 
   context.res = {

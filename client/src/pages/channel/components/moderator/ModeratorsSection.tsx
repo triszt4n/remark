@@ -23,7 +23,7 @@ export const ModeratorsSection = ({ channelId, amIOwner }: Props) => {
     },
     onError: (error) => {
       const err = error as any
-      rconsole.log('Error at removeModeratorFromChannel', err.toJSON())
+      rconsole.log('Error at removeModeratorFromChannel', JSON.stringify(err))
       toast({
         title: 'Error occured when removing a moderator',
         description: `${err.response.status} ${err.response.data.message || err.message} Try again later.`,

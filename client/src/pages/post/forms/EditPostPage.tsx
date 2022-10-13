@@ -22,7 +22,7 @@ export const EditPostPage = () => {
     },
     onError: (error) => {
       const err = error as any
-      rconsole.log('Error at updatePost', err.toJSON())
+      rconsole.log('Error at updatePost', JSON.stringify(err))
       toast({
         title: 'Error occured when updating post',
         description: `${err.response.status} ${err.response.data.message} Try again later.`,

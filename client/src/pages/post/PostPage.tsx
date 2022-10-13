@@ -33,7 +33,7 @@ export const PostPage = () => {
     },
     onError: (error) => {
       const err = error as any
-      rconsole.log('Error at createComment', err.toJSON())
+      rconsole.log('Error at createComment', JSON.stringify(err))
       toast({
         title: 'Error occured when creating comment',
         description: `${err.response.status} ${err.response.data.message} Try again later.`,

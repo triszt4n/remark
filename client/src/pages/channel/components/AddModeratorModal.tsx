@@ -16,7 +16,7 @@ import {
   useToast
 } from '@chakra-ui/react'
 import { ChannelView } from '@triszt4n/remark-types'
-import { useForm, SubmitHandler } from 'react-hook-form'
+import { SubmitHandler, useForm } from 'react-hook-form'
 import { FaCheck } from 'react-icons/fa'
 import { useMutation } from 'react-query'
 import { useAuthContext } from '../../../api/contexts/auth/useAuthContext'
@@ -53,7 +53,7 @@ export const AddModeratorModal = ({ channel, isOpen, onClose }: Props) => {
     },
     onError: (error) => {
       const err = error as any
-      rconsole.log('Error at addModeratorToChannel', err.toJSON())
+      rconsole.log('Error at addModeratorToChannel', JSON.stringify(err))
       setError('moderatorUsername', { type: 'custom', message: err.response.data.message })
     }
   })

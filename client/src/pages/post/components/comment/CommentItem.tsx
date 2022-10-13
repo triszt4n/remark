@@ -58,7 +58,7 @@ export const CommentItem = ({ comment, post }: Props) => {
     },
     onError: (error) => {
       const err = error as any
-      rconsole.log('Error at voteComment', err.toJSON())
+      rconsole.log('Error at voteComment', JSON.stringify(err))
       toast({
         title: 'Error occured when sending vote',
         description: `${err.response.status} ${err.response.data.message} Try again later.`,
@@ -73,7 +73,7 @@ export const CommentItem = ({ comment, post }: Props) => {
     },
     onError: (error) => {
       const err = error as any
-      rconsole.log('Error at deleteComment', err.toJSON())
+      rconsole.log('Error at deleteComment', JSON.stringify(err))
       toast({
         title: 'Error occured when deleting comment',
         description: `${err.response.status} ${err.response.data.message} Try again later.`,

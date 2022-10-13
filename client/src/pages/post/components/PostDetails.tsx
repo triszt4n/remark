@@ -35,7 +35,7 @@ export const PostDetails = ({ post }: Props) => {
     },
     onError: (error) => {
       const err = error as any
-      rconsole.log('Error at votePost', err.toJSON())
+      rconsole.log('Error at votePost', JSON.stringify(err))
       toast({
         title: 'Error occured when sending vote',
         description: `${err.response.status} ${err.response.data.message} Try again later.`,
