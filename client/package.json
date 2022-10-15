@@ -9,7 +9,7 @@
     "@chakra-ui/theme-tools": "2.0.12",
     "@emotion/react": "11.10.4",
     "@emotion/styled": "11.10.4",
-    "@fontsource/inter": "4.5.13",
+    "@fontsource/inter": "4.5.14",
     "@microsoft/signalr": "6.0.10",
     "axios": "0.27.2",
     "chakra-ui-markdown-renderer": "4.1.0",
