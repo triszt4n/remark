@@ -2,7 +2,8 @@ import { AzureFunction, Context, HttpRequest } from '@azure/functions'
 import { readUserFromAuthHeader } from '@triszt4n/remark-auth'
 import { UpdatePostView } from '@triszt4n/remark-types'
 import { fetchCosmosContainer, fetchCosmosDatabase } from '../lib/dbConfig'
-import { ChannelResource, PostResource, validateInput } from '../lib/model'
+import { createQueryChannelJoinByUserIdAndChannelId } from '../lib/dbQueries'
+import { ChannelJoinResource, ChannelResource, PostResource, validateInput } from '../lib/model'
 
 const httpTrigger: AzureFunction = async function (context: Context, req: HttpRequest): Promise<void> {
   const id = context.bindingData.id as string
@@ -42,13 +43,25 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
   }
 
   const channelsContainer = fetchCosmosContainer(database, 'Channels')
+  const channelJoinsContainer = fetchCosmosContainer(database, 'ChannelJoins')
   const { resource: parentChannel } = await channelsContainer.item(post.parentChannelId, post.parentChannelId).read<ChannelResource>()
+  const { resources: channelJoins } = await channelJoinsContainer.items
+    .query<ChannelJoinResource>(createQueryChannelJoinByUserIdAndChannelId(user.id, parentChannel.id))
+    .fetchAll()
 
-  // Check permissions
-  if (post.publisherId != user.id && parentChannel.ownerId != user.id && !parentChannel.moderatorIds.includes(user.id)) {
+  if (channelJoins.length == 0) {
     context.res = {
       status: 403,
-      body: { message: 'You are forbidden to make changes this post!' }
+      body: { message: 'You are not joined to the parent channel of this post!' }
+    }
+    return
+  }
+
+  // Deleting is available for: publisher, channel owner and channel moderators
+  if (post.publisherId != user.id && !channelJoins[0].isOwner && !channelJoins[0].isModerator) {
+    context.res = {
+      status: 403,
+      body: { message: 'You are forbidden to delete this post!' }
     }
     return
   }

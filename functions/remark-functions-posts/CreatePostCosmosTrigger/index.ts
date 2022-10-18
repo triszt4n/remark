@@ -28,9 +28,9 @@ const cosmosDBTrigger: AzureFunction = async function (context: Context, documen
         return await Promise.all(
           joins.map(async (join) => {
             let messageTitle: string
-            if (join.userId == channel.ownerId) {
+            if (join.isOwner) {
               messageTitle = 'New post in your channel'
-            } else if (channel.moderatorIds.includes(join.userId)) {
+            } else if (join.isModerator) {
               messageTitle = 'New post in a channel you moderate'
             } else {
               messageTitle = 'New post in a channel you joined'

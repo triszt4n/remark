@@ -2,8 +2,12 @@ import { AzureFunction, Context, HttpRequest } from '@azure/functions'
 import { readUserFromAuthHeader } from '@triszt4n/remark-auth'
 import { ChannelInPostView, MyVoteType, PostView } from '@triszt4n/remark-types'
 import { fetchCosmosContainer, fetchCosmosDatabase } from '../lib/dbConfig'
-import { createQueryPostVoteByPostIdAndUserId, createQueryPostVotesByPostId } from '../lib/dbQueries'
-import { ChannelResource, PostResource, PostVoteResource, UserResource } from '../lib/model'
+import {
+  createQueryChannelJoinByUserIdAndChannelId,
+  createQueryPostVoteByPostIdAndUserId,
+  createQueryPostVotesByPostId
+} from '../lib/dbQueries'
+import { ChannelJoinResource, ChannelResource, PostResource, PostVoteResource, UserResource } from '../lib/model'
 
 const httpTrigger: AzureFunction = async function (context: Context, req: HttpRequest): Promise<void> {
   const id = context.bindingData.id as string
@@ -18,6 +22,7 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
   const postsContainer = fetchCosmosContainer(database, 'Posts')
   const usersContainer = fetchCosmosContainer(database, 'Users')
   const postVotesContainer = fetchCosmosContainer(database, 'PostVotes')
+  const channelJoinsContainer = fetchCosmosContainer(database, 'ChannelJoins')
 
   const { resource: post } = await postsContainer.item(id, id).read<PostResource>()
   if (!post) {
@@ -45,10 +50,24 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
   }
 
   const { resource: parentChannel } = await channelsContainer.item(post.parentChannelId, post.parentChannelId).read<ChannelResource>()
+
+  let amIOwner = false,
+    amIModerator = false
+  if (user) {
+    const { resources: channelJoins } = await channelJoinsContainer.items
+      .query<ChannelJoinResource>(createQueryChannelJoinByUserIdAndChannelId(user.id, parentChannel.id))
+      .fetchAll()
+
+    if (channelJoins.length !== 0) {
+      amIOwner = channelJoins[0].isOwner
+      amIModerator = channelJoins[0].isModerator
+    }
+  }
+
   const channel: ChannelInPostView = {
     ...parentChannel,
-    amIOwner: user?.id == parentChannel.ownerId,
-    amIModerator: user ? parentChannel.moderatorIds.includes(user?.id) : false
+    amIOwner,
+    amIModerator
   }
 
   const returnable: PostView = {
