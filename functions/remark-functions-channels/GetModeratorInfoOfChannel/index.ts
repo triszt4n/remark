@@ -15,15 +15,14 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
   const ownerId = channelJoins.find((join) => join.isOwner).userId
 
   const usersContainer = fetchCosmosContainer(database, 'Users')
-  const [{ resource: owner }, { resources: moderators }] = await Promise.all([
-    usersContainer.item(ownerId, ownerId).read<UserResource>(),
-    usersContainer.items.query<UserResource>(createQueryByModeratorIds(moderatorIds)).fetchAll()
-  ])
+  const { resources: moderatorsAndOwner } = await usersContainer.items
+    .query<UserResource>(createQueryByModeratorIds(moderatorIds))
+    .fetchAll()
 
   context.res = {
     body: {
-      owner,
-      moderators
+      owner: moderatorsAndOwner.find((moderator) => moderator.id === ownerId),
+      moderators: moderatorsAndOwner.filter((moderator) => moderator.id !== ownerId)
     }
   }
 }
