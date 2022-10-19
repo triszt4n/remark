@@ -2,7 +2,8 @@ import { AzureFunction, Context, HttpRequest } from '@azure/functions'
 import { readUserFromAuthHeader } from '@triszt4n/remark-auth'
 import { UpdateCommentView } from '@triszt4n/remark-types'
 import { fetchCosmosContainer, fetchCosmosDatabase } from '../lib/dbConfig'
-import { ChannelResource, CommentResource, PostResource, validateInput } from '../lib/model'
+import { createQueryChannelJoinByUserIdAndChannelId } from '../lib/dbQueries'
+import { ChannelJoinResource, ChannelResource, CommentResource, PostResource, validateInput } from '../lib/model'
 
 const httpTrigger: AzureFunction = async function (context: Context, req: HttpRequest): Promise<void> {
   const id = context.bindingData.id as string
@@ -46,14 +47,27 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
   const { resource: parentPost } = await postsContainer.item(comment.parentPostId, comment.parentPostId).read<PostResource>()
 
   const channelsContainer = fetchCosmosContainer(database, 'Channels')
+  const channelJoinsContainer = fetchCosmosContainer(database, 'ChannelJoins')
+
   const { resource: parentChannel } = await channelsContainer
     .item(parentPost.parentChannelId, parentPost.parentChannelId)
     .read<ChannelResource>()
+  const { resources: channelJoins } = await channelJoinsContainer.items
+    .query<ChannelJoinResource>(createQueryChannelJoinByUserIdAndChannelId(user.id, parentChannel.id))
+    .fetchAll()
 
-  if (comment.publisherId != user.id && parentChannel.ownerId != user.id && !parentChannel.moderatorIds.includes(user.id)) {
+  if (channelJoins.length === 0) {
     context.res = {
       status: 403,
-      body: { message: 'You are forbidden to make changes this channel!' }
+      body: { message: 'You are not joined to the parent channel!' }
+    }
+    return
+  }
+
+  if (comment.publisherId != user.id && !channelJoins[0].isOwner && !channelJoins[0].isModerator) {
+    context.res = {
+      status: 403,
+      body: { message: 'You are forbidden to make changes in this channel!' }
     }
     return
   }
