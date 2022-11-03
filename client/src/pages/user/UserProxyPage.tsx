@@ -1,4 +1,5 @@
 import { VStack } from '@chakra-ui/react'
+import { AxiosError } from 'axios'
 import { useQuery } from 'react-query'
 import { Navigate, useParams } from 'react-router-dom'
 import { useAuthContext } from '../../api/contexts/auth/useAuthContext'
@@ -23,10 +24,9 @@ export const UserProxyPage = () => {
   }
 
   if (error) {
-    console.error('[DEBUG] Error at UserProxyPage', error)
-    return (
-      <Navigate replace to="/error" state={{ title: 'Error occured loading user', messages: [(error as any)?.response.data.message] }} />
-    )
+    const err = error as AxiosError<{ message: string }>
+    console.error('[DEBUG] Error at UserProxyPage', err)
+    return <Navigate replace to="/error" state={{ title: 'Error occured loading user', messages: [err.response?.data.message] }} />
   }
 
   return <Navigate replace to={`/users/${user?.id}`} state={{ user: user!! }} />

@@ -1,5 +1,6 @@
 import { Code, Heading, useToast, VStack } from '@chakra-ui/react'
 import { PostView, UpdatePostView } from '@triszt4n/remark-types'
+import { AxiosError } from 'axios'
 import { useMutation } from 'react-query'
 import { Navigate, useNavigate, useParams } from 'react-router-dom'
 import { useAuthContext } from '../../../api/contexts/auth/useAuthContext'
@@ -21,11 +22,11 @@ export const EditPostPage = () => {
       navigate(`/posts/${postId}`)
     },
     onError: (error) => {
-      const err = error as any
+      const err = error as AxiosError<{ message: string }>
       rconsole.log('Error at updatePost', JSON.stringify(err))
       toast({
         title: 'Error occured when updating post',
-        description: `${err.response.status} ${err.response.data.message} Try again later.`,
+        description: `${err.response?.status} ${err.response?.data.message} Try again later.`,
         status: 'error',
         isClosable: true
       })
@@ -58,10 +59,9 @@ export const EditPostPage = () => {
   }
 
   if (error) {
-    console.error('[DEBUG] Error at EditPostPage', error)
-    return (
-      <Navigate replace to="/error" state={{ title: 'Error occured loading post', messages: [(error as any)?.response.data.message] }} />
-    )
+    const err = error as AxiosError<{ message: string }>
+    console.error('[DEBUG] Error at EditPostPage', err)
+    return <Navigate replace to="/error" state={{ title: 'Error occured loading post', messages: [err.response?.data.message] }} />
   }
 
   if (!post?.amIPublisher && !post?.channel.amIModerator && !post?.channel.amIOwner) {

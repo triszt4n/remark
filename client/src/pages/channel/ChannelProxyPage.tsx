@@ -1,3 +1,4 @@
+import { AxiosError } from 'axios'
 import { useQuery } from 'react-query'
 import { Navigate, useParams } from 'react-router-dom'
 import { channelModule } from '../../api/modules/channel.module'
@@ -12,10 +13,9 @@ export const ChannelProxyPage = () => {
   }
 
   if (error) {
-    console.error('[DEBUG] Error at ChannelProxyPage', error)
-    return (
-      <Navigate replace to="/error" state={{ title: 'Error occured loading channel', messages: [(error as any)?.response.data.message] }} />
-    )
+    const err = error as AxiosError<{ message: string }>
+    console.error('[DEBUG] Error at ChannelProxyPage', err)
+    return <Navigate replace to="/error" state={{ title: 'Error occured loading channel', messages: [err.response?.data.message] }} />
   }
 
   return <Navigate replace to={`/channels/${channel?.id}`} />

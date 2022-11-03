@@ -1,5 +1,6 @@
 import { Code, Heading, useToast, VStack } from '@chakra-ui/react'
 import { ChannelView, UpdatePostView } from '@triszt4n/remark-types'
+import { AxiosError } from 'axios'
 import { useMutation } from 'react-query'
 import { Navigate, useNavigate, useParams } from 'react-router-dom'
 import { useAuthContext } from '../../../api/contexts/auth/useAuthContext'
@@ -42,12 +43,16 @@ export const CreatePostPage = () => {
   }
 
   if (error) {
-    console.error('[DEBUG] Error at CreatePostPage', error)
+    const err = error as AxiosError<{ message: string }>
+    console.error('[DEBUG] Error at CreatePostPage', err)
     return (
       <Navigate
         replace
         to="/error"
-        state={{ title: 'Error occured loading channel info for creating post for', messages: [(error as any)?.response.data.message] }}
+        state={{
+          title: 'Error occured loading channel info for creating post for',
+          messages: [err.response?.data.message]
+        }}
       />
     )
   }
@@ -57,11 +62,11 @@ export const CreatePostPage = () => {
       navigate(`/posts/${data.id}`)
     },
     onError: (error) => {
-      const err = error as any
+      const err = error as AxiosError<{ message: string }>
       rconsole.log('Error at createPost', JSON.stringify(err))
       toast({
         title: 'Error occured when creating post',
-        description: `${err.response.status} ${err.response.data.message} Try again later.`,
+        description: `${err.response?.status} ${err.response?.data.message} Try again later.`,
         status: 'error',
         isClosable: true
       })

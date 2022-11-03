@@ -1,5 +1,6 @@
 import { useToast } from '@chakra-ui/react'
 import { CreateChannelView } from '@triszt4n/remark-types'
+import { AxiosError } from 'axios'
 import { useMutation } from 'react-query'
 import { Navigate, useNavigate } from 'react-router-dom'
 import { useAuthContext } from '../../../api/contexts/auth/useAuthContext'
@@ -16,11 +17,11 @@ export const CreateChannelPage = () => {
       navigate(`/channels/${data.id}`)
     },
     onError: (error) => {
-      const err = error as any
+      const err = error as AxiosError<{ message: string }>
       rconsole.log('Error at createChannel', JSON.stringify(err))
       toast({
         title: 'Error occured when creating channel',
-        description: `${err.response.status} ${err.response.data.message} Try again later.`,
+        description: `${err.response?.status} ${err.response?.data.message} Try again later.`,
         status: 'error',
         isClosable: true
       })

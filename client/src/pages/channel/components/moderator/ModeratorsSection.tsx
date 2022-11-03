@@ -1,5 +1,6 @@
 import { Box, Center, HStack, Skeleton, Text, useToast } from '@chakra-ui/react'
 import { UserView } from '@triszt4n/remark-types'
+import { AxiosError } from 'axios'
 import { useMutation, useQuery } from 'react-query'
 import { channelModule } from '../../../../api/modules/channel.module'
 import { toReadableNumber } from '../../../../util/core-util-functions'
@@ -22,11 +23,11 @@ export const ModeratorsSection = ({ channelId, amIOwner }: Props) => {
       queryClient.invalidateQueries(['channelModerators', channelId])
     },
     onError: (error) => {
-      const err = error as any
+      const err = error as AxiosError<{ message: string }>
       rconsole.log('Error at removeModeratorFromChannel', JSON.stringify(err))
       toast({
         title: 'Error occured when removing a moderator',
-        description: `${err.response.status} ${err.response.data.message || err.message} Try again later.`,
+        description: `${err.response?.status} ${err.response?.data.message || err.message} Try again later.`,
         status: 'error',
         isClosable: true
       })
@@ -53,10 +54,11 @@ export const ModeratorsSection = ({ channelId, amIOwner }: Props) => {
   }
 
   if (error) {
+    const err = error as AxiosError<{ message: string }>
     rconsole.log('Error at ModeratorsSection: channelModerators', error)
     return (
       <Box width="full">
-        <Center fontSize="lg">Error when fetching channel's moderators! {(error as any)?.response.data.message}</Center>
+        <Center fontSize="lg">Error when fetching channel's moderators! {err.response?.data.message}</Center>
       </Box>
     )
   }

@@ -16,6 +16,7 @@ import {
   useToast
 } from '@chakra-ui/react'
 import { ChannelView } from '@triszt4n/remark-types'
+import { AxiosError } from 'axios'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { FaCheck } from 'react-icons/fa'
 import { useMutation } from 'react-query'
@@ -52,9 +53,9 @@ export const AddModeratorModal = ({ channel, isOpen, onClose }: Props) => {
       })
     },
     onError: (error) => {
-      const err = error as any
+      const err = error as AxiosError<{ message: string }>
       rconsole.log('Error at addModeratorToChannel', JSON.stringify(err))
-      setError('moderatorUsername', { type: 'custom', message: err.response.data.message })
+      setError('moderatorUsername', { type: 'custom', message: err.response?.data.message })
     }
   })
 

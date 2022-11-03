@@ -15,6 +15,7 @@ import {
   ModalOverlay,
   Spacer
 } from '@chakra-ui/react'
+import { AxiosError } from 'axios'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { FaCheck } from 'react-icons/fa'
 import { useMutation } from 'react-query'
@@ -44,9 +45,9 @@ export const EditUsernameModal = ({ isOpen, onClose }: Props) => {
       onClose()
     },
     onError: (error) => {
-      const err = error as any
+      const err = error as AxiosError<{ message: string }>
       rconsole.log('Error at updateUser', JSON.stringify(err))
-      setError('newUsername', { type: 'custom', message: err.response.data.message })
+      setError('newUsername', { type: 'custom', message: err.response?.data.message })
     }
   })
 

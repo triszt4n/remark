@@ -1,5 +1,6 @@
 import { Flex, HStack, Skeleton, useDisclosure, useToast, VStack } from '@chakra-ui/react'
 import { UpdateCommentView } from '@triszt4n/remark-types'
+import { AxiosError } from 'axios'
 import { useState } from 'react'
 import { FaPaperPlane } from 'react-icons/fa'
 import { useMutation, useQuery } from 'react-query'
@@ -32,11 +33,11 @@ export const PostPage = () => {
       setCanEraseContent(false)
     },
     onError: (error) => {
-      const err = error as any
+      const err = error as AxiosError<{ message: string }>
       rconsole.log('Error at createComment', JSON.stringify(err))
       toast({
         title: 'Error occured when creating comment',
-        description: `${err.response.status} ${err.response.data.message} Try again later.`,
+        description: `${err.response?.status} ${err.response?.data.message} Try again later.`,
         status: 'error',
         isClosable: true
       })
@@ -49,12 +50,16 @@ export const PostPage = () => {
   }
 
   if (error) {
-    rconsole.log('Error at PostPage', error)
+    const err = error as AxiosError<{ message: string }>
+    rconsole.log('Error at PostPage', err)
     return (
       <Navigate
         replace
         to="/error"
-        state={{ title: "Error when fetching post's details!", messages: [(error as any)?.response.data.message] }}
+        state={{
+          title: "Error when fetching post's details!",
+          messages: [err.response?.data.message]
+        }}
       />
     )
   }

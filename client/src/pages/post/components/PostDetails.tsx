@@ -1,5 +1,6 @@
 import { useBreakpointValue, useToast, VStack } from '@chakra-ui/react'
 import { PostView } from '@triszt4n/remark-types'
+import { AxiosError } from 'axios'
 import { useMutation } from 'react-query'
 import { useNavigate } from 'react-router-dom'
 import { useAuthContext } from '../../../api/contexts/auth/useAuthContext'
@@ -34,11 +35,11 @@ export const PostDetails = ({ post }: Props) => {
       queryClient.invalidateQueries(['post', post.id])
     },
     onError: (error) => {
-      const err = error as any
+      const err = error as AxiosError<{ message: string }>
       rconsole.log('Error at votePost', JSON.stringify(err))
       toast({
         title: 'Error occured when sending vote',
-        description: `${err.response.status} ${err.response.data.message} Try again later.`,
+        description: `${err.response?.status} ${err.response?.data.message} Try again later.`,
         status: 'error',
         isClosable: true
       })

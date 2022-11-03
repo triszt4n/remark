@@ -1,5 +1,6 @@
 import { Box, Button, Center, Flex, Heading, useToast, VStack } from '@chakra-ui/react'
 import { ChannelView } from '@triszt4n/remark-types'
+import { AxiosError } from 'axios'
 import { FaPlus } from 'react-icons/fa'
 import { useMutation, useQuery } from 'react-query'
 import { useNavigate } from 'react-router-dom'
@@ -25,11 +26,11 @@ export const IndexPage = () => {
       queryClient.invalidateQueries('channels')
     },
     onError: (error) => {
-      const err = error as any
+      const err = error as AxiosError<{ message: string }>
       rconsole.log('Error at joinOrLeaveChannel', JSON.stringify(err))
       toast({
         title: 'Error occured when joining or leaving channel',
-        description: `${err.response.status} ${err.response.data.message || err.message} Try again later.`,
+        description: `${err.response?.status} ${err.response?.data.message || err.message} Try again later.`,
         status: 'error',
         isClosable: true
       })
@@ -46,11 +47,11 @@ export const IndexPage = () => {
 
   if (error) {
     rconsole.log('Error at channels', error)
-    const err = error as any
+    const err = error as AxiosError<{ message: string }>
     return (
       <Box width="full">
         <Center fontSize="xl" fontWeight={700}>
-          Error when fetching channels! {err.response.data.message || err.message}
+          Error when fetching channels! {err.response?.data.message || err.message}
         </Center>
       </Box>
     )

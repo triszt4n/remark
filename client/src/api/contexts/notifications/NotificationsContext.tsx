@@ -1,5 +1,6 @@
 import { useToast } from '@chakra-ui/react'
 import { NotificationView } from '@triszt4n/remark-types'
+import { AxiosError } from 'axios'
 import { createContext, Dispatch, SetStateAction, useState } from 'react'
 import { useMutation } from 'react-query'
 import { rconsole } from '../../../util/remark-console'
@@ -39,11 +40,11 @@ export const NotificationsProvider = ({ children }: HasChildren) => {
       setNotifications(newNotifications)
     },
     onError: (error) => {
-      const err = error as any
+      const err = error as AxiosError<{ message: string }>
       rconsole.log('Error at clearNotifications', JSON.stringify(err))
       toast({
         title: 'Error occured when clearing notifications',
-        description: `${err.response.status} ${err.response.data.message || err.message} Try again later.`,
+        description: `${err.response?.status} ${err.response?.data.message || err.message} Try again later.`,
         status: 'error',
         isClosable: true
       })

@@ -1,5 +1,6 @@
 import { useToast } from '@chakra-ui/react'
 import { ChannelView, UpdateChannelView } from '@triszt4n/remark-types'
+import { AxiosError } from 'axios'
 import { useMutation } from 'react-query'
 import { Navigate, useNavigate, useParams } from 'react-router-dom'
 import { useAuthContext } from '../../../api/contexts/auth/useAuthContext'
@@ -25,11 +26,11 @@ export const EditChannelPage = () => {
       navigate(`/channels/${channelId}`)
     },
     onError: (error) => {
-      const err = error as any
+      const err = error as AxiosError<{ message: string }>
       rconsole.log('Error at updateChannel', JSON.stringify(err))
       toast({
         title: 'Error occured when updating channel',
-        description: `${err.response.status} ${err.response.data.message} Try again later.`,
+        description: `${err.response?.status} ${err.response?.data.message} Try again later.`,
         status: 'error',
         isClosable: true
       })
@@ -62,10 +63,9 @@ export const EditChannelPage = () => {
   }
 
   if (error) {
+    const err = error as AxiosError<{ message: string }>
     console.error('[DEBUG] Error at EditChannelPage', error)
-    return (
-      <Navigate replace to="/error" state={{ title: 'Error occured loading channel', messages: [(error as any)?.response.data.message] }} />
-    )
+    return <Navigate replace to="/error" state={{ title: 'Error occured loading channel', messages: [err.response?.data.message] }} />
   }
 
   if (!channel?.amIOwner) {

@@ -22,6 +22,7 @@ import {
   VStack
 } from '@chakra-ui/react'
 import { ChannelView } from '@triszt4n/remark-types'
+import { AxiosError } from 'axios'
 import { FaChevronDown, FaEdit, FaTrashAlt, FaUserPlus } from 'react-icons/fa'
 import ReactMarkdown from 'react-markdown'
 import { useMutation } from 'react-query'
@@ -71,11 +72,11 @@ export const AboutTab = ({ channelId, isLoading, channel }: Props) => {
       }, 2000)
     },
     onError: (error) => {
-      const err = error as any
+      const err = error as AxiosError<{ message: string }>
       rconsole.log('Error at deleteChannel', JSON.stringify(err))
       toast({
         title: 'Error occured when deleting channel',
-        description: `${err.response.status} ${err.response.data.message} Try again later.`,
+        description: `${err.response?.status} ${err.response?.data.message} Try again later.`,
         status: 'error',
         isClosable: true
       })

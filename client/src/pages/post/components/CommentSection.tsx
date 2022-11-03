@@ -1,5 +1,6 @@
 import { Box, Flex, VStack } from '@chakra-ui/react'
 import { PostView } from '@triszt4n/remark-types'
+import { AxiosError } from 'axios'
 import { useQuery } from 'react-query'
 import { postModule } from '../../../api/modules/post.module'
 import { CommentItem } from './comment/CommentItem'
@@ -26,9 +27,10 @@ export const CommentSection = ({ postId, post }: Props) => {
   }
 
   if (error) {
+    const err = error as AxiosError<{ message: string }>
     return (
       <Flex justifyContent="center">
-        <Box>Error while loading comments: {(error as any).response?.data?.message || (error as any).message}</Box>
+        <Box>Error while loading comments: {err.response?.data.message || err.message}</Box>
       </Flex>
     )
   }

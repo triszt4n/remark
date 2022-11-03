@@ -13,6 +13,7 @@ import {
   useToast
 } from '@chakra-ui/react'
 import { PostView } from '@triszt4n/remark-types'
+import { AxiosError } from 'axios'
 import { FaChevronDown, FaComments, FaEdit, FaRegFileImage, FaTrashAlt } from 'react-icons/fa'
 import { useMutation } from 'react-query'
 import { useNavigate } from 'react-router-dom'
@@ -57,11 +58,11 @@ export const ActionsSection = ({ post, onUploadImagePressed }: Props) => {
       }, 2000)
     },
     onError: (error) => {
-      const err = error as any
+      const err = error as AxiosError<{ message: string }>
       rconsole.log('Error at deletePost', JSON.stringify(err))
       toast({
         title: 'Error occured when deleting post',
-        description: `${err.response.status} ${err.response.data.message} Try again later.`,
+        description: `${err.response?.status} ${err.response?.data.message} Try again later.`,
         status: 'error',
         isClosable: true
       })

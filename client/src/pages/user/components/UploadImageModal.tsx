@@ -1,4 +1,5 @@
 import { Button, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Spacer } from '@chakra-ui/react'
+import { AxiosError } from 'axios'
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form'
 import { FaUpload } from 'react-icons/fa'
 import { useMutation } from 'react-query'
@@ -28,9 +29,9 @@ export const UploadImageModal = ({ isOpen, onClose }: Props) => {
       onCancelPressed()
     },
     onError: (error) => {
-      const err = error as any
+      const err = error as AxiosError<{ message: string }>
       rconsole.log('Error at uploadProfileImage', JSON.stringify(err))
-      setError('files', { type: 'custom', message: err.response.data.message || err.message })
+      setError('files', { type: 'custom', message: err.response?.data.message || err.message })
       setValue('files', undefined)
     }
   })

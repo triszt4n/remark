@@ -1,5 +1,6 @@
 import { useToast } from '@chakra-ui/react'
 import { UserView } from '@triszt4n/remark-types'
+import { AxiosError } from 'axios'
 import Cookies from 'js-cookie'
 import { createContext, useState } from 'react'
 import { GoogleLoginResponse, GoogleLoginResponseOffline } from 'react-google-login'
@@ -58,11 +59,11 @@ export const AuthProvider = ({ children }: HasChildren) => {
       navigate('/profile')
     },
     onError: (error) => {
-      const err = error as any
+      const err = error as AxiosError<{ message: string }>
       rconsole.log('Error at loginUser', JSON.stringify(err))
       toast({
         title: 'Error occured when logging in new user',
-        description: `${err.response.status} ${err.response.data.message} Try again later.`,
+        description: `${err.response?.status} ${err.response?.data.message} Try again later.`,
         status: 'error',
         isClosable: true
       })

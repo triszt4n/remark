@@ -1,4 +1,5 @@
 import { useDisclosure } from '@chakra-ui/react'
+import { AxiosError } from 'axios'
 import { Navigate } from 'react-router-dom'
 import { useAuthContext } from '../../api/contexts/auth/useAuthContext'
 import { rconsole } from '../../util/remark-console'
@@ -17,8 +18,9 @@ export const ProfilePage = () => {
   }
 
   if (loggedInUserError) {
-    rconsole.log('Error at ProfilePage', loggedInUserError)
-    return <Navigate replace to="/error" state={{ title: 'You are not logged in yet!', messages: [(loggedInUserError as any)?.message] }} />
+    const err = loggedInUserError as AxiosError<{ message: string }>
+    rconsole.log('Error at ProfilePage', err)
+    return <Navigate replace to="/error" state={{ title: 'You are not logged in yet!', messages: [err.response?.data.message] }} />
   }
 
   return (

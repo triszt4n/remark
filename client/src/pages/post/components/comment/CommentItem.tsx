@@ -16,6 +16,7 @@ import {
   useToast
 } from '@chakra-ui/react'
 import { CommentView, PostView } from '@triszt4n/remark-types'
+import { AxiosError } from 'axios'
 import { FaEdit, FaEllipsisV, FaTrashAlt } from 'react-icons/fa'
 import ReactMarkdown from 'react-markdown'
 import { useMutation } from 'react-query'
@@ -57,11 +58,11 @@ export const CommentItem = ({ comment, post }: Props) => {
       queryClient.invalidateQueries(['postComments', comment.parentPostId])
     },
     onError: (error) => {
-      const err = error as any
+      const err = error as AxiosError<{ message: string }>
       rconsole.log('Error at voteComment', JSON.stringify(err))
       toast({
         title: 'Error occured when sending vote',
-        description: `${err.response.status} ${err.response.data.message} Try again later.`,
+        description: `${err.response?.status} ${err.response?.data.message} Try again later.`,
         status: 'error',
         isClosable: true
       })
@@ -72,11 +73,11 @@ export const CommentItem = ({ comment, post }: Props) => {
       queryClient.invalidateQueries(['postComments', comment.parentPostId], { refetchInactive: true })
     },
     onError: (error) => {
-      const err = error as any
+      const err = error as AxiosError<{ message: string }>
       rconsole.log('Error at deleteComment', JSON.stringify(err))
       toast({
         title: 'Error occured when deleting comment',
-        description: `${err.response.status} ${err.response.data.message} Try again later.`,
+        description: `${err.response?.status} ${err.response?.data.message} Try again later.`,
         status: 'error',
         isClosable: true
       })

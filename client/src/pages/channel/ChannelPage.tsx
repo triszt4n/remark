@@ -1,4 +1,5 @@
 import { Box, Flex, Skeleton, Tab, TabList, TabPanel, TabPanels, Tabs, Text } from '@chakra-ui/react'
+import { AxiosError } from 'axios'
 import { useQuery } from 'react-query'
 import { Navigate, useParams } from 'react-router-dom'
 import { channelModule } from '../../api/modules/channel.module'
@@ -12,13 +13,10 @@ export const ChannelPage = () => {
   const { isLoading, data: channel, error } = useQuery(['channelInfo', channelId], () => channelModule.fetchChannel(channelId!!))
 
   if (error) {
-    rconsole.log('Error at ChannelPage: channelInfo', error)
+    const err = error as AxiosError<{ message: string }>
+    rconsole.log('Error at ChannelPage: channelInfo', err)
     return (
-      <Navigate
-        replace
-        to="/error"
-        state={{ title: "Error when fetching channel's details!", messages: [(error as any)?.response.data.message] }}
-      />
+      <Navigate replace to="/error" state={{ title: "Error when fetching channel's details!", messages: [err.response?.data.message] }} />
     )
   }
 

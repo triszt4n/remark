@@ -1,5 +1,6 @@
 import { Box, Button, Center, Flex, VStack } from '@chakra-ui/react'
 import { ChannelView } from '@triszt4n/remark-types'
+import { AxiosError } from 'axios'
 import { FaComments } from 'react-icons/fa'
 import { useQuery } from 'react-query'
 import { useNavigate } from 'react-router-dom'
@@ -30,10 +31,11 @@ export const PostsTab = ({ channel, channelId }: Props) => {
   }
 
   if (error) {
+    const err = error as AxiosError<{ message: string }>
     rconsole.log('Error at PostsTab: channelPosts', error)
     return (
       <Box width="full">
-        <Center fontSize="lg">Error when fetching channel's posts! {(error as any)?.response.data.message}</Center>
+        <Center fontSize="lg">Error when fetching channel's posts! {err.response?.data.message}</Center>
       </Box>
     )
   }

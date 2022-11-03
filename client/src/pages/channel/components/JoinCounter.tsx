@@ -1,5 +1,6 @@
 import { Box, Button, HStack, useToast } from '@chakra-ui/react'
 import { ChannelView } from '@triszt4n/remark-types'
+import { AxiosError } from 'axios'
 import { FaCheck, FaPlus } from 'react-icons/fa'
 import { useMutation } from 'react-query'
 import { useAuthContext } from '../../../api/contexts/auth/useAuthContext'
@@ -29,11 +30,11 @@ export const JoinCounter = ({ channel, joinCount }: Props) => {
       })
     },
     onError: (error) => {
-      const err = error as any
+      const err = error as AxiosError<{ message: string }>
       rconsole.log('Error at joinOrLeaveChannel', JSON.stringify(err))
       toast({
         title: 'Error occured when joining or leaving channel',
-        description: `${err.response.status} ${err.response.data.message} Try again later.`,
+        description: `${err.response?.status} ${err.response?.data.message} Try again later.`,
         status: 'error',
         isClosable: true
       })

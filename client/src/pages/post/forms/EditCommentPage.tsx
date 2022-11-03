@@ -1,5 +1,6 @@
 import { Box, Heading, useToast, VStack } from '@chakra-ui/react'
 import { CommentView, PostView, UpdateCommentView } from '@triszt4n/remark-types'
+import { AxiosError } from 'axios'
 import { useMutation } from 'react-query'
 import { Navigate, useNavigate, useParams } from 'react-router-dom'
 import { useAuthContext } from '../../../api/contexts/auth/useAuthContext'
@@ -14,12 +15,16 @@ import { CommentForm } from './CommentForm'
 
 const errorHandler = (error: any) => {
   if (error) {
-    console.error('[DEBUG] Error at EditCommentPage', error)
+    const err = error as AxiosError<{ message: string }>
+    console.error('[DEBUG] Error at EditCommentPage', err)
     return (
       <Navigate
         replace
         to="/error"
-        state={{ title: 'Error occured loading post or comment info', messages: [(error as any)?.response.data.message] }}
+        state={{
+          title: 'Error occured loading post or comment info',
+          messages: [err.response?.data.message]
+        }}
       />
     )
   }
@@ -49,11 +54,11 @@ export const EditCommentPage = () => {
       queryClient.invalidateQueries(['postComments', [post?.id]])
     },
     onError: (error) => {
-      const err = error as any
+      const err = error as AxiosError<{ message: string }>
       rconsole.log('Error at updateComment', JSON.stringify(err))
       toast({
         title: 'Error occured when updating comment',
-        description: `${err.response.status} ${err.response.data.message} Try again later.`,
+        description: `${err.response?.status} ${err.response?.data.message} Try again later.`,
         status: 'error',
         isClosable: true
       })
