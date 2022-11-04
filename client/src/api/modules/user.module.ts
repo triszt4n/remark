@@ -24,8 +24,8 @@ class UserModule {
     return axios.post<UserView>(`${USER_PATH_PREFIX}/profile/image?filename=${imageFile.name}`, formData)
   }
 
-  async loginUser(accessToken: string) {
-    return axios.post<{ user: UserView; jwt: string }>(`${USER_PATH_PREFIX}/login`, { accessToken })
+  async loginUser(credential?: string) {
+    return axios.post<{ user: UserView; jwt: string }>(`${USER_PATH_PREFIX}/login`, { credential })
   }
 }
 

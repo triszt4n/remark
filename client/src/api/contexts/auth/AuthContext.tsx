@@ -1,9 +1,9 @@
 import { useToast } from '@chakra-ui/react'
+import { CredentialResponse } from '@react-oauth/google'
 import { UserView } from '@triszt4n/remark-types'
 import { AxiosError } from 'axios'
 import Cookies from 'js-cookie'
 import { createContext, useState } from 'react'
-import { GoogleLoginResponse, GoogleLoginResponseOffline } from 'react-google-login'
 import { useMutation, useQuery } from 'react-query'
 import { useNavigate } from 'react-router-dom'
 import { queryClient } from '../../../util/query-client'
@@ -18,8 +18,8 @@ export type AuthContextType = {
   loggedInUser: UserView | undefined
   loggedInUserLoading: boolean
   loggedInUserError: unknown
-  onLoginSuccess: (response: GoogleLoginResponseOffline | GoogleLoginResponse) => void
-  onLoginFailure: (response: GoogleLoginResponseOffline | GoogleLoginResponse) => void
+  onLoginSuccess: (response: CredentialResponse) => void
+  onLoginFailure: () => void
   onLogout: () => void
   loginLoading: boolean
 }
@@ -70,13 +70,13 @@ export const AuthProvider = ({ children }: HasChildren) => {
     }
   })
 
-  const onLoginSuccess = (response: GoogleLoginResponseOffline | GoogleLoginResponse) => {
-    const { accessToken } = response as GoogleLoginResponse
-    mutation.mutate(accessToken)
+  const onLoginSuccess = (response: CredentialResponse) => {
+    const { credential } = response
+    mutation.mutate(credential)
   }
 
-  const onLoginFailure = (response: GoogleLoginResponseOffline | GoogleLoginResponse) => {
-    rconsole.log('Error at onLoginFailure', JSON.stringify(response, null, 2))
+  const onLoginFailure = () => {
+    rconsole.log('Error at onLoginFailure')
     toast({
       title: 'Authentication error',
       description: 'There was an error while authenticating you at Google!',
