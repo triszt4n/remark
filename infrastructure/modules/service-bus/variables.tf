@@ -9,12 +9,7 @@ variable "location" {
   default = "West Europe"
 }
 
-variable "site_name" {
+variable "namespace_name" {
   type = string
-  description = "Site name"
-}
-
-variable "domain_name" {
-  type = string
-  description = "Domain name"
+  description = "Namespace name"
 }
