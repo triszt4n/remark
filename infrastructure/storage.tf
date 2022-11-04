@@ -26,12 +26,12 @@ resource "azurerm_storage_account" "images" {
 
 resource "azurerm_storage_container" "post-images" {
   name                  = "remark-dev-post-images"
-  storage_account_name  = azurerm_storage_account.remark-dev-tfstate.name
+  storage_account_name  = azurerm_storage_account.images.name
   container_access_type = "blob"
 }
 
 resource "azurerm_storage_container" "user-images" {
   name                  = "remark-dev-user-images"
-  storage_account_name  = azurerm_storage_account.remark-dev-tfstate.name
+  storage_account_name  = azurerm_storage_account.images.name
   container_access_type = "blob"
 }
