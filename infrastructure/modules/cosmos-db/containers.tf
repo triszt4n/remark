@@ -3,8 +3,8 @@ resource "azurerm_cosmosdb_sql_container" "example" {
 
   name                  = each.key
   resource_group_name   = var.resource_group_name
-  account_name          = "remark-dev-${var.account_name}-account"
-  database_name         = "remark-dev-${var.account_name}-database"
+  account_name          = azurerm_cosmosdb_account.db-account.name
+  database_name         = azurerm_cosmosdb_sql_database.db.name
   partition_key_path    = each.value.partition_key_path
 
   indexing_policy {

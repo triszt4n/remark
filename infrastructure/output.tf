@@ -30,3 +30,14 @@ output "storage" {
   }
   sensitive = true
 }
+
+output "cosmos-db" {
+  value = {
+    connection_string = module.cosmos-db.connection-string
+    database_name     = module.cosmos-db.db-name
+    database_id       = module.cosmos-db.db-id
+    endpoint          = module.cosmos-db.db-endpoint
+    key               = module.cosmos-db.db-key
+  }
+  sensitive = true
+}
