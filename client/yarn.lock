@@ -3935,13 +3935,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/jest@npm:29.2.1":
-  version: 29.2.1
-  resolution: "@types/jest@npm:29.2.1"
+"@types/jest@npm:29.2.3":
+  version: 29.2.3
+  resolution: "@types/jest@npm:29.2.3"
   dependencies:
     expect: ^29.0.0
     pretty-format: ^29.0.0
-  checksum: 5610c9a44c57f6dc39cf54429ea8d04574ad4c3e3ddf9a2621882aa94a0758a42ca97a0d0aec41a8d0b149fa63bf3d077d1f07c1f1d82e3d89ad7408de211255
+  checksum: 55370906711b600a05b9e497c22aa74d80d8adcdbe4ac2f1bc9311f6f6ca0dd192862b6f38df6ac0d45e92396bcd796e377b1d8058c10bdfd584aeee580c3ce1
   languageName: node
   linkType: hard
 
@@ -13069,7 +13069,7 @@ __metadata:
     "@microsoft/signalr": 6.0.10
     "@react-oauth/google": 0.4.0
     "@triszt4n/remark-types": 2.1.0
-    "@types/jest": 29.2.1
+    "@types/jest": 29.2.3
     "@types/js-cookie": 3.0.2
     "@types/node": 18.11.9
     "@types/react": 18.0.24
