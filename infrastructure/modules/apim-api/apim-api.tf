@@ -1,0 +1,89 @@
+resource "azurerm_api_management_api" "api" {
+  name                = "remark-dev-${name}-api"
+  resource_group_name = var.resource_group_name
+  api_management_name = var.apim_name
+  revision            = "1"
+  display_name        = "${var.display_name} API"
+  path                = var.path
+  protocols           = ["https"]
+}
+
+resource "azurerm_api_management_api_policy" "example" {
+  api_name            = "remark-dev-${name}-api"
+  api_management_name = var.apim_name
+  resource_group_name = var.resource_group_name
+
+  xml_content = <<XML
+<policies>
+    <inbound>
+        <base />
+        <cors allow-credentials="false">
+            <allowed-origins>
+                <origin>${var.local_dev_server_url}</origin>
+                <origin>${var.custom_domain}</origin>
+                <origin>${var.web_app_hostname}</origin>
+            </allowed-origins>
+            <allowed-methods>
+                <method>GET</method>
+                <method>POST</method>
+                <method>DELETE</method>
+                <method>PATCH</method>
+            </allowed-methods>
+            <allowed-headers>
+                <header>*</header>
+            </allowed-headers>
+            <expose-headers>
+                <header>*</header>
+            </expose-headers>
+        </cors>
+    </inbound>
+    <backend>
+        <base />
+    </backend>
+    <outbound>
+        <base />
+    </outbound>
+    <on-error>
+        <base />
+    </on-error>
+</policies>
+XML
+}
+
+resource "azurerm_api_management_api_operation" "example" {
+  for_each = var.api_ops_config
+
+  operation_id        = each.value.op_id
+  api_name            = "remark-dev-${name}-api"
+  api_management_name = var.apim_name
+  resource_group_name = var.resource_group_name
+  display_name        = each.value.display_name
+  method              = each.value.method
+  url_template        = each.value.url_template
+}
+
+resource "azurerm_api_management_api_operation_policy" "example" {
+  for_each = var.api_ops_config
+
+  operation_id        = azurerm_api_management_api_operation.example[each.key].operation_id
+  api_name            = "remark-dev-${name}-api"
+  api_management_name = var.apim_name
+  resource_group_name = var.resource_group_name
+  xml_content         = <<XML
+<policies>
+    <inbound>
+        <base />
+        <set-backend-service id="apim-generated-policy" backend-id="${var.backend_function_name}" />
+    </inbound>
+    <backend>
+        <base />
+    </backend>
+    <outbound>
+        <base />
+    </outbound>
+    <on-error>
+        <base />
+    </on-error>
+</policies>
+XML
+}
