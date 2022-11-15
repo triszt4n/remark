@@ -1,5 +1,3 @@
-
-
 module "users-function" {
   source               = "./modules/function-app-with-api"
   resource_group_name  = azurerm_resource_group.remark-dev-rg.name
@@ -17,5 +15,5 @@ module "users-function" {
     primary_access_key = azurerm_storage_account.function-apps-storage.primary_access_key
   }
 
-  api_configs = local.apim.api_configs
+  api_ops_config = local.api_configs["users"]
 }

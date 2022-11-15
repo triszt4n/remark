@@ -43,16 +43,19 @@ variable "local_dev_server_url" {
   description = "Local dev server URL"
 }
 
-variable "backend_function_name" {
-  type        = string
-  description = "Backend Function App name"
+variable "function_apps_storage" {
+  type = object({
+    name               = string
+    primary_access_key = string
+  })
+  description = "Function Apps storage account details (name, primary access key)"
 }
 
 variable "api_ops_config" {
-  type = list(object({
-    op_id        = string
+  type = map(object({
     display_name = string
-    path         = string
+    url_template = string
+    method       = string
   }))
   description = "API operations config"
 }

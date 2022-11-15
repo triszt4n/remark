@@ -44,10 +44,10 @@ variable "backend_function_name" {
 }
 
 variable "api_ops_config" {
-  type = list(object({
-    op_id        = string
+  type = map(object({
     display_name = string
-    path         = string
+    url_template = string
+    method       = string
   }))
   description = "API operations config"
 }

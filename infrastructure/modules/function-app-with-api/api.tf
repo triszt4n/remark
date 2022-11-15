@@ -1,5 +1,5 @@
 module "function-app-api" {
-  source                = "./apim-api"
+  source                = "../apim-api"
   resource_group_name   = var.resource_group_name
   apim_name             = var.apim_name
   name                  = var.name

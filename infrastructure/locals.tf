@@ -48,6 +48,37 @@ locals {
     }
   }
   api_configs = {
-
+    users = {
+      get_user = {
+        display_name = "GetUser"
+        url_template = "/users/{id}"
+        method       = "GET"
+      }
+      get_profile = {
+        display_name = "GetProfile"
+        url_template = "/profile"
+        method       = "GET"
+      }
+      get_user_by_username = {
+        display_name = "GetUserByUsername"
+        url_template = "/users/username/{username}"
+        method       = "GET"
+      }
+      login_user = {
+        display_name = "LoginUser"
+        url_template = "/login"
+        method       = "POST"
+      }
+      update_user = {
+        display_name = "UpdateUser"
+        url_template = "/profile"
+        method       = "PATCH"
+      }
+      update_user_image = {
+        display_name = "UpdateUserImage"
+        url_template = "/profile/image"
+        method       = "PATCH"
+      }
+    }
   }
 }
