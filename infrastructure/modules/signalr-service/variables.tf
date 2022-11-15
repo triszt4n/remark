@@ -1,15 +1,15 @@
 variable "resource_group_name" {
-  type = string
+  type        = string
   description = "Resource group name"
 }
 
 variable "location" {
-  type = string
+  type        = string
   description = "Location"
-  default = "West Europe"
+  default     = "West Europe"
 }
 
 variable "name" {
-  type = string
+  type        = string
   description = "SignalR service name"
 }

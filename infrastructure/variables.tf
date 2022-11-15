@@ -4,3 +4,8 @@ variable "client" {
   })
   description = "Client configuration"
 }
+
+variable "local_dev_server_url" {
+  type        = string
+  description = "Local dev server URL"
+}
