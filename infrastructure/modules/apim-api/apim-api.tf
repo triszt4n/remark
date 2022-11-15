@@ -50,7 +50,7 @@ resource "azurerm_api_management_api_policy" "example" {
 XML
 }
 
-resource "azurerm_api_management_api_operation" "example" {
+resource "azurerm_api_management_api_operation" "operations" {
   for_each = var.api_ops_config
 
   operation_id        = each.value.op_id
@@ -62,10 +62,10 @@ resource "azurerm_api_management_api_operation" "example" {
   url_template        = each.value.url_template
 }
 
-resource "azurerm_api_management_api_operation_policy" "example" {
+resource "azurerm_api_management_api_operation_policy" "operation-policies" {
   for_each = var.api_ops_config
 
-  operation_id        = azurerm_api_management_api_operation.example[each.key].operation_id
+  operation_id        = azurerm_api_management_api_operation.operations[each.key].operation_id
   api_name            = "remark-dev-${name}-api"
   api_management_name = var.apim_name
   resource_group_name = var.resource_group_name

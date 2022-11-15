@@ -3,6 +3,11 @@ variable "resource_group_name" {
   description = "Resource group name"
 }
 
+variable "location" {
+  type        = string
+  description = "Location"
+}
+
 variable "apim_name" {
   type        = string
   description = "API Management name"
@@ -10,7 +15,7 @@ variable "apim_name" {
 
 variable "name" {
   type        = string
-  description = "API name"
+  description = "Function App name"
 }
 
 variable "display_name" {
