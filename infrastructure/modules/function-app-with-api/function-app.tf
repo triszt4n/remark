@@ -17,3 +17,13 @@ resource "azurerm_linux_function_app" "function-app" {
 
   site_config {}
 }
+
+resource "azurerm_linux_function_app_slot" "function-app-slot" {
+  name                 = "remark-dev-${var.name}-fapp-slot"
+  function_app_id      = azurerm_linux_function_app.function-app.id
+  storage_account_name = var.function_apps_storage.name
+
+  site_config {
+    app_settings = var.app_settings
+  }
+}

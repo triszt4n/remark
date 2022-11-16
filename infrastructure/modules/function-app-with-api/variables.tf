@@ -59,3 +59,18 @@ variable "api_ops_config" {
   }))
   description = "API operations config"
 }
+
+variable "function_settings" {
+  type = object({
+    language = string
+  })
+  description = "Function App Functions' settings"
+  default = {
+    language = "TypeScript"
+  }
+}
+
+variable "app_settings" {
+  type = map(object)
+  description = "Function App env vars (Application Settings)"
+}
