@@ -50,34 +50,40 @@ locals {
   api_configs = {
     users = {
       get-user = {
-        display_name = "GetUser"
-        url_template = "/users/{id}"
-        method       = "GET"
+        display_name        = "GetUser"
+        url_template        = "/users/{id}"
+        method              = "GET"
+        template_parameters = ["id"]
       }
       get-profile = {
-        display_name = "GetProfile"
-        url_template = "/profile"
-        method       = "GET"
+        display_name        = "GetProfile"
+        url_template        = "/profile"
+        method              = "GET"
+        template_parameters = []
       }
       get-user-by-username = {
-        display_name = "GetUserByUsername"
-        url_template = "/users/username/{username}"
-        method       = "GET"
+        display_name        = "GetUserByUsername"
+        url_template        = "/users/username/{username}"
+        method              = "GET"
+        template_parameters = ["username"]
       }
       login-user = {
-        display_name = "LoginUser"
-        url_template = "/login"
-        method       = "POST"
+        display_name        = "LoginUser"
+        url_template        = "/login"
+        method              = "POST"
+        template_parameters = []
       }
       update-user = {
-        display_name = "UpdateUser"
-        url_template = "/profile"
-        method       = "PATCH"
+        display_name        = "UpdateUser"
+        url_template        = "/profile"
+        method              = "PATCH"
+        template_parameters = []
       }
       update-user-image = {
-        display_name = "UpdateUserImage"
-        url_template = "/profile/image"
-        method       = "PATCH"
+        display_name        = "UpdateUserImage"
+        url_template        = "/profile/image"
+        method              = "PATCH"
+        template_parameters = []
       }
     }
   }

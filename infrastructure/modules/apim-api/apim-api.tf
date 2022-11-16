@@ -60,6 +60,16 @@ resource "azurerm_api_management_api_operation" "operations" {
   display_name        = each.value.display_name
   method              = each.value.method
   url_template        = each.value.url_template
+
+  dynamic "template_parameter" {
+    for_each = each.value.template_parameters
+
+    content {
+      name     = template_parameter.value
+      type     = "string"
+      required = true
+    }
+  }
 }
 
 resource "azurerm_api_management_api_operation_policy" "operation-policies" {
