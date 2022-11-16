@@ -71,6 +71,6 @@ variable "function_settings" {
 }
 
 variable "app_settings" {
-  type = map(object)
+  type        = map(string)
   description = "Function App env vars (Application Settings)"
 }

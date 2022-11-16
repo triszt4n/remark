@@ -49,32 +49,32 @@ locals {
   }
   api_configs = {
     users = {
-      get_user = {
+      get-user = {
         display_name = "GetUser"
         url_template = "/users/{id}"
         method       = "GET"
       }
-      get_profile = {
+      get-profile = {
         display_name = "GetProfile"
         url_template = "/profile"
         method       = "GET"
       }
-      get_user_by_username = {
+      get-user-by-username = {
         display_name = "GetUserByUsername"
         url_template = "/users/username/{username}"
         method       = "GET"
       }
-      login_user = {
+      login-user = {
         display_name = "LoginUser"
         url_template = "/login"
         method       = "POST"
       }
-      update_user = {
+      update-user = {
         display_name = "UpdateUser"
         url_template = "/profile"
         method       = "PATCH"
       }
-      update_user_image = {
+      update-user-image = {
         display_name = "UpdateUserImage"
         url_template = "/profile/image"
         method       = "PATCH"
@@ -82,15 +82,15 @@ locals {
     }
   }
   app_settings = {
-    COSMOS_DB_ENDPOINT = module.cosmos-db.db-endpoint
-    COSMOS_DB_DATABASE_ID = module.cosmos-db.db-id
-    COSMOS_DB_KEY = module.cosmos-db.db-key
-    remarkcosmosdb_DOCUMENTDB = module.cosmos-db.connection-string
-    JWT_PRIVATE_KEY = var.jwt_private_key
+    COSMOS_DB_ENDPOINT            = module.cosmos-db.db-endpoint
+    COSMOS_DB_DATABASE_ID         = module.cosmos-db.db-id
+    COSMOS_DB_KEY                 = module.cosmos-db.db-key
+    remarkcosmosdb_DOCUMENTDB     = module.cosmos-db.connection-string
+    JWT_PRIVATE_KEY               = var.jwt_private_key
     SERVICE_BUS_CONNECTION_STRING = module.service-bus.service-bus-connection-string
-    SERVICE_BUS_QUEUE_NAME = module.service-bus.service-bus-queue-name
-    SIGNALR_CONNECTION_STRING = module.signalr.connection-string
-    STORAGE_ACCOUNT_KEY = azurerm_storage_account.images.primary_access_key
-    STORAGE_ACCOUNT_NAME = azurerm_storage_account.images.name
+    SERVICE_BUS_QUEUE_NAME        = module.service-bus.service-bus-queue-name
+    SIGNALR_CONNECTION_STRING     = module.signalr.connection-string
+    STORAGE_ACCOUNT_KEY           = azurerm_storage_account.images.primary_access_key
+    STORAGE_ACCOUNT_NAME          = azurerm_storage_account.images.name
   }
 }

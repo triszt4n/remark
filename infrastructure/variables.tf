@@ -11,6 +11,6 @@ variable "local_dev_server_url" {
 }
 
 variable "jwt_private_key" {
-  type = string
+  type        = string
   description = "JWT private key"
 }

@@ -1,4 +1,4 @@
-resource "azurerm_cosmosdb_sql_container" "example" {
+resource "azurerm_cosmosdb_sql_container" "sql-containers" {
   for_each = var.containers
 
   name                = each.key

@@ -12,8 +12,8 @@ resource "azurerm_function_app_function" "function-app-functions" {
         "methods" = [
           each.value.method,
         ]
-        "name" = "req"
-        "type" = "httpTrigger",
+        "name"  = "req"
+        "type"  = "httpTrigger",
         "route" = each.value.url_template
       },
       {

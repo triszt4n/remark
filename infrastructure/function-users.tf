@@ -16,5 +16,5 @@ module "users-function" {
   }
 
   api_ops_config = local.api_configs["users"]
-  app_settings = local.app_settings
+  app_settings   = local.app_settings
 }
