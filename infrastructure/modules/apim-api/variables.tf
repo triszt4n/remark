@@ -39,7 +39,10 @@ variable "local_dev_server_url" {
 }
 
 variable "backend_function" {
-  type        = string
+  type        = object({
+    name = string
+    url  = string
+  })
   description = "Backend Function App"
 }
 

@@ -84,7 +84,7 @@ resource "azurerm_api_management_api_operation_policy" "operation-policies" {
 <policies>
     <inbound>
         <base />
-        <set-backend-service backend-id="${var.backend_function}" />
+        <set-backend-service base-url="${var.backend_function.url}" />
     </inbound>
     <backend>
         <base />
