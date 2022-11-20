@@ -5,7 +5,7 @@ resource "azurerm_function_app_function" "function-app-functions" {
   function_app_id = azurerm_linux_function_app.function-app.id
   language        = var.function_settings.language
   config_json = jsonencode({
-    "bindings" = [
+    "bindings" = concat([
       {
         "authLevel" = "function"
         "direction" = "in"
@@ -21,6 +21,6 @@ resource "azurerm_function_app_function" "function-app-functions" {
         "name"      = "res"
         "type"      = "http"
       },
-    ]
+    ], each.value.extra_bindings != null ? each.value.extra_bindings : [])
   })
 }

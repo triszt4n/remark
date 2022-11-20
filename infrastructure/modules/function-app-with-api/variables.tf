@@ -57,6 +57,7 @@ variable "api_ops_config" {
     url_template        = string
     method              = string
     template_parameters = list(string)
+    extra_bindings      = list(map(any))
   }))
   description = "API operations config"
 }
