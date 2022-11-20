@@ -1,11 +1,12 @@
 resource "azurerm_api_management_api" "api" {
-  name                = "remark-dev-${var.name}-api"
-  resource_group_name = var.resource_group_name
-  api_management_name = var.apim_name
-  revision            = "1"
-  display_name        = "${var.display_name} API"
-  path                = var.path
-  protocols           = ["https"]
+  name                  = "remark-dev-${var.name}-api"
+  resource_group_name   = var.resource_group_name
+  api_management_name   = var.apim_name
+  revision              = "1"
+  display_name          = "${var.display_name} API"
+  path                  = var.path
+  protocols             = ["https"]
+  subscription_required = false
 }
 
 resource "azurerm_api_management_api_policy" "api-policy" {

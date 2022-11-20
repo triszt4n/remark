@@ -29,9 +29,9 @@ jobs:
           api_location: ""
           output_location: "build"
         env:
-          REACT_APP_API_HOST: https://remark-apim.azure-api.net
+          REACT_APP_API_HOST: https://remark-dev-apim.azure-api.net
           REACT_APP_GOOGLE_AUTH_CLIENT_ID: ${{ secrets.GOOGLE_AUTH_CLIENT_ID }}
-          REACT_APP_UI_VERSION: "2.0.0"
+          REACT_APP_UI_VERSION: "3.0.0"
 
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
