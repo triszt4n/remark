@@ -20,8 +20,8 @@ resource "azurerm_api_management_api_policy" "api-policy" {
         <cors allow-credentials="false">
             <allowed-origins>
                 <origin>${var.local_dev_server_url}</origin>
-                <origin>${var.custom_domain}</origin>
-                <origin>${var.web_app_hostname}</origin>
+                <origin>https://${var.custom_domain}</origin>
+                <origin>https://${var.web_app_hostname}</origin>
             </allowed-origins>
             <allowed-methods>
                 <method>GET</method>
@@ -83,7 +83,7 @@ resource "azurerm_api_management_api_operation_policy" "operation-policies" {
 <policies>
     <inbound>
         <base />
-        <set-backend-service id="apim-generated-policy" backend-id="${var.backend_function_name}" />
+        <set-backend-service backend-id="${var.backend_function}" />
     </inbound>
     <backend>
         <base />

@@ -38,9 +38,9 @@ variable "local_dev_server_url" {
   description = "Local dev server URL"
 }
 
-variable "backend_function_name" {
+variable "backend_function" {
   type        = string
-  description = "Backend Function App name"
+  description = "Backend Function App"
 }
 
 variable "api_ops_config" {

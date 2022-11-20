@@ -9,5 +9,23 @@ module "function-app-api" {
   custom_domain         = var.custom_domain
   local_dev_server_url  = var.local_dev_server_url
   api_ops_config        = var.api_ops_config
-  backend_function_name = "remark-dev-${var.name}-function-app"
+  backend_function = "remark-dev-${var.name}-backend"
+}
+
+data "azurerm_function_app_host_keys" "keys" {
+  name                = "remark-dev-${var.name}-function-app"
+  resource_group_name = var.resource_group_name
+}
+
+resource "azurerm_api_management_backend" "backend" {
+  name                = "remark-dev-${var.name}-backend"
+  resource_group_name = var.resource_group_name
+  api_management_name = var.apim_name
+  protocol            = "http"
+  url                 = "https://${azurerm_linux_function_app.function-app.default_hostname}"
+  credentials {
+    header = {
+      "x-functions-key" = "${data.azurerm_function_app_host_keys.keys.default_function_key}"
+    }
+  }
 }
