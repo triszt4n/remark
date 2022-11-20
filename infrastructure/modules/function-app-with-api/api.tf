@@ -11,7 +11,7 @@ module "function-app-api" {
   api_ops_config       = var.api_ops_config
   backend_function = {
     name = "remark-dev-${var.name}-backend"
-    url  = "https://${azurerm_linux_function_app.function-app.default_hostname}"
+    url  = "https://${azurerm_windows_function_app.function-app.default_hostname}"
   }
 }
 
@@ -25,7 +25,7 @@ resource "azurerm_api_management_backend" "backend" {
   resource_group_name = var.resource_group_name
   api_management_name = var.apim_name
   protocol            = "http"
-  url                 = "https://${azurerm_linux_function_app.function-app.default_hostname}"
+  url                 = "https://${azurerm_windows_function_app.function-app.default_hostname}"
   # credentials {
   #   header = {
   #     "x-functions-key" = "${data.azurerm_function_app_host_keys.keys.default_function_key}"

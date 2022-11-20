@@ -22,7 +22,7 @@ module "channels-function" {
 resource "azurerm_function_app_function" "channels-cosmos-trigger-functions" {
   for_each = local.cosmos_trigger_configs["channels"]
 
-  name            = "remark-dev-${each.key}-trigger"
+  name            = "remark-dev-${each.key}"
   function_app_id = module.channels-function.function-app-id
   language        = "TypeScript"
   config_json = jsonencode({

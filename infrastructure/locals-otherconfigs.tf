@@ -1,52 +1,52 @@
 locals {
   cosmos_trigger_configs = {
     channels = {
-      create-channel-join = {
+      on-create-channeljoin = {
         display_name    = "CreateChannelJoinCosmosTrigger"
         collection_name = "ChannelJoins"
       }
-      delete-channel = {
+      on-delete-channel = {
         display_name    = "DeleteChannelCosmosTrigger"
         collection_name = "Channels"
       }
     }
     comments = {
-      create-comment = {
+      on-create-comment = {
         display_name    = "CreateCommentCosmosTrigger"
         collection_name = "Comments"
       }
-      delete-comment = {
+      on-delete-comment = {
         display_name    = "DeleteCommentCosmosTrigger"
         collection_name = "Comments"
       }
-      vote-comment = {
+      on-vote-comment = {
         display_name    = "VoteCommentCosmosTrigger"
         collection_name = "CommentVotes"
       }
     }
     notifications = {
-      create-notification = {
+      on-create-notif = {
         display_name    = "CreateNotificationCosmosTrigger"
         collection_name = "Notifications"
       }
     }
     posts = {
-      create-post = {
+      on-create-post = {
         display_name    = "CreatePostCosmosTrigger"
         collection_name = "Posts"
       }
-      delete-post = {
+      on-delete-post = {
         display_name    = "DeletePostCosmosTrigger"
         collection_name = "Posts"
       }
-      vote-post = {
+      on-vote-post = {
         display_name    = "VotePostCosmosTrigger"
         collection_name = "PostVotes"
       }
     }
   }
   service_bus_trigger_configs = {
-    create-nofitication-in-queue = {
+    sb-create-notif = {
       display_name = "CreateNotificationServiceBusQueueTrigger"
       hub_name     = "remark"
     }

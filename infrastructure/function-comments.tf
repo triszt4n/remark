@@ -22,7 +22,7 @@ module "comments-function" {
 resource "azurerm_function_app_function" "comments-cosmos-trigger-functions" {
   for_each = local.cosmos_trigger_configs["comments"]
 
-  name            = "remark-dev-${each.key}-trigger"
+  name            = "remark-dev-${each.key}"
   function_app_id = module.comments-function.function-app-id
   language        = "TypeScript"
   config_json = jsonencode({

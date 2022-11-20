@@ -196,55 +196,55 @@ locals {
         template_parameters = ["id"]
         extra_bindings      = []
       }
-      get-comments-of-post = {
+      get-comments-post = {
         display_name        = "GetCommentsOfPost"
         url_template        = "/posts/{id}/comments"
         method              = "GET"
         template_parameters = ["id"]
         extra_bindings      = []
       }
-      get-posts-of-channel = {
+      get-posts-channel = {
         display_name        = "GetPostsOfChannel"
         url_template        = "/posts/channel/{id}"
         method              = "GET"
         template_parameters = ["id"]
         extra_bindings      = []
       }
-      get-posts-of-user = {
+      get-posts-user = {
         display_name        = "GetPostsOfUser"
         url_template        = "/posts/user/{id}"
         method              = "GET"
         template_parameters = ["id"]
         extra_bindings      = []
       }
-      update-post = {
+      update-postimage = {
         display_name        = "UpdatePostImage"
         url_template        = "/posts/{id}/image"
-        method              = "post"
+        method              = "POST"
         template_parameters = ["id"]
         extra_bindings      = []
       }
     }
     notifications = {
-      delete-notifications = {
+      delete-notifs = {
         display_name        = "DeleteNotifications"
         url_template        = "/notifications"
         method              = "DELETE"
         template_parameters = []
         extra_bindings      = []
       }
-      get-notifications = {
+      get-notif = {
         display_name        = "GetNotifications"
         url_template        = "/notifications"
         method              = "GET"
         template_parameters = []
         extra_bindings      = []
       }
-      signalr-negotiater = {
+      signalr-negotiate = {
         display_name        = "SignalrNegotiater"
         url_template        = "/negotiate"
         method              = "POST"
-        template_parameters = [""]
+        template_parameters = []
         extra_bindings = [{
           "type"                    = "signalRConnectionInfo",
           "name"                    = "connectionInfo",
