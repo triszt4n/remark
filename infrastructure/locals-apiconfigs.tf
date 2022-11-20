@@ -245,7 +245,7 @@ locals {
         url_template        = "/negotiate"
         method              = "POST"
         template_parameters = [""]
-        extra_bindings      = [{
+        extra_bindings = [{
           "type"                    = "signalRConnectionInfo",
           "name"                    = "connectionInfo",
           "hubName"                 = "remark",

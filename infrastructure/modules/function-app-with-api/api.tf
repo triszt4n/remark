@@ -9,7 +9,7 @@ module "function-app-api" {
   custom_domain        = var.custom_domain
   local_dev_server_url = var.local_dev_server_url
   api_ops_config       = var.api_ops_config
-  backend_function     = {
+  backend_function = {
     name = "remark-dev-${var.name}-backend"
     url  = "https://${azurerm_linux_function_app.function-app.default_hostname}"
   }
