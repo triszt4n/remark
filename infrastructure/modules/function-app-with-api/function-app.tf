@@ -21,4 +21,11 @@ resource "azurerm_windows_function_app" "function-app" {
       node_version = "~16"
     }
   }
+
+  app_settings = merge(
+    var.app_settings,
+    {
+      "APPINSIGHTS_INSTRUMENTATIONKEY" = "${azurerm_application_insights.insights.instrumentation_key}"
+    }
+  )
 }

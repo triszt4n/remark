@@ -61,6 +61,17 @@ variable "function_settings" {
   }
 }
 
+variable "api_ops_config" {
+  type = map(object({
+    display_name        = string
+    url_template        = string
+    method              = string
+    template_parameters = list(string)
+    extra_bindings      = list(map(any))
+  }))
+  description = "API operations config"
+}
+
 variable "app_settings" {
   type        = map(string)
   description = "Function App env vars (Application Settings)"

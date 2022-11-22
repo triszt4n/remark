@@ -16,4 +16,5 @@ module "posts-function" {
   }
 
   app_settings = local.app_settings
+  api_ops_config = local.api_ops_config["posts"]
 }

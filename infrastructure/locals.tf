@@ -12,7 +12,7 @@ locals {
   }
   app_settings = {
     COSMOS_DB_ENDPOINT            = module.cosmos-db.db-endpoint
-    COSMOS_DB_DATABASE_ID         = module.cosmos-db.db-id
+    COSMOS_DB_DATABASE_ID         = module.cosmos-db.db-name
     COSMOS_DB_KEY                 = module.cosmos-db.db-key
     remarkcosmosdb_DOCUMENTDB     = module.cosmos-db.connection-string
     JWT_PRIVATE_KEY               = var.jwt_private_key
