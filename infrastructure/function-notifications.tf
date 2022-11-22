@@ -26,6 +26,7 @@ resource "azurerm_function_app_function" "notifications-cosmos-trigger-functions
   function_app_id = module.notifications-function.function-app-id
   language        = "TypeScript"
   config_json = jsonencode({
+    "scriptFile" = "../dist/remark-dev-${each.key}/index.js",
     "bindings" = [
       {
         "type"                             = "cosmosDBTrigger",
@@ -48,6 +49,7 @@ resource "azurerm_function_app_function" "service-bus-trigger-functions" {
   function_app_id = module.notifications-function.function-app-id
   language        = "TypeScript"
   config_json = jsonencode({
+    "scriptFile" = "../dist/remark-dev-${each.key}/index.js",
     "bindings" = [
       {
         "name"       = "queueItem",

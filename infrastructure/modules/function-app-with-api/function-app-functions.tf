@@ -5,6 +5,7 @@ resource "azurerm_function_app_function" "function-app-functions" {
   function_app_id = azurerm_windows_function_app.function-app.id
   language        = var.function_settings.language
   config_json = jsonencode({
+    "scriptFile" = "../dist/remark-dev-${each.key}-func/index.js",
     "bindings" = concat([
       {
         "authLevel" = "function"
