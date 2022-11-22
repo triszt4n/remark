@@ -39,4 +39,4 @@ jobs:
         with:
           app-name: ${{ env.AZURE_FUNCTIONAPP_NAME }}
           package: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
-          publish-profile: ${{ secrets.CHANNELS_FUNCTION_PUBLISH_PROFILE }}
+          publish-profile: ${{ secrets.POSTS_FUNCTION_PUBLISH_PROFILE }}
