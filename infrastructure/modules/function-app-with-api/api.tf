@@ -10,7 +10,7 @@ module "function-app-api" {
   local_dev_server_url = var.local_dev_server_url
   api_ops_config       = var.api_ops_config
   backend_function = {
-    name = "remark-dev-${var.name}-backend"
+    name = azurerm_api_management_backend.backend.name
     url  = "https://${azurerm_windows_function_app.function-app.default_hostname}"
   }
 }

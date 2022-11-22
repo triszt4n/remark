@@ -14,7 +14,7 @@ resource "azurerm_function_app_function" "function-app-functions" {
         ]
         "name"  = "req"
         "type"  = "httpTrigger",
-        "route" = each.value.url_template
+        "route" = replace(each.value.url_template, "/^/+/", ""),
       },
       {
         "direction" = "out"

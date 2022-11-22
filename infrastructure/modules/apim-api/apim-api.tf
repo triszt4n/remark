@@ -10,7 +10,7 @@ resource "azurerm_api_management_api" "api" {
 }
 
 resource "azurerm_api_management_api_policy" "api-policy" {
-  api_name            = "remark-dev-${var.name}-api"
+  api_name            = azurerm_api_management_api.api.name
   api_management_name = var.apim_name
   resource_group_name = var.resource_group_name
 
@@ -55,7 +55,7 @@ resource "azurerm_api_management_api_operation" "operations" {
   for_each = var.api_ops_config
 
   operation_id        = each.key
-  api_name            = "remark-dev-${var.name}-api"
+  api_name            = azurerm_api_management_api.api.name
   api_management_name = var.apim_name
   resource_group_name = var.resource_group_name
   display_name        = each.value.display_name
@@ -77,7 +77,7 @@ resource "azurerm_api_management_api_operation_policy" "operation-policies" {
   for_each = var.api_ops_config
 
   operation_id        = azurerm_api_management_api_operation.operations[each.key].operation_id
-  api_name            = "remark-dev-${var.name}-api"
+  api_name            = azurerm_api_management_api.api.name
   api_management_name = var.apim_name
   resource_group_name = var.resource_group_name
   xml_content         = <<XML

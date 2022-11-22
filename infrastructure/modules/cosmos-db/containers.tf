@@ -13,13 +13,5 @@ resource "azurerm_cosmosdb_sql_container" "sql-containers" {
     included_path {
       path = "/*"
     }
-
-    excluded_path {
-      path = "/\"_etag\"/?"
-    }
-  }
-
-  unique_key {
-    paths = each.value.unique_key_paths
   }
 }
