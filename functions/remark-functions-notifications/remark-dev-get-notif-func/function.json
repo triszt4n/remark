@@ -14,5 +14,5 @@
       "name": "res"
     }
   ],
-  "scriptFile": "../dist/GetNotifications/index.js"
+  "scriptFile": "../dist/remark-dev-get-notif-func/index.js"
 }

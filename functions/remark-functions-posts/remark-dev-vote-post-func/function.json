@@ -14,5 +14,5 @@
       "name": "res"
     }
   ],
-  "scriptFile": "../dist/VotePost/index.js"
+  "scriptFile": "../dist/remark-dev-vote-post-func/index.js"
 }

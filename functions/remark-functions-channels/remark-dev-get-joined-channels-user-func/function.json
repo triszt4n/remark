@@ -14,5 +14,5 @@
       "name": "res"
     }
   ],
-  "scriptFile": "../dist/GetJoinedChannelsOfUser/index.js"
+  "scriptFile": "../dist/remark-dev-get-joined-channels-user-func/index.js"
 }

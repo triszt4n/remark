@@ -21,5 +21,5 @@
       "direction": "in"
     }
   ],
-  "scriptFile": "../dist/SignalrNegotiater/index.js"
+  "scriptFile": "../dist/remark-dev-signalr-negotiate-func/index.js"
 }

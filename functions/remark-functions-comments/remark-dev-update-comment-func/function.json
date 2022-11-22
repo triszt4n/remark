@@ -14,5 +14,5 @@
       "name": "res"
     }
   ],
-  "scriptFile": "../dist/UpdateComment/index.js"
+  "scriptFile": "../dist/remark-dev-update-comment-func/index.js"
 }

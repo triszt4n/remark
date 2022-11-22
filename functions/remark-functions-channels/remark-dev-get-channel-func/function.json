@@ -14,5 +14,5 @@
       "name": "res"
     }
   ],
-  "scriptFile": "../dist/GetChannel/index.js"
+  "scriptFile": "../dist/remark-dev-get-channel-func/index.js"
 }

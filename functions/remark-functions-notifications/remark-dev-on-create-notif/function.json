@@ -11,5 +11,5 @@
       "createLeaseCollectionIfNotExists": true
     }
   ],
-  "scriptFile": "../dist/CreateNotificationCosmosTrigger/index.js"
+  "scriptFile": "../dist/remark-dev-on-create-notif/index.js"
 }

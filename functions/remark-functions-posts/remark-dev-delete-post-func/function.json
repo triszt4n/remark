@@ -14,5 +14,5 @@
       "name": "res"
     }
   ],
-  "scriptFile": "../dist/DeletePost/index.js"
+  "scriptFile": "../dist/remark-dev-delete-post-func/index.js"
 }

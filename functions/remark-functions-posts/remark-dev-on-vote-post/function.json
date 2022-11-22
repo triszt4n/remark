@@ -11,5 +11,5 @@
       "createLeaseCollectionIfNotExists": true
     }
   ],
-  "scriptFile": "../dist/VotePostCosmosTrigger/index.js"
+  "scriptFile": "../dist/remark-dev-on-vote-post/index.js"
 }

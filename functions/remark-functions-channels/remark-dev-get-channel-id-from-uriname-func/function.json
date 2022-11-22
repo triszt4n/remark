@@ -14,5 +14,5 @@
       "name": "res"
     }
   ],
-  "scriptFile": "../dist/GetChannelIdFromUriName/index.js"
+  "scriptFile": "../dist/remark-dev-get-channel-id-from-uriname-func/index.js"
 }

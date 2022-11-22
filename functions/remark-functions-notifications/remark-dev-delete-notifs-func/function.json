@@ -14,5 +14,5 @@
       "name": "res"
     }
   ],
-  "scriptFile": "../dist/DeleteNotifications/index.js"
+  "scriptFile": "../dist/remark-dev-delete-notifs-func/index.js"
 }

@@ -14,5 +14,5 @@
       "name": "res"
     }
   ],
-  "scriptFile": "../dist/DeleteComment/index.js"
+  "scriptFile": "../dist/remark-dev-delete-comment-func/index.js"
 }

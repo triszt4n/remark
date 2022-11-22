@@ -14,5 +14,5 @@
       "name": "res"
     }
   ],
-  "scriptFile": "../dist/UpdatePostImage/index.js"
+  "scriptFile": "../dist/remark-dev-update-postimage-func/index.js"
 }

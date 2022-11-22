@@ -14,5 +14,5 @@
       "name": "res"
     }
   ],
-  "scriptFile": "../dist/GetUser/index.js"
+  "scriptFile": "../dist/remark-dev-get-user-func/index.js"
 }

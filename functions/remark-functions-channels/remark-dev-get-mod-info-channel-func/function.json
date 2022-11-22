@@ -14,5 +14,5 @@
       "name": "res"
     }
   ],
-  "scriptFile": "../dist/GetModeratorInfoOfChannel/index.js"
+  "scriptFile": "../dist/remark-dev-get-mod-info-channel-func/index.js"
 }

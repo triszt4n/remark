@@ -14,5 +14,5 @@
       "name": "res"
     }
   ],
-  "scriptFile": "../dist/GetPost/index.js"
+  "scriptFile": "../dist/remark-dev-get-post-func/index.js"
 }

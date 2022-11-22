@@ -12,5 +12,5 @@
       "leaseCollectionPrefix": "created"
     }
   ],
-  "scriptFile": "../dist/CreatePostCosmosTrigger/index.js"
+  "scriptFile": "../dist/remark-dev-on-create-post/index.js"
 }
