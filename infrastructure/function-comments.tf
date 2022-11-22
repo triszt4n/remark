@@ -15,6 +15,6 @@ module "comments-function" {
     primary_access_key = azurerm_storage_account.function-apps-storage.primary_access_key
   }
 
-  app_settings = local.app_settings
+  app_settings   = local.app_settings
   api_ops_config = local.api_ops_config["comments"]
 }
