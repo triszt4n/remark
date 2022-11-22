@@ -51,17 +51,6 @@ variable "function_apps_storage" {
   description = "Function Apps storage account details (name, primary access key)"
 }
 
-variable "api_ops_config" {
-  type = map(object({
-    display_name        = string
-    url_template        = string
-    method              = string
-    template_parameters = list(string)
-    extra_bindings      = list(map(any))
-  }))
-  description = "API operations config"
-}
-
 variable "function_settings" {
   type = object({
     language = string

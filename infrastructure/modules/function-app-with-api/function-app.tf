@@ -15,15 +15,10 @@ resource "azurerm_windows_function_app" "function-app" {
   storage_account_access_key = var.function_apps_storage.primary_access_key
   service_plan_id            = azurerm_service_plan.function-app-service-plan.id
 
-  site_config {}
+  site_config {
+    api_management_api_id = azurerm_api_management_api.api.id
+    application_stack {
+      node_version = "~16"
+    }
+  }
 }
-
-# It seems we don't need a slot for Windows apps, they are always in production
-# resource "azurerm_windows_function_app_slot" "function-app-slot" {
-#   name                 = "remark-dev-${var.name}-slot"
-#   function_app_id      = azurerm_windows_function_app.function-app.id
-#   storage_account_name = var.function_apps_storage.name
-
-#   app_settings = var.app_settings
-#   site_config {}
-# }
