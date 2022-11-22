@@ -1,0 +1,42 @@
+name: Channels Function App
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - "functions/remark-functions-channels/**"
+  workflow_dispatch:
+
+env:
+  AZURE_FUNCTIONAPP_NAME: "remark-dev-channels-app"
+  AZURE_FUNCTIONAPP_PACKAGE_PATH: "functions/remark-functions-channels/"
+  NODE_VERSION: "16.x"
+
+jobs:
+  build-and-deploy:
+    runs-on: windows-latest
+    steps:
+      - name: "Checkout GitHub Action"
+        uses: actions/checkout@v3
+
+      - name: Setup Node ${{ env.NODE_VERSION }} Environment
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: "Resolve Project Dependencies Using Npm"
+        shell: pwsh
+        run: |
+          pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
+          npm install
+          npm run build --if-present
+          npm run test --if-present
+          popd
+
+      - name: "Run Azure Functions Action"
+        uses: Azure/functions-action@v1
+        with:
+          app-name: ${{ env.AZURE_FUNCTIONAPP_NAME }}
+          package: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
+          publish-profile: ${{ secrets.CHANNELS_FUNCTION_PUBLISH_PROFILE }}
