@@ -16,7 +16,7 @@ module "function-app-api" {
 }
 
 # data "azurerm_function_app_host_keys" "keys" {
-#   name                = "remark-dev-${var.name}-function-app"
+#   name                = azurerm_windows_function_app.function-app.name
 #   resource_group_name = var.resource_group_name
 # }
 
