@@ -14,5 +14,5 @@
       "name": "res"
     }
   ],
-  "scriptFile": "../dist/remark-dev-login-user-image-func/index.js"
+  "scriptFile": "../dist/remark-dev-update-user-image-func/index.js"
 }
