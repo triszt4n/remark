@@ -17,15 +17,12 @@ resource "azurerm_windows_function_app" "function-app" {
 
   site_config {
     api_management_api_id = azurerm_api_management_api.api.id
+    application_insights_key = azurerm_application_insights.insights.instrumentation_key
+
     application_stack {
       node_version = "~16"
     }
   }
 
-  app_settings = merge(
-    var.app_settings,
-    {
-      "APPINSIGHTS_INSTRUMENTATIONKEY" = "${azurerm_application_insights.insights.instrumentation_key}"
-    }
-  )
+  app_settings = var.app_settings
 }
