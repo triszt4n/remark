@@ -16,7 +16,7 @@
     {
       "type": "signalRConnectionInfo",
       "name": "connectionInfo",
-      "hubName": "remark",
+      "hubName": "%SIGNALR_HUB_NAME%",
       "connectionStringSetting": "SIGNALR_CONNECTION_STRING",
       "direction": "in"
     }

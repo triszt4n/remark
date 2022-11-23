@@ -4,13 +4,13 @@
       "name": "queueItem",
       "type": "serviceBusTrigger",
       "direction": "in",
-      "queueName": "remark-queue",
+      "queueName": "%SERVICE_BUS_QUEUE_NAME%",
       "connection": "SERVICE_BUS_CONNECTION_STRING"
     },
     {
       "type": "signalR",
       "name": "signalRMessages",
-      "hubName": "remark",
+      "hubName": "%SIGNALR_HUB_NAME%",
       "connectionStringSetting": "SIGNALR_CONNECTION_STRING",
       "direction": "out"
     }

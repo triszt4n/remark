@@ -6,7 +6,7 @@
       "direction": "in",
       "leaseCollectionName": "leases",
       "connectionStringSetting": "remarkcosmosdb_DOCUMENTDB",
-      "databaseName": "RemarkDatabase",
+      "databaseName": "%COSMOS_DB_DATABASE_ID%",
       "collectionName": "Channels",
       "createLeaseCollectionIfNotExists": true
     }
