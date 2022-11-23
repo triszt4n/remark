@@ -16,7 +16,7 @@ resource "azurerm_windows_function_app" "function-app" {
   service_plan_id            = azurerm_service_plan.function-app-service-plan.id
 
   site_config {
-    api_management_api_id = azurerm_api_management_api.api.id
+    api_management_api_id    = azurerm_api_management_api.api.id
     application_insights_key = azurerm_application_insights.insights.instrumentation_key
 
     application_stack {
