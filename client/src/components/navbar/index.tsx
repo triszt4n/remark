@@ -1,5 +1,6 @@
 import { Box, Collapse, Flex, HStack, IconButton, useBreakpointValue, useDisclosure } from '@chakra-ui/react'
 import { FaBars, FaTimes } from 'react-icons/fa'
+import { Link } from 'react-router-dom'
 import { RLogo } from '../../assets/RLogo'
 import { ColorModeSwitcher } from './ColorModeSwitcher'
 import DesktopNav from './DesktopNav'
@@ -22,7 +23,9 @@ export const Navbar = () => {
           />
         </Flex>
         <Flex flex={{ base: 1, md: 0 }} justifyContent="center" pl={{ base: 10, md: 0 }}>
-          <RLogo style={{ height: useBreakpointValue({ base: '1.75rem', sm: '2.5rem', md: '3rem' }) }} />
+          <Link to="/">
+            <RLogo style={{ height: useBreakpointValue({ base: '1.75rem', sm: '2.5rem', md: '3rem' }) }} />
+          </Link>
         </Flex>
         <Flex display={{ base: 'none', md: 'flex' }} flex={1} justifyContent="flex-end">
           <DesktopNav />
