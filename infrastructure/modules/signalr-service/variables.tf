@@ -13,3 +13,8 @@ variable "name" {
   type        = string
   description = "SignalR service name"
 }
+
+variable "allowed_origins" {
+  type        = list(string)
+  description = "Allowed origins"
+}

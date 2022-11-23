@@ -7,7 +7,7 @@ resource "azurerm_signalr_service" "signalr" {
     capacity = 1
   }
   cors {
-    allowed_origins = ["*"]
+    allowed_origins = var.allowed_origins
   }
   connectivity_logs_enabled = true
   messaging_logs_enabled    = true

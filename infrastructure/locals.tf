@@ -1,6 +1,6 @@
 locals {
   client = {
-    domain_name = var.client.domain_name
+    domain_name = var.client_domain_name
     site_name   = "client-web-app"
   }
   local_dev_server_url = var.local_dev_server_url

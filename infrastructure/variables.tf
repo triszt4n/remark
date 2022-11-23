@@ -1,8 +1,6 @@
-variable "client" {
-  type = object({
-    domain_name = string
-  })
-  description = "Client configuration"
+variable "client_domain_name" {
+  type        = string
+  description = "Client domain name"
 }
 
 variable "local_dev_server_url" {
