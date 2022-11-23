@@ -19,7 +19,7 @@ locals {
     SERVICE_BUS_CONNECTION_STRING = module.service-bus.service-bus-connection-string
     SERVICE_BUS_QUEUE_NAME        = module.service-bus.service-bus-queue-name
     SIGNALR_CONNECTION_STRING     = module.signalr.connection-string
-    SIGNALR_HUB_NAME              = module.signalr.hub-name
+    SIGNALR_HUB_NAME              = "remark"
     STORAGE_ACCOUNT_KEY           = azurerm_storage_account.images.primary_access_key
     STORAGE_ACCOUNT_NAME          = azurerm_storage_account.images.name
   }
