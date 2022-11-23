@@ -1,7 +1,7 @@
 <policies>
   <inbound>
     <base />
-    <cors allow-credentials="false">
+    <cors allow-credentials="true">
       <allowed-origins>
         <origin>${local_dev_server_url}</origin>
         <origin>https://${custom_domain}</origin>
