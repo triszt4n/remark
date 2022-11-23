@@ -39,7 +39,7 @@ locals {
       update-user-image = {
         display_name        = "UpdateUserImage"
         url_template        = "/profile/image"
-        method              = "PATCH"
+        method              = "POST"
         template_parameters = []
         extra_bindings      = []
       }

@@ -34,13 +34,13 @@ resource "azurerm_storage_account" "images" {
 }
 
 resource "azurerm_storage_container" "post-images" {
-  name                  = "remark-dev-post-images"
+  name                  = "remark-post-images"
   storage_account_name  = azurerm_storage_account.images.name
   container_access_type = "blob"
 }
 
 resource "azurerm_storage_container" "user-images" {
-  name                  = "remark-dev-user-images"
+  name                  = "remark-user-images"
   storage_account_name  = azurerm_storage_account.images.name
   container_access_type = "blob"
 }
