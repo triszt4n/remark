@@ -14,7 +14,7 @@
     "@azure/storage-blob": "12.12.0",
     "@triszt4n/remark-auth": "1.0.4",
     "axios": "0.27.2",
-    "jsonwebtoken": "8.5.1",
+    "jsonwebtoken": "9.0.0",
     "md5": "2.3.0",
     "parse-multipart": "1.0.4",
     "uuid": "9.0.0"
