@@ -15,7 +15,7 @@
     "axios": "0.27.2",
     "chakra-ui-markdown-renderer": "4.1.0",
     "date-fns": "2.29.3",
-    "framer-motion": "7.6.9",
+    "framer-motion": "7.10.3",
     "js-cookie": "3.0.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
