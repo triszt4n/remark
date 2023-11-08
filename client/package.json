@@ -12,7 +12,7 @@
     "@fontsource/inter": "4.5.14",
     "@microsoft/signalr": "7.0.0",
     "@react-oauth/google": "0.5.0",
-    "axios": "0.27.2",
+    "axios": "1.6.1",
     "chakra-ui-markdown-renderer": "4.1.0",
     "date-fns": "2.29.3",
     "framer-motion": "7.6.9",
